@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://yj21vy0avka0"]
+
+[ext_resource type="Texture2D" uid="uid://c0wcp0a278jba" path="res://Main/RecipePreviewWidget/iconBackground.png" id="1_4boyx"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iblmd"]
+font_size = 30
+font_color = Color(0, 0, 0, 1)
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -248.0
+offset_bottom = -1052.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_vertical_guides_ = [108.0]
+
+[node name="BackgroundIconTexture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_4boyx")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 1.0
+offset_right = 192.0
+offset_bottom = 43.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Name"
+label_settings = SubResource("LabelSettings_iblmd")
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 71.0
+offset_right = 241.0
+offset_bottom = 94.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Coocking NA min"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 43.0
+offset_right = 281.0
+offset_bottom = 66.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "Preparation NA min"

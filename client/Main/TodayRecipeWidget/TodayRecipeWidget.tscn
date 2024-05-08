@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3tddi8kuecnm"]
+
+[ext_resource type="Texture2D" uid="uid://b1bxp5h8sr1pg" path="res://Main/TodayRecipeWidget/background.png" id="1_10ldo"]
+[ext_resource type="Texture2D" uid="uid://camps112y2y3k" path="res://Main/TodayRecipeWidget/timer.png" id="2_dnob2"]
+[ext_resource type="Texture2D" uid="uid://t80nes5r630" path="res://Main/TodayRecipeWidget/template.png" id="3_rkewv"]
+[ext_resource type="Texture2D" uid="uid://d3ycdon7km1qq" path="res://Main/TodayRecipeWidget/tags/vegan.png" id="4_obfr5"]
+
+[node name="BackgroundTexture" type="Control"]
+custom_minimum_size = Vector2(648, 500)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 648.0
+offset_bottom = 500.0
+metadata/_edit_vertical_guides_ = [105.0]
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 648.0
+offset_bottom = 408.0
+texture = ExtResource("1_10ldo")
+
+[node name="RecpiNameLabel" type="RichTextLabel" parent="TextureRect2"]
+layout_mode = 0
+offset_left = 114.0
+offset_top = 322.0
+offset_right = 596.0
+offset_bottom = 392.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+text = "Template name
+
+f"
+scroll_active = false
+
+[node name="TimerTexture" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 424.0
+offset_right = 106.0
+offset_bottom = 505.0
+texture = ExtResource("2_dnob2")
+
+[node name="PreparationLabel" type="Label" parent="TimerTexture"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 15.0
+offset_right = 272.0
+offset_bottom = 38.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "préparation: NA minutes"
+
+[node name="CoockingLabel" type="Label" parent="TimerTexture"]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 42.0
+offset_right = 272.0
+offset_bottom = 65.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "cuisson: NA minutes"
+
+[node name="RecipeTexture" type="Sprite2D" parent="."]
+position = Vector2(365, 164)
+scale = Vector2(0.35, 0.35)
+texture = ExtResource("3_rkewv")
+
+[node name="TagTexture1" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(53.8, 106.8)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_obfr5")
+
+[node name="TagTexture2" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(52.8, 205.8)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_obfr5")
+
+[node name="TagTexture3" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(53.8, 305.8)
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_obfr5")
