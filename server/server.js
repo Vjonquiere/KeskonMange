@@ -136,21 +136,9 @@ app.post('/count/ingredients', async (req, res) => {
 app.post('/count/recipes', async (req, res) => {
   const result = await conn.query("SELECT COUNT(*) as count FROM recipes;");
   console.log("/count/recipes")
-  console.log("number of recipes scrapped : ",Number(result[0]["count"]));
+  console.log("number of recipes : ",Number(result[0]["count"]));
   separator();
   res.json(JSON.stringify({ count: Number(result[0]["count"])}));
-})
-
-app.post('/count/recipesToScrap', async (req, res) => {
-  const recipes = await conn.query("SELECT COUNT(*) as count1 FROM recipes;");
-  const search = await conn.query("SELECT COUNT(*) as count2 FROM search_list;");
-  console.log("/count/recipesToScrap")
-  console.log("number of recipes scrapped : ",Number(recipes[0]["count1"]));
-  console.log("number of recipes in the data base : ",Number(search[0]["count2"]));
-  const result =Number(search[0]["count2"]) - Number(recipes[0]["count1"]);
-  console.log("nb of recipes to scrap:",result)
-  separator();
-  res.json(JSON.stringify({ count: result}));
 })
 
 app.post('/server/alive', async (req, res) => {
