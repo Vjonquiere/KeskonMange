@@ -24,6 +24,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
+    - run: echo DATABASE_HOST
     - run: npm ci
       working-directory: './server'
     - run: npm run build --if-present
