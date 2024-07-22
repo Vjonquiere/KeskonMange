@@ -11,6 +11,8 @@ jobs:
 
     runs-on: ubuntu-latest
     environment: test
+    env:
+        DATABASE_HOST: ${{ vars.DATABASE_HOST }}
     
     strategy:
       matrix:
