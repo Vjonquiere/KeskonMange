@@ -1,11 +1,11 @@
 const express = require('express');
-const mariadb = require('mariadb');
 const Recipe = require('./routers/recipe')
 const Recipes = require('./routers/recipes')
 const Calendar = require('./routers/calendar')
 var bodyParser = require('body-parser')
 const app = express();
 const port = 8080;
+
 //app.use(express.static('public'));
 
 app.use(bodyParser.json());
@@ -26,9 +26,16 @@ app.get('*', (req, res) => {
     res.send("not found");
 });
 
-app.listen(port, () => {
+let server = app.listen(port, () => {
   console.log(`Starting server on port ${port}`)
 });
+
+app.closeServer = () => {
+  Recipe.closeServer();
+  Recipes.closeServer();
+  Calendar.closeServer();
+  server.close();
+};
 
 module.exports = app;
 

@@ -77,5 +77,10 @@ router.get('/withIngredient', async (req, res) => {
     res.json(JSON.stringify({ recipes: result}));
 });
 
+router.closeServer = () => {
+  conn.end()
+  console.log("Recipes Closed");
+};
+
 
 module.exports = router;

@@ -16,6 +16,11 @@ beforeAll(async () => {
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe3', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
 });
 
+afterAll(async () => {
+  conn.end();
+  app.closeServer();
+});
+
 
 
 describe('GET recipe/:id', () => {

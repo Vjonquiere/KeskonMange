@@ -49,4 +49,11 @@ router.get("/:id", async (req, res) => {
 });
 
 
+router.closeServer = () => {
+    conn.end();
+    console.log("Recipe Closed");
+};
+
+
+
 module.exports = router;
