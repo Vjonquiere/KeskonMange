@@ -32,7 +32,7 @@ describe('GET recipe/:id', () => {
   it('call on good parameters with last recipe', async () => {
     const last_recipe = await request(app).get('/recipe/last');
     console.log(last_recipe.body["id"]);
-    const res = await request(app).get('/recipe/'+last_recipe.body["id"]).send({recipe_id:last_recipe.body["id"]});
+    const res = await request(app).get('/recipe/'+last_recipe.body["id"]).send();
     expect(res.status).toBe(200);
   })
 })
