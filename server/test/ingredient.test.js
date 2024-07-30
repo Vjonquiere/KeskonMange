@@ -41,7 +41,7 @@ describe('POST ingredient/add', () => {
     const res = await request(app).post('/ingredient/add').send({ name: 1 });
     expect(res.status).toBe(405);
   });
-  it('call with undifined name', async () => {
+  it('call with undefined name', async () => {
     const res = await request(app).post('/ingredient/add').send();
     expect(res.status).toBe(405);
   })
@@ -58,8 +58,7 @@ describe('GET ingredient/:name', () => {
     });
     it('call with unknown name', async () => {
         const res = await request(app).get('/ingredient/name/?name=test2');
-        expect(res.status).toBe(404);
-        expect(res.text).toBe("unknown ingredient");
+        expect(res.status).toBe(204);
     })
 })
   

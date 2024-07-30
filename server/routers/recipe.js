@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const mariadb = require('mariadb');
-var bodyParser = require('body-parser')
+const axios = require('axios');
+var bodyParser = require('body-parser');
+let port;
 
 router.use(bodyParser.json());
 router.use(
@@ -9,6 +11,11 @@ router.use(
     extended: true,
   }),
 );
+
+router.use((req, res, next) => {
+    port = req.app.locals.port;
+    next();
+});
 
 const conn =  mariadb.createPool({
     host: process.env.DATABASE_HOST, 
@@ -46,6 +53,40 @@ router.get("/:id", async (req, res) => {
     } catch (error) {
         res.sendStatus(500);
     }
+});
+
+router.post("/add", async (req, res) => {
+    /*if (req.body.title === undefined || req.body.type === undefined || req.body.difficulty === undefined || req.body.cost === undefined || req.body.portions === undefined || req.body.vegetarian === undefined || req.body.vegan === undefined || req.body.salty === undefined || req.body.sweet === undefined || req.body.ingredients === undefined || req.body.preparation_time === undefined || req.body.rest_time === undefined || req.body.cook_time === undefined){
+        res.status(400).send("Please check if all arguments are valid");
+        return;
+    }*/
+   var ingredients = req.body.ingredients
+    if (!Array.isArray(ingredients)){
+        res.status(400).send("Ingredient list should be an array");
+        return;
+    }
+    for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
+        try {
+            const response = await axios.get(`http://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
+            if (response.status == 204) {
+                await axios.post(`http://localhost:${port}/ingredient/add`, {name: ingredients[i]["name"]});
+            }
+        } catch (error) {
+            res.status(400).send("Something went wrong with the ingredients");
+            return;
+        }
+    }
+    // Check types + total time process
+    if (isNaN(Number(req.body.preparation_time))  || isNaN(Number(req.body.rest_time)) || isNaN(Number(req.body.cook_time))){
+        res.status(400).send("Time must be a number");
+        return;
+    }
+    const totalTime = req.body.preparation_time + req.body.rest_time + req.body.cook_time;
+    // Check bool values types (salty, sweet)
+    // Check other number values (difficulty, portions)
+    // Check units and qte for ingredients
+    res.sendStatus(200);
+
 });
 
 router.post("/add", async (req, res) => {
