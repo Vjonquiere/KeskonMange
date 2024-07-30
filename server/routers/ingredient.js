@@ -29,13 +29,13 @@ router.get("/", (req, res) => {
 
 router.get("/name", async (req, res) => {
     if (req.query.name === undefined || !(typeof req.query.name === 'string')){
-        res.status(405).send("undifined ingredient name");
+        res.status(405).send("undefined ingredient name");
         return;
     }
     try {
         const ingredient = await conn.query("SELECT * FROM ingredients WHERE name=?;", [req.query.name]);
         if (ingredient.length <= 0){
-            res.status(404).send("unknown ingredient");
+            res.sendStatus(204);
             return;
         }
         res.json(JSON.stringify(removeBigInt(ingredient[0])));
@@ -47,7 +47,7 @@ router.get("/name", async (req, res) => {
 
 router.post("/add", async (req, res) => {
     if (req.body.name === undefined || !(typeof req.body.name === 'string')){
-        res.status(405).send("undifined ingredient name");
+        res.status(405).send("undefined ingredient name");
         return;
     }
     try {

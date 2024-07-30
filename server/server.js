@@ -5,8 +5,7 @@ const Calendar = require('./routers/calendar')
 const Ingredient = require('./routers/ingredient')
 var bodyParser = require('body-parser')
 const app = express();
-const port = 8080;
-
+app.locals.port = 8080;
 //app.use(express.static('public'));
 
 app.use(bodyParser.json());
@@ -28,8 +27,8 @@ app.get('*', (req, res) => {
     res.send("not found");
 });
 
-let server = app.listen(port, () => {
-  console.log(`Starting server on port ${port}`)
+let server = app.listen(app.locals.port, () => {
+  console.log(`Starting server on port ${app.locals.port}`)
 });
 
 app.closeServer = () => {
