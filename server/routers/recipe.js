@@ -68,6 +68,7 @@ router.post("/add", async (req, res) => {
     for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
         try {
             const response = await axios.get(`http://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
+            // TODO: If the ingredient exists, need to check if the given unit is in DB
             if (response.status == 204) {
                 await axios.post(`http://localhost:${port}/ingredient/add`, {name: ingredients[i]["name"]});
             }
@@ -81,15 +82,11 @@ router.post("/add", async (req, res) => {
         res.status(400).send("Time must be a number");
         return;
     }
-    const totalTime = req.body.preparation_time + req.body.rest_time + req.body.cook_time;
+    const totalTime = Number(req.body.preparation_time) + Number(req.body.rest_time) + Number(req.body.cook_time);
     // Check bool values types (salty, sweet)
     // Check other number values (difficulty, portions)
     // Check units and qte for ingredients
     res.sendStatus(200);
-
-});
-
-router.post("/add", async (req, res) => {
 
 });
 

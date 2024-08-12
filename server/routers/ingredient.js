@@ -3,6 +3,20 @@ const router = express.Router();
 const mariadb = require('mariadb');
 var bodyParser = require('body-parser')
 
+const units = {
+    "liquid":["l", "g"], 
+    "fruit":["piece", "g"],
+    "vegetable":["piece", "g"],
+    "oil":["g", "PM"], 
+    "grocerie":["g", "PM"], 
+    "fish":["g", "piece"], 
+    "meat":["g", "piece"],
+    "cremerie":["g", "l"],
+    "egg":["piece"],
+    "herb":["bunch", "g"]
+}
+
+
 router.use(bodyParser.json());
 router.use(
   bodyParser.urlencoded({
@@ -42,18 +56,22 @@ router.get("/name", async (req, res) => {
     } catch (error) {
         res.sendStatus(500);
     }
-    
 });
 
 router.post("/add", async (req, res) => {
-    if (req.body.name === undefined || !(typeof req.body.name === 'string')){
-        res.status(405).send("undefined ingredient name");
+    if (req.body.name === undefined || !(typeof req.body.name === 'string') || req.body.type === undefined || !(typeof req.body.type === 'string')){
+        res.status(405).send("undefined ingredient name or type");
         return;
     }
     try {
         const isAlreadyIndexed = await conn.query("SELECT * FROM ingredients WHERE name=?;", [req.body.name]);
+        console.log("type " + req.body.type + ":" + units[req.body.type]);
+        if ((units[req.body.type] === undefined)){
+            res.status(405).send("given type is invalid");
+            return;
+        }
         if (isAlreadyIndexed.length <= 0){
-            await conn.query("INSERT INTO ingredients VALUES (null, ?);", [req.body.name]);
+            await conn.query("INSERT INTO ingredients VALUES (null, ?, ?);", [req.body.name, req.body.type]);
             res.status(200).send("ingredient added");
             return;
         }
