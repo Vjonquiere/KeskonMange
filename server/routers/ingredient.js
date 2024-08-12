@@ -83,7 +83,6 @@ router.post("/add", async (req, res) => {
     }
     try {
         const isAlreadyIndexed = await conn.query("SELECT * FROM ingredients WHERE name=?;", [req.body.name]);
-        console.log("type " + req.body.type + ":" + units[req.body.type]);
         if ((units[req.body.type] === undefined)){
             res.status(405).send("given type is invalid");
             return;
