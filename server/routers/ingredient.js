@@ -58,6 +58,24 @@ router.get("/name", async (req, res) => {
     }
 });
 
+router.get("/units", async (req, res) => {
+    if (req.query.name === undefined || !(typeof req.query.name === 'string')){
+        res.status(405).send("undefined ingredient name");
+        return;
+    }
+    try {
+        const ingredient = await conn.query("SELECT type FROM ingredients WHERE name=?;", [req.query.name]);
+        if (ingredient.length <= 0){
+            res.sendStatus(204);
+            return;
+        }
+        res.json(JSON.stringify({units:units[ingredient[0]["type"]]}));
+    } catch (error) {
+        res.sendStatus(500);
+    }
+});
+
+
 router.post("/add", async (req, res) => {
     if (req.body.name === undefined || !(typeof req.body.name === 'string') || req.body.type === undefined || !(typeof req.body.type === 'string')){
         res.status(405).send("undefined ingredient name or type");

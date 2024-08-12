@@ -71,6 +71,12 @@ router.post("/add", async (req, res) => {
             // TODO: If the ingredient exists, need to check if the given unit is in DB
             if (response.status == 204) {
                 await axios.post(`http://localhost:${port}/ingredient/add`, {name: ingredients[i]["name"]});
+            } else if (response.status == 200) {
+                const units = await axios.get(`http://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
+                if (units.status != 200 || !(JSON.parse(units.data)["units"].includes(ingredients[i]["unit"]))){
+                    res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
+                    return;
+                }
             }
         } catch (error) {
             res.status(400).send("Something went wrong with the ingredients");

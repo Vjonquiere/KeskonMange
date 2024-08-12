@@ -60,7 +60,7 @@ describe('POST ingredient/add', () => {
   })
 });
 
-describe('GET ingredient/:name', () => {
+describe('GET ingredient/name', () => {
     it('call on valid ingredient name', async () => {
       const res = await request(app).get('/ingredient/name/?name=test');
       expect(res.status).toBe(200);
@@ -75,3 +75,10 @@ describe('GET ingredient/:name', () => {
     })
 })
   
+describe('GET ingredient/units', () => {
+  it('call on valid ingredient name', async () => {
+    const res = await request(app).get('/ingredient/units/?name=test');
+    expect(res.status).toBe(200);
+    expect(JSON.parse(res.body)).toMatchObject({units:["l", "g"]}); // TODO: Need other test method (test may return false if array values are reversed)
+  });
+})
