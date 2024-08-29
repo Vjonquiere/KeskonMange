@@ -70,7 +70,8 @@ router.post("/add", async (req, res) => {
             const response = await axios.get(`http://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
             // TODO: If the ingredient exists, need to check if the given unit is in DB
             if (response.status == 204) {
-                await axios.post(`http://localhost:${port}/ingredient/add`, {name: ingredients[i]["name"], type: ingredients[i]["type"]});
+                res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
+                return;
             } else if (response.status == 200) {
                 const units = await axios.get(`http://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
                 if (units.status != 200 || !(JSON.parse(units.data)["units"].includes(ingredients[i]["unit"]))){
