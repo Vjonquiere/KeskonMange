@@ -33,9 +33,9 @@ jobs:
       working-directory: './server'
     - run: npm run build --if-present
       working-directory: './server'
-    - run: npm test recipe
+    - run: env TZ='Europe/Paris' npm test recipe
       working-directory: './server'
-    - run: npm test ingredient
+    - run: env TZ='Europe/Paris' npm test ingredient
       working-directory: './server'
-    - run: npm test calendar
+    - run: env TZ='Europe/Paris' npm test calendar
       working-directory: './server'
