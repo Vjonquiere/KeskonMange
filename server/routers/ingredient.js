@@ -24,11 +24,6 @@ router.use(
   }),
 );
 
-function removeBigInt(ingredient){
-    ingredient["id"] = Number(ingredient["id"]); // Convert BigInt to int for json serialize
-    return ingredient;
-}
-
 const conn =  mariadb.createPool({
     host: process.env.DATABASE_HOST, 
     user: process.env.DATABASE_USER,
@@ -52,7 +47,7 @@ router.get("/name", async (req, res) => {
             res.sendStatus(204);
             return;
         }
-        res.json(JSON.stringify(removeBigInt(ingredient[0])));
+        res.json(JSON.stringify(ingredient[0]));
     } catch (error) {
         res.sendStatus(500);
     }
