@@ -29,7 +29,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - run: printenv DATABASE_HOST
     - run: npm ci
       working-directory: './server'
     - run: npm run build --if-present
@@ -37,4 +36,6 @@ jobs:
     - run: npm test recipe
       working-directory: './server'
     - run: npm test ingredient
+      working-directory: './server'
+    - run: npm test calendar
       working-directory: './server'
