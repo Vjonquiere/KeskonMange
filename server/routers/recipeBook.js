@@ -39,6 +39,20 @@ router.get("/create", async (req, res) => {
 
 })
 
+router.delete("/delete", async (req, res) => {
+  if (req.query.bookId === undefined){
+    res.status(400).send("You need to specify a bookId to delete");
+  }
+  try {
+    await conn.query(`DELETE FROM recipe_books WHERE id=?;`, [req.query.bookId]);
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500);
+    return;
+  }
+
+})
+
 
 
   router.closeServer = () => {
