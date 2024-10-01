@@ -53,6 +53,56 @@ router.delete("/delete", async (req, res) => {
 
 })
 
+router.get("/general_information", async (req, res) => {
+  if (req.query.bookId === undefined){
+    res.status(400).send("You need to specify a bookId to search for");
+    return;
+  }
+  try {
+    const info = await conn.query(`SELECT * FROM recipe_books WHERE id=?;`, [req.query.bookId]);
+    let bookInfo = Array.from(info); // Casting to Array to check length
+        if (bookInfo.length <= 0){
+            res.sendStatus(204); // No book found with the given id
+            return;
+        // add an else if to know if we are authorized to read it
+        } else {
+            let countRes =  await conn.query(`SELECT COUNT(bookId) FROM recipe_book_links WHERE bookId=?;`, [req.query.bookId]);
+            let count = Number(countRes[0]['COUNT(bookId)']);
+            res.send(JSON.stringify({"id": bookInfo[0], "name":  bookInfo[1], "owner": bookInfo[2], "visibility": bookInfo[3], "recipe_count": count }));
+            return;
+        }
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500);
+    return;
+  }
+
+})
+
+
+router.get("/id", async (req, res) => {
+  if (req.query.bookName === undefined){
+    res.status(400).send("You need to specify a book name to search");
+    return;
+  }
+  try {
+    const info = await conn.query(`SELECT * FROM recipe_books WHERE name=?;`, [req.query.bookName]);
+    let bookInfo = Array.from(info); // Casting to Array to check length
+        if (bookInfo.length <= 0){
+            res.sendStatus(204); // No book found with the given id
+            return;
+        // check the owner name
+        } else {
+            res.send(JSON.stringify({"id": bookInfo[0]["id"]}));
+            return;
+        }
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500);
+    return;
+  }
+
+})
 
 
   router.closeServer = () => {
