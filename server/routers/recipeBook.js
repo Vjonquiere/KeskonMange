@@ -42,14 +42,55 @@ router.get("/create", async (req, res) => {
 router.delete("/delete", async (req, res) => {
   if (req.query.bookId === undefined){
     res.status(400).send("You need to specify a bookId to delete");
+    return;
   }
   try {
+    // Need to check if the req is the owner
     await conn.query(`DELETE FROM recipe_books WHERE id=?;`, [req.query.bookId]);
   } catch (error) {
     console.log(error)
     res.sendStatus(500);
     return;
   }
+  res.sendStatus(200);
+})
+
+router.post("/share", async (req, res) => {
+  if (req.query.bookId === undefined || req.query.userId === undefined){
+    res.status(400).send("Specify a bookId and the user you want to share the book with");
+    return;
+  }
+  try {
+    // Need to check if the req is the owner
+    await conn.query(`INSERT INTO recipe_book_access VALUES (?,?)`, [req.query.bookId, req.query.userId]);
+  } catch (error) {
+    console.log(error)
+    res.sendStatus(500);
+    return;
+  }
+  res.sendStatus(200);
+})
+
+router.get("/recipes", async (req, res) => {
+  if (req.query.bookId === undefined){
+      res.status(400).send("Need to specify a bookId");
+      return;
+  }
+  try {
+      const recipesRaw = await conn.query(`SELECT recipeId FROM recipe_book_links WHERE bookId = ?;`, [req.query.bookId]);
+      let recipes = Array.from(recipesRaw);
+      let ids = [];
+      for(const recipe  of recipes){
+        ids.push(recipe["recipeId"]);
+      }
+      res.send(JSON.stringify({"recipes": ids}));
+      return;
+  } catch (error) {
+      console.log(error)
+      res.sendStatus(500);
+      return;
+  }
+  res.sendStatus(200);
 
 })
 
