@@ -18,7 +18,7 @@ const conn =  mariadb.createPool({
   });
 
 
-router.get("/create", async (req, res) => {
+router.post("/create", async (req, res) => {
     if (req.query.name === undefined){
         res.status(400).send("Need to specify a book name");
         return;
@@ -34,6 +34,9 @@ router.get("/create", async (req, res) => {
             return;
         }
         
+    } else {
+      res.status(400).send("Book name is invalid");
+      return;
     }
     res.sendStatus(200);
 
@@ -109,7 +112,7 @@ router.get("/general_information", async (req, res) => {
         } else {
             let countRes =  await conn.query(`SELECT COUNT(bookId) FROM recipe_book_links WHERE bookId=?;`, [req.query.bookId]);
             let count = Number(countRes[0]['COUNT(bookId)']);
-            res.send(JSON.stringify({"id": bookInfo[0], "name":  bookInfo[1], "owner": bookInfo[2], "visibility": bookInfo[3], "recipe_count": count }));
+            res.send(JSON.stringify({"id": bookInfo[0]["id"], "name":  bookInfo[0]["name"], "owner": bookInfo[0]["owner"], "visibility": bookInfo[0]["visibility"], "recipe_count": count }));
             return;
         }
   } catch (error) {
@@ -145,6 +148,39 @@ router.get("/id", async (req, res) => {
 
 })
 
+router.get("/recipe/add", async (req, res) => {
+  if (req.query.bookId === undefined || req.query.recipeId === undefined){
+    res.status(400).send("You need to specify a bookId and a recipeId");
+    return;
+  }
+  let date = new Date();
+  let formattedDate = date.toISOString().split('T')[0];
+  try {
+    // need to check if requester is the owner of the book
+    await conn.query(`INSERT INTO recipe_book_links VALUES (?, ?, ?);`, [req.query.bookId, req.query.recipeId, formattedDate]);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+    return;
+  }
+  res.sendStatus(200);
+})
+
+router.delete("/share", async (req, res) => {
+  if (req.query.bookId === undefined || req.query.userId === undefined){
+    res.status(400).send("You need to specify a bookId and a userId");
+    return;
+  }
+  try {
+    // need to check if requester is the owner of the book
+    await conn.query(`DELETE FROM recipe_book_access WHERE bookId = ? AND userId = ?;`, [req.query.bookId, req.query.userId]);
+  } catch (error) {
+    console.log(error);
+    res.sendStatus(500);
+    return;
+  }
+  res.sendStatus(200);
+})
 
   router.closeServer = () => {
     conn.end();
