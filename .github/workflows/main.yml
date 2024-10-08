@@ -39,3 +39,5 @@ jobs:
       working-directory: './server'
     - run: env TZ='Europe/Paris' npm test calendar
       working-directory: './server'
+    - run: env TZ='Europe/Paris' npm test books
+      working-directory: './server'

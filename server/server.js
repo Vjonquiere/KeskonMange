@@ -3,6 +3,7 @@ const Recipe = require('./routers/recipe')
 const Recipes = require('./routers/recipes')
 const Calendar = require('./routers/calendar')
 const Ingredient = require('./routers/ingredient')
+const RecipeBook = require('./routers/recipeBook')
 var bodyParser = require('body-parser')
 const app = express();
 app.locals.port = 8080;
@@ -19,6 +20,7 @@ app.use("/recipe", Recipe);
 app.use("/recipes", Recipes);
 app.use("/calendar", Calendar);
 app.use("/ingredient", Ingredient);
+app.use("/books", RecipeBook);
 
 app.get('/server/alive', async (req, res) => {
   res.json(JSON.stringify({ alive: true}));
@@ -36,6 +38,7 @@ app.closeServer = () => {
   Recipes.closeServer();
   Calendar.closeServer();
   Ingredient.closeServer();
+  RecipeBook.closeServer();
   server.close();
 };
 
