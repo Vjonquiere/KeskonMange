@@ -40,4 +40,21 @@ describe('POST books/create', () => {
     */
 });
 
-  
+describe('DELETE books/delete', () => {
+  it('simple call', async () => {
+    const res = await request(app).post('/books/create?name=test').send();
+    expect(res.status).toBe(200);
+    const check = await request(app).get('/books/id?bookName=test').send(); // check if we can get id of the book
+    expect(check.status).toBe(200);
+    const check2 = await request(app).delete(`/books/delete?bookId=${JSON.parse(check.text)["id"]}`).send(); // check if book can be deleted
+    expect(check2.status).toBe(200);
+  });
+  it('call on missing argument', async () => {
+    const check2 = await request(app).delete(`/books/delete`).send(); // BookId not specified
+    expect(check2.status).toBe(400);
+  });
+  it('call on not indexed bookId', async () => {
+    const check2 = await request(app).delete(`/books/delete?bookId=test3`).send();
+    expect(check2.status).toBe(200);
+  });  
+});
