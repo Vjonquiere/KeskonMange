@@ -20,7 +20,6 @@ const conn =  mariadb.createPool({
 
 async function bookExist(bookId){
   let exists = await conn.query(`SELECT COUNT(id) FROM recipe_books WHERE id=?;`, [bookId]);
-  console.log(exists[0]['COUNT(id)']);
   return exists[0]['COUNT(id)'] <= 0;
 }
 
@@ -90,6 +89,10 @@ router.get("/recipes", async (req, res) => {
       return;
   }
   try {
+      if (await bookExist(req.query.bookId)){
+        res.status(500).send("Can't get recipes from given book: no matching id");
+        return;
+      }
       const recipesRaw = await conn.query(`SELECT recipeId FROM recipe_book_links WHERE bookId = ?;`, [req.query.bookId]);
       let recipes = Array.from(recipesRaw);
       let ids = [];

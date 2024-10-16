@@ -114,3 +114,37 @@ describe('POST books/recipe/add', () => {
     expect(add.text).toBe("Can't add recipe to given book: no matching id");
   });
 })
+
+describe('GET books/recipes', () => {
+  
+  it('simple call', async () => {
+    const res = await request(app).post('/books/create?name=recipesTest').send();
+    const check = await request(app).get('/books/id?bookName=recipesTest').send();
+    expect(check.status).toBe(200);
+    expect(res.status).toBe(200);
+    const id = JSON.parse(check.text)["id"];
+
+    for (i=1; i<11; i++){
+      const add = await request(app).post(`/books/recipe/add?bookId=${id}&recipeId=${i}`).send();
+      expect(add.status).toBe(200);
+    }
+    const recipes = await request(app).get(`/books/recipes?bookId=${id}`);
+    let recipesParsed = JSON.parse(recipes.text);
+    expect(recipesParsed["recipes"].length).toBe(10);
+    expect(recipesParsed["recipes"]).toStrictEqual(Array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+  });
+  it('call on unknown bookId', async () => {
+    const recipes = await request(app).get(`/books/recipes?bookId=10000`);
+    expect(recipes.status).toBe(500);
+    expect(recipes.text).toBe("Can't get recipes from given book: no matching id");
+  });
+  it('call on missing bookId', async () => {
+    const recipes = await request(app).get(`/books/recipes`);
+    expect(recipes.status).toBe(400);
+    expect(recipes.text).toBe("Need to specify a bookId");
+  });
+})
+
+describe('GET books/general_information', () => {
+  
+})
