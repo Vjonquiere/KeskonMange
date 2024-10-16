@@ -26,7 +26,7 @@ app.get('/server/alive', async (req, res) => {
   res.json(JSON.stringify({ alive: true}));
 });
 app.get('*', (req, res) => {
-    res.send("not found");
+    res.sendStatus(404);
 });
 
 let server = app.listen(app.locals.port, () => {

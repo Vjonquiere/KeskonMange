@@ -18,6 +18,12 @@ const conn =  mariadb.createPool({
   });
 
 
+async function bookExist(bookId){
+  let exists = await conn.query(`SELECT COUNT(id) FROM recipe_books WHERE id=?;`, [bookId]);
+  console.log(exists[0]['COUNT(id)']);
+  return exists[0]['COUNT(id)'] <= 0;
+}
+
 router.post("/create", async (req, res) => {
     if (req.query.name === undefined){
         res.status(400).send("Need to specify a book name");
@@ -65,7 +71,11 @@ router.post("/share", async (req, res) => {
   }
   try {
     // Need to check if the req is the owner
-    await conn.query(`INSERT INTO recipe_book_access VALUES (?,?)`, [req.query.bookId, req.query.userId]);
+    if (await bookExist(req.query.bookId)){
+      res.status(500).send("Can't share given book: no matching id");
+      return;
+    }
+    await conn.query(`INSERT INTO recipe_book_access VALUES (?,?);`, [req.query.bookId, req.query.userId]);
   } catch (error) {
     console.log(error)
     res.sendStatus(500);
@@ -148,7 +158,7 @@ router.get("/id", async (req, res) => {
 
 })
 
-router.get("/recipe/add", async (req, res) => {
+router.post("/recipe/add", async (req, res) => {
   if (req.query.bookId === undefined || req.query.recipeId === undefined){
     res.status(400).send("You need to specify a bookId and a recipeId");
     return;
@@ -156,6 +166,10 @@ router.get("/recipe/add", async (req, res) => {
   let date = new Date();
   let formattedDate = date.toISOString().split('T')[0];
   try {
+    if (await bookExist(req.query.bookId)){
+      res.status(500).send("Can't add recipe to given book: no matching id");
+      return;
+    }
     // need to check if requester is the owner of the book
     await conn.query(`INSERT INTO recipe_book_links VALUES (?, ?, ?);`, [req.query.bookId, req.query.recipeId, formattedDate]);
   } catch (error) {
