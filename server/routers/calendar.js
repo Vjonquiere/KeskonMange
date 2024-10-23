@@ -15,7 +15,8 @@ const conn =  mariadb.createPool({
     host: process.env.DATABASE_HOST, 
     user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
+    database: process.env.DATABASE_NAME,
+    dateStrings: true
   });
 
 
@@ -99,6 +100,36 @@ router.get("/completeMonth", async (req, res) => {
     
     } catch (error) {
         console.log("error:" + error);
+    }
+})
+
+router.get("/next", async (req, res) => {
+    if (req.query.count === undefined || isNaN(Number(req.query.count))) {
+        res.status(405).send("The number of next planed recipes you want must be a number");
+        return;
+    }
+    let count = Number(req.query.count);
+    let date = new Date();
+    let formattedDate = date.toISOString().split('T')[0];
+    if (count < 1 || count > 10){
+        res.status(405).send("You can get only between 1 and 10 recipes");
+        return;
+    }
+    try {
+        let entries = await conn.query("SELECT recipeId, date FROM calendar WHERE date > ? ORDER BY date ASC LIMIT ?", [formattedDate, count]);
+        let entriesArray = Array.from(entries);
+        if (entries.length < 1){
+            res.sendStatus(204);
+            return;
+        }
+        let response = []
+        for (const entry of entriesArray){
+            response.push([entry["recipeId"], entry["date"]]);
+        }
+        res.send(JSON.stringify({"recipes":response}));
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
     }
 })
 

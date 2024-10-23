@@ -6,7 +6,8 @@ const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
   user: process.env.DATABASE_USER,
   password: process.env.DATABASE_PASSWORD,
-  database: process.env.DATABASE_NAME
+  database: process.env.DATABASE_NAME,
+  dateStrings: true
 });
 
 function dateFromToday(days){ // add days day to current date
@@ -47,7 +48,7 @@ describe('GET calendar/today', () => {
   it('simple call', async () => {
     const res = await request(app).get('/calendar/today').send();
     expect(res.status).toBe(200);
-    expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(-1)}T22:00:00.000Z\",\"recipeId\":0,\"done\":0,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
+    expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(0)}\",\"recipeId\":0,\"done\":0,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
   });
 });
 
@@ -55,15 +56,52 @@ describe('GET calendar/coming', () => {
     it('call on known value (day+1)', async () => {
       const res = await request(app).get('/calendar/coming?days=1').send();
       expect(res.status).toBe(200);
-      expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(0)}T22:00:00.000Z\",\"recipeId\":4,\"done\":1,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
+      expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(1)}\",\"recipeId\":4,\"done\":1,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
     });
     it('call on known value (negative day number) (day-1)', async () => {
         const res = await request(app).get('/calendar/coming?days=-1').send();
         expect(res.status).toBe(200);
-        expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(-2)}T22:00:00.000Z\",\"recipeId\":1,\"done\":1,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
+        expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(-1)}\",\"recipeId\":1,\"done\":1,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
       });
     it('call on known value with no recipe (day+10)', async () => {
         const res = await request(app).get('/calendar/coming?days=10').send();
         expect(res.status).toBe(204);
       });
   });
+
+describe('GET calendar/next', () => {
+  it('simple call', async () => {
+    const res = await request(app).get('/calendar/next?count=2').send();
+    expect(res.status).toBe(200);
+    let response = JSON.parse(res.text);
+    expect(response["recipes"].length).toBe(2); // return 2 entries
+    expect(response["recipes"][0].length).toBe(2); // must have recipeId + date
+    expect(response["recipes"][0][0]).toBe(4);
+    expect(response["recipes"][0][1]).toBe(dateFromToday(1));
+    expect(response["recipes"][1][0]).toBe(5);
+    expect(response["recipes"][1][1]).toBe(dateFromToday(3));
+  });
+  it('simple call (not enough entries for given date)', async () => {
+    const res = await request(app).get('/calendar/next?count=3').send();
+    expect(res.status).toBe(200);
+    let response = JSON.parse(res.text);
+    expect(response["recipes"].length).toBe(2);
+    expect(response["recipes"][0].length).toBe(2); // must have recipeId + date
+  });
+  it('call on non number count', async () => {
+    const res = await request(app).get('/calendar/next?count=er').send();
+    expect(res.status).toBe(405);
+  });
+  it('call on negative count', async () => {
+    const res = await request(app).get('/calendar/next?count=-1').send();
+    expect(res.status).toBe(405);
+  });
+  it('call on null count', async () => {
+    const res = await request(app).get('/calendar/next?count=0').send();
+    expect(res.status).toBe(405);
+  });
+  it('call on +10 count', async () => {
+    const res = await request(app).get('/calendar/next?count=11').send();
+    expect(res.status).toBe(405);
+  });
+});
