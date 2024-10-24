@@ -13,7 +13,9 @@ beforeAll(async () => {
   await conn.query('DELETE FROM recipe_books WHERE 1=1;');
   await conn.query('DELETE FROM recipe_book_access WHERE 1=1;');
   await conn.query('DELETE FROM recipe_book_links WHERE 1=1;');
+  await conn.query('ALTER TABLE recipe_books AUTO_INCREMENT = 0;');
 })
+
 
 afterAll(async () => {
     conn.end();
@@ -146,5 +148,53 @@ describe('GET books/recipes', () => {
 })
 
 describe('GET books/general_information', () => {
-  
+  it('simple call', async () => {
+    const res = await request(app).post('/books/create?name=recipesGeneralInfos').send();
+    const check = await request(app).get('/books/id?bookName=recipesGeneralInfos').send();
+    expect(check.status).toBe(200);
+    expect(res.status).toBe(200);
+    const id = JSON.parse(check.text)["id"];
+
+    for (i=1; i<11; i++){
+      const add = await request(app).post(`/books/recipe/add?bookId=${id}&recipeId=${i}`).send();
+      expect(add.status).toBe(200);
+    }
+    const rawInfos = await request(app).get(`/books/general_information?bookId=${id}`);
+    let bookInfos = JSON.parse(rawInfos.text);
+    expect(bookInfos["id"]).toBe(id);
+    expect(bookInfos["name"]).toBe("recipesGeneralInfos");
+    expect(bookInfos["recipe_count"]).toBe(10);
+  });
+  it('call on unknown bookId', async () => {
+    const res = await request(app).get(`/books/general_information?bookId=10000`);
+    expect(res.status).toBe(204);
+  });
+  it('call on missing bookId', async () => {
+    const res = await request(app).get(`/books/general_information`);
+    expect(res.status).toBe(400);
+  });
+
+})
+
+describe('DELETE books/share', () => {
+  it('simple call', async () => {
+    //Create book + share 
+    const res = await request(app).post('/books/create?name=shareDelete').send();
+    expect(res.status).toBe(200);
+    const check = await request(app).get('/books/id?bookName=shareDelete').send();
+    expect(check.status).toBe(200);
+    const share = await request(app).post(`/books/share?bookId=${JSON.parse(check.text)["id"]}&userId=1`).send();
+    expect(share.status).toBe(200);
+    //Try to delete share
+    const deleteShareLink = await request(app).delete(`/books/share?bookId=${JSON.parse(check.text)["id"]}&userId=1`);
+    expect(deleteShareLink.status).toBe(200);
+  });
+  it('call on missing argument (bookId)', async () => {
+    const deleteShareLink = await request(app).delete(`/books/share?userId=1`);
+    expect(deleteShareLink.status).toBe(400);
+  });
+  it('call on missing argument (userId)', async () => {
+    const deleteShareLink = await request(app).delete(`/books/share?bookId=1`);
+    expect(deleteShareLink.status).toBe(400);
+  });
 })
