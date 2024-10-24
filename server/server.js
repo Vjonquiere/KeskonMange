@@ -23,7 +23,7 @@ app.use("/ingredient", Ingredient);
 app.use("/books", RecipeBook);
 
 app.get('/server/alive', async (req, res) => {
-  res.json(JSON.stringify({ alive: true}));
+  res.sendStatus(200);
 });
 app.get('*', (req, res) => {
     res.sendStatus(404);
