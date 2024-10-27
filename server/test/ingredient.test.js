@@ -78,8 +78,16 @@ describe('GET ingredient/name', () => {
   
 describe('GET ingredient/units', () => {
   it('call on valid ingredient name', async () => {
-    const res = await request(app).get('/ingredient/units/?name=test');
+    const res = await request(app).get('/ingredient/units?name=test');
     expect(res.status).toBe(200);
     expect(JSON.parse(res.body)).toMatchObject({units:["l", "g"]}); // TODO: Need other test method (test may return false if array values are reversed)
+  });
+  it('call on unknown ingredient', async () => {
+    const res = await request(app).get('/ingredient/units?name=unknown_ingredient');
+    expect(res.status).toBe(204);
+  });
+  it('call on missing argument (name)', async () => {
+    const res = await request(app).get('/ingredient/units');
+    expect(res.status).toBe(405);
   });
 })
