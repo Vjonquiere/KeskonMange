@@ -126,4 +126,19 @@ describe('POST recipe/add', () => {
     expect(res.status).toBe(400);
     expect(res.text).toBe("False can not be turned into a Boolean");
   });
+  it('call on invalid argument (difficulty Nan)', async () => {
+    const res = await request(app).post('/recipe/add').send({"ingredients":[{"name":"Pates", "qte":200, "unit":"g", "type":"grocerie" }, {"name":"Viande hachee", "qte":100, "unit":"g", "type":"meat" }, {"name":"Sauce tomate", "qte":100, "unit":"g", "type":"grocerie" }], "preparation_time":10, "rest_time":0, "cook_time":10, "sweet":false, "salty":true, "title":"Pates bolognaise", "type":"plat", "difficulty":"Nan", "cost":1, "portions":3});
+    expect(res.status).toBe(400);
+    expect(res.text).toBe("Difficulty must be a number");
+  });
+  it('call on invalid argument (portions Nan)', async () => {
+    const res = await request(app).post('/recipe/add').send({"ingredients":[{"name":"Pates", "qte":200, "unit":"g", "type":"grocerie" }, {"name":"Viande hachee", "qte":100, "unit":"g", "type":"meat" }, {"name":"Sauce tomate", "qte":100, "unit":"g", "type":"grocerie" }], "preparation_time":10, "rest_time":0, "cook_time":10, "sweet":false, "salty":true, "title":"Pates bolognaise", "type":"plat", "difficulty":1, "cost":1, "portions":"Nan"});
+    expect(res.status).toBe(400);
+    expect(res.text).toBe("Portions must be a number");
+  });
+  it('call on invalid argument (cost Nan)', async () => {
+    const res = await request(app).post('/recipe/add').send({"ingredients":[{"name":"Pates", "qte":200, "unit":"g", "type":"grocerie" }, {"name":"Viande hachee", "qte":100, "unit":"g", "type":"meat" }, {"name":"Sauce tomate", "qte":100, "unit":"g", "type":"grocerie" }], "preparation_time":10, "rest_time":0, "cook_time":10, "sweet":false, "salty":true, "title":"Pates bolognaise", "type":"plat", "difficulty":1, "cost":"lowcost", "portions":3});
+    expect(res.status).toBe(400);
+    expect(res.text).toBe("Cost must be a number");
+  });
 })
