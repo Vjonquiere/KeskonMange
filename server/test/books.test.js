@@ -115,6 +115,16 @@ describe('POST books/recipe/add', () => {
     expect(add.status).toBe(500);
     expect(add.text).toBe("Can't add recipe to given book: no matching id");
   });
+  it('call on missing argument (bookId)', async () => {
+    const add = await request(app).post(`/books/recipe/add?recipeId=21`).send();
+    expect(add.status).toBe(400);
+    expect(add.text).toBe("You need to specify a bookId and a recipeId");
+  });
+  it('call on missing argument (recipeId)', async () => {
+    const add = await request(app).post(`/books/recipe/add?bookId=1`).send();
+    expect(add.status).toBe(400);
+    expect(add.text).toBe("You need to specify a bookId and a recipeId");
+  });
 })
 
 describe('GET books/recipes', () => {
@@ -196,5 +206,16 @@ describe('DELETE books/share', () => {
   it('call on missing argument (userId)', async () => {
     const deleteShareLink = await request(app).delete(`/books/share?bookId=1`);
     expect(deleteShareLink.status).toBe(400);
+  });
+})
+
+describe('GET books/id', () => {
+  it('call on unknown bookName', async () => {
+    const res = await request(app).get(`/books/id?bookName=unknownBookName`);
+    expect(res.status).toBe(204);
+  });
+  it('call on undefined bookName', async () => {
+    const res = await request(app).get(`/books/id`);
+    expect(res.status).toBe(400);
   });
 })

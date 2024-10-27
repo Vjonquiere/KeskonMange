@@ -50,6 +50,12 @@ describe('GET calendar/today', () => {
     expect(res.status).toBe(200);
     expect(res.text).toBe(`{\"recipe\":[{\"date\":\"${dateFromToday(0)}\",\"recipeId\":0,\"done\":0,\"result_img\":\"path/to/image\"}]}`); // Given entry formatted to JSON
   });
+  it('call with no recipe defined', async () => {
+    await conn.query(`DELETE FROM calendar WHERE date = '${dateFromToday(0)}';`);
+    const res = await request(app).get('/calendar/today').send();
+    expect(res.status).toBe(204);
+    await conn.query(`INSERT INTO calendar VALUES ('${dateFromToday(0)}', 0, 0, 'path/to/image');`);
+  });
 });
 
 describe('GET calendar/coming', () => {
@@ -67,6 +73,10 @@ describe('GET calendar/coming', () => {
         const res = await request(app).get('/calendar/coming?days=10').send();
         expect(res.status).toBe(204);
       });
+    it('call on day not a number', async () => {
+      const res = await request(app).get('/calendar/coming?days=Nan').send();
+      expect(res.status).toBe(405);
+    });
   });
 
 describe('GET calendar/next', () => {
@@ -104,4 +114,35 @@ describe('GET calendar/next', () => {
     const res = await request(app).get('/calendar/next?count=11').send();
     expect(res.status).toBe(405);
   });
+  it('call with no next recipe defined', async () => {
+    await conn.query(`DELETE FROM calendar WHERE date = '${dateFromToday(1)}';`); // removing known entries
+    await conn.query(`DELETE FROM calendar WHERE date = '${dateFromToday(3)}';`);
+    const res = await request(app).get('/calendar/next?count=2').send();
+    expect(res.status).toBe(204);
+    await conn.query(`INSERT INTO calendar VALUES ('${dateFromToday(0)}', 0, 0, 'path/to/image');`);
+    await conn.query(`INSERT INTO calendar VALUES ('${dateFromToday(3)}', 5, 0, 'path/to/image');`);
+  });
 });
+
+describe('GET calendar/completeMonth', () => {
+  it('simple call', async () => {
+    const res = await request(app).get('/calendar/completeMonth?previous=0').send();
+    let data = JSON.parse(res.text);
+    let date = new Date();
+    expect(data["year"]).toBe(date.getFullYear());
+    expect(data["month"]).toBe(date.getMonth()+1); // +1 because Date.getMonth is between 0-11 and 1-12 for our request 
+    expect(res.status).toBe(200);
+  });
+  it('call on missing argument (previous)', async () => {
+    const res = await request(app).get('/calendar/completeMonth').send();
+    expect(res.status).toBe(405);
+  });
+  it('call on wrong argument (previous)', async () => {
+    const res = await request(app).get('/calendar/completeMonth?previous=Nan').send();
+    expect(res.status).toBe(405);
+  });
+  it('call on wrong argument (previous)', async () => {
+    const res = await request(app).get('/calendar/completeMonth?previous=-1').send(); // -1 to get next month
+    expect(res.status).toBe(204); // No recipes found for the given month
+  });
+})

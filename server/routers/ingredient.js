@@ -33,10 +33,6 @@ const conn =  mariadb.createPool({
   });
 
 
-router.get("/", (req, res) => {
-    res.sendStatus(400);
-});
-
 router.get("/name", async (req, res) => {
     if (req.query.name === undefined || !(typeof req.query.name === 'string')){
         res.status(405).send("undefined ingredient name");

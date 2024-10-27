@@ -44,8 +44,6 @@ router.get("/today", async (req, res) => { // Special case of /calendar/coming r
     } catch (error) {
         console.log("error:" + error);
     }
-    res.sendStatus(400);
-
 });
 
 router.get("/coming", async (req, res) => {
@@ -72,7 +70,6 @@ router.get("/coming", async (req, res) => {
     } catch (error) {
         console.log("error:" + error);
     }
-    res.sendStatus(400);
 })
 
 router.get("/completeMonth", async (req, res) => {
@@ -94,7 +91,7 @@ router.get("/completeMonth", async (req, res) => {
             res.sendStatus(204); // No recipe found for today
             return;
         } else {
-            res.send(JSON.stringify({"year": year, "month": month, recipes: dateEntry, "monthTemplate": new calendar.Calendar(1).monthdayscalendar(Number(year), Number(month)) }));
+            res.send(JSON.stringify({"year": Number(year), "month":  Number(month), recipes: dateEntry, "monthTemplate": new calendar.Calendar(1).monthdayscalendar(Number(year), Number(month)) }));
             return;
         }
     
