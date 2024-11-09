@@ -16,6 +16,8 @@ bodyParser.urlencoded({
 }),
 );
 
+let verification = {}
+
 function generateVerificationCode(){
     let code = ""
     const chars = "0123456789"
@@ -33,7 +35,7 @@ router.post('/create', async (req, res) => {
     }
     // Need username + email regex
     const emailUnique = await conn.query("SELECT * FROM users WHERE email = ?;", [req.query.email]);
-    const usernameUnique = await conn.query("SELECT * FROM user WHERE username = ?;", [req.query.username]);
+    const usernameUnique = await conn.query("SELECT * FROM users WHERE username = ?;", [req.query.username]);
     if (!emailUnique){
         res.status(405).send("Email is already used, try connect instead");
         return;
@@ -42,9 +44,26 @@ router.post('/create', async (req, res) => {
         res.status(405).send("This username is taken by another user, find a new one!");
         return;
     }
-    
-    
+    const verificationCode = generateVerificationCode();
+    console.log(verificationCode);
+    verification[req.query.email] = verificationCode;
+    await conn.query("INSERT INTO users VALUES (NULL, ?, ?, NULL);", [req.query.email, req.query.username]);
+})
 
+router.post('/verify', async (req, res) => {
+    if (req.query.email === undefined || req.query.code === undefined || isNaN(Number(req.query.code))){
+        res.status(405).send("Need to specify an email and a verification code");
+        return;
+    }
+    if (!(verification[req.query.email] === undefined) && verification[req.query.email] == Number(req.query.code)){
+        let date = new Date();
+        let formattedDate = date.toISOString().split('T')[0];
+        await conn.query("UPDATE users SET verified = ? WHERE email = ?;", [formattedDate, req.query.email]);
+        verification[req.query.email] = undefined;
+        res.status(200).send("User has been created");
+        return;
+    }
+    res.sendStatus(204);
 })
 
 router.closeServer = () => {
