@@ -4,6 +4,7 @@ const Recipes = require('./routers/recipes')
 const Calendar = require('./routers/calendar')
 const Ingredient = require('./routers/ingredient')
 const RecipeBook = require('./routers/recipeBook')
+const Users = require('./routers/user')
 var bodyParser = require('body-parser')
 const app = express();
 app.locals.port = 8080;
@@ -21,6 +22,7 @@ app.use("/recipes", Recipes);
 app.use("/calendar", Calendar);
 app.use("/ingredient", Ingredient);
 app.use("/books", RecipeBook);
+app.use("/user", Users);
 
 app.get('/server/alive', async (req, res) => {
   res.sendStatus(200);
@@ -39,6 +41,7 @@ app.closeServer = () => {
   Calendar.closeServer();
   Ingredient.closeServer();
   RecipeBook.closeServer();
+  Users.closeServer();
   server.close();
 };
 
