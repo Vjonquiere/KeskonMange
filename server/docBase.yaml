@@ -1,0 +1,13 @@
+swagger: '2.0'
+info:
+  license:
+    name: GNU General Public License v3.0
+    url: https://www.gnu.org/licenses/gpl-3.0.html
+  title: KeskonMange
+  version: 1.0.0
+host: keskon-mange.fr
+tags:
+  - name: Calendar
+    description: Requests linked to calendar
+  - name: Ingredients
+    description: Requests linked to ingredients
