@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require('mariadb');
-var bodyParser = require('body-parser')
+const database = require('../module/database');
+var bodyParser = require('body-parser');
+const conn = database.conn;
 
 const units = {
     "liquid":["l", "g"], 
@@ -23,14 +24,6 @@ router.use(
     extended: true,
   }),
 );
-
-const conn =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    dateStrings: true
-  });
 
 
 router.get("/name", async (req, res) => {
@@ -91,7 +84,6 @@ router.post("/add", async (req, res) => {
 });
 
 router.closeServer = () => {
-    conn.end();
     console.log("Ingredient Closed");
 };
 

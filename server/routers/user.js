@@ -1,13 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require('mariadb');
-
-const conn =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-  });
+const database = require('../module/database');
+const conn = database.conn;
 
 
 let verification = {}
@@ -70,7 +64,6 @@ router.post('/verify', async (req, res) => {
 })
 
 router.closeServer = () => {
-    conn.end()
     console.log("Users Closed");
   };
   

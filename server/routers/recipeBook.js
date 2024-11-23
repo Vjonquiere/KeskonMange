@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require('mariadb');
+const database = require('../module/database');
+const conn = database.conn;
 var bodyParser = require('body-parser');
 
 router.use(bodyParser.json());
@@ -9,13 +10,6 @@ router.use(
     extended: true,
   }),
 );
-
-const conn =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME
-  });
 
 
 async function bookExist(bookId){
@@ -199,8 +193,7 @@ router.delete("/share", async (req, res) => {
   res.sendStatus(200);
 })
 
-  router.closeServer = () => {
-    conn.end();
+router.closeServer = () => {
     console.log("Calendar Closed");
 };
 

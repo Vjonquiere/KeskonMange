@@ -1,11 +1,12 @@
 const express = require('express');
-const Recipe = require('./routers/recipe')
-const Recipes = require('./routers/recipes')
-const Calendar = require('./routers/calendar')
-const Ingredient = require('./routers/ingredient')
-const RecipeBook = require('./routers/recipeBook')
-const Users = require('./routers/user')
-var bodyParser = require('body-parser')
+const Recipe = require('./routers/recipe');
+const Recipes = require('./routers/recipes');
+const Calendar = require('./routers/calendar');
+const Ingredient = require('./routers/ingredient');
+const RecipeBook = require('./routers/recipeBook');
+const Users = require('./routers/user');
+var bodyParser = require('body-parser');
+const database = require('./module/database');
 const app = express();
 app.locals.port = 8080;
 //app.use(express.static('public'));
@@ -16,6 +17,12 @@ app.use(
     extended: true,
   }),
 );
+
+/*try {
+  connexion.query("SELECT COUNT(id) FROM recipes WHERE 1=3;");
+} catch (error) {
+  console.log("Something wrong with database: " + error);
+}*/
 
 app.use("/recipe", Recipe);
 app.use("/recipes", Recipes);
@@ -42,6 +49,7 @@ app.closeServer = () => {
   Ingredient.closeServer();
   RecipeBook.closeServer();
   Users.closeServer();
+  database.end();
   server.close();
 };
 
