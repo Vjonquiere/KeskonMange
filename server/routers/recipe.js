@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require('mariadb');
 const axios = require('axios');
+const database = require('../module/database');
 var bodyParser = require('body-parser');
 let port;
+const conn = database.conn;
 
 router.use(bodyParser.json());
 router.use(
@@ -16,14 +17,6 @@ router.use((req, res, next) => {
     port = req.app.locals.port;
     next();
 });
-
-const conn =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    dateStrings: true
-  });
 
 
 router.get('/complete', async (req, res) => {
@@ -147,7 +140,6 @@ router.post("/add", async (req, res) => {
 });
 
 router.closeServer = () => {
-    conn.end();
     console.log("Recipe Closed");
 };
 
