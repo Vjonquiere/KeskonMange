@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const mariadb = require('mariadb');
 var bodyParser = require('body-parser');
 var calendar = require('node-calendar');
+var database = require('../module/database');
+const conn = database.conn;
 
 router.use(bodyParser.json());
 router.use(
@@ -11,13 +12,6 @@ router.use(
   }),
 );
 
-const conn =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    dateStrings: true
-  });
 
 
 /* Need to check for UTC fix:
@@ -199,7 +193,6 @@ router.get("/next", async (req, res) => {
 
 
 router.closeServer = () => {
-    conn.end();
     console.log("Calendar Closed");
 };
 
