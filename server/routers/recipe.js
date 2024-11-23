@@ -32,13 +32,39 @@ router.get('/complete', async (req, res) => {
     res.json(JSON.stringify({ recipe: recipeData[0], ingredients : ingredienList}));
 });
 
+/**
+ * @api [get] /recipe/last
+ * tags :
+ *  - Recipe
+ * description: "Returns the last added recipe"
+ * responses:
+ *   "200":
+ *     description: "Last recipe"
+ */
 //TODO: add limit for less data trafic
 router.get('/last', async (req, res) => {
     const result = await conn.query("SELECT * FROM recipes ORDER BY id DESC;");
     res.json(result[0]);
 });
 
-router.get("/:id", async (req, res) => {
+/**
+ * @api [get] /recipe/{id}
+ * tags :
+ *  - Recipe
+ * parameters:
+ * - name: id
+ *   in: path
+ *   description: Id of the recipe
+ *   required: true
+ *   type: integer
+ * description: "Returns the recipe linked to the given id"
+ * responses:
+ *   "200":
+ *     description: "recipe corresponding to the id"
+ *   "405":
+ *      description: "No recipe found"
+ */
+router.get("/:id", async (req, res) => { //TODO: change params to query + code 204 if no recipe found
     if (req.params.id === undefined || isNaN(Number(req.params.id))){
         res.status(405).send("undifined recipe_id");
         return;

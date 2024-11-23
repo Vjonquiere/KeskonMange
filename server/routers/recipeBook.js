@@ -23,6 +23,23 @@ async function bookExist(bookId){
   return exists[0]['COUNT(id)'] <= 0;
 }
 
+/**
+ * @api [post] /books/create
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: name
+ *   in: query
+ *   description: Name of the book
+ *   required: true
+ *   type: string
+ * description: "Create a new book with the specified name"
+ * responses:
+ *   "200":
+ *     description: "Book has been created"
+ *   "400":
+ *      description: "Name parameter is wrong"
+ */
 router.post("/create", async (req, res) => {
     if (req.query.name === undefined){
         res.status(400).send("Need to specify a book name");
@@ -47,6 +64,23 @@ router.post("/create", async (req, res) => {
 
 })
 
+/**
+ * @api [delete] /books/delete
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Name of the book
+ *   required: true
+ *   type: integer
+ * description: "Delete the book with the specified id"
+ * responses:
+ *   "200":
+ *     description: "Book has been deleted"
+ *   "400":
+ *      description: "BookId parameter is wrong"
+ */
 router.delete("/delete", async (req, res) => {
   if (req.query.bookId === undefined){
     res.status(400).send("You need to specify a bookId to delete");
@@ -63,6 +97,30 @@ router.delete("/delete", async (req, res) => {
   res.sendStatus(200);
 })
 
+/**
+ * @api [post] /books/share
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Id of the book
+ *   required: true
+ *   type: integer
+ * - name: userId
+ *   in: query
+ *   description: Id of the user you want to share the book with
+ *   required: true
+ *   type: integer
+ * description: "Share the given book with the specified user"
+ * responses:
+ *   "200":
+ *     description: "The book is now shared"
+ *   "400":
+ *      description: "One of the parameter is wrong"
+ *   "500":
+ *      description: "The book you want to share does not exists"
+ */
 router.post("/share", async (req, res) => {
   if (req.query.bookId === undefined || req.query.userId === undefined){
     res.status(400).send("Specify a bookId and the user you want to share the book with");
@@ -83,6 +141,25 @@ router.post("/share", async (req, res) => {
   res.sendStatus(200);
 })
 
+/**
+ * @api [get] /books/recipes
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Id of the book
+ *   required: true
+ *   type: integer
+ * description: "Get all the recipes from a given book"
+ * responses:
+ *   "200":
+ *     description: "Book has been created"
+ *   "400":
+ *     description: "Something wrong with bookId"
+ *   "500":
+ *      description: "The book does not exists"
+ */
 router.get("/recipes", async (req, res) => {
   if (req.query.bookId === undefined){
       res.status(400).send("Need to specify a bookId");
@@ -110,6 +187,23 @@ router.get("/recipes", async (req, res) => {
 
 })
 
+/**
+ * @api [get] /books/general_information
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Id of the book
+ *   required: true
+ *   type: integer
+ * description: "Get the general information of a book"
+ * responses:
+ *   "200":
+ *     description: "The general informations"
+ *   "400":
+ *      description: "BookId parameter is wrong"
+ */
 router.get("/general_information", async (req, res) => {
   if (req.query.bookId === undefined){
     res.status(400).send("You need to specify a bookId to search for");
@@ -136,8 +230,26 @@ router.get("/general_information", async (req, res) => {
 
 })
 
-
-router.get("/id", async (req, res) => {
+/**
+ * @api [get] /books/id
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookName
+ *   in: query
+ *   description: Name of the book
+ *   required: true
+ *   type: string
+ * description: "Get the id for a given book name"
+ * responses:
+ *   "200":
+ *     description: "Book has been created"
+ *   "204":
+ *     description: "No book found with the given name"
+ *   "400":
+ *      description: "Name parameter is wrong"
+ */
+router.get("/id", async (req, res) => { //TODO: check for multiple names
   if (req.query.bookName === undefined){
     res.status(400).send("You need to specify a book name to search");
     return;
@@ -161,6 +273,30 @@ router.get("/id", async (req, res) => {
 
 })
 
+/**
+ * @api [get] /books/recipe/add
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Id of the book
+ *   required: true
+ *   type: integer
+  * - name: recipeId
+ *   in: query
+ *   description: Id of the recipe
+ *   required: true
+ *   type: integer
+ * description: "Add the recipe to the book"
+ * responses:
+ *   "200":
+ *     description: "Book has been created"
+ *   "500":
+ *     description: "The book does not exists"
+ *   "400":
+ *      description: "At least one parameter is wrong"
+ */
 router.post("/recipe/add", async (req, res) => {
   if (req.query.bookId === undefined || req.query.recipeId === undefined){
     res.status(400).send("You need to specify a bookId and a recipeId");
@@ -183,6 +319,28 @@ router.post("/recipe/add", async (req, res) => {
   res.sendStatus(200);
 })
 
+/**
+ * @api [delete] /books/share
+ * tags :
+ *  - Book
+ * parameters:
+ * - name: bookId
+ *   in: query
+ *   description: Id of the book
+ *   required: true
+ *   type: integer
+* - name: userId
+ *   in: query
+ *   description: Id of the user
+ *   required: true
+ *   type: integer
+ * description: "Delete the book"
+ * responses:
+ *   "200":
+ *     description: "Book has been deleted"
+ *   "400":
+ *      description: "At least one parameter is wrong"
+ */
 router.delete("/share", async (req, res) => {
   if (req.query.bookId === undefined || req.query.userId === undefined){
     res.status(400).send("You need to specify a bookId and a userId");

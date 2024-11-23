@@ -11,3 +11,7 @@ tags:
     description: Requests linked to calendar
   - name: Ingredients
     description: Requests linked to ingredients
+  - name: Recipe
+    description: Requests linked to recipe
+  - name: Book
+    description: Requests linked to books
