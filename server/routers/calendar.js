@@ -21,6 +21,17 @@ If your at GMT+2 your dates will be 2 hours late:
 */
 
 
+/**
+ * @api [get] /calendar/today
+ * tags :
+ *  - Calendar
+ * description: "Returns the recipe scheduled for today"
+ * responses:
+ *   "200":
+ *     description: "Calendar entry for today"
+ *   "204":
+ *      description: "There isn't a recipe scheduled for today"
+ */
 router.get("/today", async (req, res) => { // Special case of /calendar/coming route (like days = 0)
     let date = new Date();
     let formattedDate = date.toISOString().split('T')[0];
@@ -40,6 +51,24 @@ router.get("/today", async (req, res) => { // Special case of /calendar/coming r
     }
 });
 
+/**
+ * @api [get] /calendar/coming
+ * tags : 
+ *  - Calendar
+ * description: "Returns the recipe scheduled for today+numberOf{days}"
+ * parameters:
+ * - name: days
+ *   in: query
+ *   description: Number of days to skip
+ *   required: true
+ *   type: integer
+ *
+ * responses:
+ *   "200":
+ *     description: "Calendar for the given day"
+ *   "204":
+ *      description: "There isn't a recipe scheduled for this day"
+ */
 router.get("/coming", async (req, res) => {
     if (req.query.days === undefined || isNaN(Number(req.query.days))) {
         res.status(405).send("Day must be a number");
@@ -66,6 +95,24 @@ router.get("/coming", async (req, res) => {
     }
 })
 
+/**
+ * @api [get] /calendar/completeMonth
+ * tags : 
+ *  - Calendar
+ * description: "Returns the specified month schema and its planned recipes"
+ * parameters:
+ * - name: previous
+ *   in: query
+ *   description: Number of month to go back
+ *   required: true
+ *   type: integer
+ *
+ * responses:
+ *   "200":
+ *     description: "year, month number and month schema"
+ *   "204":
+ *      description: "No recipe was found for the given month"
+ */
 router.get("/completeMonth", async (req, res) => {
     if (req.query.previous === undefined || isNaN(Number(req.query.previous))) {
         res.status(405).send("The number of month you want to rollback must be a number");
@@ -94,6 +141,26 @@ router.get("/completeMonth", async (req, res) => {
     }
 })
 
+
+/**
+ * @api [get] /calendar/next
+ * tags :
+ *  - Calendar
+ * parameters:
+ * - name: count
+ *   in: query
+ *   description: Number of next recipes to get (between 1 and 10)
+ *   required: true
+ *   type: integer
+ * description: "Returns the next {count} recipes scheduled"
+ * responses:
+ *   "200":
+ *     description: "Calendar entry for today"
+ *   "204":
+ *      description: "There isn't at least one recipe scheduled"
+ *   "405":
+ *      description: "A wrong number next recipes to get was given"
+ */
 router.get("/next", async (req, res) => {
     if (req.query.count === undefined || isNaN(Number(req.query.count))) {
         res.status(405).send("The number of next planed recipes you want must be a number");

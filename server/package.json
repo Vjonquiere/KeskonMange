@@ -17,5 +17,8 @@
     "mariadb": "^3.3.1",
     "node-calendar": "^0.1.5",
     "supertest": "^7.0.0"
+  },
+  "devDependencies": {
+    "swagger-inline": "^7.0.1"
   }
 }
