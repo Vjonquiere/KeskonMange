@@ -4,6 +4,7 @@ const Recipes = require('./routers/recipes');
 const Calendar = require('./routers/calendar');
 const Ingredient = require('./routers/ingredient');
 const RecipeBook = require('./routers/recipeBook');
+const Auth = require('./routers/auth');
 const Users = require('./routers/user');
 var bodyParser = require('body-parser');
 const database = require('./module/database');
@@ -30,6 +31,7 @@ app.use("/calendar", Calendar);
 app.use("/ingredient", Ingredient);
 app.use("/books", RecipeBook);
 app.use("/user", Users);
+app.use("/auth", Auth);
 
 app.get('/server/alive', async (req, res) => {
   res.sendStatus(200);
