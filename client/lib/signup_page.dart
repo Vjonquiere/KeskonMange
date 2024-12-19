@@ -33,7 +33,7 @@ class _SignupPageState extends State<SignupPage> {
         content = postCodeStep(context);
         break;
       case 3:
-        content = AllergensStep(context);
+        content = AllergensToggle();
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -215,51 +215,66 @@ class _SignupPageState extends State<SignupPage> {
         ]
     );
   }
+}
 
-  Widget AllergensStep(BuildContext context){
-    return SingleChildScrollView(
-        child : Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const SizedBox(height: 16.0),
-            const Text("Do you have allergens?"),
-            const SizedBox(height: 16.0),
-            Flexible(
-              fit: FlexFit.loose,
-              child: GridView.count(
-                crossAxisCount: 4,
-                padding: const EdgeInsets.all(16.0),
-                childAspectRatio: 4.0 / 1.0,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                children: _createAllergensCards(context),
-              ),
-            ),],
+class AllergensToggle extends StatefulWidget {
+  @override
+  _AllergensToggleState createState() => _AllergensToggleState();
+}
+
+class _AllergensToggleState extends State<AllergensToggle> {
+  //TODO: create the list with allergens
+  final List<String> allergens = [
+    "Gluten",
+    "Fish",
+    "Nuts",
+    "Eggs",
+    "Mollusks",
+    "Crustaceans",
+    "Soy",
+    "Milk"
+  ];
+//TODO: find the icons and put them in appicons
+  final List<IconData> allergenIcons = [
+    Icons.local_dining, // Gluten
+    Icons.apple, // Fish
+    Icons.nature, // Nuts
+    Icons.fastfood, // Eggs
+    Icons.pool, // Mollusks
+    Icons.wine_bar, // Crustaceans
+    Icons.spa, // Soy
+    Icons.local_drink, // Milk
+  ];
+
+  final List<bool> _selected = List.generate(8, (_) => false);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text(
+          "Do you have allergens?",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
         ),
+        const SizedBox(height: 16.0),
+        Wrap(
+          spacing: 8.0, // Space between buttons
+          runSpacing: 8.0, // Space between lines
+          children: List.generate(allergens.length, (index) {
+            return FilterChip(
+              avatar: Icon(allergenIcons[index]), // Icon next to the label
+              label: Text(allergens[index]),
+              selected: _selected[index],
+              onSelected: (bool selected) {
+                setState(() {
+                  _selected[index] = selected;
+                });
+              },
+            );
+          }),
+        ),
+        //TODO: add Next button
+      ],
     );
-
-  }
-
-  List<FilledButton> _createAllergensCards(context){
-    List<String> allergens = ["Gluten","Fish", "Nuts","Eggs","Mollusks","Crustaceans","Soy","Milk"];
-
-    if(allergens.isEmpty){
-      return const <FilledButton>[];
-    }
-    return allergens.map((allergen) {
-      return FilledButton.icon(
-        onPressed: () {
-          if(_userAllergens.contains(allergen)){
-            _userAllergens.remove(allergen);
-          }else{
-            _userAllergens.add(allergen);
-          }
-        },
-        //icon: ImageIcon(AssetImage(AppIcons.getIcon(allergen))),
-        label: Text(allergen),
-        //iconAlignment: IconAlignment.start,
-      );
-    }).toList();
-
   }
 }
