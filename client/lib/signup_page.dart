@@ -1,3 +1,4 @@
+import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -10,6 +11,8 @@ class _SignupPageState extends State<SignupPage> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _postcodeController = TextEditingController();
+
+  List<String> _userAllergens = <String>[];
 
   ListView element=ListView();
   var stateValue = 0.0;
@@ -28,6 +31,9 @@ class _SignupPageState extends State<SignupPage> {
         break;
       case 2:
         content = postCodeStep(context);
+        break;
+      case 3:
+        content = AllergensStep(context);
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -61,6 +67,7 @@ class _SignupPageState extends State<SignupPage> {
           ],
         ),
       ),
+      resizeToAvoidBottomInset: false,
     );
   }
 
@@ -209,4 +216,50 @@ class _SignupPageState extends State<SignupPage> {
     );
   }
 
+  Widget AllergensStep(BuildContext context){
+    return SingleChildScrollView(
+        child : Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const SizedBox(height: 16.0),
+            const Text("Do you have allergens?"),
+            const SizedBox(height: 16.0),
+            Flexible(
+              fit: FlexFit.loose,
+              child: GridView.count(
+                crossAxisCount: 4,
+                padding: const EdgeInsets.all(16.0),
+                childAspectRatio: 4.0 / 1.0,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                children: _createAllergensCards(context),
+              ),
+            ),],
+        ),
+    );
+
+  }
+
+  List<FilledButton> _createAllergensCards(context){
+    List<String> allergens = ["Gluten","Fish", "Nuts","Eggs","Mollusks","Crustaceans","Soy","Milk"];
+
+    if(allergens.isEmpty){
+      return const <FilledButton>[];
+    }
+    return allergens.map((allergen) {
+      return FilledButton.icon(
+        onPressed: () {
+          if(_userAllergens.contains(allergen)){
+            _userAllergens.remove(allergen);
+          }else{
+            _userAllergens.add(allergen);
+          }
+        },
+        //icon: ImageIcon(AssetImage(AppIcons.getIcon(allergen))),
+        label: Text(allergen),
+        //iconAlignment: IconAlignment.start,
+      );
+    }).toList();
+
+  }
 }
