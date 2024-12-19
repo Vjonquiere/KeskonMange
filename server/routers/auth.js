@@ -4,6 +4,17 @@ var bodyParser = require('body-parser');
 var database = require('../module/database');
 const crypto = require('crypto');
 const conn = database.conn;
+const nodemailer = require("nodemailer");
+
+const mailer = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: 587,
+  secure: false,
+  auth: {
+    user: process.env.SMTP_ADDRESS,
+    pass: process.env.SMTP_PASSWORD,
+  },
+});
 
 var waitingAuths = {}
 
@@ -52,7 +63,13 @@ router.post('/signin', async (req, res) => {
         const userExists = Array.from(await conn.query("SELECT COUNT(id) FROM users WHERE email = ?;", [req.query.email]));
         if (userExists.length > 0 && Number(userExists[0]['COUNT(id)']) == 1){
             waitingAuths[req.query.email] = generateVerificationCode();
-            console.log(waitingAuths[req.query.email]);
+            const info = await mailer.sendMail({
+                from: `"KeskonMange" <${process.env.SMTP_ADDRESS}>`,
+                to: `${req.query.email}, ${req.query.email}`,
+                subject: "Verification code",
+                text: `${waitingAuths[req.query.email]}`,
+                html: `<b>${waitingAuths[req.query.email]}</b>`,
+              });
             res.sendStatus(200);
         } else {
             res.status(404).send("No user found with this mail");
@@ -63,7 +80,6 @@ router.post('/signin', async (req, res) => {
             waitingAuths[req.query.email] = undefined;
             const token = generateApiKey();
             const tokenSHA256 = crypto.createHash('sha256').update(token).digest('hex');
-            console.log("token = " + token + " | tokenSHA256 = " + tokenSHA256);
             const date = new Date();
             let formattedBeginDate = date.toISOString().split('T')[0];
             date.setDate(date.getDate() + 30);
@@ -76,22 +92,6 @@ router.post('/signin', async (req, res) => {
         res.sendStatus(404);
     }
     
-})
-
-router.post('/signin', async (req, res) => {
-    if (req.query.email === undefined ){
-        res.status(405).send("You must specify the email you want to log in");
-        return
-    }
-    const userExists = Array.from(await conn.query("SELECT COUNT(id) FROM users WHERE email = ?;", [req.query.email]));
-    if (userExists.length > 0 && Number(userExists[0]['COUNT(id)']) == 1){
-        waitingAuths[req.query.email] = generateVerificationCode();
-        console.log(waitingAuths[req.query.email]);
-        res.sendStatus(200);
-    } else {
-        res.status(404).send("No user found with this mail");
-        return;
-    }
 })
 
 router.closeServer = () => {

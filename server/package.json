@@ -17,6 +17,7 @@
     "jest": "^29.7.0",
     "mariadb": "^3.3.1",
     "node-calendar": "^0.1.5",
+    "nodemailer": "^6.9.16",
     "supertest": "^7.0.0"
   },
   "devDependencies": {
