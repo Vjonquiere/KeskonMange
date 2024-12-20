@@ -22,8 +22,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - name: Install Lcov
-      run: sudo apt install lcov -y
     - name: Install dependencies
       run: npm ci
       working-directory: './server'
@@ -73,5 +71,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
+    - name: Install Lcov
+      run: sudo apt install lcov -y
     - name: Process Coverage
       run: lcov --list ./server/coverage/lcov.info
