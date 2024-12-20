@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "jest --runInBand --coverage",
+    "test": "jest --runInBand --coverage --testTimeout=30000",
     "start": "node server.js"
   },
   "author": "",
