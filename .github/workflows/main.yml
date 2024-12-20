@@ -56,9 +56,6 @@ jobs:
     - name: Run Tests
       run: env TZ='Europe/Paris' npm test
       working-directory: './server'
-    - name: CheckSum lcov
-      run: cksum coverage/lcov.info
-      working-directory: './server'
     - name: Archive Coverage Artifacts
       uses: actions/upload-artifact@v3
       with:
@@ -81,9 +78,6 @@ jobs:
       run: ls -l ./server/coverage
     - name: Install Lcov
       run: sudo apt install lcov -y
-    - name: CheckSum lcov
-      run: cksum coverage/lcov.info
-      working-directory: './server'
     - name: Process Coverage
       run: lcov --list coverage/lcov.info
       working-directory: './server'
