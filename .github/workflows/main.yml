@@ -18,6 +18,17 @@ jobs:
         SMTP_ADDRESS : ${{ vars.SMTP_ADDRESS }}
         SMTP_HOST : ${{ secrets.SMTP_HOST }}
         SMTP_PASSWORD : ${{ secrets.SMTP_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./server/package-lock.json
+      - name: SetUp Done
+        run: echo setup done
+        working-directory: './server'
 
   build:
     runs-on: ubuntu-latest
