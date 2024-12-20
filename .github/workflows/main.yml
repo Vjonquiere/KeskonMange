@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  setup:
+  build:
     runs-on: ubuntu-latest
     environment: test
     env:
@@ -18,11 +18,6 @@ jobs:
         SMTP_ADDRESS : ${{ vars.SMTP_ADDRESS }}
         SMTP_HOST : ${{ secrets.SMTP_HOST }}
         SMTP_PASSWORD : ${{ secrets.SMTP_PASSWORD }}
-
-  build:
-    runs-on: ubuntu-latest
-    environment: test
-    needs: setup
     strategy:
       matrix:
         node-version: [20.x]
