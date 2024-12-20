@@ -86,4 +86,5 @@ jobs:
     - name: Install Lcov
       run: sudo apt install lcov -y
     - name: Process Coverage
-      run: lcov --list ./server/coverage/lcov.info
+      run: lcov --list coverage/lcov.info
+      working-directory: './server'
