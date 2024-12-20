@@ -66,6 +66,11 @@ jobs:
     - name: Run Tests
       run: env TZ='Europe/Paris' npm test
       working-directory: './server'
+    - name: Archive test artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build-artifacts
+        path: ./server
 
   coverage:
     needs: test
@@ -80,6 +85,10 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - name: Collect Coverage
-      run: npm run test:coverage
-      working-directory: './server'
+    - name: Restore test artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: test-artifacts
+        path: ./server
+    - name: Process Coverage
+      run: lcov --list ./server/coverage/lcov.info
