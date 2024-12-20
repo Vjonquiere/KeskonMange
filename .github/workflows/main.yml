@@ -57,6 +57,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     environment: test
+    env:
+        DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+        DATABASE_USER: ${{ vars.DATABASE_USER }}
+        DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        SMTP_ADDRESS : ${{ vars.SMTP_ADDRESS }}
+        SMTP_HOST : ${{ secrets.SMTP_HOST }}
+        SMTP_PASSWORD : ${{ secrets.SMTP_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
@@ -77,6 +85,14 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     environment: test
+    env:
+        DATABASE_HOST: ${{ vars.DATABASE_HOST }}
+        DATABASE_USER: ${{ vars.DATABASE_USER }}
+        DATABASE_NAME: ${{ vars.DATABASE_NAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+        SMTP_ADDRESS : ${{ vars.SMTP_ADDRESS }}
+        SMTP_HOST : ${{ secrets.SMTP_HOST }}
+        SMTP_PASSWORD : ${{ secrets.SMTP_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
