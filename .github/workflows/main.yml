@@ -81,6 +81,8 @@ jobs:
       with:
         name: coverage-artifacts
         path: ./server/coverage/lcov.info
+    - name: Debug Coverage Directory
+      run: ls -l ./server/coverage
     - name: Install Lcov
       run: sudo apt install lcov -y
     - name: Process Coverage
