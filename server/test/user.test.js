@@ -77,3 +77,33 @@ describe('POST user/verify', () => {
         expect(res.status).toBe(405);
     });
 })
+
+describe('GET user/availableUsername', () => {
+    it('simple call', async () => {
+        const res = await request(app).get(`/user/availableUsername?username=IsAvailable`);
+        expect(res.status).toBe(200);
+    });
+    it('call on already used username', async () => {
+        const res = await request(app).get(`/user/availableUsername?username=test`);
+        expect(res.status).toBe(405);
+    });
+    it('call on missing argument (username)', async () => {
+        const res = await request(app).get(`/user/availableUsername`);
+        expect(res.status).toBe(405);
+    });
+})
+
+describe('GET user/availableEmail', () => {
+    it('simple call', async () => {
+        const res = await request(app).get(`/user/availableEmail?email=IsAvailable@mail.com`);
+        expect(res.status).toBe(200);
+    });
+    it('call on already used email', async () => {
+        const res = await request(app).get(`/user/availableEmail?email=test@test.com`);
+        expect(res.status).toBe(405);
+    });
+    it('call on missing argument (email)', async () => {
+        const res = await request(app).get(`/user/availableEmail`);
+        expect(res.status).toBe(405);
+    });
+})
