@@ -63,7 +63,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: coverage-artifacts
-        path: ./server/coverage/lcov.info
+        path: ./server/coverage
       
 
   coverage:
@@ -83,7 +83,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: coverage-artifacts
-        path: ./server/coverage/lcov.info
+        path: ./server/coverage
     - name: Debug Coverage Directory
       run: ls -l ./server/coverage
     - name: Install Lcov
