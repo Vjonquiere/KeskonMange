@@ -28,8 +28,6 @@ jobs:
     - name: Build the project (if a build script exists)
       run: npm run build --if-present
       working-directory: './server'
-    - name: Save build
-      run: mv ./server $GITHUB_WORKSPACE/server
 
   test:
     needs: build
@@ -52,16 +50,12 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - name: Restore Build
-      run: mv $GITHUB_WORKSPACE/server ./server
     - name: Install dependencies
       run: npm ci
       working-directory: './server'
     - name: Run Tests
       run: env TZ='Europe/Paris' npm test
       working-directory: './server'
-    - name: Save test
-      run: mv ./server/coverage/lcov.info $GITHUB_WORKSPACE/lcov.info
       
 
   coverage:
@@ -77,7 +71,5 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - name: Restore test
-      run: mv $GITHUB_WORKSPACE/lcov.info lcov.info
     - name: Process Coverage
-      run: lcov --list lcov.info
+      run: lcov --list ./server/coverage/lcov.info
