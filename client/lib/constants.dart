@@ -1,1 +1,1 @@
-const String SERVER_URL = "keskon-mange.fr";
+const String SERVER_URL   = "localhost:8080";

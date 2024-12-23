@@ -1,6 +1,7 @@
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'http/sign_up/verify_data.dart';
 
 class SignupPage extends StatefulWidget{
   @override
@@ -97,8 +98,17 @@ class _SignupPageState extends State<SignupPage> {
             children: <Widget>[
               ElevatedButton(
                 child: const Text('Next'),
-                onPressed: () {
+                onPressed: () async {
                   if(_usernameController.text == "")return;
+                  var isUsernameUnique = await VerifyUsernameRequest(_usernameController.text).request();
+                  if (!isUsernameUnique) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Username is already taken'),
+                          duration: Duration(milliseconds: 1500),
+                        ));
+                    return;
+                  }
                   setState(() {
                     step+=1;
                     stateValue=0.3;
@@ -140,13 +150,22 @@ class _SignupPageState extends State<SignupPage> {
             children: <Widget>[
               ElevatedButton(
                 child: const Text('Next'),
-                onPressed: () {
+                onPressed: () async {
                   if(_emailController.text == "")return;
                   final regex = RegExp((r'^[^\s@]+@[^\s@]+\.[^\s@]+$'));
                   if(!regex.hasMatch(_emailController.text)){
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Bad email.'),
+                          duration: Duration(milliseconds: 1500),
+                        ));
+                    return;
+                  }
+                  var isEmailUnique = await VerifyEmailRequest(_emailController.text).request();
+                  if (!isEmailUnique) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Email is already used'),
                           duration: Duration(milliseconds: 1500),
                         ));
                     return;
