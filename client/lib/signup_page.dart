@@ -2,6 +2,8 @@ import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'constants.dart';
+import 'http/sign_up/verify_data.dart';
 class SignupPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SignupPageState();
@@ -97,8 +99,11 @@ class _SignupPageState extends State<SignupPage> {
             children: <Widget>[
               ElevatedButton(
                 child: const Text('Next'),
-                onPressed: () {
+                onPressed: () async {
                   if(_usernameController.text == "")return;
+                  var isUnique = await VerifyUsernameRequest(_usernameController.text).request();
+                  print(isUnique);
+                  if( !isUnique ) return;
                   setState(() {
                     step+=1;
                     stateValue=0.3;
@@ -223,17 +228,7 @@ class AllergensToggle extends StatefulWidget {
 }
 
 class _AllergensToggleState extends State<AllergensToggle> {
-  //TODO: create the list with allergens
-  final List<String> allergens = [
-    "Gluten",
-    "Fish",
-    "Nuts",
-    "Eggs",
-    "Mollusks",
-    "Crustaceans",
-    "Soy",
-    "Milk"
-  ];
+
 //TODO: find the icons and put them in appicons
   final List<IconData> allergenIcons = [
     Icons.local_dining, // Gluten
@@ -246,7 +241,7 @@ class _AllergensToggleState extends State<AllergensToggle> {
     Icons.local_drink, // Milk
   ];
 
-  final List<bool> _selected = List.generate(8, (_) => false);
+  final List<bool> _selected = List.generate(14, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -262,7 +257,7 @@ class _AllergensToggleState extends State<AllergensToggle> {
           runSpacing: 8.0, // Space between lines
           children: List.generate(allergens.length, (index) {
             return FilterChip(
-              avatar: Icon(allergenIcons[index]), // Icon next to the label
+              avatar: ImageIcon(AssetImage(AppIcons.getIcon(allergens[index]))), // Icon next to the label
               label: Text(allergens[index]),
               selected: _selected[index],
               onSelected: (bool selected) {
