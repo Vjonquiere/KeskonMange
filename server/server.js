@@ -9,6 +9,7 @@ const Users = require('./routers/user');
 var bodyParser = require('body-parser');
 const database = require('./module/database');
 const app = express();
+const cors = require('cors');
 app.locals.port = 8080;
 //app.use(express.static('public'));
 
@@ -24,6 +25,14 @@ app.use(
 } catch (error) {
   console.log("Something wrong with database: " + error);
 }*/
+
+app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow all origins
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+  //res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use("/recipe", Recipe);
 app.use("/recipes", Recipes);
