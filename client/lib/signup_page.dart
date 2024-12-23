@@ -1,6 +1,7 @@
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import 'constants.dart';
 import 'http/sign_up/verify_data.dart';
@@ -101,9 +102,15 @@ class _SignupPageState extends State<SignupPage> {
                 child: const Text('Next'),
                 onPressed: () async {
                   if(_usernameController.text == "")return;
-                  var isUnique = await VerifyUsernameRequest(_usernameController.text).request();
-                  print(isUnique);
-                  if( !isUnique ) return;
+                  var isUsernameUnique = await VerifyUsernameRequest(_usernameController.text).request();
+                  if (!isUsernameUnique) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Username is already taken'),
+                          duration: Duration(milliseconds: 1500),
+                        ));
+                    return;
+                  }
                   setState(() {
                     step+=1;
                     stateValue=0.3;
@@ -145,13 +152,22 @@ class _SignupPageState extends State<SignupPage> {
             children: <Widget>[
               ElevatedButton(
                 child: const Text('Next'),
-                onPressed: () {
+                onPressed: () async {
                   if(_emailController.text == "")return;
                   final regex = RegExp((r'^[^\s@]+@[^\s@]+\.[^\s@]+$'));
                   if(!regex.hasMatch(_emailController.text)){
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Bad email.'),
+                          duration: Duration(milliseconds: 1500),
+                        ));
+                    return;
+                  }
+                  var isEmailUnique = await VerifyEmailRequest(_emailController.text).request();
+                  if (!isEmailUnique) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Email is already used'),
                           duration: Duration(milliseconds: 1500),
                         ));
                     return;
@@ -256,8 +272,9 @@ class _AllergensToggleState extends State<AllergensToggle> {
           spacing: 8.0, // Space between buttons
           runSpacing: 8.0, // Space between lines
           children: List.generate(allergens.length, (index) {
+            print(allergens[index]);
             return FilterChip(
-              avatar: ImageIcon(AssetImage(AppIcons.getIcon(allergens[index]))), // Icon next to the label
+              avatar: SvgPicture.asset(AppIcons.getIcon(allergens[index])), // Icon next to the label
               label: Text(allergens[index]),
               selected: _selected[index],
               onSelected: (bool selected) {

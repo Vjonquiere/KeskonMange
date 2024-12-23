@@ -1,6 +1,9 @@
+import 'package:client/home_page.dart';
 import 'package:client/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'http/sign_in.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -71,8 +74,30 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ElevatedButton(
                   child: const Text('Sign in'),
-                  onPressed: () {
+                  onPressed: () async {
                     if(_emailController.text == "")return;
+                    if(signInPressed){
+                      var verifyCode = VerifyAuthenticationCode(_emailController.text, _passwordController.text);
+                      if (!(await verifyCode.request())){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(verifyCode.body),
+                              duration: const Duration(milliseconds: 1500),
+                            ));
+                        return;
+                      }
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                      return;
+                    }
+                    var sendCode =  GetAuthenticationCode(_emailController.text);
+                    if(!(await sendCode.request())){
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(sendCode.body),
+                            duration: const Duration(milliseconds: 1500),
+                          ));
+                      return;
+                    }
                     setState(() {
                       signInPressed = true;
                       ScaffoldMessenger.of(context).showSnackBar(
