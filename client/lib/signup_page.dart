@@ -1,6 +1,7 @@
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'colorful_text_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'constants.dart';
@@ -48,10 +49,10 @@ class _SignupPageState extends State<SignupPage> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             const SizedBox(height: 20.0),
-            const Column(
+            Column(
               children: <Widget>[
-                SizedBox(height: 16.0),
-                Text("Let's get to know you"),
+                const SizedBox(height: 16.0),
+                ColorfulTextBuilder("Let's get to know you", 50, true).getWidget(),
               ],
             ),
             const SizedBox(height: 20.0),
@@ -77,10 +78,10 @@ class _SignupPageState extends State<SignupPage> {
   Widget usernameStep(BuildContext context){
     return Column(
         children: <Widget>[
-          const Column(
+          Column(
             children: <Widget>[
-              SizedBox(height: 16.0),
-              Text("How should we call you?"),
+              const SizedBox(height: 16.0),
+              ColorfulTextBuilder("How should we call you?", 40).getWidget(),
             ],
           ),
           const SizedBox(height: 20.0),
@@ -131,10 +132,10 @@ class _SignupPageState extends State<SignupPage> {
   Widget emailStep(BuildContext context){
     return Column(
         children: <Widget>[
-          const Column(
+          Column(
             children: <Widget>[
-              SizedBox(height: 16.0),
-              Text("How can we contact you?"),
+              const SizedBox(height: 16.0),
+              ColorfulTextBuilder("How can we contact you?", 40).getWidget(),
             ],
           ),
           const SizedBox(height: 20.0),
@@ -192,11 +193,11 @@ class _SignupPageState extends State<SignupPage> {
   Widget postCodeStep(BuildContext context){
     return Column(
         children: <Widget>[
-          const Column(
+          Column(
             children: <Widget>[
-              SizedBox(height: 16.0),
-              Text("Where do you live?"),
-              Text('This data will be used to give you recipes based on the weather.'),
+              const SizedBox(height: 16.0),
+              ColorfulTextBuilder("Where do you live?", 40).getWidget(),
+              ColorfulTextBuilder('This data will be used to give you recipes based on the weather.', 20).getWidget(),
             ],
           ),
           const SizedBox(height: 20.0),
@@ -245,34 +246,18 @@ class AllergensToggle extends StatefulWidget {
 
 class _AllergensToggleState extends State<AllergensToggle> {
 
-//TODO: find the icons and put them in appicons
-  final List<IconData> allergenIcons = [
-    Icons.local_dining, // Gluten
-    Icons.apple, // Fish
-    Icons.nature, // Nuts
-    Icons.fastfood, // Eggs
-    Icons.pool, // Mollusks
-    Icons.wine_bar, // Crustaceans
-    Icons.spa, // Soy
-    Icons.local_drink, // Milk
-  ];
-
   final List<bool> _selected = List.generate(14, (_) => false);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          "Do you have allergens?",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-        ),
+        ColorfulTextBuilder("Do you have allergens?", 40).getWidget(),
         const SizedBox(height: 16.0),
         Wrap(
           spacing: 8.0, // Space between buttons
           runSpacing: 8.0, // Space between lines
           children: List.generate(allergens.length, (index) {
-            print(allergens[index]);
             return FilterChip(
               avatar: SvgPicture.asset(AppIcons.getIcon(allergens[index])), // Icon next to the label
               label: Text(allergens[index]),
