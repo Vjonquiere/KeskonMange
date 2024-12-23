@@ -259,7 +259,7 @@ class _AllergensToggleState extends State<AllergensToggle> {
           runSpacing: 8.0, // Space between lines
           children: List.generate(allergens.length, (index) {
             return FilterChip(
-              avatar: SvgPicture.asset(AppIcons.getIcon(allergens[index])), // Icon next to the label
+              avatar: SvgPicture.asset(AppIcons.getIcon(allergens[index])),
               label: Text(allergens[index]),
               selected: _selected[index],
               onSelected: (bool selected) {
