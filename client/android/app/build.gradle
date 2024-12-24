@@ -19,6 +19,12 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8
     }
 
+    dependencies {
+        implementation 'com.google.errorprone:error_prone_annotations:2.36.0' // required by flutter_secure_storage
+        implementation 'com.github.spotbugs:spotbugs-annotations:4.8.6' // required by flutter_secure_storage
+    }
+
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "fr.keskonmange.client"

@@ -3,6 +3,8 @@ import 'package:client/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:client/colorful_text_builder.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:convert';
 
 import 'http/sign_in.dart';
 
@@ -72,6 +74,12 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Sign in'),
                   onPressed: () async {
                     if(_emailController.text == "")return;
+                    const storage = FlutterSecureStorage(); // Where API key is stored
+                    String? API_KEY = await storage.read(key: 'API_KEY');
+                    if (API_KEY != null){ // If an API key is present just pass Authentication
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
+                      return;
+                    }
                     if(signInPressed){
                       var verifyCode = VerifyAuthenticationCode(_emailController.text, _passwordController.text);
                       if (!(await verifyCode.request())){
@@ -82,7 +90,11 @@ class _LoginPageState extends State<LoginPage> {
                             ));
                         return;
                       }
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                      final apiKey = jsonDecode(verifyCode.body) as Map<String, dynamic>;
+                      if (apiKey.containsKey('token')){
+                        await storage.write(key: 'API_KEY', value: apiKey["token"]); // Put the API key in storage
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                      }
                       return;
                     }
                     var sendCode =  GetAuthenticationCode(_emailController.text);
