@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 var bodyParser = require('body-parser');
 var database = require('../module/database');
-const crypto = require('crypto');
 const mailer = require('../module/mailer');
+const token = require('../module/token');
 const conn = database.conn;
 
 var waitingAuths = {}
@@ -23,24 +23,6 @@ function generateVerificationCode(){
         code += chars.charAt(Math.floor(Math.random() * charactersLength));
     }
     return code;
-}
-
-function generateApiKey() {
-    return crypto.randomBytes(30).toString('hex');
-}
-
-async function checkApiKey(req, res, next) {
-    const apiKey = req.headers['x-api-key'];
-    const username = req.headers['username'];
-    if (!apiKey) {
-        return res.status(401).send("No API key found");
-    }
-    const client = await conn.query("SELECT COUNT(username) FROM ")
-    if (!client) {
-        return res.status(403).json({ error: 'Clé API invalide' });
-    }
-    req.client = client;
-    next();
 }
 
 /**
@@ -86,15 +68,8 @@ router.post('/signin', async (req, res) => {
     } else {
         if (waitingAuths[req.query.email] == req.query.code){
             waitingAuths[req.query.email] = undefined;
-            const token = generateApiKey();
-            const tokenSHA256 = crypto.createHash('sha256').update(token).digest('hex');
-            const date = new Date();
-            let formattedBeginDate = date.toISOString().split('T')[0];
-            date.setDate(date.getDate() + 30);
-            let formattedExpireDate = date.toISOString().split('T')[0];
-            let userId = await conn.query("SELECT * FROM users WHERE email = ?;", [req.query.email]);
-            await conn.query("INSERT INTO authentication VALUES (?,?,?,?,0);", [tokenSHA256, userId[0].id, formattedBeginDate, formattedExpireDate]);
-            res.status(200).send(JSON.stringify({"token":token}));
+            const userToken = await token.generateAuthToken(req.query.email);      
+            res.status(200).send(JSON.stringify({"token":userToken}));
             return;
         }
         res.sendStatus(404);
