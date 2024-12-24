@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require('../module/database');
 const conn = database.conn;
+const mailer = require('../module/mailer');
 
 
 let verification = {}
@@ -16,6 +17,94 @@ function generateVerificationCode(){
     return code;
 }
 
+
+/**
+ * @api [get] /user/availableUsername
+ * tags : 
+ *  - User
+ * description: "Check if the given username is free an can be used"
+ * parameters:
+ * - name: username
+ *   in: query
+ *   description: The username you wan't to check for availability
+ *   required: true
+ *   type: string
+ *
+ * responses:
+ *   "200":
+ *     description: "The username is free"
+ *   "405":
+ *      description: "The username is not free"
+ */
+router.get('/availableUsername', async (req, res) =>{
+    if (req.query.username === undefined){
+        res.status(405).send("A username is required to create an account");
+        return;
+    }
+    const usernameUnique = await conn.query("SELECT COUNT(id) FROM users WHERE username = ?;", [req.query.username]);
+    if (Array.from(usernameUnique)[0]['COUNT(id)'] > 0){
+        res.status(405).send("This username is taken by another user, find a new one!");
+        return;
+    }
+    res.sendStatus(200);
+})
+
+
+/**
+ * @api [get] /user/availableEmail
+ * tags : 
+ *  - User
+ * description: "Check if the given email is free an can be used"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email you wan't to check for availability
+ *   required: true
+ *   type: string
+ *
+ * responses:
+ *   "200":
+ *     description: "The email is not taken"
+ *   "405":
+ *      description: "The username is already used"
+ */
+router.get('/availableEmail', async (req, res) =>{
+    if (req.query.email === undefined){
+        res.status(405).send("An email is required to create an account");
+        return;
+    }
+    const emailUnique = await conn.query("SELECT COUNT(id) FROM users WHERE email = ?;", [req.query.email]);
+    if (Array.from(emailUnique)[0]['COUNT(id)'] > 0){
+        res.status(405).send("Email is already used, try connect instead");
+        return;
+    }
+    res.sendStatus(200);
+})
+
+
+/**
+ * @api [post] /user/create
+ * tags : 
+ *  - User
+ * description: "Create a new user"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email of the account
+ *   required: true
+ *   type: string
+* - name: username
+ *   in: query
+ *   description: The username of the account
+ *   required: true
+ *   type: string
+ *
+ * responses:
+ *   "200":
+ *     description: "The user has been added"
+ *   "405":
+ *      description: "The user can't be added (see error string)"
+ */
 router.post('/create', async (req, res) => {
     if (req.query.email === undefined || req.query.username === undefined){
         res.status(405).send("An email and a username are required to create an account");
@@ -41,9 +130,36 @@ router.post('/create', async (req, res) => {
     const verificationCode = generateVerificationCode();
     await conn.query("INSERT INTO verify VALUES (?, ?);", [req.query.email, verificationCode]);
     await conn.query("INSERT INTO users VALUES (NULL, ?, ?, NULL);", [req.query.email, req.query.username]);
+    await mailer.sendVerificationCode(req.query.email, req.query.username, verificationCode, "en");
     res.sendStatus(200);
 })
 
+
+/**
+ * @api [post] /user/verify
+ * tags : 
+ *  - User
+ * description: "Verify an account"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email of the account
+ *   required: true
+ *   type: string
+* - name: code
+ *   in: query
+ *   description: The code sent by mail
+ *   required: true
+ *   type: number
+ *
+ * responses:
+ *   "200":
+ *     description: "The user has been verified and created"
+ *   "204":
+ *     description: "No matching data"
+ *   "405":
+ *      description: "At least one argument is missing"
+ */
 router.post('/verify', async (req, res) => {
     if (req.query.email === undefined || req.query.code === undefined || isNaN(Number(req.query.code))){
         res.status(405).send("Need to specify an email and a verification code");
