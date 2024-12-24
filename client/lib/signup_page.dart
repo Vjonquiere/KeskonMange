@@ -1,3 +1,5 @@
+import 'package:client/home_page.dart';
+import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -21,6 +23,13 @@ class _SignupPageState extends State<SignupPage> {
   ListView element=ListView();
   var stateValue = 0.0;
   var step = 0;
+
+  void nextStep(){
+    setState(() {
+      step += 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content;
@@ -37,7 +46,11 @@ class _SignupPageState extends State<SignupPage> {
         content = postCodeStep(context);
         break;
       case 3:
-        content = AllergensToggle();
+        content = AllergensToggle(this);
+        break;
+      case 4:
+        CreateAccountRequest(_emailController.text, _usernameController.text).request();
+        content = accountVerification(context);
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -237,16 +250,73 @@ class _SignupPageState extends State<SignupPage> {
         ]
     );
   }
+
+Widget accountVerification(BuildContext context) {
+  final verificationCodeController = TextEditingController();
+  return Column(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            const SizedBox(height: 16.0),
+            ColorfulTextBuilder("Let's finalise the setup!", 40).getWidget(),
+            ColorfulTextBuilder('Enter the code we have sent by mail', 20)
+                .getWidget(),
+          ],
+        ),
+        const SizedBox(height: 20.0),
+        // [username]
+        TextField(
+          controller: verificationCodeController,
+          decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Code (via mail)',
+          ),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly
+          ],
+        ),
+        const SizedBox(height: 20.0),
+        OverflowBar(
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: const Text('Next'),
+              onPressed: () async {
+                if (verificationCodeController.text == "") return;
+                var verificationRequest = UserVerificationRequest(_emailController.text, verificationCodeController.text);
+                if (!(await verificationRequest.request())){
+                  ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                  content: Text("Verification code is not valid"),
+                  duration: Duration(milliseconds: 1500),
+                  ));
+                  return;
+                }
+                // TODO: save the token in storage
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+              },
+            ),
+          ],
+        ),
+      ]
+  );
+}
 }
 
 class AllergensToggle extends StatefulWidget {
+  final _SignupPageState _signupPageState;
+  const AllergensToggle(this._signupPageState);
+
   @override
-  _AllergensToggleState createState() => _AllergensToggleState();
+  _AllergensToggleState createState() => _AllergensToggleState(_signupPageState);
 }
 
 class _AllergensToggleState extends State<AllergensToggle> {
-
+  final _SignupPageState _signupPageState;
   final List<bool> _selected = List.generate(14, (_) => false);
+
+  _AllergensToggleState(this._signupPageState);
 
   @override
   Widget build(BuildContext context) {
@@ -269,6 +339,25 @@ class _AllergensToggleState extends State<AllergensToggle> {
               },
             );
           }),
+        ),
+        const SizedBox(height: 20.0),
+        OverflowBar(
+          alignment: MainAxisAlignment.center,
+          children: <Widget>[
+            ElevatedButton(
+              child: const Text('Next'),
+              onPressed: () {
+                setState(() {
+                  _signupPageState.nextStep();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Sending a request to server.'),
+                        duration: Duration(milliseconds: 1500),
+                      ));
+                });
+              },
+            ),
+          ],
         ),
         //TODO: add Next button
       ],
