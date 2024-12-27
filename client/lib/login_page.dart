@@ -16,8 +16,22 @@ class LoginPage extends StatefulWidget{
 class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final storage = const FlutterSecureStorage(); // Where API key is stored
 
   var signInPressed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_)  async {
+      String? API_KEY = await storage.read(key: 'API_KEY');
+        if (API_KEY != null){ // If an API key is present just pass Authentication
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
+          return;
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
