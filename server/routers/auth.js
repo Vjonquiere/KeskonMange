@@ -77,6 +77,60 @@ router.post('/signin', async (req, res) => {
     
 })
 
+/**
+ * @api [post] /auth/test
+ * tags : 
+ *  - Auth
+ * description: "Check if the authentication is possible with the given key and email"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email of the account you want to check validity
+ *   required: true
+ *   type: string
+ * - name: api_key
+ *   in: query
+ *   description: The user API key
+ *   required: true
+ *   type: string
+ * 
+ * responses:
+ *   "200":
+ *     description: "Token is valid"
+ *   "204":
+ *     description: "No matching data"
+ *   "410":
+ *      description: "The connexion token has expired"
+ *   "405":
+ *      description: "Missing argument" 
+*/
+router.post('/test', async (req, res) => {
+    if (req.query.email === undefined || req.query.api_key === undefined){
+        res.status(405).send("You must specify the email and the token you want to check");
+        return
+    }
+    const tokenValidity = Array.from(await conn.query("SELECT userId, expire FROM authentication WHERE token = ?;", [token.getApiKeyHash(req.query.api_key)]));
+    if (tokenValidity.length > 0){
+        const userEmail = await conn.query("SELECT email FROM users WHERE id = ?;", [tokenValidity[0]["userId"]]);
+        if (userEmail[0]["email"] == req.query.email){
+            let today = new Date();
+            let expire_date = new Date(tokenValidity[0]["expire"]);
+            if (today <= expire_date){
+                res.sendStatus(200);
+                return;
+            } else {
+                res.status(410).send("Your access token has expired");
+                return;
+                // TODO: remove or renew the token
+            }
+            
+        }
+    }
+    res.sendStatus(204);
+
+    
+})
+
 router.closeServer = () => {
     console.log("Auth Closed");
 };
