@@ -25,8 +25,21 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_)  async {
       String? API_KEY = await storage.read(key: 'API_KEY');
-        if (API_KEY != null){ // If an API key is present just pass Authentication
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
+      String? email = await storage.read(key: 'EMAIL');
+        if (API_KEY != null && email != null){ // If an API key is present just pass Authentication
+          var req = CheckAPIKeyValidity(email, API_KEY);
+          var code = await req.request();
+          if (code == 200){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
+          } else {
+            await storage.delete(key: 'API_KEY');
+            await storage.read(key: 'EMAIL');
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(req.body),
+                  duration: const Duration(milliseconds: 1500),
+                ));
+          }
           return;
       }
     });
@@ -88,12 +101,6 @@ class _LoginPageState extends State<LoginPage> {
                   child: const Text('Sign in'),
                   onPressed: () async {
                     if(_emailController.text == "")return;
-                    const storage = FlutterSecureStorage(); // Where API key is stored
-                    String? API_KEY = await storage.read(key: 'API_KEY');
-                    if (API_KEY != null){ // If an API key is present just pass Authentication
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
-                      return;
-                    }
                     if(signInPressed){
                       var verifyCode = VerifyAuthenticationCode(_emailController.text, _passwordController.text);
                       if (!(await verifyCode.request())){
@@ -107,6 +114,7 @@ class _LoginPageState extends State<LoginPage> {
                       final apiKey = jsonDecode(verifyCode.body) as Map<String, dynamic>;
                       if (apiKey.containsKey('token')){
                         await storage.write(key: 'API_KEY', value: apiKey["token"]); // Put the API key in storage
+                        await storage.write(key: 'EMAIL', value: _emailController.text);
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
                       }
                       return;

@@ -46,3 +46,25 @@ class VerifyAuthenticationCode {
   }
 
 }
+
+class CheckAPIKeyValidity {
+  final String _email;
+  final String _token;
+  String body = "";
+  CheckAPIKeyValidity(this._email, this._token);
+
+  Future<int> request() async {
+    try {
+      var url = Uri.http(Constants.SERVER_URL, 'auth/test', <String, String>{"email":_email, "api_key":_token});
+      var response = await http.post(url);
+      body = response.body;
+      return response.statusCode;
+    } on Exception catch (e){
+      if (kDebugMode) {
+        print (e);
+      }
+      body = "Unable to contact server";
+      return -1;
+    }
+  }
+}
