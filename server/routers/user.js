@@ -3,6 +3,7 @@ const router = express.Router();
 const database = require('../module/database');
 const conn = database.conn;
 const mailer = require('../module/mailer');
+const token = require('../module/token')
 
 
 let verification = {}
@@ -139,7 +140,7 @@ router.post('/create', async (req, res) => {
  * @api [post] /user/verify
  * tags : 
  *  - User
- * description: "Verify an account"
+ * description: "Verify an account, create an API key and send it to user"
  * parameters:
  * - name: email
  *   in: query
@@ -154,7 +155,7 @@ router.post('/create', async (req, res) => {
  *
  * responses:
  *   "200":
- *     description: "The user has been verified and created"
+ *     description: "The user has been verified and created (api key sent)"
  *   "204":
  *     description: "No matching data"
  *   "405":
@@ -173,7 +174,8 @@ router.post('/verify', async (req, res) => {
         await conn.query("UPDATE users SET verified = ? WHERE email = ?;", [formattedDate, req.query.email]);
         await conn.query("DELETE FROM verify WHERE email = ?;", [req.query.email]);
         verification[req.query.email] = undefined;
-        res.status(200).send("User has been created");
+        const userToken = await token.generateAuthToken(req.query.email);
+        res.status(200).send(JSON.stringify({"token":userToken}));
         return;
     }
     res.sendStatus(204);
