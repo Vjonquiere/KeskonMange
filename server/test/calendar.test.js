@@ -141,8 +141,8 @@ describe('GET calendar/completeMonth', () => {
     const res = await request(app).get('/calendar/completeMonth?previous=Nan').send();
     expect(res.status).toBe(405);
   });
-  it('call on wrong argument (previous)', async () => {
-    const res = await request(app).get('/calendar/completeMonth?previous=-1').send(); // -1 to get next month
+  it('call on empty month', async () => {
+    const res = await request(app).get('/calendar/completeMonth?previous=-2').send(); // -2 to get 2 months in the future
     expect(res.status).toBe(204); // No recipes found for the given month
   });
 })
