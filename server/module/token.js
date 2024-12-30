@@ -20,6 +20,10 @@ function generateApiKey() {
     return crypto.randomBytes(30).toString('hex');
 }
 
+function getApiKeyHash(token){
+    return crypto.createHash('sha256').update(token).digest('hex');
+}
+
 async function generateAuthToken(email){
     const token = generateApiKey();
     const tokenSHA256 = crypto.createHash('sha256').update(token).digest('hex');
@@ -33,5 +37,6 @@ async function generateAuthToken(email){
 }
 
 module.exports = {
-    generateAuthToken : generateAuthToken
+    generateAuthToken : generateAuthToken,
+    getApiKeyHash : getApiKeyHash
 };
