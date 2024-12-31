@@ -22,7 +22,7 @@ afterAll(async () => {
 
 describe('POST user/create', () => {
     it('simple call', async () => {
-      const res = await request(app).post('/user/create?email=test%40test.com&username=test');
+      const res = await request(app).post(`/user/create?email=${process.env.POP3_ADDRESS}&username=test`);
       expect(res.status).toBe(200);
     });
     it('call with missing parameter (email)', async () => {
@@ -30,7 +30,7 @@ describe('POST user/create', () => {
         expect(res.status).toBe(405);
     });
     it('call with missing parameter (username)', async () => {
-        const res = await request(app).post('/user/create?email=test%40test.com');
+        const res = await request(app).post(`/user/create?email=${process.env.POP3_ADDRESS}`);
         expect(res.status).toBe(405);
     });
     it('call on wrong email', async () => {
@@ -46,12 +46,12 @@ describe('POST user/create', () => {
         expect(res.status).toBe(405);
     });
     it('email already used', async () => {
-        const res = await request(app).post('/user/create?email=test%40test.com&username=test2');
+        const res = await request(app).post(`/user/create?email=${process.env.POP3_ADDRESS}&username=test2`);
         expect(res.status).toBe(405);
         expect(res.text).toBe("Email is already used, try connect instead");
     });
     it('username already used', async () => {
-        const res = await request(app).post('/user/create?email=test%40test2.com&username=test');
+        const res = await request(app).post(`/user/create?email=${process.env.POP3_ADDRESS}m&username=test`);
         expect(res.status).toBe(405);
         expect(res.text).toBe("This username is taken by another user, find a new one!");
     });
@@ -59,9 +59,9 @@ describe('POST user/create', () => {
 
 describe('POST user/verify', () => {
     it('simple call', async () => {
-        const verificationCode = Array.from(await conn.query("SELECT code FROM verify WHERE email = ?;", ["test@test.com"]))[0]["code"]; // User previously created
+        const verificationCode = Array.from(await conn.query("SELECT code FROM verify WHERE email = ?;", [process.env.POP3_ADDRESS]))[0]["code"]; // User previously created
         console.log(verificationCode);
-        const res = await request(app).post(`/user/verify?email=test%40test.com&code=${verificationCode}`);
+        const res = await request(app).post(`/user/verify?email=${process.env.POP3_ADDRESS}&code=${verificationCode}`);
         expect(res.status).toBe(200);
     });
     it('call on unknown values', async () => {
@@ -99,7 +99,7 @@ describe('GET user/availableEmail', () => {
         expect(res.status).toBe(200);
     });
     it('call on already used email', async () => {
-        const res = await request(app).get(`/user/availableEmail?email=test@test.com`);
+        const res = await request(app).get(`/user/availableEmail?email=${process.env.POP3_ADDRESS}`);
         expect(res.status).toBe(405);
     });
     it('call on missing argument (email)', async () => {

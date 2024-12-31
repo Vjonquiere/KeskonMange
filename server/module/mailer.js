@@ -22,8 +22,15 @@ async function sendAuthCode(emailAddress, code, lang){
                 html: `<b>Welcome back! Here is your code: ${code}<br>Have a nice day!<br>KeskonMange team.</b>`,
               });
             return info.response;
+        case "debug":
+          const debugMail = await mailer.sendMail({
+              from: `"KeskonMange TEST_SESSION" <${process.env.SMTP_ADDRESS}>`,
+              to: `${emailAddress}, ${emailAddress}`,
+              subject: `${code}`,
+            });
+          return debugMail.response;
         default:
-            return sendAuthCode(emailAddress, "en");
+            return sendAuthCode(emailAddress, code, "en");
     }
 
 }
