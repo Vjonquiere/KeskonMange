@@ -60,6 +60,7 @@ app.closeServer = () => {
   Ingredient.closeServer();
   RecipeBook.closeServer();
   Users.closeServer();
+  Auth.closeServer();
   database.end();
   server.close();
 };

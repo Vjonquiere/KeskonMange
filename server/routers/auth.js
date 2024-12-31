@@ -36,6 +36,11 @@ function generateVerificationCode(){
  *   description: The email of the account you want to create a new connexion
  *   required: true
  *   type: string
+ * - name: lang
+ *   in: query
+ *   description: The language of the mail
+ *   required: false
+ *   type: string
  * - name: code
  *   in: query
  *   description: If present, check if an entry is valid for given email and code, if true it generates token and send it to the user
@@ -59,7 +64,7 @@ router.post('/signin', async (req, res) => {
         const userExists = Array.from(await conn.query("SELECT COUNT(id) FROM users WHERE email = ?;", [req.query.email]));
         if (userExists.length > 0 && Number(userExists[0]['COUNT(id)']) == 1){
             waitingAuths[req.query.email] = generateVerificationCode();
-            console.log("Mail sent to " + req.query.email + " status: " + await mailer.sendAuthCode(req.query.email, waitingAuths[req.query.email], "en"));
+            console.log("Mail sent to " + req.query.email + " status: " + await mailer.sendAuthCode(req.query.email, waitingAuths[req.query.email], req.query.lang));
             res.sendStatus(200);
         } else {
             res.status(404).send("No user found with this mail");
