@@ -41,6 +41,9 @@ jobs:
         SMTP_ADDRESS : ${{ vars.SMTP_ADDRESS }}
         SMTP_HOST : ${{ secrets.SMTP_HOST }}
         SMTP_PASSWORD : ${{ secrets.SMTP_PASSWORD }}
+        POP3_ADDRESS : ${{ vars.POP3_ADDRESS }}
+        POP3_HOST : ${{ secrets.POP3_HOST }}
+        POP3_PASSWORD : ${{ secrets.POP3_PASSWORD }}
 
     steps:
     - uses: actions/checkout@v4
