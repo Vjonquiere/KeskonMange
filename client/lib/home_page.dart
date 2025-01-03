@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'colorful_text_builder.dart';
+
 class HomePage extends StatefulWidget {
   @override
   State<HomePage> createState() => _HomePageState();
@@ -16,7 +18,7 @@ class _HomePageState extends State<HomePage> {
     Widget page;
     switch (selectedIndex) {
       case 0:
-        page = const Placeholder();
+        page = home(context);
         break;
       case 1:
         page = const Placeholder();
@@ -94,6 +96,15 @@ class _HomePageState extends State<HomePage> {
           }
         },
       ),
+    );
+  }
+
+  Widget home(context){
+    return Column(
+      children: [
+        const Card(color: Color.fromARGB(100, 23, 23, 1),),
+        ColorfulTextBuilder("Aujourd'hui", 25).getWidget(),
+      ],
     );
   }
 }
