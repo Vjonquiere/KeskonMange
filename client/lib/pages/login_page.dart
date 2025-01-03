@@ -1,12 +1,12 @@
-import 'package:client/home_page.dart';
-import 'package:client/signup_page.dart';
+import 'package:client/pages/home_page.dart';
+import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:client/colorful_text_builder.dart';
+import 'package:client/custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
-import 'http/sign_in.dart';
+import '../http/sign_in.dart';
 
 class LoginPage extends StatefulWidget{
   @override
