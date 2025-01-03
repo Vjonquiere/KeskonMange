@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:client/home_page.dart';
+import 'package:client/pages/home_page.dart';
 import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'colorful_text_builder.dart';
+import '../custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'constants.dart';
-import 'http/sign_up/verify_data.dart';
+import '../constants.dart';
+import '../http/sign_up/verify_data.dart';
 class SignupPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SignupPageState();

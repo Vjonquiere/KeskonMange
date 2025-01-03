@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'colorful_text_builder.dart';
+import '../custom_widgets/colorful_text_builder.dart';
 
 class HomePage extends StatefulWidget {
   @override
