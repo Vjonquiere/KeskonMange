@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:client/home_page.dart';
 import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'colorful_text_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -17,6 +20,7 @@ class _SignupPageState extends State<SignupPage> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _postcodeController = TextEditingController();
+  final storage = const FlutterSecureStorage();
 
   List<String> _userAllergens = <String>[];
 
@@ -293,7 +297,11 @@ Widget accountVerification(BuildContext context) {
                   ));
                   return;
                 }
-                // TODO: save the token in storage
+                final apiKey = jsonDecode(verificationRequest.body) as Map<String, dynamic>;
+                if (apiKey.containsKey('token')) {
+                  await storage.write(key: 'API_KEY', value: apiKey["token"]);
+                  await storage.write(key: 'EMAIL', value: _emailController.text);
+                }
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
               },
             ),
