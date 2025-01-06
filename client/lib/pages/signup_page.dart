@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:client/pages/home_page.dart';
 import 'package:client/http/sign_up/account_creation.dart';
+import 'package:client/pages/login_page.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,11 +28,22 @@ class _SignupPageState extends State<SignupPage> {
   ListView element=ListView();
   var stateValue = 0.0;
   var step = 0;
+  var nbSteps =4;
 
   void nextStep(){
     setState(() {
       step += 1;
     });
+  }
+
+  void previousStep(){
+    setState(() {
+      step -= 1;
+    });
+  }
+
+  double oneStep(){
+    return 1/nbSteps;
   }
 
   @override
@@ -116,6 +128,12 @@ class _SignupPageState extends State<SignupPage> {
           OverflowBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
+              TextButton(
+                child: const Text('Go Back'),
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => LoginPage()));
+                },
+              ),
               ElevatedButton(
                 child: const Text('Next'),
                 onPressed: () async {
@@ -131,7 +149,7 @@ class _SignupPageState extends State<SignupPage> {
                   }
                   setState(() {
                     step+=1;
-                    stateValue=0.3;
+                    stateValue+=oneStep();
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Sending a request to server.'),
@@ -168,6 +186,15 @@ class _SignupPageState extends State<SignupPage> {
           OverflowBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
+              TextButton(
+                child: const Text('Go Back'),
+                onPressed: () {
+                  setState(() {
+                    previousStep();
+                   stateValue-=oneStep();
+                  });
+                },
+              ),
               ElevatedButton(
                 child: const Text('Next'),
                 onPressed: () async {
@@ -192,7 +219,7 @@ class _SignupPageState extends State<SignupPage> {
                   }
                   setState(() {
                     step+=1;
-                    stateValue+=0.3;
+                    stateValue+=oneStep();
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Sending a request to server.'),
@@ -234,13 +261,22 @@ class _SignupPageState extends State<SignupPage> {
           OverflowBar(
             alignment: MainAxisAlignment.center,
             children: <Widget>[
+              TextButton(
+                child: const Text('Go Back'),
+                onPressed: () {
+                  setState(() {
+                    previousStep();
+                    stateValue-=oneStep();
+                  });
+                },
+              ),
               ElevatedButton(
                 child: const Text('Next'),
                 onPressed: () {
                   if(_postcodeController.text == "")return;
                   setState(() {
                     step+=1;
-                    stateValue+=0.3;
+                    stateValue+=oneStep();
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Sending a request to server.'),
@@ -352,6 +388,15 @@ class _AllergensToggleState extends State<AllergensToggle> {
         OverflowBar(
           alignment: MainAxisAlignment.center,
           children: <Widget>[
+            TextButton(
+              child: const Text('Go Back'),
+              onPressed: () {
+                setState(() {
+                  _signupPageState.previousStep();
+                  _signupPageState.stateValue-=_signupPageState.oneStep();
+                });
+              },
+            ),
             ElevatedButton(
               child: const Text('Next'),
               onPressed: () {
@@ -367,7 +412,6 @@ class _AllergensToggleState extends State<AllergensToggle> {
             ),
           ],
         ),
-        //TODO: add Next button
       ],
     );
   }
