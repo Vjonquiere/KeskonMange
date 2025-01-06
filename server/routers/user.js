@@ -4,6 +4,9 @@ const database = require('../module/database');
 const conn = database.conn;
 const mailer = require('../module/mailer');
 const token = require('../module/token')
+const constants = require('../module/constants');
+
+const ALLERGEN_NUMBER = constants.ALLERGEN_NUMBER; 
 
 
 let verification = {}
@@ -179,6 +182,51 @@ router.post('/verify', async (req, res) => {
         return;
     }
     res.sendStatus(204);
+})
+
+/**
+ * @api [post] /user/allergens
+ * tags : 
+ *  - User
+ * description: "Check or change the allergens of an user"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email of the account
+ *   required: true
+ *   type: string
+ * responses:
+ *   "200":
+ *     description: "Allergens updated or list sent"
+ *   "405":
+ *      description: "Email is needed"
+ */ //TODO: complete doc
+router.post('/allergens', async (req, res) => {
+    if (req.query.email === undefined){
+        res.status(405).send("Can't set allergens on an unknown account");
+        return;
+    }
+    if (req.body.hasOwnProperty("allergens")){
+        const allergens = Array.from(req.body.allergens);
+        for (let i=0; i<allergens.length; i++){
+            if (!isNaN(Number(allergens[i])) && allergens[i] < ALLERGEN_NUMBER){
+                conn.query("INSERT INTO allergens VALUES (1, ?);", [allergens[i]]) // TODO: Temp code (user auth is not implemented enough)
+            }
+        }
+        res.sendStatus(200);
+        return;
+    } else {
+        const allergens = await conn.query("SELECT allergenId AS allergen FROM allergens JOIN users on allergens.userId = users.id WHERE users.email = ?;", [req.query.email]);
+        if (allergens.length > 0){
+            const allergensList = [];
+            for (let i=0; i<allergens.length; i++)
+                allergensList.push(allergens[i]["allergen"])
+            res.status(200).send(JSON.stringify({"allergens": allergensList}));
+            return;
+        }
+        res.status(200).send(JSON.stringify({"allergens": []}));
+        return;
+    }
 })
 
 router.closeServer = () => {
