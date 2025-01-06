@@ -59,6 +59,11 @@ flutter:
   assets:
     - assets/
     - assets/icons/allergens/
+    - assets/icons/
+    - assets/icons/recipes/
+    - assets/icons/recipe_book/
+    - assets/icons/weather/
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

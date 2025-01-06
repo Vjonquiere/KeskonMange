@@ -1,4 +1,4 @@
-const String SERVER_URL = "localhost:8080";//"keskon-mange.fr";
+const String SERVER_URL = "keskon-mange.fr:8080";
 
 final List<String> allergens = [
   "Gluten",
