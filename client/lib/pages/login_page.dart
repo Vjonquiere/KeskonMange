@@ -1,3 +1,4 @@
+import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';

@@ -7,30 +7,46 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color color;
+  final double scaleSize;
 
 
   const CustomButton({
     required this.text,
     required this.onPressed,
-    this.color = AppColors.blue,
+    this.color = AppColors.green,
+    this.scaleSize = 0.5,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     var icons = AppIcons.getIcon(text) != 'Icon not found' ? true : false;
-    return FilledButton.tonalIcon(
+    if(icons == true){
+      return Transform.scale(
+          scale: scaleSize,
+          child :
+          IconButton(
+        onPressed: onPressed,
+        style: FilledButton.styleFrom(
+          backgroundColor: color,
+          shape: const CircleBorder(),
+        ),
+        // Put an icon if one is available
+        icon: SvgPicture.asset(AppIcons.getIcon(text)),
+
+        ));
+    }
+    return FilledButton.tonal(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
         backgroundColor: color,
+        padding: const EdgeInsets.all(12),
       ),
-      // Put an icon if one is available
-      icon: icons != false ? SvgPicture.asset(AppIcons.getIcon(text)) : const SizedBox.shrink(),
-      label:icons != false ? const Text('') : Text(
-        text,
-        style: const TextStyle(fontSize: 16),
-      ),
-
+    child: Text(
+      text,
+      textAlign: TextAlign.center,
+      style: const TextStyle(fontSize: 16),
+    ),
     );
   }
 }

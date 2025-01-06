@@ -1,7 +1,1 @@
-<svg width="19" xmlns="http://www.w3.org/2000/svg" height="44" id="screenshot-e3d4606c-48a6-8028-8005-7fe35a02832c" fill="none" version="1.1"><style>@font-face {
-    font-family: &apos;sourcesanspro&apos;;
-    font-style: normal;
-    font-weight: 400;
-    font-display: block;
-    src: url(https://design.penpot.app/fonts/sourcesanspro-regular.woff) format(&apos;woff&apos;);
-  }</style><g transform="matrix(1.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000)" class="text-container" id="shape-e3d4606c-48a6-8028-8005-7fe35a02832c"><defs><pattern patternUnits="userSpaceOnUse" x="0" y="0" width="18.455" height="46.577" id="fill-0-render-1-0"><rect width="18.455" height="46.577" style="fill: rgb(0, 0, 0); fill-opacity: 1;"/></pattern></defs><text y="44.868" dominant-baseline="ideographic" textLength="18.455" lengthAdjust="spacingAndGlyphs" style="text-transform: none; font-family: sourcesanspro; letter-spacing: normal; font-style: normal; font-weight: 400; white-space: pre; font-size: 36px; text-decoration: none solid rgb(0, 0, 0); direction: ltr; fill: rgb(0, 0, 0); fill-opacity: 1;" class="fills" id="fills-e3d4606c-48a6-8028-8005-7fe35a02832c">X</text></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 32 32"><path fill="currentColor" d="m24.778 21.42l-5.502-5.503l5.5-5.502l-2.827-2.83l-5.503 5.502l-5.502-5.502l-2.828 2.83l5.5 5.502l-5.5 5.502l2.83 2.828l5.5-5.502l5.5 5.502z"/></svg>
