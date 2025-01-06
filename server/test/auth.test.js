@@ -2,6 +2,8 @@ const Pop3Command = require('node-pop3');
 const request = require('supertest');
 const app = require('../server');
 const simpleParser = require('mailparser').simpleParser;
+const database = require('../module/database');
+const conn = database.conn;
 
 
 const pop3 = new Pop3Command({
@@ -16,6 +18,11 @@ return new Promise((resolve) => {
     setTimeout(resolve, ms);
 });
 }
+
+beforeAll(async () => {
+  await conn.query("DELETE FROM users WHERE 1=1;");
+  await conn.query("INSERT INTO users VALUES (NULL, ?, 'test', '2025-01-06');", [process.env.POP3_ADDRESS]);
+});
 
 afterAll(async () => {
     app.closeServer();
