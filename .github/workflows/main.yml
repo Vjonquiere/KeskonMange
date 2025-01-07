@@ -79,8 +79,14 @@ jobs:
         path: ./server/coverage
     - name: Debug Coverage Directory
       run: ls -l ./server/coverage
-    - name: Install Lcov
-      run: sudo apt install lcov -y
-    - name: Process Coverage
-      run: lcov --list coverage/lcov.info
+    - name: Install w3m
+      run: sudo apt install w3m -y
+    - name: Process Global Coverage
+      run: w3m -dump coverage/lcov-report/index.html
+      working-directory: './server'
+    - name: Process Modules Coverage
+      run: w3m -dump coverage/lcov-report/server/module/index.html
+      working-directory: './server'
+    - name: Process Routers Coverage
+      run: w3m -dump coverage/lcov-report/server/routers/index.html
       working-directory: './server'
