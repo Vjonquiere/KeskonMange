@@ -101,7 +101,7 @@ class _SignupPageState extends State<SignupPage> {
               animation: true,
               animationDuration: 1000,
               animateFromLastPercent: true,
-              onAnimationEnd: (){if(signupFinalized) {print("on to home page");Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}else{print("next page");}},
+              onAnimationEnd: (){if(signupFinalized) Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));},
             ),
             const SizedBox(height: 20),
 
