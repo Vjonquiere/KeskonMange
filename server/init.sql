@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS keskon_mange;
-CREATE DATABASE keskon_mange;
-USE keskon_mange;
+DROP DATABASE IF EXISTS keskon_mange_test;
+CREATE DATABASE keskon_mange_test;
+USE keskon_mange_test;
 
 DROP TABLE IF EXISTS recipes;
 DROP TABLE IF EXISTS durations;
