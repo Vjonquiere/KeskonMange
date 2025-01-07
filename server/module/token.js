@@ -1,20 +1,63 @@
 const crypto = require('crypto');
 var database = require('./database');
 const conn = database.conn;
+const redis = require('redis');
+const client = redis.createClient();
+client.connect().then(() => console.log('Redis connected'));
 
-/*async function checkApiKey(req, res, next) {
+async function checkApiKey(req, res, next) {
     const apiKey = req.headers['x-api-key'];
     const username = req.headers['username'];
+
     if (!apiKey) {
-        return res.status(401).send("No API key found");
+        return res.status(401).json({ error: "No API key provided" });
     }
-    const client = await conn.query("SELECT COUNT(username) FROM ")
-    if (!client) {
-        return res.status(403).json({ error: 'Clé API invalide' });
+
+    const apiKeyHash = crypto.createHash('sha256').update(apiKey).digest('hex');
+
+    try {
+        const data = await client.get(apiKeyHash);
+        if (data) {
+            const userInfo = JSON.parse(data);
+            if (userInfo.username !== username) {
+                return res.status(403).json({ error: 'Invalid username for this API key' });
+            }
+            req.user = userInfo;
+            return next();
+        }
+        const [userIdResult] = await conn.query("SELECT id FROM users WHERE username = ?;", [username]);
+        if (!userIdResult || userIdResult.length === 0) {
+            return res.status(403).json({ error: 'User not found' });
+        }
+    
+        const userId = userIdResult.id;
+    
+        const [authResult] = await conn.query(
+            "SELECT userId, expire FROM authentication WHERE token = ? AND userId = ?;",
+            [apiKeyHash, userId]
+        );
+        if (!authResult || authResult.length === 0) {
+            return res.status(403).json({ error: 'Invalid or expired API key' });
+        }
+    
+        const expireInSeconds = Math.floor(
+            (new Date(authResult.expire).getTime() - Date.now()) / 1000
+        );
+    
+        await cacheToken(apiKeyHash, { username, userId }, expireInSeconds);
+    
+        req.user = { username, userId };
+        next();
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Internal server error" });
     }
-    req.client = client;
-    next();
-}*/
+    
+}
+
+async function cacheToken(tokenHash, userInfo, expireInSeconds) {
+    await client.set(tokenHash, JSON.stringify(userInfo), {EX: expireInSeconds});
+}
 
 function generateApiKey() {
     return crypto.randomBytes(30).toString('hex');
@@ -38,5 +81,6 @@ async function generateAuthToken(email){
 
 module.exports = {
     generateAuthToken : generateAuthToken,
-    getApiKeyHash : getApiKeyHash
+    getApiKeyHash : getApiKeyHash,
+    checkApiKey : checkApiKey
 };
