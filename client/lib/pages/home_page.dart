@@ -1,6 +1,15 @@
+import 'package:client/custom_widgets/custom_buttons.dart';
+import 'package:client/pages/calendar_page.dart';
+import 'package:client/pages/planned_recipes_page.dart';
+import 'package:client/pages/recipe_books_page.dart';
+import 'package:client/pages/search_page.dart';
+import 'package:client/pages/user_page.dart';
+import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
+import '../utils/app_icons.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,101 +18,46 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  var selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     var colorScheme = Theme.of(context).colorScheme;
-
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = home(context);
-        break;
-      case 1:
-        page = const Placeholder();
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-
-    var mainArea = ColoredBox(
-      color: colorScheme.surfaceContainerHighest,
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        child: page,
-      ),
-    );
-
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 450) {
-            // Use a more mobile-friendly layout with BottomNavigationBar
-            // on narrow screens.
-            return Column(
+      body: SafeArea(
+            child: Column(
               children: [
-                Expanded(child: mainArea),
+                Expanded(child: home(context)),
                 SafeArea(
-                  child: BottomNavigationBar(
-                    items: const [
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.home),
-                        label: 'Home',
+                  child: BottomAppBar(
+                    color : AppColors.green,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                      CustomButton(
+                          onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => UserPage()));},
+                          text: 'pen'),
+                      CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipeBooksPage()));},
+                          text: 'book'
                       ),
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.favorite),
-                        label: 'Favorites',
-                      ),
-                    ],
-                    currentIndex: selectedIndex,
-                    onTap: (value) {
-                      setState(() {
-                        selectedIndex = value;
-                      });
-                    },
+                      FloatingActionButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPage()));}, child: SvgPicture.asset(AppIcons.getIcon('search')),),
+                      CustomButton(
+                          onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => PlannedRecipesPage()));},
+                          text: 'upload'),
+                      CustomButton(
+                          onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalendarPage()));},
+                          text: 'calendar'),
+                    ],),
                   ),
                 )
               ],
-            );
-          } else {
-            return Row(
-              children: [
-                SafeArea(
-                  child: NavigationRail(
-                    extended: constraints.maxWidth >= 600,
-                    destinations: const [
-                      NavigationRailDestination(
-                        icon: Icon(Icons.home),
-                        label: Text('Home'),
-                      ),
-                      NavigationRailDestination(
-                        icon: Icon(Icons.favorite),
-                        label: Text('Favorites'),
-                      ),
-                    ],
-                    selectedIndex: selectedIndex,
-                    onDestinationSelected: (value) {
-                      setState(() {
-                        selectedIndex = value;
-                      });
-                    },
-                  ),
-                ),
-                Expanded(child: mainArea),
-              ],
-            );
-          }
-        },
-      ),
-    );
+            ))
+      );
   }
 
   Widget home(context){
     return Column(
+
       children: [
-        const Card(color: Color.fromARGB(100, 23, 23, 1),),
-        ColorfulTextBuilder("Aujourd'hui", 25).getWidget(),
+        ColorfulTextBuilder("Aujourd'hui", 35, true).getWidget(),
       ],
     );
   }
