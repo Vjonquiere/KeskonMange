@@ -1,17 +1,22 @@
 import 'dart:convert';
+import 'dart:ffi';
+import 'dart:io';
 
 import 'package:client/pages/home_page.dart';
 import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/pages/login_page.dart';
+import 'package:client/utils/app_colors.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 import '../constants.dart';
 import '../http/sign_up/verify_data.dart';
+
 class SignupPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _SignupPageState();
@@ -28,7 +33,8 @@ class _SignupPageState extends State<SignupPage> {
   ListView element=ListView();
   var stateValue = 0.0;
   var step = 0;
-  var nbSteps =4;
+  var nbSteps =5;
+  var signupFinalized = false;
 
   void nextStep(){
     setState(() {
@@ -81,15 +87,21 @@ class _SignupPageState extends State<SignupPage> {
             Column(
               children: <Widget>[
                 const SizedBox(height: 16.0),
-                ColorfulTextBuilder("Let's get to know you", 50, true).getWidget(),
+                ColorfulTextBuilder("Let's get to know you!", 50, true).getWidget(),
               ],
             ),
             const SizedBox(height: 20.0),
-            LinearProgressIndicator(
-              value: stateValue,
-              minHeight: 25.0,
-              borderRadius: BorderRadius.circular(25.0),
-              semanticsLabel: 'Linear progress indicator',
+            LinearPercentIndicator(
+              percent: stateValue,
+              lineHeight: 25,
+              backgroundColor: AppColors.beige,
+              progressColor: AppColors.kaki,
+              barRadius: const Radius.circular(25.0),
+              center: Text("${(stateValue*100).round()}%"),
+              animation: true,
+              animationDuration: 1000,
+              animateFromLastPercent: true,
+              onAnimationEnd: (){if(signupFinalized) {print("on to home page");Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}else{print("next page");}},
             ),
             const SizedBox(height: 20),
 
@@ -191,7 +203,7 @@ class _SignupPageState extends State<SignupPage> {
                 onPressed: () {
                   setState(() {
                     previousStep();
-                   stateValue-=oneStep();
+                    stateValue-=oneStep();
                   });
                 },
               ),
@@ -338,7 +350,10 @@ Widget accountVerification(BuildContext context) {
                   await storage.write(key: 'API_KEY', value: apiKey["token"]);
                   await storage.write(key: 'EMAIL', value: _emailController.text);
                 }
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
+                setState(() {
+                  signupFinalized = true;
+                  stateValue+=oneStep();
+                });
               },
             ),
           ],
@@ -401,6 +416,7 @@ class _AllergensToggleState extends State<AllergensToggle> {
               child: const Text('Next'),
               onPressed: () {
                 setState(() {
+                  _signupPageState.stateValue+= _signupPageState.oneStep();
                   _signupPageState.nextStep();
                   ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
