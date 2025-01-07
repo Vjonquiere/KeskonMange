@@ -2,21 +2,10 @@ const express = require('express');
 const router = express.Router();
 const database = require('../module/database');
 var bodyParser = require('body-parser');
+const constants = require('../module/constants');
 const conn = database.conn;
 
-const units = {
-    "liquid":["l", "g"], 
-    "fruit":["piece", "g"],
-    "vegetable":["piece", "g"],
-    "oil":["g", "PM"], 
-    "grocerie":["g", "PM"], 
-    "fish":["g", "piece"], 
-    "meat":["g", "piece"],
-    "cremerie":["g", "l"],
-    "egg":["piece"],
-    "herb":["bunch", "g"]
-}
-
+const units = constants.units;
 
 router.use(bodyParser.json());
 router.use(
