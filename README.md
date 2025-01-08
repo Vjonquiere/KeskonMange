@@ -2,7 +2,7 @@
 
 ## Server
 ### Requirements
-?
+
 ### Build and run the server
 1. Clone the repository
 2. Go to the `server` folder
