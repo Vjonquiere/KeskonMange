@@ -13,7 +13,7 @@ const conn =  mariadb.createPool({
 
 beforeAll(async () => {
   await conn.query("DELETE FROM ingredients WHERE 1=1;");
-  await conn.query("INSERT INTO ingredients VALUES (null,'test','liquid');");
+  await conn.query("INSERT INTO ingredients VALUES (null,'test','liquid', 0);");
   /*await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe2', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe3', 'test', 0, 0, 1, true, true, false, false, false, false, false);");*/
 });

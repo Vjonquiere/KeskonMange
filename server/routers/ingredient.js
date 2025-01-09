@@ -123,7 +123,7 @@ router.post("/add", token.checkApiKey, async (req, res) => {
             return;
         }
         if (isAlreadyIndexed.length <= 0){
-            await conn.query("INSERT INTO ingredients VALUES (null, ?, ?);", [req.body.name, req.body.type]);
+            await conn.query("INSERT INTO ingredients VALUES (null, ?, ?, ?);", [req.body.name, req.body.type, req.user.userId]);
             res.status(200).send("ingredient added");
             return;
         }
