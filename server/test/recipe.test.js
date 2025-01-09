@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../server');
 const mariadb = require('mariadb');
+const login = require('./login');
 
 const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
@@ -15,9 +16,9 @@ beforeAll(async () => {
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe1', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe2', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe3', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
-  await request(app).post('/ingredient/add').send({"name": "Pates", "type": "grocerie"});
-  await request(app).post('/ingredient/add').send({"name": "Viande hachee", "type": "meat"});
-  await request(app).post('/ingredient/add').send({"name": "Sauce tomate", "type": "grocerie"});
+  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Pates", "type": "grocerie"});
+  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Viande hachee", "type": "meat"});
+  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Sauce tomate", "type": "grocerie"});
 });
 
 afterAll(async () => {

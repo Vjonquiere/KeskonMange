@@ -40,11 +40,7 @@ async function checkApiKey(req, res, next) {
             return res.status(403).json({ error: 'Invalid or expired API key' });
         }
     
-        const expireInSeconds = Math.floor(
-            (new Date(authResult.expire).getTime() - Date.now()) / 1000
-        );
-    
-        await cacheToken(apiKeyHash, { username, userId }, expireInSeconds);
+        await cacheToken(apiKeyHash, { username, userId }, 3600); // Keep token in cache for 1h
     
         req.user = { username, userId };
         next();
@@ -79,8 +75,13 @@ async function generateAuthToken(email){
     return token;
 }
 
+function close(){
+    client.QUIT();
+}
+
 module.exports = {
     generateAuthToken : generateAuthToken,
     getApiKeyHash : getApiKeyHash,
-    checkApiKey : checkApiKey
+    checkApiKey : checkApiKey,
+    close : close
 };
