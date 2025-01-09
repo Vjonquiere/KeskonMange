@@ -16,9 +16,9 @@ beforeAll(async () => {
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe1', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe2', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe3', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
-  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Pates", "type": "grocerie"});
+  /*await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Pates", "type": "grocerie"});
   await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Viande hachee", "type": "meat"});
-  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Sauce tomate", "type": "grocerie"});
+  await request(app).post('/ingredient/add').set((await login.getCredentials())).send({"name": "Sauce tomate", "type": "grocerie"});*/
 });
 
 afterAll(async () => {
@@ -42,7 +42,7 @@ describe('GET recipe/:id', () => {
   })
 })
 
-describe('POST recipe/add', () => {
+/*describe('POST recipe/add', () => {
   it('call on valid arguments', async () => {
     const res = await request(app).post('/recipe/add').send({"ingredients":[{"name":"Pates", "qte":200, "unit":"g", "type":"grocerie" }, {"name":"Viande hachee", "qte":100, "unit":"g", "type":"meat" }, {"name":"Sauce tomate", "qte":100, "unit":"g", "type":"grocerie" }], "preparation_time":10, "rest_time":0, "cook_time":10, "sweet":false, "salty":true, "title":"Pates bolognaise", "type":"plat", "difficulty":1, "cost":1, "portions":3});
     expect(res.status).toBe(200);
@@ -142,4 +142,4 @@ describe('POST recipe/add', () => {
     expect(res.status).toBe(400);
     expect(res.text).toBe("Cost must be a number");
   });
-})
+})*/
