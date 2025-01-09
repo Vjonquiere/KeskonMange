@@ -1,4 +1,6 @@
 import 'package:client/custom_widgets/custom_buttons.dart';
+import 'package:client/custom_widgets/custom_dividers.dart';
+import 'package:client/custom_widgets/recipe_preview.dart';
 import 'package:client/pages/calendar_page.dart';
 import 'package:client/pages/planned_recipes_page.dart';
 import 'package:client/pages/recipe_books_page.dart';
@@ -58,6 +60,12 @@ class _HomePageState extends State<HomePage> {
 
       children: [
         ColorfulTextBuilder("Aujourd'hui", 35, true).getWidget(),
+        CustomDivider(important: true, color : AppColors.pink),
+        RecipePreview(recipe: "Lasagnes",homepage: true),
+        CustomDivider(),
+        RecipePreview(recipe: "Kebab",homepage: true),
+        CustomDivider(),
+        RecipePreview(recipe: "Carbonara",homepage: true),
       ],
     );
   }
