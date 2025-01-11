@@ -12,8 +12,11 @@ const conn =  mariadb.createPool({
   dateStrings: true
 });
 
+let ID;
+
 beforeAll(async () => {
   await utils.clearDatabase();
+  ID = await login.getCredentials();
   await conn.query("INSERT INTO ingredients VALUES (null,'test','liquid', 0);");
   //await conn.query("DELETE FROM ingredients WHERE 1=1;");
   /*await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe2', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
@@ -30,37 +33,37 @@ afterAll(async () => {
 
 describe('POST ingredient/add', () => {
   it('call on valid arguments', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({ name: "Poivron", type: "vegetable" });
+    const res = await request(app).post('/ingredient/add').set(ID).send({ name: "Poivron", type: "vegetable" });
     expect(res.status).toBe(200);
     expect(res.text).toBe("ingredient added");
   });
   it('call two times to check for double entry', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({ name: "Tomate", type: "vegetable" });
+    const res = await request(app).post('/ingredient/add').set(ID).send({ name: "Tomate", type: "vegetable" });
     expect(res.status).toBe(200);
     expect(res.text).toBe("ingredient added");
-    const res2 = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({ name: "Tomate", type: "vegetable" });
+    const res2 = await request(app).post('/ingredient/add').set(ID).send({ name: "Tomate", type: "vegetable" });
     expect(res2.status).toBe(200);
     expect(res2.text).toBe("ingredient already indexed");
   });
   it('call on invalid ingredient name', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({ name: 1, type: "liquid" });
+    const res = await request(app).post('/ingredient/add').set(ID).send({ name: 1, type: "liquid" });
     expect(res.status).toBe(405);
   });
   it('call on invalid ingredient type', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({ name: "Poivre", type: "invalid" });
+    const res = await request(app).post('/ingredient/add').set(ID).send({ name: "Poivre", type: "invalid" });
     expect(res.status).toBe(405);
     expect(res.text).toBe("given type is invalid");
   });
   it('call with undefined name', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({type: "liquid"});
+    const res = await request(app).post('/ingredient/add').set(ID).send({type: "liquid"});
     expect(res.status).toBe(405);
   });
   it('call with undefined type', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send({name: "Avocat"});
+    const res = await request(app).post('/ingredient/add').set(ID).send({name: "Avocat"});
     expect(res.status).toBe(405);
   });
   it('call with undefined name + type', async () => {
-    const res = await request(app).post('/ingredient/add').set((await login.getCredentials())).send();
+    const res = await request(app).post('/ingredient/add').set(ID).send();
     expect(res.status).toBe(405);
   })
 });

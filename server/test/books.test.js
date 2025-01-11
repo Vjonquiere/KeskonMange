@@ -14,8 +14,8 @@ const conn =  mariadb.createPool({
 let ID;
 
 beforeAll(async () => {
-  ID = await login.getCredentials();
   await utils.clearDatabase();
+  ID = await login.getCredentials();
   /*await conn.query('DELETE FROM recipe_books WHERE 1=1;');
   await conn.query('DELETE FROM recipe_book_access WHERE 1=1;');
   await conn.query('DELETE FROM recipe_book_links WHERE 1=1;');*/
