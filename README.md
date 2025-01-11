@@ -22,6 +22,14 @@
 	- POP3_HOST: *url of your POP3 server*
 	- POP3_ADDRESS: *email you want to use*
 	- POP3_PASSWORD: *password of the address*
-6. run `npm ci` to install all the dependencies
-7. run `npm run start` to launch the server
+6. Run `npm ci` to install all the dependencies
+7. Run `npm run start` to launch the server
 ## Client
+### Requirements ✅
+- `libsecret` (*Linux only*)
+- `Flutter sdk`
+- `Dart`
+### Build and run client
+1. Clone the repository
+2. Go to the `client/` folder
+3. Run `flutter pub get` to install the dependencies
