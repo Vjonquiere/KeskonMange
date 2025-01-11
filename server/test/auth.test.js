@@ -4,6 +4,7 @@ const app = require('../server');
 const simpleParser = require('mailparser').simpleParser;
 const database = require('../module/database');
 const conn = database.conn;
+const utils = require('./utils');
 
 
 const pop3 = new Pop3Command({
@@ -20,12 +21,14 @@ return new Promise((resolve) => {
 }
 
 beforeAll(async () => {
-  await conn.query("DELETE FROM users WHERE 1=1;");
+  await utils.clearDatabase();
+  //await conn.query("DELETE FROM users WHERE 1=1;");
   await conn.query("INSERT INTO users VALUES (NULL, ?, 'test', '2025-01-06');", [process.env.POP3_ADDRESS]);
 });
 
 afterAll(async () => {
     app.closeServer();
+    utils.end_connexion();
 });
 
 connexionToken = undefined;
