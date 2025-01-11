@@ -3,7 +3,7 @@ const router = express.Router();
 const database = require('../module/database');
 var bodyParser = require('body-parser');
 const constants = require('../module/constants');
-const token = require("../module/token");
+const needAuth = require("../module/token").checkApiKey;
 const conn = database.conn;
 
 const units = constants.units;
@@ -111,7 +111,7 @@ router.get("/units", async (req, res) => {
  *   "405":
  *      description: "Something is wrong in request parameters"
  */
-router.post("/add", token.checkApiKey, async (req, res) => {
+router.post("/add", needAuth, async (req, res) => {
     if (req.body.name === undefined || !(typeof req.body.name === 'string') || req.body.type === undefined || !(typeof req.body.type === 'string')){
         res.status(405).send("undefined ingredient name or type");
         return;
