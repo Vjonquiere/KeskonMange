@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../server');
 const mariadb = require('mariadb');
 const login = require('./login');
+const utils = require('./utils');
 
 const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
@@ -12,7 +13,8 @@ const conn =  mariadb.createPool({
 });
 
 beforeAll(async () => {
-  await conn.query("DELETE FROM recipes WHERE 1=1;");
+  await utils.clearDatabase();
+  //await conn.query("DELETE FROM recipes WHERE 1=1;");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe1', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe2', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
   await conn.query("INSERT INTO recipes VALUES (null, 'test_recipe3', 'test', 0, 0, 1, true, true, false, false, false, false, false);");
@@ -23,6 +25,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
   conn.end();
+  utils.end_connexion();
   app.closeServer();
 });
 

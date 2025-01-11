@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../server');
 const mariadb = require('mariadb');
 const login = require('./login');
+const utils = require('./utils');
 
 const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
@@ -14,14 +15,16 @@ let ID;
 
 beforeAll(async () => {
   ID = await login.getCredentials();
-  await conn.query('DELETE FROM recipe_books WHERE 1=1;');
+  await utils.clearDatabase();
+  /*await conn.query('DELETE FROM recipe_books WHERE 1=1;');
   await conn.query('DELETE FROM recipe_book_access WHERE 1=1;');
-  await conn.query('DELETE FROM recipe_book_links WHERE 1=1;');
+  await conn.query('DELETE FROM recipe_book_links WHERE 1=1;');*/
   await conn.query('ALTER TABLE recipe_books AUTO_INCREMENT = 0;');
 })
 
 
 afterAll(async () => {
+    utils.end_connexion();
     conn.end();
     app.closeServer();
 });

@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../server');
 const mariadb = require('mariadb');
+const utils = require('./utils');
 
 const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
@@ -19,7 +20,8 @@ function dateFromToday(days){ // add days day to current date
 
 beforeAll(async () => {
     
-    await conn.query("DELETE FROM calendar WHERE 1=1;");
+    //await conn.query("DELETE FROM calendar WHERE 1=1;");
+    await utils.clearDatabase();
     // Sample data for self-adapt data
     await conn.query(`INSERT INTO calendar VALUES ('${dateFromToday(0)}', 0, 0, 'path/to/image');`);
     await conn.query(`INSERT INTO calendar VALUES ('${dateFromToday(1)}', 4, 1, 'path/to/image');`);
@@ -39,6 +41,7 @@ beforeAll(async () => {
 
 afterAll(async () => {
     conn.end();
+    utils.end_connexion();
     app.closeServer();
 });
 

@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../server');
 const mariadb = require('mariadb');
+const utils = require('./utils');
 
 const conn =  mariadb.createPool({
     host: process.env.DATABASE_HOST, 
@@ -11,12 +12,14 @@ const conn =  mariadb.createPool({
 });
 
 beforeAll(async () => {
-    await conn.query("DELETE FROM users WHERE 1=1;");
-    await conn.query("DELETE FROM verify WHERE 1=1;");
+    await utils.clearDatabase();
+    /*await conn.query("DELETE FROM users WHERE 1=1;");
+    await conn.query("DELETE FROM verify WHERE 1=1;");*/
 });
 
 afterAll(async () => {
     app.closeServer();
+    utils.end_connexion();
     conn.end();
 });
 
