@@ -25,6 +25,11 @@ async function userHasReadAccess(bookId, userId){
   return isPublic.length >= 1 || isOwner.length >= 1 || isAuthorized.length >= 1;
 }
 
+async function isOwner(bookId, userId) {
+  const book = await conn.query(`SELECT id FROM recipe_books WHERE id = ? AND owner = ?`, [bookId, userId]);
+  return book.length == 1;
+}
+
 /**
  * @api [post] /books/create
  * tags :
@@ -82,6 +87,8 @@ router.post("/create", needAuth, async (req, res) => {
  *     description: "Book has been deleted"
  *   "400":
  *      description: "BookId parameter is wrong"
+ *    "403":
+ *      description: "Not allowed"
  */
 router.delete("/delete", needAuth, async (req, res) => {
   if (req.query.bookId === undefined){
@@ -89,7 +96,8 @@ router.delete("/delete", needAuth, async (req, res) => {
     return;
   }
   try {
-    // Need to check if the req is the owner
+    if ((await bookExist(req.query.bookId))) return res.sendStatus(200);
+    if (!(await isOwner(req.query.bookId, req.user.userId))) return res.sendStatus(403);
     await conn.query(`DELETE FROM recipe_books WHERE id=? AND owner = ?;`, [req.query.bookId, req.user.userId]);
   } catch (error) {
     console.log(error)
@@ -122,6 +130,8 @@ router.delete("/delete", needAuth, async (req, res) => {
  *      description: "One of the parameter is wrong"
  *   "500":
  *      description: "The book you want to share does not exists"
+ *   "403":
+ *      description: "Not allowed"
  */
 router.post("/share", needAuth, async (req, res) => {
   if (req.query.bookId === undefined || req.query.userId === undefined){
@@ -132,9 +142,8 @@ router.post("/share", needAuth, async (req, res) => {
     if (await bookExist(req.query.bookId)){
       res.status(500).send("Can't share given book: no matching id");
       return;
-    }
-    const book = await conn.query(`SELECT id FROM recipe_books WHERE id = ? AND owner = ?`, [req.query.bookId, req.user.userId]);
-    if (book.length != 1) return res.sendStatus(500); // Status 500 if requester is not the owner
+    }    
+    if (! (await isOwner(req.query.bookId, req.user.userId))) return res.sendStatus(403); // Status 500 if requester is not the owner
     // TODO: Check for duplicates
     await conn.query(`INSERT INTO recipe_book_access VALUES (?,?);`, [req.query.bookId, req.query.userId]);
   } catch (error) {
@@ -159,7 +168,7 @@ router.post("/share", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "Book has been created"
- *   "204":
+ *   "403":
  *     description: "Problem with the read permission"
  *   "400":
  *     description: "Something wrong with bookId"
@@ -176,7 +185,7 @@ router.get("/recipes", needAuth, async (req, res) => {
         res.status(500).send("Can't get recipes from given book: no matching id");
         return;
       }
-      if (!(await userHasReadAccess(req.query.bookId, req.user.userId))) return res.sendStatus(204);
+      if (!(await userHasReadAccess(req.query.bookId, req.user.userId))) return res.sendStatus(403);
       const recipesRaw = await conn.query(`SELECT recipeId FROM recipe_book_links WHERE bookId = ?;`, [req.query.bookId]);
       let recipes = Array.from(recipesRaw);
       let ids = [];
@@ -208,7 +217,7 @@ router.get("/recipes", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "The general informations"
- *   "204":
+ *   "403":
  *     description: "User doesn't have access to the book"
  *   "400":
  *      description: "BookId parameter is wrong"
@@ -225,12 +234,10 @@ router.get("/general_information", needAuth, async (req, res) => {
             res.sendStatus(204); // No book found with the given id
             return;
         } else if (! (await userHasReadAccess(req.query.bookId, req.user.userId))){
-          console.log("SUER ID = " + req.user.userId);
-          return res.sendStatus(204);
+          return res.sendStatus(403);
         } else {
             let countRes =  await conn.query(`SELECT COUNT(bookId) FROM recipe_book_links WHERE bookId=?;`, [req.query.bookId]);
             let count = Number(countRes[0]['COUNT(bookId)']);
-            console.log("BOOK INFO = " + bookInfo);
             res.send(JSON.stringify({"id": bookInfo[0]["id"], "name":  bookInfo[0]["name"], "owner": bookInfo[0]["owner"], "visibility": bookInfo[0]["visibility"], "recipe_count": count }));
             return;
         }
@@ -308,8 +315,10 @@ router.get("/id", async (req, res) => { //TODO: check for multiple names
  *     description: "The book does not exists"
  *   "400":
  *      description: "At least one parameter is wrong"
+ *   "403":
+ *      description: "Not allowed"
  */
-router.post("/recipe/add", async (req, res) => {
+router.post("/recipe/add", needAuth, async (req, res) => {
   if (req.query.bookId === undefined || req.query.recipeId === undefined){
     res.status(400).send("You need to specify a bookId and a recipeId");
     return;
@@ -321,7 +330,7 @@ router.post("/recipe/add", async (req, res) => {
       res.status(500).send("Can't add recipe to given book: no matching id");
       return;
     }
-    // need to check if requester is the owner of the book
+    if (!(await isOwner(req.query.bookId, req.user.userId))) return res.sendStatus(403);
     await conn.query(`INSERT INTO recipe_book_links VALUES (?, ?, ?);`, [req.query.bookId, req.query.recipeId, formattedDate]);
   } catch (error) {
     console.log(error);
@@ -352,14 +361,16 @@ router.post("/recipe/add", async (req, res) => {
  *     description: "Book has been deleted"
  *   "400":
  *      description: "At least one parameter is wrong"
+ *    "403":
+ *      description: "Not allowed"
  */
-router.delete("/share", async (req, res) => {
+router.delete("/share", needAuth, async (req, res) => {
   if (req.query.bookId === undefined || req.query.userId === undefined){
     res.status(400).send("You need to specify a bookId and a userId");
     return;
   }
   try {
-    // need to check if requester is the owner of the book
+    if (!(await isOwner(req.query.bookId, req.user.userId))) return res.sendStatus(403);
     await conn.query(`DELETE FROM recipe_book_access WHERE bookId = ? AND userId = ?;`, [req.query.bookId, req.query.userId]);
   } catch (error) {
     console.log(error);
