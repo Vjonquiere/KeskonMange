@@ -1,3 +1,4 @@
+import 'package:client/custom_widgets/cooking_info.dart';
 import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/custom_widgets/custom_dividers.dart';
 import 'package:client/custom_widgets/recipe_preview.dart';
@@ -60,6 +61,15 @@ class _HomePageState extends State<HomePage> {
 
       children: [
         ColorfulTextBuilder("Aujourd'hui", 35, true).getWidget(),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CookingInfo(recipe: "lasagne", iconName: "timer",),
+            CookingInfo(recipe: "lasagne", iconName: "bell",),
+
+          ],
+        ),
+        CustomButton(onPressed: (){}, text: "Let's go !"),
         CustomDivider(important: true, color : AppColors.pink),
         RecipePreview(recipe: "Lasagnes",homepage: true),
         CustomDivider(),

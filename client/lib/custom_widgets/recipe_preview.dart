@@ -74,6 +74,7 @@ class RecipePreview extends StatelessWidget {
 
   Widget recipeInfo(BuildContext context ){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(recipe.toUpperCase()),
         Text("preparation ..min"),
@@ -84,6 +85,7 @@ class RecipePreview extends StatelessWidget {
 
   Widget recipePlanning(BuildContext context){
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text("E P D",  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
         Text("nb pers",  style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
@@ -95,8 +97,9 @@ class RecipePreview extends StatelessWidget {
     return Row(
       children: [
         SvgPicture.asset(AppIcons.getIcon("sunny"),width: 32, height: 32,),
-        Padding(padding: EdgeInsets.all(5.0)),
+        const Padding(padding: EdgeInsets.all(5.0)),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("day".toUpperCase(), style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
             Text("time", style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
