@@ -37,7 +37,7 @@ describe('POST auth/signin', () => {
   it('simple call', async () => {
     const res = await request(app).post(`/auth/signin?email=${process.env.POP3_ADDRESS}&lang=debug`).send();
     expect(res.status).toBe(200); // Trying to init a new connexion
-    await sleep(1000); // Sleep to wait for new mail
+    await sleep(1500); // Sleep to wait for new mail
     const list = Array.from(await pop3.UIDL());
     const str = await pop3.RETR(list.length);     
     const parsedEmail = await simpleParser(str);

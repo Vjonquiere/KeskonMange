@@ -5,6 +5,7 @@ const conn = database.conn;
 const mailer = require('../module/mailer');
 const token = require('../module/token')
 const constants = require('../module/constants');
+const needAuth = token.checkApiKey;
 
 const ALLERGEN_NUMBER = constants.ALLERGEN_NUMBER; 
 
@@ -201,7 +202,7 @@ router.post('/verify', async (req, res) => {
  *   "405":
  *      description: "Email is needed"
  */ //TODO: complete doc
-router.post('/allergens', async (req, res) => {
+router.post('/allergens', needAuth, async (req, res) => {
     if (req.query.email === undefined){
         res.status(405).send("Can't set allergens on an unknown account");
         return;
@@ -210,7 +211,7 @@ router.post('/allergens', async (req, res) => {
         const allergens = Array.from(req.body.allergens);
         for (let i=0; i<allergens.length; i++){
             if (!isNaN(Number(allergens[i])) && allergens[i] < ALLERGEN_NUMBER){
-                conn.query("INSERT INTO allergens VALUES (1, ?);", [allergens[i]]) // TODO: Temp code (user auth is not implemented enough)
+                conn.query("INSERT INTO allergens VALUES (?, ?);", [req.user.userId, allergens[i]])
             }
         }
         res.sendStatus(200);

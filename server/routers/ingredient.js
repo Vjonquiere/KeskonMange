@@ -3,6 +3,7 @@ const router = express.Router();
 const database = require('../module/database');
 var bodyParser = require('body-parser');
 const constants = require('../module/constants');
+const needAuth = require("../module/token").checkApiKey;
 const conn = database.conn;
 
 const units = constants.units;
@@ -110,7 +111,7 @@ router.get("/units", async (req, res) => {
  *   "405":
  *      description: "Something is wrong in request parameters"
  */
-router.post("/add", async (req, res) => {
+router.post("/add", needAuth, async (req, res) => {
     if (req.body.name === undefined || !(typeof req.body.name === 'string') || req.body.type === undefined || !(typeof req.body.type === 'string')){
         res.status(405).send("undefined ingredient name or type");
         return;
@@ -122,7 +123,7 @@ router.post("/add", async (req, res) => {
             return;
         }
         if (isAlreadyIndexed.length <= 0){
-            await conn.query("INSERT INTO ingredients VALUES (null, ?, ?);", [req.body.name, req.body.type]);
+            await conn.query("INSERT INTO ingredients VALUES (null, ?, ?, ?);", [req.body.name, req.body.type, req.user.userId]);
             res.status(200).send("ingredient added");
             return;
         }

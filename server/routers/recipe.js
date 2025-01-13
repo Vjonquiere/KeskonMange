@@ -5,6 +5,7 @@ const database = require('../module/database');
 var bodyParser = require('body-parser');
 let port;
 const conn = database.conn;
+const needAuth = require('../module/token').checkApiKey;
 
 router.use(bodyParser.json());
 router.use(
@@ -18,6 +19,12 @@ router.use((req, res, next) => {
     next();
 });
 
+async function hasAccess(recipeId, userId) {
+    const isPublic = await conn.query("SELECT id FROM recipes WHERE id = ? AND visibility = 0;", [recipeId]);
+    const isOwner = await conn.query("SELECT id FROM recipes WHERE id = ? AND owner = ?;", [recipeId, userId]);
+    return isPublic.length > 0 || isOwner.length > 0;
+    
+}
 
 router.get('/complete', async (req, res) => {
     const recipeData = await conn.query("SELECT * FROM recipes JOIN durations ON recipes.id = durations.recipeId WHERE recipes.id=?;", [req.body.id]);
@@ -36,7 +43,7 @@ router.get('/complete', async (req, res) => {
  */
 //TODO: add limit for less data trafic
 router.get('/last', async (req, res) => {
-    const result = await conn.query("SELECT * FROM recipes ORDER BY id DESC;");
+    const result = await conn.query("SELECT * FROM recipes WHERE visibility = 0 ORDER BY id DESC;");
     res.json(result[0]);
 });
 
@@ -57,12 +64,13 @@ router.get('/last', async (req, res) => {
  *   "405":
  *      description: "No recipe found"
  */
-router.get("/:id", async (req, res) => { //TODO: change params to query + code 204 if no recipe found
+router.get("/:id", needAuth, async (req, res) => { //TODO: change params to query + code 204 if no recipe found
     if (req.params.id === undefined || isNaN(Number(req.params.id))){
         res.status(405).send("undifined recipe_id");
         return;
     }
     try {
+        if (!(await hasAccess(req.params.id, req.user.userId))) return res.sendStatus(204);
         const result = await conn.query("SELECT * FROM recipes WHERE id = ?;", [req.params.id]);
         res.json(result[0]);
     } catch (error) {
@@ -70,7 +78,7 @@ router.get("/:id", async (req, res) => { //TODO: change params to query + code 2
     }
 });
 
-router.post("/add", async (req, res) => {
+router.post("/add", needAuth, async (req, res) => {
     if (req.body.title === undefined || req.body.type === undefined || req.body.difficulty === undefined || req.body.cost === undefined || req.body.portions === undefined || req.body.salty === undefined || req.body.sweet === undefined || req.body.ingredients === undefined || req.body.preparation_time === undefined || req.body.rest_time === undefined || req.body.cook_time === undefined){
         res.status(400).send("Please check if all arguments are valid");
         return;
@@ -129,7 +137,7 @@ router.post("/add", async (req, res) => {
         return;
     }
     try {
-        conn.query("INSERT INTO recipes VALUES (null, ?, ?, ?, ?, ?, null, null, null, null, null, ?, ?);", [req.body.title, req.body.type, Number(req.body.difficulty), Number(req.body.cost), Number(req.body.portions), req.body.salty, req.body.sweet]);
+        conn.query("INSERT INTO recipes VALUES (null, ?, ?, ?, ?, ?, null, null, null, null, null, ?, ?, ?, 0);", [req.body.title, req.body.type, Number(req.body.difficulty), Number(req.body.cost), Number(req.body.portions), req.body.salty, req.body.sweet, req.user.userId]);
     } catch (error) {
         console.log(error);
         res.sendStatus(500);

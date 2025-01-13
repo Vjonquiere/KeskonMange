@@ -8,6 +8,7 @@ const Auth = require('./routers/auth');
 const Users = require('./routers/user');
 var bodyParser = require('body-parser');
 const database = require('./module/database');
+const token = require('./module/token');
 const app = express();
 const cors = require('cors');
 app.locals.port = 8080;
@@ -62,6 +63,7 @@ app.closeServer = () => {
   Users.closeServer();
   Auth.closeServer();
   database.end();
+  token.close();
   server.close();
 };
 
