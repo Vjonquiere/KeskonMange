@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var calendar = require('node-calendar');
 var database = require('../module/database');
 const conn = database.conn;
+const needAuth = require('../module/token').checkApiKey;
 
 router.use(bodyParser.json());
 router.use(
@@ -32,11 +33,11 @@ If your at GMT+2 your dates will be 2 hours late:
  *   "204":
  *      description: "There isn't a recipe scheduled for today"
  */
-router.get("/today", async (req, res) => { // Special case of /calendar/coming route (like days = 0)
+router.get("/today", needAuth, async (req, res) => { // Special case of /calendar/coming route (like days = 0)
     let date = new Date();
     let formattedDate = date.toISOString().split('T')[0];
     try {
-        const todayEntryRaw = await conn.query("SELECT * FROM calendar WHERE date = ?;", [formattedDate]);
+        const todayEntryRaw = await conn.query("SELECT date, recipeId, done, result_img FROM calendar WHERE date = ? AND userId = ?;", [formattedDate, req.user.userId]);
         let todayEntry = Array.from(todayEntryRaw); // Casting to Array to check length
         if (todayEntry.length <= 0){
             res.sendStatus(204); // No recipe found for today
@@ -69,7 +70,7 @@ router.get("/today", async (req, res) => { // Special case of /calendar/coming r
  *   "204":
  *      description: "There isn't a recipe scheduled for this day"
  */
-router.get("/coming", async (req, res) => {
+router.get("/coming", needAuth, async (req, res) => {
     if (req.query.days === undefined || isNaN(Number(req.query.days))) {
         res.status(405).send("Day must be a number");
         return;
@@ -80,7 +81,7 @@ router.get("/coming", async (req, res) => {
     date.setDate(today.getDate() + daysToAdd);
     let formattedDate = date.toISOString().split('T')[0];
     try {
-        const dateEntryRaw = await conn.query("SELECT * FROM calendar WHERE date = ?;", [formattedDate]);
+        const dateEntryRaw = await conn.query("SELECT date, recipeId, done, result_img FROM calendar WHERE date = ? AND userId = ?;", [formattedDate, req.user.userId]);
         let dateEntry = Array.from(dateEntryRaw); // Casting to Array to check length
         if (dateEntry.length <= 0){
             res.sendStatus(204); // No recipe found for today
@@ -113,7 +114,7 @@ router.get("/coming", async (req, res) => {
  *   "204":
  *      description: "No recipe was found for the given month"
  */
-router.get("/completeMonth", async (req, res) => {
+router.get("/completeMonth", needAuth, async (req, res) => {
     if (req.query.previous === undefined || isNaN(Number(req.query.previous))) {
         res.status(405).send("The number of month you want to rollback must be a number");
         return;
@@ -126,7 +127,7 @@ router.get("/completeMonth", async (req, res) => {
     const month = date.toJSON().split("-")[1]
     let dateTemplateString = `${year}-${month}-` // Format date like YYYY-MM to get all recipe from the given month
     try {
-        const dateEntryRaw = await conn.query("SELECT * FROM calendar WHERE date LIKE Concat(?,'%');", [dateTemplateString]);
+        const dateEntryRaw = await conn.query("SELECT * FROM calendar WHERE date LIKE Concat(?,'%') AND userId = ?;", [dateTemplateString, req.user.userId]);
         let dateEntry = Array.from(dateEntryRaw); // Casting to Array to check length
         if (dateEntry.length <= 0){
             res.sendStatus(204); // No recipe found for today
@@ -161,7 +162,7 @@ router.get("/completeMonth", async (req, res) => {
  *   "405":
  *      description: "A wrong number next recipes to get was given"
  */
-router.get("/next", async (req, res) => {
+router.get("/next", needAuth, async (req, res) => {
     if (req.query.count === undefined || isNaN(Number(req.query.count))) {
         res.status(405).send("The number of next planed recipes you want must be a number");
         return;
@@ -174,7 +175,7 @@ router.get("/next", async (req, res) => {
         return;
     }
     try {
-        let entries = await conn.query("SELECT recipeId, date FROM calendar WHERE date > ? ORDER BY date ASC LIMIT ?", [formattedDate, count]);
+        let entries = await conn.query("SELECT recipeId, date FROM calendar WHERE date > ? AND userId = ? ORDER BY date ASC LIMIT ?", [formattedDate, req.user.userId, count]);
         let entriesArray = Array.from(entries);
         if (entries.length < 1){
             res.sendStatus(204);

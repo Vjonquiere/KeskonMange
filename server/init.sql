@@ -9,7 +9,7 @@ DROP TABLE IF EXISTS ingredients;
 DROP TABLE IF EXISTS recipes_ingredients_link;
 
 CREATE TABLE IF NOT EXISTS recipes (id INTEGER AUTO_INCREMENT PRIMARY KEY, title CHARACTER VARYING(128), type CHARACTER VARYING(7), difficulty INT, cost INT, portions INT, vegetarian BOOLEAN, vegan BOOLEAN, hasGluten BOOLEAN, hasLactose BOOLEAN, hasPork BOOLEAN, salty BOOLEAN, sweet BOOLEAN, owner INTEGER, visibility BOOLEAN);
-CREATE TABLE IF NOT EXISTS calendar (date DATE, recipeId INTEGER, done BOOLEAN, result_img TEXT);
+CREATE TABLE IF NOT EXISTS calendar (date DATE, recipeId INTEGER, done BOOLEAN, result_img TEXT, userId INTEGER);
 CREATE TABLE IF NOT EXISTS ingredients (id INTEGER AUTO_INCREMENT PRIMARY KEY , name CHARACTER VARYING(32), type CHARACTER VARYING(32), createdBy INTEGER);
 CREATE TABLE IF NOT EXISTS durations (recipeId INTEGER PRIMARY KEY , total INTEGER, preparation INTEGER, rest INTEGER, cook INTEGER);
 CREATE TABLE IF NOT EXISTS recipes_ingredients_link (recipeId INTEGER, ingredientId INTEGER, unit CHARACTER VARYING(16), quantity INTEGER);
