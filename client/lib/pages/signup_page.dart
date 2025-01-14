@@ -347,8 +347,8 @@ Widget accountVerification(BuildContext context) {
                 }
                 final apiKey = jsonDecode(verificationRequest.body) as Map<String, dynamic>;
                 if (apiKey.containsKey('token')) {
-                  await storage.write(key: 'API_KEY', value: apiKey["token"]);
-                  await storage.write(key: 'EMAIL', value: _emailController.text);
+                  await storage.write(key: 'x-api-key', value: apiKey["token"]);
+                  await storage.write(key: 'email', value: _emailController.text);
                 }
                 setState(() {
                   signupFinalized = true;
