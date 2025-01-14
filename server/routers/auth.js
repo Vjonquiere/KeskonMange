@@ -136,6 +136,44 @@ router.post('/test', async (req, res) => {
     
 })
 
+/**
+ * @api [post] /auth/logout
+ * tags : 
+ *  - Auth
+ * description: "Delete the given api-key if it correspond the the given email"
+ * parameters:
+ * - name: email
+ *   in: query
+ *   description: The email of the account you want to delete the access
+ *   required: true
+ *   type: string
+ * - name: api_key
+ *   in: query
+ *   description: The user API key
+ *   required: true
+ *   type: string
+ * 
+ * responses:
+ *   "200":
+ *     description: "API key has been deleted"
+ *   "204":
+ *     description: "No matching data"
+ *   "405":
+ *      description: "Missing argument" 
+*/
+router.post('/logout', async (req, res) => {
+    if (req.query.api_key === undefined || req.query.email === undefined){
+        return res.sendStatus(405);
+    }
+    const hashedToken = token.getApiKeyHash(req.query.api_key);
+    const isTokenValid = Array.from(await conn.query("SELECT userId FROM authentication JOIN users ON authentication.userId = users.id WHERE token = ? AND email = ?;", [hashedToken, req.query.email]));
+    if (isTokenValid.length == 1){
+        await conn.query("DELETE FROM authentication WHERE token = ?", [hashedToken]);
+        return res.sendStatus(200);
+    }
+    return res.sendStatus(204);
+})
+
 router.closeServer = () => {
     console.log("Auth Closed");
 };
