@@ -78,3 +78,22 @@ describe('GET auth/test', () => {
     });
     // TODO: need to add test for expired tokens 
 });
+
+describe('GET auth/logout', () => {
+  it('simple call', async () => {
+      const res = await request(app).post(`/auth/logout?email=${process.env.POP3_ADDRESS}&api_key=${connexionToken}`).send();
+      expect(res.status).toBe(200);
+  });
+  it('call on missing argument (email)', async () => {
+      const res = await request(app).post(`/auth/logout?&api_key=${connexionToken}`).send();
+      expect(res.status).toBe(405);
+  });
+  it('call on missing argument (api_key)', async () => {
+      const res = await request(app).post(`/auth/logout?api_key=${connexionToken}`).send();
+      expect(res.status).toBe(405);
+  });
+  it('call on uknown api key', async () => {
+    const res = await request(app).post(`/auth/logout?email=${process.env.POP3_ADDRESS}&api_key=${connexionToken}`).send();
+    expect(res.status).toBe(204);
+  });
+});
