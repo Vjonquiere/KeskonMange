@@ -8,15 +8,11 @@ import '../pages/recipe_page.dart';
 class RecipePreview extends StatelessWidget {
   final String recipe;
   final bool homepage;
-  //final Color color;
-  //final double scaleSize;
 
 
   const RecipePreview({
     required this.recipe,
     this.homepage = false,
-    //this.color = AppColors.green,
-    //this.scaleSize = 0.5,
     super.key,
   });
 
@@ -62,7 +58,7 @@ class RecipePreview extends StatelessWidget {
       color: AppColors.beige,
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(8.0), // Adds space between the image and the card's border
+        padding: const EdgeInsets.all(8.0),
         child: Image(
           image: AssetImage(AppIcons.getIcon("placeholder_square")),
           width: 64,

@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
+import '../custom_widgets/recipe_card.dart';
 import '../utils/app_icons.dart';
 
 class HomePage extends StatefulWidget {
@@ -60,7 +61,8 @@ class _HomePageState extends State<HomePage> {
     return Column(
 
       children: [
-        ColorfulTextBuilder("Aujourd'hui", 35, true).getWidget(),
+        ColorfulTextBuilder("Today", 35, true).getWidget(),
+        RecipeCard(recipe: "lasagna"),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
