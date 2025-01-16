@@ -13,6 +13,10 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double cardWidth = screenWidth * 0.8;
+    double imageWidth = cardWidth * 0.6;
+
     return Card(
       color: AppColors.beige,
       margin: const EdgeInsets.all(8.0),
@@ -20,7 +24,7 @@ class RecipeCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child : IntrinsicHeight(
+      child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -42,30 +46,27 @@ class RecipeCard extends StatelessWidget {
               ),
             ),
 
-            // Center Content
             Padding(
-              padding: const EdgeInsets.all(20.0), // Add padding around the column
+              padding: const EdgeInsets.all(20.0),
               child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image(
-                        image: AssetImage(AppIcons.getIcon("placeholder")),
-                        width: 250,
-                        //height: 120,
-                        fit: BoxFit.cover,
-                      ),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image(
+                      image: AssetImage(AppIcons.getIcon("placeholder")),
+                      width: imageWidth,
+                      fit: BoxFit.cover,
                     ),
-                    const SizedBox(height: 10.0),
-                    Text("Recipe title"),
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Text(recipe),
+                ],
+              ),
             ),
           ],
         ),
-      )
-
+      ),
     );
   }
 }

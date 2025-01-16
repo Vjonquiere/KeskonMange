@@ -11,6 +11,8 @@ class AppIcons {
   static const String pen = 'assets/icons/pen.svg';
   static const String todo = 'assets/icons/to-do_list.svg';
   static const String upload = 'assets/icons/upload.svg';
+  static const String next = 'assets/icons/next.svg';
+  static const String previous = 'assets/icons/previous.svg';
 
   //Allergens
   static const String gluten = 'assets/icons/allergens/gluten.svg';
@@ -69,6 +71,8 @@ class AppIcons {
     'pen': pen,
     'todo': todo,
     'upload': upload,
+    'next' : next,
+    'previous' : previous,
 
     // Allergens
     'Gluten': gluten,

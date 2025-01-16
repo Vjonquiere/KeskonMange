@@ -21,10 +21,33 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedRecipeIndex = 0; // Track the selected recipe index
+
+  final List<String> recipes = ["Lasagna", "Kebab", "Carbonara"]; // List of recipes
+
+  void _onRecipeChanged(int? index) {
+    if (index != null) {
+      setState(() {
+        _selectedRecipeIndex = index;
+      });
+    }
+  }
+
+  void _showNextRecipe() {
+    setState(() {
+      _selectedRecipeIndex = (_selectedRecipeIndex + 1) % recipes.length;
+    });
+  }
+
+  void _showPreviousRecipe() {
+    setState(() {
+      _selectedRecipeIndex =
+          (_selectedRecipeIndex - 1 + recipes.length) % recipes.length;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    var colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: SafeArea(
             child: Column(
@@ -58,27 +81,64 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget home(context){
-    return Column(
+    return Center(
+      child: Column(
+        children: [
+          ColorfulTextBuilder("Today", 35, true).getWidget(),
+          mainRecipes(context),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CookingInfo(recipe: "lasagne", iconName: "timer",),
+              CookingInfo(recipe: "lasagne", iconName: "bell",),
 
+            ],
+          ),
+          CustomButton(onPressed: (){}, text: "Let's go !"),
+          CustomDivider(important: true, color : AppColors.pink),
+          RecipePreview(recipe: "Lasagnas",homepage: true),
+          CustomDivider(),
+          RecipePreview(recipe: "Kebab",homepage: true),
+          CustomDivider(),
+          RecipePreview(recipe: "Carbonara",homepage: true),
+        ],
+      ),
+    );
+
+  }
+
+  Widget mainRecipes(BuildContext context) {
+    return Column(
       children: [
-        ColorfulTextBuilder("Today", 35, true).getWidget(),
-        RecipeCard(recipe: "lasagna"),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CookingInfo(recipe: "lasagne", iconName: "timer",),
-            CookingInfo(recipe: "lasagne", iconName: "bell",),
-
+            CustomButton(
+              text: "previous",
+              onPressed: _showPreviousRecipe,
+              color: AppColors.white,
+            ),
+            RecipeCard(recipe: recipes[_selectedRecipeIndex]),
+            CustomButton(
+              text: "next",
+              onPressed: _showNextRecipe,
+              color: AppColors.white,
+            ),
           ],
         ),
-        CustomButton(onPressed: (){}, text: "Let's go !"),
-        CustomDivider(important: true, color : AppColors.pink),
-        RecipePreview(recipe: "Lasagnes",homepage: true),
-        CustomDivider(),
-        RecipePreview(recipe: "Kebab",homepage: true),
-        CustomDivider(),
-        RecipePreview(recipe: "Carbonara",homepage: true),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(recipes.length, (index) {
+            return Radio<int>(
+              value: index,
+              groupValue: _selectedRecipeIndex,
+              onChanged: _onRecipeChanged,
+              activeColor: AppColors.green,
+            );
+          }),
+        ),
       ],
     );
   }
+
 }
