@@ -62,7 +62,7 @@ jobs:
       run: env TZ='Europe/Paris' npm test
       working-directory: './server'
     - name: Archive Coverage Artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: coverage-artifacts
         path: ./server/coverage
@@ -75,7 +75,7 @@ jobs:
 
     steps:
     - name: Restore Coverage Artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: coverage-artifacts
         path: ./server/coverage
