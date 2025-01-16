@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:client/http/authentication.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/pages/login_page.dart';
@@ -347,8 +348,7 @@ Widget accountVerification(BuildContext context) {
                 }
                 final apiKey = jsonDecode(verificationRequest.body) as Map<String, dynamic>;
                 if (apiKey.containsKey('token')) {
-                  await storage.write(key: 'API_KEY', value: apiKey["token"]);
-                  await storage.write(key: 'EMAIL', value: _emailController.text);
+                  await Authentication().updateCredentialsFromStorage(apiKey["token"], _emailController.text, "place_holder");
                 }
                 setState(() {
                   signupFinalized = true;

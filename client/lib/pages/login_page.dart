@@ -1,4 +1,5 @@
 import 'package:client/custom_widgets/custom_buttons.dart';
+import 'package:client/http/authentication.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,7 @@ import 'package:client/custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
-import '../http/sign_in.dart';
+import '../http/connexion.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -25,24 +26,24 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_)  async {
-      String? API_KEY = await storage.read(key: 'API_KEY');
-      String? email = await storage.read(key: 'EMAIL');
-        if (API_KEY != null && email != null){ // If an API key is present just pass Authentication
-          var req = CheckAPIKeyValidity(email, API_KEY);
-          var code = await req.request();
-          if (code == 200){
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
-          } else {
-            await storage.delete(key: 'API_KEY');
-            await storage.read(key: 'EMAIL');
-            ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(req.body),
-                  duration: const Duration(milliseconds: 1500),
-                ));
-          }
-          return;
+      if (!(await Authentication().initCredentialsFromStorage())){
+        await Authentication().deleteCredentialsFromStorage(); // Credentials are missing, don't try to check their validity
+        return;
       }
+      String API_KEY = Authentication().getCredentials().api_key;
+      String email = Authentication().getCredentials().email;
+      var req = CheckAPIKeyValidity(email, API_KEY);
+      var code = await req.request();
+      if (code == 200){
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(req.body),
+              duration: const Duration(milliseconds: 1500),
+            ));
+      }
+      return;
     });
   }
 
@@ -114,8 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                       }
                       final apiKey = jsonDecode(verifyCode.body) as Map<String, dynamic>;
                       if (apiKey.containsKey('token')){
-                        await storage.write(key: 'API_KEY', value: apiKey["token"]); // Put the API key in storage
-                        await storage.write(key: 'EMAIL', value: _emailController.text);
+                        await Authentication().updateCredentialsFromStorage(apiKey["token"], _emailController.text, 'place_holder'); // TODO: change place holder with the user username
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
                       }
                       return;
