@@ -11,6 +11,8 @@ class AppIcons {
   static const String pen = 'assets/icons/pen.svg';
   static const String todo = 'assets/icons/to-do_list.svg';
   static const String upload = 'assets/icons/upload.svg';
+  static const String next = 'assets/icons/next.svg';
+  static const String previous = 'assets/icons/previous.svg';
 
   //Allergens
   static const String gluten = 'assets/icons/allergens/gluten.svg';
@@ -52,6 +54,9 @@ class AppIcons {
   static const String tornado = 'assets/icons/weather/tornado.svg';
   static const String wind = 'assets/icons/weather/wind.svg';
 
+  static const String placeholder = 'assets/icons/place_holder.png';
+  static const String placeholderSquare = 'assets/icons/place_holder_square.png';
+
   // A map to store icon references for easy lookup
   static const Map<String, String> _iconMap = {
     // Basic icons
@@ -66,6 +71,8 @@ class AppIcons {
     'pen': pen,
     'todo': todo,
     'upload': upload,
+    'next' : next,
+    'previous' : previous,
 
     // Allergens
     'Gluten': gluten,
@@ -106,6 +113,9 @@ class AppIcons {
     'thunder': thunder,
     'tornado': tornado,
     'wind': wind,
+
+    'placeholder' : placeholder,
+    'placeholder_square' : placeholderSquare,
   };
 
   // Method to get an icon path by its key
