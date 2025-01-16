@@ -5,6 +5,42 @@ import 'package:client/constants.dart' as Constants;
 import 'package:http/http.dart' as http;
 import 'package:client/http/authentication.dart';
 
+
+class CreateRecipe{
+  final Recipe _recipe;
+  final RecipeRestrictions _recipeRestrictions;
+  final RecipeTime _recipeTime;
+
+  CreateRecipe(this._recipe, this._recipeRestrictions, this._recipeTime);
+
+  Future<int> request() async {
+    try {
+      var url = Uri.http(Constants.SERVER_URL, 'recipe/add');
+      var response = await http.post(url, headers: Authentication().httpHeader(),
+          body: {
+            'title': _recipe.title,
+            'type': _recipe.type,
+            'difficulty': _recipe.difficulty,
+            'cost': _recipe.cost,
+            'portions': _recipe.portions,
+            'salty': _recipeRestrictions.salty,
+            'sweet': _recipeRestrictions.sweet,
+            'preparation_time': _recipeTime.preparation,
+            'rest_time': _recipeTime.rest,
+            'cook_time': _recipeTime.cook,
+            'ingredients': [], //TODO: Add ingredients to body
+      });
+      return response.statusCode;
+    } on Exception catch (e){
+      if (kDebugMode) {
+        print (e);
+      }
+      return -1;
+    }
+  }
+
+}
+
 class GetRecipe {
   final String _id;
   Map<String, dynamic>? body;
@@ -41,6 +77,13 @@ class RecipeRestrictions{
   final bool sweet;
 
   RecipeRestrictions(this.vegetarian, this.vegan, this.hasGluten, this.hasLactose, this.hasPork, this.salty, this.sweet);
+}
+
+class RecipeTime{
+  final int preparation;
+  final int rest;
+  final int cook;
+  RecipeTime(this.preparation, this.rest, this.cook);
 }
 
 class Recipe {
