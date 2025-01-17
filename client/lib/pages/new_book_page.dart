@@ -4,23 +4,24 @@ import 'package:flutter/material.dart';
 import '../custom_widgets/colorful_text_builder.dart';
 import '../custom_widgets/custom_buttons.dart';
 import 'home_page.dart';
+import 'my_creations_page.dart';
 
-class RecipeBooksPage extends StatefulWidget {
+class NewBookPage extends StatefulWidget {
   @override
-  State<RecipeBooksPage> createState() => _RecipeBooksPageState();
+  State<NewBookPage> createState() => _NewBookPageState();
 }
 
-class _RecipeBooksPageState extends State<RecipeBooksPage> {
+class _NewBookPageState extends State<NewBookPage> {
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.white, // Set the background color
+      color: AppColors.white,
       child: Column(
         children: [
-          ColorfulTextBuilder("RecipeBooks", 30).getWidget(),
+          ColorfulTextBuilder("Create a new book", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
+          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCreationsPage()));}, text: 'back',),
 
         ],
       ),
