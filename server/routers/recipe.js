@@ -1,11 +1,16 @@
 const express = require('express');
+const fs = require('fs');
 const router = express.Router();
 const axios = require('axios');
 const database = require('../module/database');
 var bodyParser = require('body-parser');
 let port;
 const conn = database.conn;
+const path = require('path');
 const needAuth = require('../module/token').checkApiKey;
+const multer  = require('multer');
+const upload = multer();
+const sharp = require('sharp');
 
 router.use(bodyParser.json());
 router.use(
@@ -46,6 +51,38 @@ router.get('/last', async (req, res) => {
     const result = await conn.query("SELECT * FROM recipes WHERE visibility = 0 ORDER BY id DESC;");
     res.json(result[0]);
 });
+
+router.get("/image", needAuth, async (req, res) => {
+    if (!req.query.recipeId || !req.query.format){
+        return res.status(405).send("Missing arguments");
+    }
+    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204);
+    imagePath = `public/images/recipe/${req.query.recipeId}/${req.query.format}.png`;
+    fs.access(path.join(__dirname, "../", imagePath), fs.constants.R_OK, (err) => {
+        if (err){
+            console.log(path.join(__dirname, "../", imagePath));
+            return res.sendStatus(204);
+        }
+      });
+    return res.sendFile(imagePath, { root: path.join(__dirname, "../") });
+})
+
+router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
+    if (!req.query.recipeId){
+        return res.status(405).send("Missing arguments");
+    }
+    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204);
+    imagePath = `public/images/recipe/${req.query.recipeId}/`;
+    try{
+        fs.accessSync(path.join(__dirname, "../", imagePath), fs.constants.W_OK);
+    } catch (err) {
+        await fs.promises.mkdir(path.join(__dirname, "../", imagePath));
+    }
+    sharp(req.file.buffer).resize(1280, 720).toFile(imagePath+"16_9.png");
+    sharp(req.file.buffer).resize(720, 720).toFile(imagePath+"1_1.png");
+    sharp(req.file.buffer).resize(1280, 960).toFile(imagePath+"4_3.png");
+    return res.sendStatus(200);
+})
 
 /**
  * @api [get] /recipe/{id}
