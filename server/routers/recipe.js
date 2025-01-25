@@ -52,6 +52,28 @@ router.get('/last', async (req, res) => {
     res.json(result[0]);
 });
 
+/**
+ * @api [get] /recipe/image
+ * tags :
+ *  - Recipe
+ * description: "Returns the image of the given recipe"
+ * parameters:
+ * - name: recipeId
+ *   in: query
+ *   description: The id of the recipe
+ *   required: true
+ *   type: integer
+ * - name: format
+ *   in: query
+ *   description: The format of the image (4/3, 16/9, 1/1)
+ *   required: true
+ *   type: string
+ * responses:
+ *   "200":
+ *     description: "File sent with the given format"
+ *    "204":
+ *      description: "No file found"
+ */
 router.get("/image", needAuth, async (req, res) => {
     if (!req.query.recipeId || !req.query.format){
         return res.status(405).send("Missing arguments");
@@ -67,6 +89,24 @@ router.get("/image", needAuth, async (req, res) => {
     return res.sendFile(imagePath, { root: path.join(__dirname, "../") });
 })
 
+/**
+ * @api [post] /recipe/image
+ * tags :
+ *  - Recipe
+ * description: "Upload an image to make a recipe preview"
+ * parameters:
+ * - name: recipeId
+ *   in: query
+ *   description: The id of the recipe
+ *   required: true
+ *   type: integer
+ * responses:
+ *   "200":
+ *     description: "File was saved"
+ *    "405":
+ *      description: "At leaqt one argument is missing"
+ */
+// TODO: add multipart request to doc
 router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
     if (!req.query.recipeId){
         return res.status(405).send("Missing arguments");
@@ -115,6 +155,18 @@ router.get("/:id", needAuth, async (req, res) => { //TODO: change params to quer
     }
 });
 
+/**
+ * @api [post] /recipe/add
+ * tags :
+ *  - Recipe
+ * description: "Create and add a new recipe to server"
+ * responses:
+ *   "200":
+ *     description: "File sent with the given format"
+ *    "204":
+ *      description: "No file found"
+ */
+// TODO: add request body
 router.post("/add", needAuth, async (req, res) => {
     if (req.body.title === undefined || req.body.type === undefined || req.body.difficulty === undefined || req.body.cost === undefined || req.body.portions === undefined || req.body.salty === undefined || req.body.sweet === undefined || req.body.ingredients === undefined || req.body.preparation_time === undefined || req.body.rest_time === undefined || req.body.cook_time === undefined){
         res.status(400).send("Please check if all arguments are valid");

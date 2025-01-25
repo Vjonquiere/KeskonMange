@@ -293,7 +293,7 @@ router.get("/id", async (req, res) => { //TODO: check for multiple names
 })
 
 /**
- * @api [get] /books/recipe/add
+ * @api [post] /books/recipe/add
  * tags :
  *  - Book
  * parameters:
