@@ -31,6 +31,10 @@ async function hasAccess(recipeId, userId) {
     
 }
 
+function isPreparationStep(step){
+    return !(!step.type == "preparation" || !step.description);
+}
+
 router.get('/complete', async (req, res) => {
     const recipeData = await conn.query("SELECT * FROM recipes JOIN durations ON recipes.id = durations.recipeId WHERE recipes.id=?;", [req.body.id]);
     const ingredienList = await conn.query("SELECT ingredients.name FROM recipes_ingredients_link JOIN ingredients ON ingredients.id = recipes_ingredients_link.ingredientId WHERE recipes_ingredients_link.recipeId=?;", [req.body.id]);
@@ -111,7 +115,7 @@ router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req,
     if (!req.query.recipeId){
         return res.status(405).send("Missing arguments");
     }
-    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204);
+    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe
     imagePath = `public/images/recipe/${req.query.recipeId}/`;
     try{
         fs.accessSync(path.join(__dirname, "../", imagePath), fs.constants.W_OK);
@@ -235,6 +239,28 @@ router.post("/add", needAuth, async (req, res) => {
     res.sendStatus(200);
 
 });
+
+
+router.post("/steps", needAuth, async (req, res) => {
+    if (!req.query.recipeId || !req.body.steps){
+        return res.status(405).send("Missing argument");
+    }
+    const steps = Array.from(req.body.steps);
+    steps.forEach((step) => {
+        //if (!isPreparationStep(step)) return res.sendStatus(500);
+        // make this for each step
+    });
+    // save the json in a file
+    stepsPath = `public/steps/${req.query.recipeId}.json`;
+    const json = `{"steps":${JSON.stringify(req.body.steps)}}`;
+    fs.writeFile(stepsPath, json, (err) => {
+        if (err) {
+            return res.status(500).send("Error while saving your steps");
+        }
+        return res.sendStatus(200);
+    });
+    
+})
 
 router.closeServer = () => {
     console.log("Recipe Closed");
