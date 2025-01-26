@@ -31,6 +31,12 @@ async function hasAccess(recipeId, userId) {
     
 }
 
+async function hasOwnerAccess(recipeId, userId) {
+    const isOwner = await conn.query("SELECT id FROM recipes WHERE id = ? AND owner = ?;", [recipeId, userId]);
+    return isOwner.length > 0;
+    
+}
+
 function isPreparationStep(step){
     return !(!step.type == "preparation" || !step.description);
 }
@@ -129,37 +135,6 @@ router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req,
 })
 
 /**
- * @api [get] /recipe/{id}
- * tags :
- *  - Recipe
- * parameters:
- * - name: id
- *   in: path
- *   description: Id of the recipe
- *   required: true
- *   type: integer
- * description: "Returns the recipe linked to the given id"
- * responses:
- *   "200":
- *     description: "recipe corresponding to the id"
- *   "405":
- *      description: "No recipe found"
- */
-router.get("/:id", needAuth, async (req, res) => { //TODO: change params to query + code 204 if no recipe found
-    if (req.params.id === undefined || isNaN(Number(req.params.id))){
-        res.status(405).send("undifined recipe_id");
-        return;
-    }
-    try {
-        if (!(await hasAccess(req.params.id, req.user.userId))) return res.sendStatus(204);
-        const result = await conn.query("SELECT * FROM recipes WHERE id = ?;", [req.params.id]);
-        res.json(result[0]);
-    } catch (error) {
-        res.sendStatus(500);
-    }
-});
-
-/**
  * @api [post] /recipe/add
  * tags :
  *  - Recipe
@@ -240,11 +215,26 @@ router.post("/add", needAuth, async (req, res) => {
 
 });
 
-
+/**
+ * @api [post] /recipe/steps
+ * tags :
+ *  - Recipe
+ * description: "Set the recipe steps for the given recipe"
+ * responses:
+ *   "200":
+ *     description: "Steps have been saved"
+ *    "204":
+ *      description: "Recipe not found"
+ *    "405":
+ *      description: "At least one argument is missing"
+ *    "500":
+ *      description: "Something went wrong while trying to save the steps file"
+ */
 router.post("/steps", needAuth, async (req, res) => {
     if (!req.query.recipeId || !req.body.steps){
         return res.status(405).send("Missing argument");
     }
+    if (!(await hasOwnerAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204);
     const steps = Array.from(req.body.steps);
     steps.forEach((step) => {
         //if (!isPreparationStep(step)) return res.sendStatus(500);
@@ -261,6 +251,64 @@ router.post("/steps", needAuth, async (req, res) => {
     });
     
 })
+
+/**
+ * @api [get] /recipe/steps
+ * tags :
+ *  - Recipe
+ * description: "Gives you the steps for the given recipe"
+ * responses:
+ *   "200":
+ *     description: "JSON file of the steps sent"
+ *    "204":
+ *      description: "No file found"
+ *    "405":
+ *      description: "RecipeId argument is missing"
+ */
+router.get("/steps", needAuth, async (req, res) => {
+    if (!req.query.recipeId){
+        return res.status(405).send("Must provide a recipeId");
+    }
+    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204);
+    stepsPath = `public/steps/${req.query.recipeId}.json`;
+    fs.access(stepsPath, fs.constants.R_OK, (err) => {
+        if (err){
+            return res.sendStatus(204);
+        }
+      });
+    return res.sendFile(stepsPath, { root: path.join(__dirname, "../") });    
+})
+
+/**
+ * @api [get] /recipe/{id}
+ * tags :
+ *  - Recipe
+ * parameters:
+ * - name: id
+ *   in: path
+ *   description: Id of the recipe
+ *   required: true
+ *   type: integer
+ * description: "Returns the recipe linked to the given id"
+ * responses:
+ *   "200":
+ *     description: "recipe corresponding to the id"
+ *   "405":
+ *      description: "No recipe found"
+ */
+router.get("/:id", needAuth, async (req, res) => { //TODO: change params to query + code 204 if no recipe found
+    if (req.params.id === undefined || isNaN(Number(req.params.id))){
+        res.status(405).send("undifined recipe_id");
+        return;
+    }
+    try {
+        if (!(await hasAccess(req.params.id, req.user.userId))) return res.sendStatus(204);
+        const result = await conn.query("SELECT * FROM recipes WHERE id = ?;", [req.params.id]);
+        res.json(result[0]);
+    } catch (error) {
+        res.sendStatus(500);
+    }
+});
 
 router.closeServer = () => {
     console.log("Recipe Closed");
