@@ -32,6 +32,28 @@ afterAll(async () => {
   app.closeServer();
 });
 
+async function pushRecipe(name, ingredients=[]){
+  await request(app).post('/recipe/add').set(ID).send({
+    "title":name,
+    "type":"IDK",
+    "difficulty": 1,
+    "cost": 1,
+    "portions": 1,
+    "salty": 0,
+    "sweet": 0,
+    "ingredients": ingredients,
+    "preparation_time": 10,
+    "rest_time": 10,
+    "cook_time": 20
+  });
+}
+
+async function getRecipeId(name) {
+  const [userId] = await conn.query("SELECT id FROM users WHERE username = ?;", [ID.username]);
+  const [res] = await conn.query("SELECT id FROM recipes WHERE owner = ? AND title = ?;", [userId.id, name]);
+  return res.id
+}
+
 
 
 describe('GET recipe/:id', () => {
@@ -148,4 +170,23 @@ describe('POST recipe/add', () => {
     expect(res.status).toBe(400);
     expect(res.text).toBe("Cost must be a number");
   });
+})
+
+describe('POST recipe/image', () => {
+  it('call on valid arguments', async () => {
+    await pushRecipe("test1");
+    const recipeId = await getRecipeId("test1");
+  });
+})
+
+describe('GET recipe/image', () => {
+
+})
+
+describe('POST recipe/steps', () => {
+
+})
+
+describe('GET recipe/steps', () => {
+
 })
