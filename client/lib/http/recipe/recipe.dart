@@ -49,7 +49,7 @@ class GetRecipe {
   Future<bool> request() async {
     try {
       var url = Uri.http(Constants.SERVER_URL, 'recipe/$_id');
-      var response = await http.post(url, headers: Authentication().httpHeader());
+      var response = await http.get(url, headers: Authentication().httpHeader());
       body = jsonDecode(response.body);
       return response.statusCode == 200;
     } on Exception catch (e){
@@ -61,20 +61,20 @@ class GetRecipe {
   }
   
   Recipe? getRecipe(){
-    if (body != null) Recipe.fromJson(body!);
+    if (body != null) return Recipe.fromJson(body!);
     return null;
   }
 
 }
 
 class RecipeRestrictions{
-  final bool vegetarian;
-  final bool vegan;
-  final bool hasGluten;
-  final bool hasLactose;
-  final bool hasPork;
-  final bool salty;
-  final bool sweet;
+  final int vegetarian;
+  final int vegan;
+  final int hasGluten;
+  final int hasLactose;
+  final int hasPork;
+  final int salty;
+  final int sweet;
 
   RecipeRestrictions(this.vegetarian, this.vegan, this.hasGluten, this.hasLactose, this.hasPork, this.salty, this.sweet);
 }
@@ -94,7 +94,7 @@ class Recipe {
   final int cost;
   final int portions;
   final int owner;
-  final bool visibility;
+  final int visibility;
   RecipeRestrictions? restrictions;
 
   Recipe(this.id, this.title, this.type, this.difficulty, this.cost, this.portions, this.owner, this.visibility, {this.restrictions});
@@ -108,15 +108,15 @@ class Recipe {
       'difficulty': int difficulty,
       'cost': int cost,
       'portions': int portions,
+      'vegetarian': int vegetarian,
+      'vegan': int vegan,
+      'hasGluten': int hasGluten,
+      'hasLactose': int hasLactose,
+      'hasPork': int hasPork,
+      'salty': int salty,
+      'sweet': int sweet,
       'owner': int owner,
-      'visibility': bool visibility,
-      'vegetarian': bool vegetarian,
-      'vegan': bool vegan,
-      'hasGluten': bool hasGluten,
-      'hasLactose': bool hasLactose,
-      'hasPork': bool hasPork,
-      'salty': bool salty,
-      'sweet': bool sweet,
+      'visibility': int visibility,
       } =>
           Recipe(
               id,
@@ -137,7 +137,7 @@ class Recipe {
       'cost': int cost,
       'portions': int portions,
       'owner': int owner,
-      'visibility': bool visibility,
+      'visibility': int visibility,
       } =>
           Recipe(
             id,

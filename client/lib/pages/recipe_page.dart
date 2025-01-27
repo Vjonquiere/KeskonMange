@@ -1,3 +1,4 @@
+import 'package:client/http/recipe/recipe.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +8,7 @@ import 'home_page.dart';
 
 class RecipePage extends StatefulWidget {
 
-  final String recipe;
+  final Recipe recipe;
 
   RecipePage({required this.recipe});
   @override
@@ -22,7 +23,7 @@ class _RecipePageState extends State<RecipePage> {
       color: AppColors.white, // Set the background color
       child: Column(
         children: [
-          ColorfulTextBuilder(widget.recipe, 30).getWidget(),
+          ColorfulTextBuilder(widget.recipe.title, 30).getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
 

@@ -1,3 +1,4 @@
+import 'package:client/http/recipe/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
@@ -6,7 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import '../pages/recipe_page.dart';
 
 class RecipePreview extends StatelessWidget {
-  final String recipe;
+  final Recipe recipe;
   final bool homepage;
 
 
@@ -21,17 +22,24 @@ class RecipePreview extends StatelessWidget {
     if(homepage ){
       return
           InkWell(
-            onTap : () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipePage(recipe: "test")));},
+            onTap : () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipePage(recipe: recipe)));},
             child: Row(
               children: [
-                const SizedBox(width: 20.0),
-                recipeImage(context),
-                const SizedBox(width: 20.0),
-                recipeInfo(context),
-                const SizedBox(width: 20.0),
-                recipePlanning(context),
-                const SizedBox(width: 20.0),
-                predictedMeal(context),
+                Flexible(
+                  flex: 2,
+                  child: recipeImage(context),),
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                Flexible(
+                    flex: 2,
+                    child: recipeInfo(context) ),
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                Flexible(
+                  flex:1,
+                  child:  recipePlanning(context),),
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
+                Flexible(
+                  flex:1,
+                  child: predictedMeal(context),)
 
               ],
             ),
@@ -39,7 +47,7 @@ class RecipePreview extends StatelessWidget {
     }
     else{
       return InkWell(
-        onTap : () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipePage(recipe: "test")));},
+        onTap : () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => RecipePage(recipe: recipe)));},
         child: Row(
           children: [
             const SizedBox(width: 20.0),
@@ -72,7 +80,7 @@ class RecipePreview extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(recipe.toUpperCase()),
+        Text(recipe.title.toUpperCase(), softWrap: true,),
         Text("preparation ..min"),
         Text("cooking ..min")
       ],
@@ -89,19 +97,34 @@ class RecipePreview extends StatelessWidget {
     );
   }
 
-  Widget predictedMeal(BuildContext context){
-    return Row(
-      children: [
-        SvgPicture.asset(AppIcons.getIcon("sunny"),width: 32, height: 32,),
-        const Padding(padding: EdgeInsets.all(5.0)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("day".toUpperCase(), style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
-            Text("time", style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),),
-          ],
-        )
-      ],
+  Widget predictedMeal(BuildContext context) {
+    return FittedBox( // Scales the content to fit
+      fit: BoxFit.contain,
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            AppIcons.getIcon("sunny"),
+            width: 32,
+            height: 32,
+          ),
+          const Padding(padding: EdgeInsets.all(5.0)),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "day".toUpperCase(),
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "time",
+                style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
