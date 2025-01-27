@@ -81,7 +81,7 @@ router.get('/last', async (req, res) => {
  * responses:
  *   "200":
  *     description: "File sent with the given format"
- *    "204":
+ *   "204":
  *      description: "No file found"
  */
 router.get("/image", needAuth, async (req, res) => {
@@ -113,8 +113,8 @@ router.get("/image", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "File was saved"
- *    "405":
- *      description: "At leaqt one argument is missing"
+ *   "405":
+ *     description: "At leaqt one argument is missing"
  */
 // TODO: add multipart request to doc
 router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
@@ -142,8 +142,8 @@ router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req,
  * responses:
  *   "200":
  *     description: "File sent with the given format"
- *    "204":
- *      description: "No file found"
+ *   "204":
+ *     description: "No file found"
  */
 // TODO: add request body
 router.post("/add", needAuth, async (req, res) => {
@@ -223,12 +223,12 @@ router.post("/add", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "Steps have been saved"
- *    "204":
- *      description: "Recipe not found"
- *    "405":
- *      description: "At least one argument is missing"
- *    "500":
- *      description: "Something went wrong while trying to save the steps file"
+ *   "204":
+ *     description: "Recipe not found"
+ *   "405":
+ *     description: "At least one argument is missing"
+ *   "500":
+ *     description: "Something went wrong while trying to save the steps file"
  */
 router.post("/steps", needAuth, async (req, res) => {
     if (!req.query.recipeId || !req.body.steps){
@@ -260,10 +260,10 @@ router.post("/steps", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "JSON file of the steps sent"
- *    "204":
- *      description: "No file found"
- *    "405":
- *      description: "RecipeId argument is missing"
+ *   "204":
+ *     description: "No file found"
+ *   "405":
+ *     description: "RecipeId argument is missing"
  */
 router.get("/steps", needAuth, async (req, res) => {
     if (!req.query.recipeId){
@@ -294,7 +294,7 @@ router.get("/steps", needAuth, async (req, res) => {
  *   "200":
  *     description: "recipe corresponding to the id"
  *   "405":
- *      description: "No recipe found"
+ *     description: "No recipe found"
  */
 router.get("/:id", needAuth, async (req, res) => { //TODO: change params to query + code 204 if no recipe found
     if (req.params.id === undefined || isNaN(Number(req.params.id))){
