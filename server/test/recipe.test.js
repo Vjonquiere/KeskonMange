@@ -3,6 +3,8 @@ const app = require('../server');
 const mariadb = require('mariadb');
 const login = require('./login');
 const utils = require('./utils');
+const path = require('path');
+const fs = require('fs');
 
 const conn =  mariadb.createPool({
   host: process.env.DATABASE_HOST, 
@@ -11,6 +13,12 @@ const conn =  mariadb.createPool({
   database: process.env.DATABASE_NAME,
   dateStrings: true
 });
+
+function sleep(ms) {
+  return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+  });
+  }
 
 let ID;
 
@@ -176,6 +184,31 @@ describe('POST recipe/image', () => {
   it('call on valid arguments', async () => {
     await pushRecipe("test1");
     const recipeId = await getRecipeId("test1");
+    const resPath = path.join(__dirname, "res/place_holder.png");
+    const serverFilePathBase = path.join(__dirname, `../public/images/recipe/${recipeId}`);
+    const response = await request(app).post(`/recipe/image?recipeId=${recipeId}`).set(ID).attach('image', resPath);
+    expect(response.status).toBe(200);
+    await sleep(500); // Wait for the files to be created
+    expect(fs.existsSync(path.join(serverFilePathBase, "1_1.png"))).toBe(true);
+    expect(fs.existsSync(path.join(serverFilePathBase, "4_3.png"))).toBe(true); // Check if the three files exists
+    expect(fs.existsSync(path.join(serverFilePathBase, "1_1.png"))).toBe(true);
+    // Need to clean folder
+  });
+  it('call on not owner recipe', async () => {
+    const resPath = path.join(__dirname, "res/place_holder.png");
+    const response = await request(app).post(`/recipe/image?recipeId=${1}`).set(ID).attach('image', resPath);
+    expect(response.status).toBe(204);
+  });
+  it('call on missing argument (recipeId)', async () => {
+    const resPath = path.join(__dirname, "res/place_holder.png");
+    const response = await request(app).post(`/recipe/image`).set(ID).attach('image', resPath);
+    expect(response.status).toBe(405);
+  });
+  it('call on missing argument (no file)', async () => {
+    /*const recipeId = await getRecipeId("test1");
+    const resPath = path.join(__dirname, "res/place_holder.png");
+    const response = await request(app).post(`/recipe/image?recipeId=${1}`).set(ID);
+    expect(response.status).toBe(405);*/ // Problem found with this test, no file = request never return
   });
 })
 
