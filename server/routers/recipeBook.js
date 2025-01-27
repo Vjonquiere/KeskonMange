@@ -86,9 +86,9 @@ router.post("/create", needAuth, async (req, res) => {
  *   "200":
  *     description: "Book has been deleted"
  *   "400":
- *      description: "BookId parameter is wrong"
- *    "403":
- *      description: "Not allowed"
+ *     description: "BookId parameter is wrong"
+ *   "403":
+ *     description: "Not allowed"
  */
 router.delete("/delete", needAuth, async (req, res) => {
   if (req.query.bookId === undefined){
@@ -314,9 +314,9 @@ router.get("/id", async (req, res) => { //TODO: check for multiple names
  *   "500":
  *     description: "The book does not exists"
  *   "400":
- *      description: "At least one parameter is wrong"
+ *     description: "At least one parameter is wrong"
  *   "403":
- *      description: "Not allowed"
+ *     description: "Not allowed"
  */
 router.post("/recipe/add", needAuth, async (req, res) => {
   if (req.query.bookId === undefined || req.query.recipeId === undefined){
@@ -361,7 +361,7 @@ router.post("/recipe/add", needAuth, async (req, res) => {
  *     description: "Book has been deleted"
  *   "400":
  *      description: "At least one parameter is wrong"
- *    "403":
+ *   "403":
  *      description: "Not allowed"
  */
 router.delete("/share", needAuth, async (req, res) => {
