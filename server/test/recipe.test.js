@@ -213,7 +213,28 @@ describe('POST recipe/image', () => {
 })
 
 describe('GET recipe/image', () => {
-
+  it('call on valid arguments', async () => {
+    await pushRecipe("test2");
+    const recipeId = await getRecipeId("test2");
+    const resPath = path.join(__dirname, "res/place_holder.png");
+    const response = await request(app).post(`/recipe/image?recipeId=${recipeId}`).set(ID).attach('image', resPath);
+    expect(response.status).toBe(200);
+    await sleep(500); // Wait for the files to be created
+    const res = await request(app).get(`/recipe/image?recipeId=${recipeId}&format=16_9`).set(ID);
+    expect(res.status).toBe(200);
+  });
+  it('call on missing argument (recipeId)', async () => {
+    const res = await request(app).get(`/recipe/image?format=16_9`).set(ID);
+    expect(res.status).toBe(405);
+  });
+  it('call on missing argument (format)', async () => {
+    const res = await request(app).get(`/recipe/image?recipeId=${recipeId}`).set(ID);
+    expect(res.status).toBe(405);
+  });
+  it('call on unkown recipeId', async () => {
+    const res = await request(app).get(`/recipe/image?recipeId=${1000}&format=16_9`).set(ID);
+    expect(res.status).toBe(204);
+  });
 })
 
 describe('POST recipe/steps', () => {
