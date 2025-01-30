@@ -121,7 +121,7 @@ router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req,
     if (!req.query.recipeId){
         return res.status(405).send("Missing arguments");
     }
-    if (!(await hasAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe
+    if (!(await hasOwnerAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe
     imagePath = `public/images/recipe/${req.query.recipeId}/`;
     try{
         fs.accessSync(path.join(__dirname, "../", imagePath), fs.constants.W_OK);
