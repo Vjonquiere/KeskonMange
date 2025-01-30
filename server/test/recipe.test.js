@@ -228,7 +228,7 @@ describe('GET recipe/image', () => {
     expect(res.status).toBe(405);
   });
   it('call on missing argument (format)', async () => {
-    const res = await request(app).get(`/recipe/image?recipeId=${recipeId}`).set(ID);
+    const res = await request(app).get(`/recipe/image?recipeId=${1000}`).set(ID);
     expect(res.status).toBe(405);
   });
   it('call on unkown recipeId', async () => {
@@ -238,9 +238,77 @@ describe('GET recipe/image', () => {
 })
 
 describe('POST recipe/steps', () => {
-
+  it('call on valid arguments', async () => {
+    await pushRecipe("test3");
+    const recipeId = await getRecipeId("test3");
+    const response = await request(app).post(`/recipe/steps?recipeId=${recipeId}`).set(ID).send({
+      "steps": [
+        {"type": "preparation", "description": "Step 1"},
+        {"type": "preparation", "description": "Step 2"}
+      ]
+      
+    });
+    expect(response.status).toBe(200);
+    await sleep(500); // Wait for the files to be created
+    const stepFilePath = path.join(__dirname, `../public/steps/${recipeId}.json`);
+    expect(fs.existsSync(stepFilePath)).toBe(true);
+  });
+  it('call on unknown recipe', async () => {
+    const response = await request(app).post(`/recipe/steps?recipeId=${100}`).set(ID).send({
+      "steps": [
+        {"type": "preparation", "description": "Step 1"},
+        {"type": "preparation", "description": "Step 2"}
+      ]
+      
+    });
+    expect(response.status).toBe(204);
+  });
+  it('call on missing argument (recipeId)', async () => {
+    const response = await request(app).post(`/recipe/steps`).set(ID).send({
+      "steps": [
+        {"type": "preparation", "description": "Step 1"},
+        {"type": "preparation", "description": "Step 2"}
+      ]
+      
+    });
+    expect(response.status).toBe(405);
+  });
+  it('call on missing argument (steps)', async () => {
+    const response = await request(app).post(`/recipe/steps?recipeId=${1000}`).set(ID).send();
+    expect(response.status).toBe(405);
+  });
 })
 
 describe('GET recipe/steps', () => {
+  it('call on valid arguments', async () => {
+    await pushRecipe("test4");
+    const recipeId = await getRecipeId("test4");
+    const response = await request(app).post(`/recipe/steps?recipeId=${recipeId}`).set(ID).send({
+      "steps": [
+        {"type": "preparation", "description": "Step 1"},
+        {"type": "preparation", "description": "Step 2"}
+      ]
+      
+    });
+    expect(response.status).toBe(200);
+    await sleep(500); // Wait for the files to be created
+    const res = await request(app).get(`/recipe/steps?recipeId=${recipeId}`).set(ID).send();
+    expect(res.status).toBe(200);
+    expect(JSON.parse(res.text)).toStrictEqual({
+      "steps": [
+        {"type": "preparation", "description": "Step 1"},
+        {"type": "preparation", "description": "Step 2"}
+      ]
+      
+    });
 
+  });
+  it('call on unknown recipe', async () => {
+    const res = await request(app).get(`/recipe/steps?recipeId=${1000}`).set(ID).send();
+    expect(res.status).toBe(204);
+  });
+  it('call on missing argument (recipeId)', async () => {
+    const res = await request(app).get(`/recipe/steps`).set(ID).send();
+    expect(res.status).toBe(405);
+  });
 })
