@@ -28,6 +28,9 @@ jobs:
     - name: Build the project (if a build script exists)
       run: npm run build --if-present
       working-directory: './server'
+    - name: Create resources directories
+      run: mkdir public/images; mkdir public/images/recipe; mkdir public/steps
+      working-directory: './server'
 
   test:
     needs: build
