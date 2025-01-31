@@ -35,7 +35,8 @@ class Authentication{
   }
 
   Map<String, String> httpHeader(){
-    return {"x-api-key": _credentials.api_key, "username": _credentials.username, "email": _credentials.email};
+    // TODO: add real username
+    return {"x-api-key": _credentials.api_key, "username": "mathilde", "email": _credentials.email};
   }
 
   Credentials getCredentials(){

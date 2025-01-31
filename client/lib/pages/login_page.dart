@@ -1,5 +1,8 @@
 import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/http/authentication.dart';
+import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
+import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
+import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +10,6 @@ import 'package:flutter/services.dart';
 import 'package:client/custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
-
-import '../http/connexion.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -32,14 +33,14 @@ class _LoginPageState extends State<LoginPage> {
       }
       String API_KEY = Authentication().getCredentials().api_key;
       String email = Authentication().getCredentials().email;
-      var req = CheckAPIKeyValidity(email, API_KEY);
-      var code = await req.request();
+      var req = CheckAPIKeyValidityRequest(email, API_KEY);
+      var code = await req.send();
       if (code == 200){
         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage())); //TODO: Check on key validity
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(req.body),
+              content: Text(req.getBody()),
               duration: const Duration(milliseconds: 1500),
             ));
       }
@@ -104,27 +105,27 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     if(_emailController.text == "")return;
                     if(signInPressed){
-                      var verifyCode = VerifyAuthenticationCode(_emailController.text, _passwordController.text);
-                      if (!(await verifyCode.request())){
+                      var verifyCode = VerifyAuthenticationCodeRequest(_emailController.text, _passwordController.text);
+                      if (!(await verifyCode.send() == 200)){
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(verifyCode.body),
+                              content: Text(verifyCode.getBody()),
                               duration: const Duration(milliseconds: 1500),
                             ));
                         return;
                       }
-                      final apiKey = jsonDecode(verifyCode.body) as Map<String, dynamic>;
+                      final apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
                       if (apiKey.containsKey('token')){
                         await Authentication().updateCredentialsFromStorage(apiKey["token"], _emailController.text, 'place_holder'); // TODO: change place holder with the user username
                         Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));
                       }
                       return;
                     }
-                    var sendCode =  GetAuthenticationCode(_emailController.text);
-                    if(!(await sendCode.request())){
+                    var sendCode =  GetAuthenticationCodeRequest(_emailController.text);
+                    if(!(await sendCode.send() == 200)){
                       ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content: Text(sendCode.body),
+                            content: Text(sendCode.getBody()),
                             duration: const Duration(milliseconds: 1500),
                           ));
                       return;

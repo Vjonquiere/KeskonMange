@@ -1,10 +1,7 @@
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 
 import 'package:client/http/authentication.dart';
 import 'package:client/pages/home_page.dart';
-import 'package:client/http/sign_up/account_creation.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/utils/app_icons.dart';
@@ -16,7 +13,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../constants.dart';
-import '../http/sign_up/verify_data.dart';
+import '../http/sign_up/CreateAccountRequest.dart';
+import '../http/sign_up/UserVerificationRequest.dart';
+import '../http/sign_up/VerifyEmailRequest.dart';
+import '../http/sign_up/VerifyUsernameRequest.dart';
 
 class SignupPage extends StatefulWidget{
   @override
@@ -72,7 +72,7 @@ class _SignupPageState extends State<SignupPage> {
         content = AllergensToggle(this);
         break;
       case 4:
-        CreateAccountRequest(_emailController.text, _usernameController.text).request();
+        CreateAccountRequest(_emailController.text, _usernameController.text).send();
         content = accountVerification(context);
         break;
       default:
@@ -151,8 +151,8 @@ class _SignupPageState extends State<SignupPage> {
                 child: const Text('Next'),
                 onPressed: () async {
                   if(_usernameController.text == "")return;
-                  var isUsernameUnique = await VerifyUsernameRequest(_usernameController.text).request();
-                  if (!isUsernameUnique) {
+                  var isUsernameUnique = await VerifyUsernameRequest(_usernameController.text).send();
+                  if (!(isUsernameUnique == 200)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Username is already taken'),
@@ -221,8 +221,8 @@ class _SignupPageState extends State<SignupPage> {
                         ));
                     return;
                   }
-                  var isEmailUnique = await VerifyEmailRequest(_emailController.text).request();
-                  if (!isEmailUnique) {
+                  var isEmailUnique = await VerifyEmailRequest(_emailController.text).send();
+                  if (!(isEmailUnique == 200)) {
                     ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Email is already used'),
@@ -338,7 +338,7 @@ Widget accountVerification(BuildContext context) {
               onPressed: () async {
                 if (verificationCodeController.text == "") return;
                 var verificationRequest = UserVerificationRequest(_emailController.text, verificationCodeController.text);
-                if (!(await verificationRequest.request())){
+                if (!(await verificationRequest.send() == 200)){
                   ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                   content: Text("Verification code is not valid"),
@@ -346,7 +346,7 @@ Widget accountVerification(BuildContext context) {
                   ));
                   return;
                 }
-                final apiKey = jsonDecode(verificationRequest.body) as Map<String, dynamic>;
+                final apiKey = jsonDecode(verificationRequest.getBody()) as Map<String, dynamic>;
                 if (apiKey.containsKey('token')) {
                   await Authentication().updateCredentialsFromStorage(apiKey["token"], _emailController.text, "place_holder");
                 }
