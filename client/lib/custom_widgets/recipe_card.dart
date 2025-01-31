@@ -3,7 +3,7 @@ import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../http/recipe/recipe.dart';
+import '../model/recipe.dart';
 
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;

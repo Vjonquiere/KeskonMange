@@ -1,4 +1,4 @@
-import 'package:client/http/recipe/recipe.dart';
+import 'package:client/model/recipe.dart';
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';

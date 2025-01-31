@@ -2,7 +2,8 @@ import 'package:client/custom_widgets/cooking_info.dart';
 import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/custom_widgets/custom_dividers.dart';
 import 'package:client/custom_widgets/recipe_preview.dart';
-import 'package:client/http/recipe/recipe.dart';
+import 'package:client/http/recipe/GetRecipeFromIdRequest.dart';
+import 'package:client/model/recipe.dart';
 import 'package:client/pages/calendar_page.dart';
 import 'package:client/pages/planned_recipes_page.dart';
 import 'package:client/pages/recipe_books_page.dart';
@@ -39,8 +40,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<Recipe> getRecipe(int id) async {
-    var recipe = GetRecipe(id.toString());
-    if (await recipe.request()){
+    var recipe = GetRecipeRequest(id.toString());
+    if ((await recipe.send()) == 200){
       return recipe.getRecipe()!;
     }
     return Recipe(id, "error", "error", 0, 0, 0, 0, 0);
