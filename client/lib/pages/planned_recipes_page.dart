@@ -13,7 +13,6 @@ class PlannedRecipesPage extends StatefulWidget {
 }
 
 class _PlannedRecipesPageState extends State<PlannedRecipesPage> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,11 +21,15 @@ class _PlannedRecipesPageState extends State<PlannedRecipesPage> {
         children: [
           ColorfulTextBuilder("PlannedRecipes", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+            },
+            text: 'back',
+          ),
         ],
       ),
     );
   }
-
-
 }

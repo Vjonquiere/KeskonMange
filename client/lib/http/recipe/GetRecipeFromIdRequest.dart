@@ -3,11 +3,11 @@ import 'dart:convert';
 import 'package:client/http/HttpRequest.dart';
 import 'package:client/model/recipe.dart';
 
-class GetRecipeRequest extends HttpRequest{
+class GetRecipeRequest extends HttpRequest {
   final String _id;
   GetRecipeRequest(this._id);
 
-  Recipe? getRecipe(){
+  Recipe? getRecipe() {
     return Recipe.fromJson(jsonDecode(super.getBody()));
   }
 
@@ -15,5 +15,4 @@ class GetRecipeRequest extends HttpRequest{
   Future<int> send() async {
     return (await super.process(RequestMode.get, 'recipe/$_id'));
   }
-
 }

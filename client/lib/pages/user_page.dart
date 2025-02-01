@@ -13,7 +13,6 @@ class UserPage extends StatefulWidget {
 }
 
 class _UserPageState extends State<UserPage> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,11 +21,15 @@ class _UserPageState extends State<UserPage> {
         children: [
           ColorfulTextBuilder("User", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+            },
+            text: 'back',
+          ),
         ],
       ),
     );
   }
-
-
 }

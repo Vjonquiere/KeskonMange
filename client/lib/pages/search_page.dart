@@ -13,7 +13,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,11 +21,15 @@ class _SearchPageState extends State<SearchPage> {
         children: [
           ColorfulTextBuilder("SEARCH", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+            },
+            text: 'back',
+          ),
         ],
       ),
     );
   }
-
-
 }

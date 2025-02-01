@@ -7,7 +7,6 @@ class CustomDivider extends StatelessWidget {
   final Color color;
   final bool important;
 
-
   const CustomDivider({
     this.color = AppColors.kaki,
     this.important = false,
@@ -16,17 +15,17 @@ class CustomDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(important){
+    if (important) {
       return Divider(
-        color : color,
+        color: color,
         height: 40,
         thickness: 3,
         indent: 30,
         endIndent: 30,
       );
-    }else{
+    } else {
       return Divider(
-        color : color,
+        color: color,
         height: 20,
         thickness: 1,
         indent: 20,

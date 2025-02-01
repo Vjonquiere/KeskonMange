@@ -3,30 +3,37 @@ import 'package:http/http.dart' as http;
 import 'package:client/constants.dart' as constants;
 import 'authentication.dart';
 
-abstract class HttpRequest{
+abstract class HttpRequest {
   String? _body;
 
-  String getBody(){
+  String getBody() {
     if (_body != null) return _body!;
     return "";
   }
 
-  Future<int> process(RequestMode mode, String route, {Map<String, String> queryParameters = const {}, Map<String, Object> body = const {}}) async {
+  Future<int> process(RequestMode mode, String route,
+      {Map<String, String> queryParameters = const {},
+      Map<String, Object> body = const {},
+      bool authNeeded = false}) async {
     try {
       var url = Uri.http(constants.SERVER_URL, route, queryParameters);
       http.Response response;
-      switch (mode){
+      switch (mode) {
         case RequestMode.get:
-          response = await http.get(url, headers: Authentication().httpHeader());
+          response = await http.get(url,
+              headers: authNeeded ? Authentication().httpHeader() : null);
         case RequestMode.post:
-          response = await http.post(url, headers: Authentication().httpHeader(), body: body);
+          response = await http.post(url,
+              headers: authNeeded ? Authentication().httpHeader() : null,
+              body: body);
       }
       _body = response.body;
-      if (kDebugMode) print("REQUEST | $route | ${response.statusCode} ${response.body}");
+      if (kDebugMode)
+        print("REQUEST | $route | ${response.statusCode} ${response.body}");
       return response.statusCode;
-    } on Exception catch (e){
+    } on Exception catch (e) {
       if (kDebugMode) {
-        print (e);
+        print(e);
       }
       return -1;
     }
@@ -35,4 +42,4 @@ abstract class HttpRequest{
   Future<int> send();
 }
 
-enum RequestMode {get, post}
+enum RequestMode { get, post }

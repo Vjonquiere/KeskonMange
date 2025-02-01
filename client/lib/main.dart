@@ -3,7 +3,6 @@ import 'package:client/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 void main() {
   runApp(const KeskonMangeApp());
 }
@@ -29,8 +28,6 @@ class KeskonMangeApp extends StatelessWidget {
   }
 }
 
-class KeskonMangeState extends ChangeNotifier{
+class KeskonMangeState extends ChangeNotifier {
   //for things that will be updated regularly
 }
-
-

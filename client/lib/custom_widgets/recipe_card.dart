@@ -42,13 +42,15 @@ class RecipeCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   //TODO: add the icons according to the recipe
-                  SvgPicture.asset(AppIcons.getIcon("veggie"), width: 32, height: 32),
-                  SvgPicture.asset(AppIcons.getIcon("meal"), width: 32, height: 32),
-                  SvgPicture.asset(AppIcons.getIcon("cake"), width: 32, height: 32),
+                  SvgPicture.asset(AppIcons.getIcon("veggie"),
+                      width: 32, height: 32),
+                  SvgPicture.asset(AppIcons.getIcon("meal"),
+                      width: 32, height: 32),
+                  SvgPicture.asset(AppIcons.getIcon("cake"),
+                      width: 32, height: 32),
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
