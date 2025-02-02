@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Backend build
     runs-on: ubuntu-latest
     environment: test
     strategy:
@@ -30,6 +31,7 @@ jobs:
       working-directory: './server'
 
   test:
+    name: Backend test
     needs: build
     runs-on: ubuntu-latest
     environment: test
@@ -72,6 +74,7 @@ jobs:
       
 
   coverage:
+    name: Backend coverage
     needs: test
     runs-on: ubuntu-latest
     environment: test
@@ -97,6 +100,7 @@ jobs:
       working-directory: './server'
 
   client-format:
+    name: Check Flutter format
     runs-on: ubuntu-latest
     environment: test
 
@@ -112,6 +116,7 @@ jobs:
       working-directory: './client'
   
   client-build:
+    needs: client-format
     name: Build Flutter App
     runs-on: ubuntu-latest
 
