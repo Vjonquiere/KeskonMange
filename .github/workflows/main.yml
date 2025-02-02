@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-server:
+  build:
     runs-on: ubuntu-latest
     environment: test
     strategy:
@@ -22,10 +22,6 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
-    - name: Install w3m
-      run: sudo apt install w3m -y
-    - name: Install redis
-      run: sudo apt install redis
     - name: Install dependencies
       run: npm ci
       working-directory: './server'
@@ -33,8 +29,8 @@ jobs:
       run: npm run build --if-present
       working-directory: './server'
 
-  test-server:
-    needs: build-server
+  test:
+    needs: build
     runs-on: ubuntu-latest
     environment: test
     env:
@@ -57,6 +53,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
         cache-dependency-path: ./server/package-lock.json
+    - name: Install redis
+      run: sudo apt install redis
     - name: Install dependencies
       run: npm ci
       working-directory: './server'
@@ -74,7 +72,7 @@ jobs:
       
 
   coverage:
-    needs: test-server
+    needs: test
     runs-on: ubuntu-latest
     environment: test
 
@@ -86,6 +84,8 @@ jobs:
         path: ./server/coverage
     - name: Debug Coverage Directory
       run: ls -l ./server/coverage
+    - name: Install w3m
+      run: sudo apt install w3m -y
     - name: Process Global Coverage
       run: w3m -dump coverage/lcov-report/index.html
       working-directory: './server'
@@ -95,3 +95,48 @@ jobs:
     - name: Process Routers Coverage
       run: w3m -dump coverage/lcov-report/server/routers/index.html
       working-directory: './server'
+
+  client-format:
+    runs-on: ubuntu-latest
+    environment: test
+
+    steps:
+    - name: Check format
+      run: dart format . --set-exit-if-changed
+      working-directory: './client'
+  
+  client-build:
+    name: Build Flutter App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+  client-test:
+    name: Test Flutter App
+    runs-on: ubuntu-latest
+    needs: client-build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run unit tests
+        run: flutter test
