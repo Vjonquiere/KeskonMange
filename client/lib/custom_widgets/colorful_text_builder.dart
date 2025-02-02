@@ -1,5 +1,9 @@
 import 'package:flutter/cupertino.dart';
 
+///Class to create a text with different colors
+///on each letter.
+///The font size and thickness (normal or bold) can be modified.
+///usage : ColorfulTextBuilder([_text], [_fontSize], [[_bold]]).getWidget()
 class ColorfulTextBuilder {
   final String _text;
   final double _fontSize;

@@ -5,6 +5,11 @@ import 'package:flutter_svg/svg.dart';
 
 import '../model/recipe.dart';
 
+/// Creates a card with information about a given recipe.
+///
+/// The image and name of recipe are in the center of the widget.
+/// On the left, we have icons corresponding to some features of the recipe:
+/// vegetarian, main course, dessert, ..
 class RecipeCard extends StatelessWidget {
   final Recipe recipe;
 

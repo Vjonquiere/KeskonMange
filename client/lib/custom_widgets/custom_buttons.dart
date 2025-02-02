@@ -3,11 +3,16 @@ import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
+/// Creates buttons based on the text.
+/// If an icon is available for it in [AppIcons],
+/// we have an [IconButton].
+/// Else, we have a [FilledButton] with the corresponding text.
+/// By default the button is green.
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final Color color;
-  final double scaleSize;
+  final double scaleSize; // for icons
 
   const CustomButton({
     required this.text,
@@ -21,6 +26,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     var icons = AppIcons.getIcon(text) != 'Icon not found' ? true : false;
     if (icons == true) {
+      // Put an icon if one is available
       return Transform.scale(
           scale: scaleSize,
           child: IconButton(
@@ -29,7 +35,6 @@ class CustomButton extends StatelessWidget {
               backgroundColor: color,
               shape: const CircleBorder(),
             ),
-            // Put an icon if one is available
             icon: SvgPicture.asset(AppIcons.getIcon(text)),
           ));
     }

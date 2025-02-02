@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_colors.dart';
 
+/// Creates horizontal dividers.
+///
+/// If the [important] is true, the divider is thick .
+/// Else it is thin.
+/// The color by default is kaki but customizable.
 class CustomDivider extends StatelessWidget {
   final Color color;
   final bool important;

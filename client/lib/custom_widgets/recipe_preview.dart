@@ -6,6 +6,11 @@ import 'package:flutter_svg/svg.dart';
 
 import '../pages/recipe_page.dart';
 
+/// Create a clickable row containing information on a recipe.
+///
+/// The picture, recipe title, preparation and cooking times are displayed.
+/// If the recipe is on the homepage, the number of persons, meal category (starter,
+/// main course or dessert), the predicted day, time and weather is also displayed.
 class RecipePreview extends StatelessWidget {
   final Recipe recipe;
   final bool homepage;
@@ -64,6 +69,7 @@ class RecipePreview extends StatelessWidget {
     }
   }
 
+  /// Creates a card with a 64 by 64 image.
   Widget recipeImage(BuildContext context) {
     return Card.filled(
       color: AppColors.beige,
@@ -79,6 +85,7 @@ class RecipePreview extends StatelessWidget {
     );
   }
 
+  /// Creates a [Column] composed of the name of the recipe and its cooking and preparation time.
   Widget recipeInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,6 +100,9 @@ class RecipePreview extends StatelessWidget {
     );
   }
 
+  /// Displays the planned details of a recipe, including:
+  /// - The course of the meal (starters, main course, dessert)
+  /// - The number of people the recipe serves
   Widget recipePlanning(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -109,6 +119,9 @@ class RecipePreview extends StatelessWidget {
     );
   }
 
+  /// Displays the planned details of a recipe, including:
+  /// - The scheduled date and time for eating.
+  /// - The expected weather conditions at that time.
   Widget predictedMeal(BuildContext context) {
     return FittedBox(
       // Scales the content to fit

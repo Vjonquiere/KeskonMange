@@ -7,6 +7,7 @@ import 'package:client/model/recipe.dart';
 import 'package:client/pages/calendar_page.dart';
 import 'package:client/pages/planned_recipes_page.dart';
 import 'package:client/pages/recipe_books_page.dart';
+import 'package:client/pages/recipe_page.dart';
 import 'package:client/pages/search_page.dart';
 import 'package:client/pages/user_page.dart';
 import 'package:client/utils/app_colors.dart';
@@ -26,12 +27,16 @@ class _HomePageState extends State<HomePage> {
   int _selectedRecipeIndex = 0; // Track the selected recipe index
   late Future<List<Recipe>> recipes; // List of recipes
 
+  /// Get the recipes when creating the [_HomepageState]
   @override
   void initState() {
     super.initState();
     recipes = getRecipes([1, 2, 1]);
   }
 
+  /// Change the index of the recipe displayed when called.
+  ///
+  /// Only changes it if the [index] is not null
   void _onRecipeChanged(int? index) {
     if (index != null) {
       setState(() {
@@ -40,6 +45,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  /// Returns the full recipe of a given id
+  ///
+  /// Calls the http request to get a recipe from the server.
+  /// Returns the recipe if the return code of the request is 200.
+  /// Returns a recipe ERROR if not.
   Future<Recipe> getRecipe(int id) async {
     var recipe = GetRecipeRequest(id.toString());
     if ((await recipe.send()) == 200) {
@@ -48,6 +58,10 @@ class _HomePageState extends State<HomePage> {
     return Recipe(id, "error", "error", 0, 0, 0, 0, 0);
   }
 
+  /// Creates a list of recipes.
+  ///
+  /// Calls  the function [getRecipe] to obtain the recipes
+  /// of ids given by the list [ids].
   Future<List<Recipe>> getRecipes(List<int> ids) async {
     List<Recipe> recipes = [];
     for (var id = 0; id < ids.length; id++) {
@@ -107,6 +121,13 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
+  /// Core of the homepage
+  ///
+  /// Composed of the tile, a widget [mainRecipes] for the recipes of the day,
+  /// Some information about when to start cooking,
+  /// and a list of future planned recipes.
+  /// If the recipes are not loaded yet, a [CircularProgressIndicator] indicates
+  /// the progression.
   Widget home(context) {
     return Center(
       child: Column(
@@ -158,6 +179,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  /// Widget containing the recipes of the day
+  ///
+  /// A card contains the recipe. It can be changed by clicking on the radio
+  /// buttons or the arrows surrounding the card.
+  /// The recipe is clickable to access the corresponding [RecipePage].
   Widget mainRecipes(BuildContext context) {
     return Column(
       children: [

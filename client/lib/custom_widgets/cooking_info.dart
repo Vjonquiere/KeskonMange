@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter_svg/svg.dart';
 
-
+/// Display some information about the next planned recipe.
+///
+/// If we ask for "timer" in [iconName], the widget
+/// displays the cooking and preparation time needed for the recipe.
+/// If we ask for "bell", the widget indicates when to start cooking to
+/// eat the meal at the given time.
+/// If any other [iconName] is given, return a text widget
+/// indicating that the widget is not implemented
 class CookingInfo extends StatelessWidget {
   final String recipe;
   final String iconName;
-  //final Color color;
-  //final double scaleSize;
 
   const CookingInfo({
     required this.recipe,
     this.iconName = "timer",
-    //this.color = AppColors.green,
-    //this.scaleSize = 0.5,
     super.key,
   });
 
