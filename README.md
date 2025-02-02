@@ -9,21 +9,24 @@
 ### Build and run the server
 1. Clone the repository
 2. Go to the `server/` folder
-3. (Need to build a script to create the database)
-4. **Define your *environment variables***:
-	- DATABASE_HOST: *url of your database*
-	- DATABASE_USER: *your DB user*
-	- DATABASE_PASSWORD: *password of your DB user*
-	- DATABASE_NAME: *the database you want to use*
-	- SMTP_HOST: *url of your SMTP server*
-	- SMTP_ADDRESS: *email you want to use*
-	- SMTP_PASSWORD: *password of the address*
-5. **Add optional *environment variables* (to run tests):**
-	- POP3_HOST: *url of your POP3 server*
-	- POP3_ADDRESS: *email you want to use*
-	- POP3_PASSWORD: *password of the address*
-6. Run `npm ci` to install all the dependencies
-7. Run `npm run start` to launch the server
+3. **Define your *environment variables***:
+    - DATABASE_HOST: *url of your database*
+    - DATABASE_USER: *your DB user*
+    - DATABASE_PASSWORD: *password of your DB user*
+    - DATABASE_NAME: *the database you want to use*
+    - SMTP_HOST: *url of your SMTP server*
+    - SMTP_ADDRESS: *email you want to use*
+    - SMTP_PASSWORD: *password of the address*
+4. **Add optional *environment variables* (to run tests):**
+    - POP3_HOST: *url of your POP3 server*
+    - POP3_ADDRESS: *email you want to use*
+    - POP3_PASSWORD: *password of the address*
+5. Run `npm run install` to initialize the database
+6. Put your SSL certificate and private key in `ssl-cert` folder
+7. Run `mkdir public/images; mkdir public/images/recipe; mkdir public/steps` 
+    to create resources folders
+8. Run `npm ci` to install all the dependencies
+9. Run `npm run start` to launch the server
 ## Client
 ### Requirements ✅
 - `libsecret` (*Linux only*)
