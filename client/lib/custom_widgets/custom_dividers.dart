@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
-import 'package:flutter_svg/svg.dart';
 
 class CustomDivider extends StatelessWidget {
   final Color color;

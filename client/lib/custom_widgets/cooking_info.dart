@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
-import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../pages/recipe_page.dart';
 
 class CookingInfo extends StatelessWidget {
   final String recipe;

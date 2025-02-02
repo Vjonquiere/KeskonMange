@@ -59,53 +59,52 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-            child: Column(
-      children: [
-        Expanded(child: home(context)),
-        SafeArea(
-          child: BottomAppBar(
-            color: AppColors.green,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => UserPage()));
-                    },
-                    text: 'pen'),
-                CustomButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => RecipeBooksPage()));
-                    },
-                    text: 'book'),
-                FloatingActionButton(
+        bottomNavigationBar: BottomAppBar(
+          color: AppColors.green,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SearchPage()));
+                        MaterialPageRoute(builder: (context) => UserPage()));
                   },
-                  child: SvgPicture.asset(AppIcons.getIcon('search')),
-                ),
-                CustomButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PlannedRecipesPage()));
-                    },
-                    text: 'upload'),
-                CustomButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CalendarPage()));
-                    },
-                    text: 'calendar'),
-              ],
-            ),
+                  text: 'pen'),
+              CustomButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => RecipeBooksPage()));
+                  },
+                  text: 'book'),
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SearchPage()));
+                },
+                child: SvgPicture.asset(AppIcons.getIcon('search')),
+              ),
+              CustomButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => PlannedRecipesPage()));
+                  },
+                  text: 'upload'),
+              CustomButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => CalendarPage()));
+                  },
+                  text: 'calendar'),
+            ],
           ),
-        )
-      ],
-    )));
+        ),
+        body: SafeArea(
+          child: ListView(
+            children: [
+              home(context),
+            ],
+          ),
+        ));
   }
 
   Widget home(context) {

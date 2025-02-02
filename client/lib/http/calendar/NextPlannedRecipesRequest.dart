@@ -7,6 +7,6 @@ class NextPlannedRecipesRequest extends HttpRequest {
   @override
   Future<int> send() async {
     return (await super.process(RequestMode.post, 'calendar/next',
-        queryParameters: <String, String>{"count": _count.toString()}));
+        queryParameters: <String, String>{"count": _count.toString()}, authNeeded: true));
   }
 }

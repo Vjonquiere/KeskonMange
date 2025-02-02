@@ -1,4 +1,3 @@
-import 'package:client/pages/home_page.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

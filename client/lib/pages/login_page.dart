@@ -1,4 +1,3 @@
-import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/http/authentication.dart';
 import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
 import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
