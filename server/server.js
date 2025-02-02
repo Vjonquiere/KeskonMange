@@ -60,7 +60,7 @@ app.get('*', (req, res) => {
   
 });*/
 
-https.createServer(credentials, app).listen(app.locals.port, () => {
+let server = https.createServer(credentials, app).listen(app.locals.port, () => {
   console.log(`Starting server on port ${app.locals.port}`)
 });
 
