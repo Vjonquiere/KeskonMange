@@ -157,14 +157,14 @@ router.post("/add", needAuth, async (req, res) => {
         return;
     }
     for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
-        try {
-            const response = await axios.get(`http://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
+        /*try {
+            const response = await axios.get(`https://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
             // TODO: If the ingredient exists, need to check if the given unit is in DB
             if (response.status == 204) {
                 res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
                 return;
             } else if (response.status == 200) {
-                const units = await axios.get(`http://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
+                const units = await axios.get(`https://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
                 if (units.status != 200 || !(JSON.parse(units.data)["units"].includes(ingredients[i]["unit"]))){
                     res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
                     return;
@@ -174,7 +174,7 @@ router.post("/add", needAuth, async (req, res) => {
             console.log(error);
             res.status(400).send("Something went wrong with the ingredients");
             return;
-        }
+        }*/
     }
     // Check types + total time process
     if (isNaN(Number(req.body.preparation_time))  || isNaN(Number(req.body.rest_time)) || isNaN(Number(req.body.cook_time))){
