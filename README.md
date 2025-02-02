@@ -21,7 +21,7 @@
     - POP3_HOST: *url of your POP3 server*
     - POP3_ADDRESS: *email you want to use*
     - POP3_PASSWORD: *password of the address*
-5. Run `npm run install` to initialize the database
+5. Run `npm run database-gen` to initialize the database
 6. Put your SSL certificate and private key in `ssl-cert` folder
 7. Run `mkdir public/images; mkdir public/images/recipe; mkdir public/steps` 
     to create resources folders

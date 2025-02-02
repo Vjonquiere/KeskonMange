@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest --runInBand --coverage --silent --testTimeout=30000",
     "start": "node server.js",
-    "install": "mariadb -h $DATABASE_HOST -u $DATABASE_USER -p$DATABASE_PASSWORD $DATABASE_NAME < init.sql"
+    "database-gen": "mariadb -h $DATABASE_HOST -u $DATABASE_USER -p$DATABASE_PASSWORD $DATABASE_NAME < init.sql"
   },
   "author": "",
   "license": "ISC",
