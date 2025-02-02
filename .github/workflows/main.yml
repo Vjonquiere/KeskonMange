@@ -101,6 +101,12 @@ jobs:
     environment: test
 
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: "3.24.5"
     - name: Check format
       run: dart format . --set-exit-if-changed
       working-directory: './client'
@@ -120,6 +126,7 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: './client'
 
   client-test:
     name: Test Flutter App
@@ -137,6 +144,8 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+        working-directory: './client'
 
       - name: Run unit tests
         run: flutter test
+        working-directory: './client'
