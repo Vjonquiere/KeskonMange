@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  backend-build:
     name: Backend build
     runs-on: ubuntu-latest
     environment: test
@@ -30,9 +30,9 @@ jobs:
       run: npm run build --if-present
       working-directory: './server'
 
-  test:
+  backend-test:
     name: Backend test
-    needs: build
+    needs: backend-build
     runs-on: ubuntu-latest
     environment: test
     env:
@@ -73,9 +73,9 @@ jobs:
         path: ./server/coverage
       
 
-  coverage:
+  backend-coverage:
     name: Backend coverage
-    needs: test
+    needs: backend-test
     runs-on: ubuntu-latest
     environment: test
 
@@ -116,7 +116,7 @@ jobs:
       working-directory: './client'
   
   client-build:
-    needs: client-format
+    needs: [client-format, backend-test]
     name: Build Flutter App
     runs-on: ubuntu-latest
 
