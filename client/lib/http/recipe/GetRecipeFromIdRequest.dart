@@ -13,6 +13,7 @@ class GetRecipeRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.get, 'recipe/$_id', authNeeded: true));
+    return (await super
+        .process(RequestMode.get, 'recipe/$_id', authNeeded: true));
   }
 }

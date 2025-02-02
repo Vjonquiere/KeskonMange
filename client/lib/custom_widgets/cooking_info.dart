@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 class CookingInfo extends StatelessWidget {
   final String recipe;
   final String iconName;
