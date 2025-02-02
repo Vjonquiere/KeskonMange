@@ -62,9 +62,10 @@ jobs:
       working-directory: './server'
     - name: Create resources directories
       run: mkdir public/images; mkdir public/images/recipe; mkdir public/steps
+      working-directory: './server'
     - name: Add HTTPS certificate
-      run: echo "${{ secrets.SSL_CERTIFICATE }}" | base64 --decode > ssl-certs/certificate.pem;
-          echo "${{ secrets.SSL_PRIVATE_KEY }}" | base64 --decode > ssl-certs/private-key.pem
+      run: echo "${{ secrets.SSL_CERTIFICATE }}" | base64 --decode > ssl-cert/certificate.pem;
+          echo "${{ secrets.SSL_PRIVATE_KEY }}" | base64 --decode > ssl-cert/private-key.pem
       working-directory: './server'
     - name: Run Tests
       run: env TZ='Europe/Paris' npm test
