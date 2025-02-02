@@ -9,7 +9,6 @@ class CustomButton extends StatelessWidget {
   final Color color;
   final double scaleSize;
 
-
   const CustomButton({
     required this.text,
     required this.onPressed,
@@ -21,20 +20,18 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var icons = AppIcons.getIcon(text) != 'Icon not found' ? true : false;
-    if(icons == true){
+    if (icons == true) {
       return Transform.scale(
           scale: scaleSize,
-          child :
-          IconButton(
-        onPressed: onPressed,
-        style: FilledButton.styleFrom(
-          backgroundColor: color,
-          shape: const CircleBorder(),
-        ),
-        // Put an icon if one is available
-        icon: SvgPicture.asset(AppIcons.getIcon(text)),
-
-        ));
+          child: IconButton(
+            onPressed: onPressed,
+            style: FilledButton.styleFrom(
+              backgroundColor: color,
+              shape: const CircleBorder(),
+            ),
+            // Put an icon if one is available
+            icon: SvgPicture.asset(AppIcons.getIcon(text)),
+          ));
     }
     return FilledButton.tonal(
       onPressed: onPressed,
@@ -42,11 +39,11 @@ class CustomButton extends StatelessWidget {
         backgroundColor: color,
         padding: const EdgeInsets.all(12),
       ),
-    child: Text(
-      text,
-      textAlign: TextAlign.center,
-      style: const TextStyle(fontSize: 16),
-    ),
+      child: Text(
+        text,
+        textAlign: TextAlign.center,
+        style: const TextStyle(fontSize: 16),
+      ),
     );
   }
 }
