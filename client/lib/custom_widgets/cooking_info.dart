@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
+import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
+
+import '../pages/recipe_page.dart';
 
 class CookingInfo extends StatelessWidget {
   final String recipe;
   final String iconName;
   //final Color color;
   //final double scaleSize;
+
 
   const CookingInfo({
     required this.recipe,
@@ -18,46 +22,37 @@ class CookingInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    switch (iconName) {
-      case "timer":
+    switch(iconName) {
+      case "timer" :
         return Row(
           children: [
-            SvgPicture.asset(
-              AppIcons.getIcon("timer"),
-              width: 32,
-              height: 32,
-            ),
+            SvgPicture.asset(AppIcons.getIcon("timer"),width: 32, height: 32,),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Preparation time"),
-                Text("cooking time"),
-              ],
-            ),
+              Text("Preparation time"),
+              Text("cooking time"),
+            ],),
           ],
         );
 
       case "bell":
         return Row(
           children: [
-            SvgPicture.asset(
-              AppIcons.getIcon("bell"),
-              width: 32,
-              height: 32,
-            ),
+            SvgPicture.asset(AppIcons.getIcon("bell"),width: 32, height: 32,),
             const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Meal at 20h30"),
-                Text("Start cooking in 50min "),
-              ],
-            ),
+              Text("Meal at 20h30"),
+              Text("Start cooking in 50min "),
+            ],),
           ],
         );
-      default:
+      default :
         {
           return const Text("Unimplemented widget");
         }
     }
+
   }
 }

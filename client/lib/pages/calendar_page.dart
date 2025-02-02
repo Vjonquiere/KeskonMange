@@ -11,6 +11,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -19,15 +20,12 @@ class _CalendarPageState extends State<CalendarPage> {
         children: [
           ColorfulTextBuilder("Calendar", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomePage()));
-            },
-            text: 'back',
-          ),
+          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomePage()));}, text: 'back',),
+
         ],
       ),
     );
   }
+
+
 }

@@ -4,7 +4,6 @@ const Recipes = require('./routers/recipes');
 const Calendar = require('./routers/calendar');
 const Ingredient = require('./routers/ingredient');
 const RecipeBook = require('./routers/recipeBook');
-const fs = require('fs');
 const Auth = require('./routers/auth');
 const Users = require('./routers/user');
 var bodyParser = require('body-parser');
@@ -12,13 +11,8 @@ const database = require('./module/database');
 const token = require('./module/token');
 const app = express();
 const cors = require('cors');
-const https = require('https');
 app.locals.port = 8080;
 //app.use(express.static('public'));
-
-const privateKey = fs.readFileSync('ssl-cert/private-key.pem', 'utf8');
-const certificate = fs.readFileSync('ssl-cert/certificate.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
 
 app.use(bodyParser.json());
 app.use(
@@ -56,11 +50,7 @@ app.get('*', (req, res) => {
     res.sendStatus(404);
 });
 
-/*let server = app.listen(app.locals.port, () => {
-  
-});*/
-
-https.createServer(credentials, app).listen(app.locals.port, () => {
+let server = app.listen(app.locals.port, () => {
   console.log(`Starting server on port ${app.locals.port}`)
 });
 

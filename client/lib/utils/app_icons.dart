@@ -55,8 +55,7 @@ class AppIcons {
   static const String wind = 'assets/icons/weather/wind.svg';
 
   static const String placeholder = 'assets/icons/place_holder.png';
-  static const String placeholderSquare =
-      'assets/icons/place_holder_square.png';
+  static const String placeholderSquare = 'assets/icons/place_holder_square.png';
 
   // A map to store icon references for easy lookup
   static const Map<String, String> _iconMap = {
@@ -72,24 +71,24 @@ class AppIcons {
     'pen': pen,
     'todo': todo,
     'upload': upload,
-    'next': next,
-    'previous': previous,
+    'next' : next,
+    'previous' : previous,
 
     // Allergens
     'Gluten': gluten,
-    "Fish": fish,
-    "Peanuts": peanuts,
-    "Celery": celery,
-    "Sulfates": sulfates,
-    "Lupin": lupin,
-    "Eggs": eggs,
-    'Sesame': sesame,
-    'Mustard': mustard,
-    "Mollusks": mollusks,
-    "Crustaceans": crustaceans,
-    "Soy": soy,
-    "Nuts": nuts,
-    "Milk": milk,
+    "Fish" : fish,
+    "Peanuts" : peanuts,
+    "Celery" : celery,
+    "Sulfates" : sulfates,
+    "Lupin" : lupin,
+    "Eggs" : eggs,
+    'Sesame' : sesame,
+    'Mustard' : mustard,
+    "Mollusks" : mollusks,
+    "Crustaceans" : crustaceans,
+    "Soy" : soy,
+    "Nuts" : nuts,
+    "Milk" : milk,
 
     // Recipe book
     'book': book,
@@ -115,13 +114,12 @@ class AppIcons {
     'tornado': tornado,
     'wind': wind,
 
-    'placeholder': placeholder,
-    'placeholder_square': placeholderSquare,
+    'placeholder' : placeholder,
+    'placeholder_square' : placeholderSquare,
   };
 
   // Method to get an icon path by its key
   static String getIcon(String element) {
-    return _iconMap[element] ??
-        'Icon not found'; // Return a fallback message if the key doesn't exist
+    return _iconMap[element] ?? 'Icon not found'; // Return a fallback message if the key doesn't exist
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class ColorfulTextBuilder {
+class ColorfulTextBuilder{
   final String _text;
   final double _fontSize;
   final bool _bold;
@@ -14,28 +14,25 @@ class ColorfulTextBuilder {
 
   ColorfulTextBuilder(this._text, this._fontSize, [this._bold = false]);
 
-  List<TextSpan> getText() {
+  List<TextSpan> getText(){
     var letters = <TextSpan>[];
-    for (int i = 0; i < _text.length; i++) {
-      letters.add(TextSpan(
-          text: _text[i], style: TextStyle(color: colors[i % colors.length])));
+    for (int i = 0; i < _text.length ; i++){
+      letters.add(TextSpan(text:_text[i], style:TextStyle(color: colors[i%colors.length])));
     }
     return letters;
   }
 
-  Column getWidget() {
+  Column getWidget(){
     return Column(
       children: <Widget>[
         const SizedBox(height: 16.0),
         RichText(
             text: TextSpan(
-          text: "",
-          style: TextStyle(
-              fontSize: _fontSize,
-              fontFamily: "Raleway",
-              fontWeight: _bold ? FontWeight.bold : FontWeight.normal),
-          children: getText(),
-        )),
+              text: "",
+              style: TextStyle(fontSize: _fontSize, fontFamily: "Raleway", fontWeight: _bold ? FontWeight.bold : FontWeight.normal),
+              children: getText(),
+            )
+        ),
       ],
     );
   }
