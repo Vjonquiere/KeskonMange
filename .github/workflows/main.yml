@@ -7,7 +7,8 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  backend-build:
+    name: Backend build
     runs-on: ubuntu-latest
     environment: test
     strategy:
@@ -29,8 +30,9 @@ jobs:
       run: npm run build --if-present
       working-directory: './server'
 
-  test:
-    needs: build
+  backend-test:
+    name: Backend test
+    needs: backend-build
     runs-on: ubuntu-latest
     environment: test
     env:
@@ -61,6 +63,10 @@ jobs:
     - name: Create resources directories
       run: mkdir public/images; mkdir public/images/recipe; mkdir public/steps
       working-directory: './server'
+    - name: Add HTTPS certificate
+      run: echo "${{ secrets.SSL_CERTIFICATE }}" | base64 --decode > ssl-cert/certificate.pem;
+          echo "${{ secrets.SSL_PRIVATE_KEY }}" | base64 --decode > ssl-cert/private-key.pem
+      working-directory: './server'
     - name: Run Tests
       run: env TZ='Europe/Paris' npm test
       working-directory: './server'
@@ -71,8 +77,9 @@ jobs:
         path: ./server/coverage
       
 
-  coverage:
-    needs: test
+  backend-coverage:
+    name: Backend coverage
+    needs: backend-test
     runs-on: ubuntu-latest
     environment: test
 
@@ -95,3 +102,59 @@ jobs:
     - name: Process Routers Coverage
       run: w3m -dump coverage/lcov-report/server/routers/index.html
       working-directory: './server'
+
+  client-format:
+    name: Check Flutter format
+    runs-on: ubuntu-latest
+    environment: test
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: "3.24.5"
+    - name: Check format
+      run: dart format . --set-exit-if-changed
+      working-directory: './client'
+  
+  client-build:
+    needs: [client-format, backend-test]
+    name: Build Flutter App
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: './client'
+
+  client-test:
+    name: Test Flutter App
+    runs-on: ubuntu-latest
+    needs: client-build
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.5"
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: './client'
+
+      - name: Run unit tests
+        run: flutter test
+        working-directory: './client'

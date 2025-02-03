@@ -81,7 +81,7 @@ router.get('/last', async (req, res) => {
  * responses:
  *   "200":
  *     description: "File sent with the given format"
- *    "204":
+ *   "204":
  *      description: "No file found"
  */
 router.get("/image", needAuth, async (req, res) => {
@@ -113,8 +113,8 @@ router.get("/image", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "File was saved"
- *    "405":
- *      description: "At leaqt one argument is missing"
+ *   "405":
+ *     description: "At leaqt one argument is missing"
  */
 // TODO: add multipart request to doc
 router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
@@ -142,8 +142,8 @@ router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req,
  * responses:
  *   "200":
  *     description: "File sent with the given format"
- *    "204":
- *      description: "No file found"
+ *   "204":
+ *     description: "No file found"
  */
 // TODO: add request body
 router.post("/add", needAuth, async (req, res) => {
@@ -157,14 +157,14 @@ router.post("/add", needAuth, async (req, res) => {
         return;
     }
     for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
-        try {
-            const response = await axios.get(`http://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
+        /*try {
+            const response = await axios.get(`https://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
             // TODO: If the ingredient exists, need to check if the given unit is in DB
             if (response.status == 204) {
                 res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
                 return;
             } else if (response.status == 200) {
-                const units = await axios.get(`http://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
+                const units = await axios.get(`https://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
                 if (units.status != 200 || !(JSON.parse(units.data)["units"].includes(ingredients[i]["unit"]))){
                     res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
                     return;
@@ -174,7 +174,7 @@ router.post("/add", needAuth, async (req, res) => {
             console.log(error);
             res.status(400).send("Something went wrong with the ingredients");
             return;
-        }
+        }*/
     }
     // Check types + total time process
     if (isNaN(Number(req.body.preparation_time))  || isNaN(Number(req.body.rest_time)) || isNaN(Number(req.body.cook_time))){
@@ -223,12 +223,12 @@ router.post("/add", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "Steps have been saved"
- *    "204":
- *      description: "Recipe not found"
- *    "405":
- *      description: "At least one argument is missing"
- *    "500":
- *      description: "Something went wrong while trying to save the steps file"
+ *   "204":
+ *     description: "Recipe not found"
+ *   "405":
+ *     description: "At least one argument is missing"
+ *   "500":
+ *     description: "Something went wrong while trying to save the steps file"
  */
 router.post("/steps", needAuth, async (req, res) => {
     if (!req.query.recipeId || !req.body.steps){
@@ -260,10 +260,10 @@ router.post("/steps", needAuth, async (req, res) => {
  * responses:
  *   "200":
  *     description: "JSON file of the steps sent"
- *    "204":
- *      description: "No file found"
- *    "405":
- *      description: "RecipeId argument is missing"
+ *   "204":
+ *     description: "No file found"
+ *   "405":
+ *     description: "RecipeId argument is missing"
  */
 router.get("/steps", needAuth, async (req, res) => {
     if (!req.query.recipeId){
@@ -294,7 +294,7 @@ router.get("/steps", needAuth, async (req, res) => {
  *   "200":
  *     description: "recipe corresponding to the id"
  *   "405":
- *      description: "No recipe found"
+ *     description: "No recipe found"
  */
 router.get("/:id", needAuth, async (req, res) => { //TODO: change params to query + code 204 if no recipe found
     if (req.params.id === undefined || isNaN(Number(req.params.id))){
