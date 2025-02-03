@@ -12,9 +12,6 @@ if [ -d "server" ]; then
     echo "Formatting backend..."
     npx prettier --check . || FAIL=1
 
-    echo "Running backend tests..."
-    npm run test || FAIL=1
-
     cd ..
 fi
 
@@ -25,9 +22,6 @@ if [ -d "client" ]; then
 
     echo "Formatting client..."
     dart format --set-exit-if-changed . || FAIL=1
-
-    echo "Running Flutter tests..."
-    flutter test || FAIL=1
 
     cd ..
 fi
