@@ -11,6 +11,8 @@ const needAuth = require('../module/token').checkApiKey;
 const multer  = require('multer');
 const upload = multer();
 const sharp = require('sharp');
+const constants = require('../module/constants');
+
 
 router.use(bodyParser.json());
 router.use(
@@ -39,6 +41,17 @@ async function hasOwnerAccess(recipeId, userId) {
 
 function isPreparationStep(step){
     return !(!step.type == "preparation" || !step.description);
+}
+
+async function ingredientExist(ingredient){
+    const exists = await conn.query("SELECT id FROM ingredients WHERE name = ?;", [ingredient]);
+    return exists.length > 0; 
+}
+
+async function checkIngredientType(ingredient, type) {
+    const [typeCheck] = await conn.query("SELECT type FROM ingredients WHERE name = ?;", [ingredient]);
+    const types = constants.units[typeCheck.type];
+    return types.includes(type);
 }
 
 router.get('/complete', async (req, res) => {
@@ -157,24 +170,9 @@ router.post("/add", needAuth, async (req, res) => {
         return;
     }
     for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
-        /*try {
-            const response = await axios.get(`https://localhost:${port}/ingredient/name/?name=${ingredients[i]["name"]}`);
-            // TODO: If the ingredient exists, need to check if the given unit is in DB
-            if (response.status == 204) {
-                res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
-                return;
-            } else if (response.status == 200) {
-                const units = await axios.get(`https://localhost:${port}/ingredient/units/?name=${ingredients[i]["name"]}`);
-                if (units.status != 200 || !(JSON.parse(units.data)["units"].includes(ingredients[i]["unit"]))){
-                    res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
-                    return;
-                }
-            }
-        } catch (error) {
-            console.log(error);
-            res.status(400).send("Something went wrong with the ingredients");
-            return;
-        }*/
+        console.log(ingredients[i]["name"] + " | " + ingredients[i]["unit"]);
+        if (!(await ingredientExist(ingredients[i]["name"]))) return res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
+        if (!(await checkIngredientType(ingredients[i]["name"], ingredients[i]["unit"]))) return res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
     }
     // Check types + total time process
     if (isNaN(Number(req.body.preparation_time))  || isNaN(Number(req.body.rest_time)) || isNaN(Number(req.body.cook_time))){
