@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "Checking pre-commit conditions..."
+
+FAIL=0
+
+# Server checks
+if [ -d "server" ]; then
+    echo "Entering server folder..."
+    cd server
+
+    echo "Formatting backend..."
+    npx prettier --check . || FAIL=1
+
+    echo "Running backend tests..."
+    npm run test || FAIL=1
+
+    cd ..
+fi
+
+# Client checks
+if [ -d "client" ]; then
+    echo "Entering client folder..."
+    cd client
+
+    echo "Formatting client..."
+    dart format --set-exit-if-changed . || FAIL=1
+
+    echo "Running Flutter tests..."
+    flutter test || FAIL=1
+
+    cd ..
+fi
+
+# Check for fails
+if [ $FAIL -ne 0 ]; then
+    echo "Pre-commit checks failed. Commit aborted."
+    exit 1
+fi
+
+echo "Pre-commit checks passed!"
+exit 0
