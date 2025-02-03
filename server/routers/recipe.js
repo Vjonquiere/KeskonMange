@@ -118,7 +118,7 @@ router.get("/image", needAuth, async (req, res) => {
  */
 // TODO: add multipart request to doc
 router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
-    if (!req.query.recipeId){
+    if (!req.query.recipeId || !req.file){
         return res.status(405).send("Missing arguments");
     }
     if (!(await hasOwnerAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe

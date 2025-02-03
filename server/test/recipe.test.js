@@ -205,10 +205,9 @@ describe('POST recipe/image', () => {
     expect(response.status).toBe(405);
   });
   it('call on missing argument (no file)', async () => {
-    /*const recipeId = await getRecipeId("test1");
-    const resPath = path.join(__dirname, "res/place_holder.png");
-    const response = await request(app).post(`/recipe/image?recipeId=${1}`).set(ID);
-    expect(response.status).toBe(405);*/ // Problem found with this test, no file = request never return
+    const recipeId = await getRecipeId("test1");
+    const response = await request(app).post(`/recipe/image?recipeId=${recipeId}`).set(ID);
+    expect(response.status).toBe(405);
   });
 })
 
