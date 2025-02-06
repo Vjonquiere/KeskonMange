@@ -6,6 +6,7 @@
 - `NodeJS` (*Node v20.13.1*)
 - `npm` (*Npm v10.5.2*)
 - `MariaDB` (*MariaDB v15.1*)
+- SSL certificate + private key (⚠️ self-signed certificate do not work)
 ### Build
 1. Clone the repository
 2. Go to the `server/` folder
