@@ -132,15 +132,12 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   final apiKey =
                       jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
-                  if (apiKey.containsKey('token')) {
-                    var username = GetUserInfos();
-                    await username.send();
-                    Map<String, dynamic> u = jsonDecode(username.getBody());
-                    if (!u.containsKey("username")) return;
+                  if (apiKey.containsKey('token') &&
+                      apiKey.containsKey('username')) {
                     await Authentication().updateCredentialsFromStorage(
                         apiKey["token"],
                         _emailController.text,
-                        u["username"]); // TODO: change place holder with the user username
+                        apiKey["username"]);
                     await Authentication().refreshCredentialsFromStorage();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomePage()));
