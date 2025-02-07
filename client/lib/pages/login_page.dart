@@ -2,6 +2,7 @@ import 'package:client/http/authentication.dart';
 import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
 import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
 import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
+import 'package:client/http/user/GetUserInfos.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -131,11 +132,13 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   final apiKey =
                       jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
-                  if (apiKey.containsKey('token')) {
+                  if (apiKey.containsKey('token') &&
+                      apiKey.containsKey('username')) {
                     await Authentication().updateCredentialsFromStorage(
                         apiKey["token"],
                         _emailController.text,
-                        'place_holder'); // TODO: change place holder with the user username
+                        apiKey["username"]);
+                    await Authentication().refreshCredentialsFromStorage();
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomePage()));
                   }

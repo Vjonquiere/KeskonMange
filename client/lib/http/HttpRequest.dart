@@ -16,7 +16,7 @@ abstract class HttpRequest {
       Map<String, Object> body = const {},
       bool authNeeded = false}) async {
     try {
-      var url = Uri.http(constants.SERVER_URL, route, queryParameters);
+      var url = Uri.https(constants.SERVER_URL, route, queryParameters);
       http.Response response;
       switch (mode) {
         case RequestMode.get:
