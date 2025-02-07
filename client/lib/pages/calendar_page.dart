@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:client/http/calendar/CompleteMonthRequest.dart';
+import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +15,16 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  late Future<int> requestResult;
+  final currentMonthRequest = CompleteMonthRequest(0);
+  final List<String> months = ["Janvier", "Février", "Mars", "Avril"];
+
+  @override
+  void initState() {
+    super.initState();
+    requestResult = currentMonthRequest.send();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,16 +32,45 @@ class _CalendarPageState extends State<CalendarPage> {
       child: Column(
         children: [
           ColorfulTextBuilder("Calendar", 30).getWidget(),
-          const Placeholder(color: AppColors.green),
+          FutureBuilder(
+              future: requestResult,
+              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                if (snapshot.hasData) {
+                  if (snapshot.data! == 200) {
+                    Month current = Month.fromJson(
+                        jsonDecode(currentMonthRequest.getBody()));
+                    return buildMonth(current);
+                  }
+                  return const Text("Nothing found");
+                } else if (snapshot.hasError) {
+                  return const Text("Error");
+                }
+                return CircularProgressIndicator();
+              }),
           CustomButton(
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+                  .pop(MaterialPageRoute(builder: (context) => HomePage()));
             },
             text: 'back',
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildMonth(Month month) {
+    return Column(
+      children: [
+        Text(
+          "${months[month.month - 1]} ${month.year}",
+          style: const TextStyle(color: AppColors.blue, fontSize: 25),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: month.build(),
+        ),
+      ],
     );
   }
 }
