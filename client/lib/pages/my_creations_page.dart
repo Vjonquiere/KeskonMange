@@ -7,6 +7,7 @@ import '../custom_widgets/custom_buttons.dart';
 import '../utils/app_icons.dart';
 import 'home_page.dart';
 import 'new_book_page.dart';
+import 'new_recipe_page.dart';
 
 class MyCreationsPage extends StatefulWidget {
   @override
@@ -34,15 +35,15 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
         ),
         body: TabBarView(
           children: [
-            recipeBooks(),
-            Icon(Icons.directions_transit),
+            recipeBooksTab(),
+            recipesTab(),
           ],
         ),
       ),
     );
   }
 
-  Widget recipeBooks() {
+  Widget recipeBooksTab() {
     return Column(
       children: [
         const SizedBox(height: 10.0),
@@ -127,6 +128,22 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
             width: 32,
           ),
         )
+      ],
+    );
+  }
+
+  Widget recipesTab() {
+    return Column(
+      children: [
+        const SizedBox(height: 10.0),
+        CustomButton(
+          text: "add",
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => NewRecipePage()));
+          },
+          scaleSize: 0.75,
+        ),
       ],
     );
   }

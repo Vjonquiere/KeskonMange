@@ -22,7 +22,7 @@ class _NewBookPageState extends State<NewBookPage> {
           const Placeholder(color: AppColors.green),
           CustomButton(
             onPressed: () {
-              Navigator.of(context).push(
+              Navigator.of(context).pop(
                   MaterialPageRoute(builder: (context) => MyCreationsPage()));
             },
             text: 'back',
