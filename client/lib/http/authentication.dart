@@ -22,6 +22,13 @@ class Authentication {
     return true;
   }
 
+  Future<bool> refreshCredentialsFromStorage() async {
+    _credentials.api_key = "";
+    _credentials.email = "";
+    _credentials.username = "";
+    return await initCredentialsFromStorage();
+  }
+
   Future<void> deleteCredentialsFromStorage() async {
     await _storage.delete(key: 'x-api-key');
     await _storage.delete(key: 'email');
@@ -39,7 +46,7 @@ class Authentication {
     // TODO: add real username
     return {
       "x-api-key": _credentials.api_key,
-      "username": "mathilde",
+      "username": _credentials.username,
       "email": _credentials.email
     };
   }

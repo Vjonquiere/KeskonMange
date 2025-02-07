@@ -348,7 +348,10 @@ class _SignupPageState extends State<SignupPage> {
                   as Map<String, dynamic>;
               if (apiKey.containsKey('token')) {
                 await Authentication().updateCredentialsFromStorage(
-                    apiKey["token"], _emailController.text, "place_holder");
+                    apiKey["token"],
+                    _emailController.text,
+                    _usernameController.text);
+                await Authentication().refreshCredentialsFromStorage();
               }
               setState(() {
                 signupFinalized = true;
