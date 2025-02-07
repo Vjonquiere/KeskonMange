@@ -17,8 +17,7 @@ class SetAllergensRequest extends HttpRequest {
         queryParameters: <String, String>{
           "email": Authentication().getCredentials().email
         },
-        body: {
-          "allergens": _allergens
-        }));
+        body: {"allergens": _allergens},
+        authNeeded: true));
   }
 }
