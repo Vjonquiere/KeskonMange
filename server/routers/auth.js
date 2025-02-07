@@ -97,9 +97,9 @@ router.post("/signin", async (req, res) => {
         .send(JSON.stringify({ token: userToken, username: user.username }));
       return;
     }
-    res.sendStatus(404);
+    return res.sendStatus(404);
   }
-  res.sendStatus(404);
+  return res.sendStatus(404);
 });
 
 /**
