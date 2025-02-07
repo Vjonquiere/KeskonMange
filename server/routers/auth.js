@@ -92,7 +92,7 @@ router.post("/signin", async (req, res) => {
         "SELECT username FROM users WHERE email = ?;",
         [req.query.email],
       );
-      rexpect(res.status).toBe(200);es
+      expect(res.status).toBe(200);es
         .status(200)
         .send(JSON.stringify({ token: userToken, username: user.username }));
       return;
