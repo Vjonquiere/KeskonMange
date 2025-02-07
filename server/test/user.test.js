@@ -16,9 +16,10 @@ let ID;
 
 beforeAll(async () => {
   await utils.clearDatabase();
+  ID = await login.getCredentials();
   /*await conn.query("DELETE FROM users WHERE 1=1;");
     await utils.clearDatabase();
-    ID = await login.getCredentials()
+    
     /*await conn.query("DELETE FROM users WHERE 1=1;");
     await conn.query("DELETE FROM verify WHERE 1=1;");*/
 });
