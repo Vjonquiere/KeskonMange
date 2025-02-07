@@ -149,12 +149,10 @@ describe("GET user/availableEmail", () => {
   });
 });
 
-describe("GET user/infos", () => {
-  it("simple call", async () => {
-    const res = await request(app).get(`/user/infos`).set(ID).send();
-    expect(res.status).toBe(200);
-    expect(res.text).toBe(
-      JSON.stringify({ email: "fake@email.com", username: "USER" }),
-    );
+describe('GET user/infos', () => {
+  it('simple call', async () => {
+      const res = await request(app).get(`/user/infos`).set(ID).send();
+      expect(res.text).toBe(JSON.stringify({ email: 'fake@email.com', username: 'USER'}));
+      expect(res.status).toBe(200);
   });
 });

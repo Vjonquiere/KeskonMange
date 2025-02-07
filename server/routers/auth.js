@@ -79,7 +79,7 @@ router.post("/signin", async (req, res) => {
             req.query.lang,
           )),
       );
-      res.sendStatus(200);
+      return res.sendStatus(200);
     } else {
       res.status(404).send("No user found with this mail");
       return;
@@ -92,7 +92,7 @@ router.post("/signin", async (req, res) => {
         "SELECT username FROM users WHERE email = ?;",
         [req.query.email],
       );
-      res
+      rexpect(res.status).toBe(200);es
         .status(200)
         .send(JSON.stringify({ token: userToken, username: user.username }));
       return;
