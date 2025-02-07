@@ -14,7 +14,6 @@ class MyCreationsPage extends StatefulWidget {
 }
 
 class _MyCreationsPageState extends State<MyCreationsPage> {
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -23,8 +22,12 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
         appBar: AppBar(
           bottom: const TabBar(
             tabs: [
-              Tab(text: "Recipe Books",),
-              Tab(text: " Recipes",),
+              Tab(
+                text: "Recipe Books",
+              ),
+              Tab(
+                text: " Recipes",
+              ),
             ],
           ),
           title: title(),
@@ -39,18 +42,24 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
     );
   }
 
-  Widget recipeBooks(){
+  Widget recipeBooks() {
     return Column(
       children: [
         const SizedBox(height: 10.0),
         recipeBook("All saved recipes", "public"),
-        CustomButton(text: "add", onPressed: (){Navigator.of(context).push(MaterialPageRoute(builder: (context) => NewBookPage()));}, scaleSize: 0.75,),
-
+        CustomButton(
+          text: "add",
+          onPressed: () {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => NewBookPage()));
+          },
+          scaleSize: 0.75,
+        ),
       ],
     );
   }
 
-  Widget recipeBook(String title, String status){
+  Widget recipeBook(String title, String status) {
     return Row(
       children: [
         const SizedBox(width: 10.0),
@@ -66,7 +75,7 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
     );
   }
 
-  Widget recipeImage(){
+  Widget recipeImage() {
     return Card.filled(
       color: AppColors.beige,
       elevation: 2,
@@ -81,33 +90,42 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
     );
   }
 
-  Widget recipeBookPrivacy(String context){
-    if(context == "public"){
+  Widget recipeBookPrivacy(String context) {
+    if (context == "public") {
       return Row(
         children: [
-          SvgPicture.asset(AppIcons.getIcon("public"), width: 16,),
+          SvgPicture.asset(
+            AppIcons.getIcon("public"),
+            width: 16,
+          ),
           const SizedBox(width: 10.0),
           const Text("public"),
         ],
       );
     }
     return Row(
-        children: [
-        SvgPicture.asset(AppIcons.getIcon("private"), width: 16,),
-          const SizedBox(width: 10.0),
+      children: [
+        SvgPicture.asset(
+          AppIcons.getIcon("private"),
+          width: 16,
+        ),
+        const SizedBox(width: 10.0),
         const Text("private"),
-        ],
+      ],
     );
   }
 
-  Widget title(){
+  Widget title() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         ColorfulTextBuilder("My creations!", 30, true).getWidget(),
         IconButton(
-            onPressed: (){},
-            icon: SvgPicture.asset(AppIcons.getIcon("help"), width: 32,),
+          onPressed: () {},
+          icon: SvgPicture.asset(
+            AppIcons.getIcon("help"),
+            width: 32,
+          ),
         )
       ],
     );

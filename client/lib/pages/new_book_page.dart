@@ -12,7 +12,6 @@ class NewBookPage extends StatefulWidget {
 }
 
 class _NewBookPageState extends State<NewBookPage> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,12 +20,15 @@ class _NewBookPageState extends State<NewBookPage> {
         children: [
           ColorfulTextBuilder("Create a new book", 30).getWidget(),
           const Placeholder(color: AppColors.green),
-          CustomButton(onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCreationsPage()));}, text: 'back',),
-
+          CustomButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => MyCreationsPage()));
+            },
+            text: 'back',
+          ),
         ],
       ),
     );
   }
-
-
 }

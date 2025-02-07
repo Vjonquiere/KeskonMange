@@ -3,8 +3,10 @@ import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../model/recipe.dart';
+
 class RecipeCard extends StatelessWidget {
-  final String recipe;
+  final Recipe recipe;
 
   const RecipeCard({
     required this.recipe,
@@ -39,13 +41,16 @@ class RecipeCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SvgPicture.asset(AppIcons.getIcon("veggie"), width: 32, height: 32),
-                  SvgPicture.asset(AppIcons.getIcon("meal"), width: 32, height: 32),
-                  SvgPicture.asset(AppIcons.getIcon("cake"), width: 32, height: 32),
+                  //TODO: add the icons according to the recipe
+                  SvgPicture.asset(AppIcons.getIcon("veggie"),
+                      width: 32, height: 32),
+                  SvgPicture.asset(AppIcons.getIcon("meal"),
+                      width: 32, height: 32),
+                  SvgPicture.asset(AppIcons.getIcon("cake"),
+                      width: 32, height: 32),
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Column(
@@ -60,7 +65,7 @@ class RecipeCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(recipe),
+                  Text(recipe.title),
                 ],
               ),
             ),
