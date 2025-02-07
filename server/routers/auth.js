@@ -85,17 +85,21 @@ router.post("/signin", async (req, res) => {
       return;
     }
   } else {
-    if (waitingAuths[req.query.email] == req.query.code){
-        waitingAuths[req.query.email] = undefined;
-        const userToken = await token.generateAuthToken(req.query.email);
-        const [user] = await conn.query("SELECT username FROM users WHERE email = ?;", [req.query.email]);
-        res.status(200).send(JSON.stringify({"token":userToken, "username": user.username}));
-        return;        
-      }
-      res.sendStatus(404);
+    if (waitingAuths[req.query.email] == req.query.code) {
+      waitingAuths[req.query.email] = undefined;
+      const userToken = await token.generateAuthToken(req.query.email);
+      const [user] = await conn.query(
+        "SELECT username FROM users WHERE email = ?;",
+        [req.query.email],
+      );
+      res
+        .status(200)
+        .send(JSON.stringify({ token: userToken, username: user.username }));
+      return;
     }
     res.sendStatus(404);
   }
+  res.sendStatus(404);
 });
 
 /**

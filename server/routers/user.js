@@ -273,11 +273,13 @@ router.post("/allergens", needAuth, async (req, res) => {
   }
 });
 
-
-router.get('/infos', needAuth, async (req, res) => {
-    const [infos] = await conn.query("SELECT email, username FROM users WHERE id = ?;", [req.user.userId]);
-    return res.send(infos);
-})
+router.get("/infos", needAuth, async (req, res) => {
+  const [infos] = await conn.query(
+    "SELECT email, username FROM users WHERE id = ?;",
+    [req.user.userId],
+  );
+  return res.send(infos);
+});
 
 router.closeServer = () => {
   console.log("Users Closed");

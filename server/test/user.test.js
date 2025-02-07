@@ -1,8 +1,8 @@
-const request = require('supertest');
-const app = require('../server');
-const mariadb = require('mariadb');
-const utils = require('./utils');
-const login = require('./login');
+const request = require("supertest");
+const app = require("../server");
+const mariadb = require("mariadb");
+const utils = require("./utils");
+const login = require("./login");
 
 const conn = mariadb.createPool({
   host: process.env.DATABASE_HOST,
@@ -130,25 +130,31 @@ describe("GET user/availableUsername", () => {
   });
 });
 
-describe('GET user/availableEmail', () => {
-    it('simple call', async () => {
-        const res = await request(app).get(`/user/availableEmail?email=IsAvailable@mail.com`);
-        expect(res.status).toBe(200);
-    });
-    it('call on already used email', async () => {
-        const res = await request(app).get(`/user/availableEmail?email=${process.env.POP3_ADDRESS}`);
-        expect(res.status).toBe(405);
-    });
-    it('call on missing argument (email)', async () => {
-        const res = await request(app).get(`/user/availableEmail`);
-        expect(res.status).toBe(405);
-    });
-})
+describe("GET user/availableEmail", () => {
+  it("simple call", async () => {
+    const res = await request(app).get(
+      `/user/availableEmail?email=IsAvailable@mail.com`,
+    );
+    expect(res.status).toBe(200);
+  });
+  it("call on already used email", async () => {
+    const res = await request(app).get(
+      `/user/availableEmail?email=${process.env.POP3_ADDRESS}`,
+    );
+    expect(res.status).toBe(405);
+  });
+  it("call on missing argument (email)", async () => {
+    const res = await request(app).get(`/user/availableEmail`);
+    expect(res.status).toBe(405);
+  });
+});
 
-describe('GET user/infos', () => {
-    it('simple call', async () => {
-        const res = await request(app).get(`/user/infos`).set(ID).send();
-        expect(res.text).toBe(JSON.stringify({ email: 'fake@email.com', username: 'USER'}));
-        expect(res.status).toBe(200);
-    });
-})
+describe("GET user/infos", () => {
+  it("simple call", async () => {
+    const res = await request(app).get(`/user/infos`).set(ID).send();
+    expect(res.text).toBe(
+      JSON.stringify({ email: "fake@email.com", username: "USER" }),
+    );
+    expect(res.status).toBe(200);
+  });
+});

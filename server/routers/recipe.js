@@ -10,8 +10,8 @@ const path = require("path");
 const needAuth = require("../module/token").checkApiKey;
 const multer = require("multer");
 const upload = multer();
-const sharp = require('sharp');
-const constants = require('../module/constants');
+const sharp = require("sharp");
+const constants = require("../module/constants");
 
 router.use(bodyParser.json());
 router.use(
@@ -49,17 +49,22 @@ function isPreparationStep(step) {
   return !(!step.type == "preparation" || !step.description);
 }
 
-async function ingredientExist(ingredient){
-    const exists = await conn.query("SELECT id FROM ingredients WHERE name = ?;", [ingredient]);
-    return exists.length > 0; 
+async function ingredientExist(ingredient) {
+  const exists = await conn.query(
+    "SELECT id FROM ingredients WHERE name = ?;",
+    [ingredient],
+  );
+  return exists.length > 0;
 }
 
 async function checkIngredientType(ingredient, type) {
-    const [typeCheck] = await conn.query("SELECT type FROM ingredients WHERE name = ?;", [ingredient]);
-    const types = constants.units[typeCheck.type];
-    return types.includes(type);
+  const [typeCheck] = await conn.query(
+    "SELECT type FROM ingredients WHERE name = ?;",
+    [ingredient],
+  );
+  const types = constants.units[typeCheck.type];
+  return types.includes(type);
 }
-
 
 router.get("/complete", async (req, res) => {
   const recipeData = await conn.query(
@@ -152,11 +157,23 @@ router.get("/image", needAuth, async (req, res) => {
  *     description: "At leaqt one argument is missing"
  */
 // TODO: add multipart request to doc
-router.post("/image", needAuth, (req, res, next) => {upload.single('image')(req, res, (err) => {if (err) {return res.sendStatus(405);} next();});},  async (req, res) => {
-    if (!req.query.recipeId || !req.file){
-        return res.status(405).send("Missing arguments");
+router.post(
+  "/image",
+  needAuth,
+  (req, res, next) => {
+    upload.single("image")(req, res, (err) => {
+      if (err) {
+        return res.sendStatus(405);
+      }
+      next();
+    });
+  },
+  async (req, res) => {
+    if (!req.query.recipeId || !req.file) {
+      return res.status(405).send("Missing arguments");
     }
-    if (!(await hasOwnerAccess(req.query.recipeId, req.user.userId))) return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe
+    if (!(await hasOwnerAccess(req.query.recipeId, req.user.userId)))
+      return res.sendStatus(204); //TODO: check if owner, not only someone that can access the recipe
     imagePath = `public/images/recipe/${req.query.recipeId}/`;
     try {
       fs.accessSync(path.join(__dirname, "../", imagePath), fs.constants.W_OK);
@@ -240,26 +257,57 @@ router.post("/add", needAuth, async (req, res) => {
     res.status(400).send("Time must be a number");
     return;
   }
-    if (req.body.title === undefined || req.body.type === undefined || req.body.difficulty === undefined || req.body.cost === undefined || req.body.portions === undefined || req.body.salty === undefined || req.body.sweet === undefined || req.body.ingredients === undefined || req.body.preparation_time === undefined || req.body.rest_time === undefined || req.body.cook_time === undefined){
-        res.status(400).send("Please check if all arguments are valid");
-        return;
-    }
-   var ingredients = req.body.ingredients
-    if (!Array.isArray(ingredients)){
-        res.status(400).send("Ingredient list should be an array");
-        return;
-    }
-    for (let i = 0; i<ingredients.length; i++){ //Check and add missing ingredients
-        console.log(ingredients[i]["name"] + " | " + ingredients[i]["unit"]);
-        if (!(await ingredientExist(ingredients[i]["name"]))) return res.status(400).send(`${ingredients[i]["name"]} is an unknown ingredient`);
-        if (!(await checkIngredientType(ingredients[i]["name"], ingredients[i]["unit"]))) return res.status(400).send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
-    }
-    // Check types + total time process
-    if (isNaN(Number(req.body.preparation_time))  || isNaN(Number(req.body.rest_time)) || isNaN(Number(req.body.cook_time))){
-        res.status(400).send("Time must be a number");
-        return;
-    }
-    const totalTime = Number(req.body.preparation_time) + Number(req.body.rest_time) + Number(req.body.cook_time);
+  if (
+    req.body.title === undefined ||
+    req.body.type === undefined ||
+    req.body.difficulty === undefined ||
+    req.body.cost === undefined ||
+    req.body.portions === undefined ||
+    req.body.salty === undefined ||
+    req.body.sweet === undefined ||
+    req.body.ingredients === undefined ||
+    req.body.preparation_time === undefined ||
+    req.body.rest_time === undefined ||
+    req.body.cook_time === undefined
+  ) {
+    res.status(400).send("Please check if all arguments are valid");
+    return;
+  }
+  var ingredients = req.body.ingredients;
+  if (!Array.isArray(ingredients)) {
+    res.status(400).send("Ingredient list should be an array");
+    return;
+  }
+  for (let i = 0; i < ingredients.length; i++) {
+    //Check and add missing ingredients
+    console.log(ingredients[i]["name"] + " | " + ingredients[i]["unit"]);
+    if (!(await ingredientExist(ingredients[i]["name"])))
+      return res
+        .status(400)
+        .send(`${ingredients[i]["name"]} is an unknown ingredient`);
+    if (
+      !(await checkIngredientType(
+        ingredients[i]["name"],
+        ingredients[i]["unit"],
+      ))
+    )
+      return res
+        .status(400)
+        .send(`Ingredient ${ingredients[i]["name"]} has an unknown unit`);
+  }
+  // Check types + total time process
+  if (
+    isNaN(Number(req.body.preparation_time)) ||
+    isNaN(Number(req.body.rest_time)) ||
+    isNaN(Number(req.body.cook_time))
+  ) {
+    res.status(400).send("Time must be a number");
+    return;
+  }
+  const totalTime =
+    Number(req.body.preparation_time) +
+    Number(req.body.rest_time) +
+    Number(req.body.cook_time);
 
   // Check bool values types (salty, sweet)
   for (const value of [req.body.salty, req.body.sweet]) {
