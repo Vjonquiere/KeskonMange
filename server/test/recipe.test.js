@@ -123,7 +123,7 @@ describe("POST recipe/add", () => {
     const res = await request(app).post('/recipe/add').set(ID).send({"ingredients":[{"name":"Pates", "qte":200, "unit":"g", "type":"grocerie" }, {"name":"Viande hachee", "qte":100, "unit":"g", "type":"meat" }, {"name":"Sauce tomate", "qte":100, "unit":"g", "type":"grocerie" }, {"name":"Fromage", "qte":100, "unit":"g", "type":"grocerie" }], "preparation_time":10, "rest_time":0, "cook_time":10, "sweet":false, "salty":true, "title":"Pates bolognaise", "type":"plat", "difficulty":1, "cost":1, "portions":3});
     expect(res.status).toBe(400);
     expect(res.text).toBe("Fromage is an unknown ingredient")
-  });*/
+  });
   it("call on missing argument (preparation_time)", async () => {
     const res = await request(app)
       .post("/recipe/add")

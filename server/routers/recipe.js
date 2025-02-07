@@ -240,10 +240,6 @@ router.post("/add", needAuth, async (req, res) => {
     res.status(400).send("Time must be a number");
     return;
   }
-  const totalTime =
-    Number(req.body.preparation_time) +
-    Number(req.body.rest_time) +
-    Number(req.body.cook_time);
     if (req.body.title === undefined || req.body.type === undefined || req.body.difficulty === undefined || req.body.cost === undefined || req.body.portions === undefined || req.body.salty === undefined || req.body.sweet === undefined || req.body.ingredients === undefined || req.body.preparation_time === undefined || req.body.rest_time === undefined || req.body.cook_time === undefined){
         res.status(400).send("Please check if all arguments are valid");
         return;
