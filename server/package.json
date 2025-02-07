@@ -29,6 +29,7 @@
     "supertest": "^7.0.0"
   },
   "devDependencies": {
+    "prettier": "3.4.2",
     "swagger-inline": "^7.0.1"
   }
 }
