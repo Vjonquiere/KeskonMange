@@ -11,6 +11,7 @@ class AddRecipeToBookRequest extends HttpRequest {
         queryParameters: <String, String>{
           "bookId": _bookId.toString(),
           "recipeId": _recipeId.toString()
-        }));
+        },
+        authNeeded: true));
   }
 }
