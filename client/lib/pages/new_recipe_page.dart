@@ -1,6 +1,7 @@
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
@@ -17,7 +18,8 @@ class NewRecipePage extends StatefulWidget {
 class _NewRecipePageState extends State<NewRecipePage> {
   final _recipeNameController = TextEditingController();
   final _typeOfRecipeController = TextEditingController();
-  final _postcodeController = TextEditingController();
+  final _preparationTimeController = TextEditingController();
+  final _cookingTimeController = TextEditingController();
   final storage = const FlutterSecureStorage();
 
   ListView element = ListView();
@@ -74,6 +76,11 @@ class _NewRecipePageState extends State<NewRecipePage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.white,
+      bottomNavigationBar: BottomAppBar(
+        color: AppColors.white,
+        child: bottomButtons(),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -110,6 +117,57 @@ class _NewRecipePageState extends State<NewRecipePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget bottomButtons() {
+    if (step == 0) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          CustomButton(
+              text: "GO BACK",
+              onPressed: () {
+                Navigator.of(context).pop(
+                    MaterialPageRoute(builder: (context) => MyCreationsPage()));
+              }),
+          CustomButton(
+              text: "NEXT",
+              onPressed: () {
+                nextStep();
+              })
+        ],
+      );
+    }
+    if (step == 4) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        //TODO: add actions to buttons
+        children: [
+          CustomButton(text: "MODIFY", onPressed: () {}),
+          CustomButton(
+            text: "PUBLISH",
+            onPressed: () {},
+            color: AppColors.pink,
+          ),
+          CustomButton(text: "DELETE", onPressed: () {})
+        ],
+      );
+    }
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        CustomButton(
+            text: "PREVIOUS",
+            onPressed: () {
+              previousStep();
+            }),
+        CustomButton(
+            text: "NEXT",
+            onPressed: () {
+              nextStep();
+            })
+      ],
     );
   }
 
@@ -199,6 +257,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
         const SizedBox(height: 16), // Add spacing
         nbOfPplFed(),
         kindOfRecipe(),
+        cookingTime(),
       ],
     );
   }
@@ -349,6 +408,51 @@ class _NewRecipePageState extends State<NewRecipePage> {
           borderSide: BorderSide(color: AppColors.pink), // Orange when focused
         ),
       ),
+    );
+  }
+
+  Widget cookingTime() {
+    return Row(
+      children: [
+        SvgPicture.asset(
+          AppIcons.getIcon("timer"),
+          width: 48,
+          height: 48,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Preparation time in minutes\t",
+                    )),
+                SizedBox(
+                  width: 50,
+                  child: userTextInput("", _preparationTimeController),
+                )
+              ],
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.all(5.0),
+                    child: Text(
+                      "Cooking time in minutes\t",
+                    )),
+                SizedBox(
+                  width: 50,
+                  child: userTextInput("", _cookingTimeController),
+                )
+              ],
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
