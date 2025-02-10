@@ -46,3 +46,6 @@ After building the project, run `npm run start` to launch the server
 	- Run `flutter build apk` for _Android_
     - Run `flutter build linux` for _Linux_
     - Run `flutter build web` for _Web_
+
+## Contribute
+- run `./contribute.sh` to install the hooks
