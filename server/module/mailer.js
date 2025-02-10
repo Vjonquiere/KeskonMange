@@ -10,49 +10,47 @@ const mailer = nodemailer.createTransport({
   },
 });
 
-
-async function sendAuthCode(emailAddress, code, lang){
-    switch(lang){
-        case "en":
-            const info = await mailer.sendMail({
-                from: `"KeskonMange 🍽️" <${process.env.SMTP_ADDRESS}>`,
-                to: `${emailAddress}, ${emailAddress}`,
-                subject: "Verification code",
-                text: `Welcome back! Here is your code: ${code}\nHave a nice day!\nKeskonMange team.`,
-                html: `<b>Welcome back! Here is your code: ${code}<br>Have a nice day!<br>KeskonMange team.</b>`,
-              });
-            return info.response;
-        case "debug":
-          const debugMail = await mailer.sendMail({
-              from: `"KeskonMange TEST_SESSION" <${process.env.SMTP_ADDRESS}>`,
-              to: `${emailAddress}, ${emailAddress}`,
-              subject: `${code}`,
-            });
-          return debugMail.response;
-        default:
-            return sendAuthCode(emailAddress, code, "en");
-    }
-
+async function sendAuthCode(emailAddress, code, lang) {
+  switch (lang) {
+    case "en":
+      const info = await mailer.sendMail({
+        from: `"KeskonMange 🍽️" <${process.env.SMTP_ADDRESS}>`,
+        to: `${emailAddress}, ${emailAddress}`,
+        subject: "Verification code",
+        text: `Welcome back! Here is your code: ${code}\nHave a nice day!\nKeskonMange team.`,
+        html: `<b>Welcome back! Here is your code: ${code}<br>Have a nice day!<br>KeskonMange team.</b>`,
+      });
+      return info.response;
+    case "debug":
+      const debugMail = await mailer.sendMail({
+        from: `"KeskonMange TEST_SESSION" <${process.env.SMTP_ADDRESS}>`,
+        to: `${emailAddress}, ${emailAddress}`,
+        subject: `${code}`,
+      });
+      return debugMail.response;
+    default:
+      return sendAuthCode(emailAddress, code, "en");
+  }
 }
 
 async function sendVerificationCode(emailAddress, username, code, lang) {
-    switch(lang){
-        case "en":
-            const info = await mailer.sendMail({
-                from: `"KeskonMange 🍽️" <${process.env.SMTP_ADDRESS}>`,
-                to: `${emailAddress}, ${emailAddress}`,
-                subject: `Welcome ${username}, Just one more step!`,
-                html: `<b>Welcome in KeskonMange family ${username}!<br> In order to know you better enter this code: ${code} in the app!<br>
+  switch (lang) {
+    case "en":
+      const info = await mailer.sendMail({
+        from: `"KeskonMange 🍽️" <${process.env.SMTP_ADDRESS}>`,
+        to: `${emailAddress}, ${emailAddress}`,
+        subject: `Welcome ${username}, Just one more step!`,
+        html: `<b>Welcome in KeskonMange family ${username}!<br> In order to know you better enter this code: ${code} in the app!<br>
                 We promise you, that's the last step...
                 <br>KeskonMange team.</b>`,
-              });
-            return info.response;
-        default:
-            return sendAuthCode(emailAddress, "en");
-    }
+      });
+      return info.response;
+    default:
+      return sendAuthCode(emailAddress, "en");
+  }
 }
 
 module.exports = {
-    sendAuthCode : sendAuthCode,
-    sendVerificationCode : sendVerificationCode
+  sendAuthCode: sendAuthCode,
+  sendVerificationCode: sendVerificationCode,
 };
