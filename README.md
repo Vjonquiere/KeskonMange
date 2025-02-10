@@ -33,6 +33,9 @@
 2. run `npm run test` run the tests
 ### Run
 After building the project, run `npm run start` to launch the server
+### Generate API documentation
+Run `npm run api-doc-gen` in `client/` to generate the doc. You can use a swagger plugin in your 
+IDE to open it.
 ## Client
 ### Requirements ✅
 - `libsecret` (*Linux only*)

@@ -18,4 +18,4 @@ tags:
   - name: User
     description: Requests linked to users
   - name: Auth
-    description: Requests linked to athentication
+    description: Requests linked to authentication
