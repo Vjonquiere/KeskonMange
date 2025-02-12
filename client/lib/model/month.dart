@@ -60,7 +60,7 @@ class Month {
     };
   }
 
-  List<Widget> build() {
+  List<Widget> build(BuildContext context) {
     List<Widget> cols = [];
     for (int i = 0; i < monthTemplate[0].length; i++) {
       cols.add(Column(
