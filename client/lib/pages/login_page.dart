@@ -2,7 +2,6 @@ import 'package:client/http/authentication.dart';
 import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
 import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
 import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
-import 'package:client/http/user/GetUserInfos.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
           .deleteCredentialsFromStorage(); // Credentials are missing, don't try to check their validity
       return -1;
     }
-    String API_KEY = Authentication().getCredentials().api_key;
+    String API_KEY = Authentication().getCredentials().apiKey;
     String email = Authentication().getCredentials().email;
     var req = CheckAPIKeyValidityRequest(email, API_KEY);
     return req.send();
