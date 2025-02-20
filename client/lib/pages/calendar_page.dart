@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:client/http/calendar/CompleteMonthRequest.dart';
 import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
+import 'package:client/widgets/calendar/Month.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
@@ -39,13 +40,22 @@ class _CalendarPageState extends State<CalendarPage> {
                   if (snapshot.data! == 200) {
                     Month current = Month.fromJson(
                         jsonDecode(currentMonthRequest.getBody()));
-                    return buildMonth(current);
+                    return Column(
+                      children: [
+                        Text(
+                          "${months[current.month - 1]} ${current.year}",
+                          style: const TextStyle(
+                              color: AppColors.blue, fontSize: 25),
+                        ),
+                        MonthWidget(current),
+                      ],
+                    );
                   }
                   return const Text("Nothing found");
                 } else if (snapshot.hasError) {
                   return const Text("Error");
                 }
-                return CircularProgressIndicator();
+                return const CircularProgressIndicator();
               }),
           CustomButton(
             onPressed: () {
@@ -56,21 +66,6 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildMonth(Month month) {
-    return Column(
-      children: [
-        Text(
-          "${months[month.month - 1]} ${month.year}",
-          style: const TextStyle(color: AppColors.blue, fontSize: 25),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: month.build(),
-        ),
-      ],
     );
   }
 }

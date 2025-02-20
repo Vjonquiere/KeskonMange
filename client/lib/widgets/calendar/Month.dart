@@ -1,23 +1,22 @@
-import 'package:client/http/calendar/CompleteMonthRequest.dart';
+import 'package:client/widgets/calendar/Week.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../model/month.dart';
 
-class MonthWidget extends StatelessWidget{
+class MonthWidget extends StatelessWidget {
   final Month _month;
-  MonthWidget(this._month);
+  const MonthWidget(this._month, {super.key});
 
   @override
   Widget build(BuildContext context) {
     List<Widget> cols = [];
     for (int i = 0; i < _month.monthTemplate[0].length; i++) {
-      cols.add(Column(
-        children: _buildWeek(i),
-      ));
+      cols.add(WeekWidget(_month, i));
       cols.add(const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)));
     }
-    return Column(children: cols);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: cols,
+    );
   }
-
-
 }
