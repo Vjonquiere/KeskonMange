@@ -16,29 +16,32 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body:
-      SafeArea(child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Padding(padding: EdgeInsets.only(top: 20)),
-          TopBar(),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          Filter(),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          Recipe(),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          Recipe(),
-          Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-          Recipe(),
-          //const Placeholder(color: AppColors.green),
-          CustomButton(
-            onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomePage()));
-            },
-            text: 'back',
-          ),
-        ],
-      ),),);
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(padding: EdgeInsets.only(top: 20)),
+            TopBar(),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Filter(),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Recipe(),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Recipe(),
+            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            Recipe(),
+            //const Placeholder(color: AppColors.green),
+            CustomButton(
+              onPressed: () {
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) => HomePage()));
+              },
+              text: 'back',
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

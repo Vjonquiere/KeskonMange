@@ -29,7 +29,7 @@ class _CalendarPageState extends State<CalendarPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: SafeArea(
       child: Column(
         children: [
           ColorfulTextBuilder("Calendar", 30).getWidget(),
