@@ -13,7 +13,7 @@ class Authentication {
 
   Future<bool> initCredentialsFromStorage() async {
     try {
-      _credentials.api_key = (await _storage.read(key: "x-api-key"))!;
+      _credentials.apiKey = (await _storage.read(key: "x-api-key"))!;
       _credentials.email = (await _storage.read(key: "email"))!;
       _credentials.username = (await _storage.read(key: "username"))!;
     } catch (e) {
@@ -23,7 +23,7 @@ class Authentication {
   }
 
   Future<bool> refreshCredentialsFromStorage() async {
-    _credentials.api_key = "";
+    _credentials.apiKey = "";
     _credentials.email = "";
     _credentials.username = "";
     return await initCredentialsFromStorage();
@@ -45,7 +45,7 @@ class Authentication {
   Map<String, String> httpHeader() {
     // TODO: add real username
     return {
-      "x-api-key": _credentials.api_key,
+      "x-api-key": _credentials.apiKey,
       "username": _credentials.username,
       "email": _credentials.email
     };
@@ -57,7 +57,7 @@ class Authentication {
 }
 
 class Credentials {
-  late String api_key;
+  late String apiKey;
   late String email;
   late String username;
 
