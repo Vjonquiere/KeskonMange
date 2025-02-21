@@ -28,8 +28,8 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: AppColors.white, // Set the background color
+    return Scaffold(
+      body: SafeArea(
       child: Column(
         children: [
           ColorfulTextBuilder("Calendar", 30).getWidget(),
@@ -66,6 +66,6 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
