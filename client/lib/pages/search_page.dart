@@ -9,6 +9,8 @@ import '../widgets/search/Filter.dart';
 import 'home_page.dart';
 
 class SearchPage extends StatefulWidget {
+  const SearchPage({super.key});
+
   @override
   State<SearchPage> createState() => _SearchPageState();
 }
@@ -21,21 +23,17 @@ class _SearchPageState extends State<SearchPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets.only(top: 20)),
-            TopBar(),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Padding(padding: EdgeInsets.only(top: 20)),
+            const TopBar(),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
             Filter(),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            Recipe(),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            Recipe(),
-            Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-            Recipe(),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
             //const Placeholder(color: AppColors.green),
             CustomButton(
               onPressed: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => HomePage()));
+                Navigator.of(context).pop();
               },
               text: 'back',
             ),
