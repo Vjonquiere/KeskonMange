@@ -33,10 +33,11 @@ class RecipeCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8.0),
               width: 60,
-              decoration: BoxDecoration(
-                color: AppColors.green,
-                borderRadius: BorderRadius.circular(8.0),
-              ),
+              decoration: const BoxDecoration(
+                  color: AppColors.green,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0))),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 mainAxisSize: MainAxisSize.max,
