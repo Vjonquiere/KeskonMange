@@ -1,26 +1,50 @@
 package fr.keskonmange.entities;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
 
-import java.util.Calendar;
-
-@Entity
-@Table(name="user")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long id;
     private String email;
     private String username;
-    @Temporal(TemporalType.DATE)
-    private Calendar verified;
+    private LocalDate verified;
 
-    public void setVerified() {
-        verified = Calendar.getInstance();
+    public User() {}
+
+    public User(long id, String email, String username, LocalDate verified) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.verified = verified;
     }
 
-    public long getId() {
+    public long getId(){
         return id;
     }
+
+    public String getEmail(){
+        return email;
+    }
+
+    public void setEmail(String username){
+        this.username = username;
+    }
+
+    public boolean isVerified(){
+        return verified != null;
+    }
+
+    public void setVerified(LocalDate verified){
+        this.verified = verified;
+    }
+
+    public String getUsername(){
+        return username;
+    }
+
+    public void setUsername(String username){
+        this.username = username;
+    }
+
+
 }

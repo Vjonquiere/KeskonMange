@@ -14,17 +14,15 @@ public class UserService {
     private UserRepository userRepository;
 
     public User getUserById(long id) {
-        return userRepository.getReferenceById(id);
+        return userRepository.getById(id);
     }
 
-    public Optional<User> getUserByEmail(String email) {
+    public User getUserByEmail(String email) {
         return userRepository.getByEmail(email);
     }
 
-    public void setVerified(long id) {
-        User user = getUserById(id);
-        user.setVerified();
-        userRepository.save(user);
+    public void setVerified(long userId) {
+        userRepository.setVerified(userId);
     }
 
 }
