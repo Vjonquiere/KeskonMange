@@ -4,6 +4,8 @@ import fr.keskonmange.entities.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+
 @Repository
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -21,6 +23,6 @@ public class UserRepository {
     }
 
     public void setVerified(long userId) {
-
+        jdbcTemplate.update("UPDATE users SET verified = ? where id = ?", userId, LocalDate.now());
     }
 }
