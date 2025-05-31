@@ -1,18 +1,17 @@
-const mariadb = require('mariadb');
+const mariadb = require("mariadb");
 
-const connexion =  mariadb.createPool({
-    host: process.env.DATABASE_HOST, 
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_NAME,
-    multipleStatements: true,
-    dateStrings: true
-  });
-
+const connexion = mariadb.createPool({
+  host: process.env.DATABASE_HOST,
+  user: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
+  database: process.env.DATABASE_NAME,
+  multipleStatements: true,
+  dateStrings: true,
+});
 
 async function clearDatabase() {
-    await connexion.query(
-        `DROP DATABASE IF EXISTS ${process.env.DATABASE_NAME};
+  await connexion.query(
+    `DROP DATABASE IF EXISTS ${process.env.DATABASE_NAME};
         CREATE DATABASE ${process.env.DATABASE_NAME};
         USE ${process.env.DATABASE_NAME};
 
@@ -41,15 +40,15 @@ async function clearDatabase() {
         CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTO_INCREMENT, email CHARACTER VARYING(64), username CHARACTER VARYING(16), verified DATE);
         CREATE TABLE IF NOT EXISTS verify (email CHARACTER VARYING(64), code INTEGER);
         CREATE TABLE IF NOT EXISTS authentication (token CHARACTER(64), userId INTEGER, created DATE, expire DATE, renew INTEGER);
-        CREATE TABLE IF NOT EXISTS allergens (userId INTEGER, allergenId INTEGER);`
-    )
+        CREATE TABLE IF NOT EXISTS allergens (userId INTEGER, allergenId INTEGER);`,
+  );
 }
 
-function end_connexion(){
-    connexion.end();
+function end_connexion() {
+  connexion.end();
 }
 
 module.exports = {
-    clearDatabase : clearDatabase,
-    end_connexion : end_connexion,
-}
+  clearDatabase: clearDatabase,
+  end_connexion: end_connexion,
+};
