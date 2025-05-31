@@ -6,7 +6,7 @@ import 'package:client/http/recipe/GetRecipeFromIdRequest.dart';
 import 'package:client/model/recipe.dart';
 import 'package:client/pages/calendar_page.dart';
 import 'package:client/pages/planned_recipes_page.dart';
-import 'package:client/pages/recipe_books_page.dart';
+import 'package:client/pages/my_creations_page.dart';
 import 'package:client/pages/search_page.dart';
 import 'package:client/pages/user_page.dart';
 import 'package:client/utils/app_colors.dart';
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
               CustomButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => RecipeBooksPage()));
+                        builder: (context) => MyCreationsPage()));
                   },
                   text: 'book'),
               FloatingActionButton(

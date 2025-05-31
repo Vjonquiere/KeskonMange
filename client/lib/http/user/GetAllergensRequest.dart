@@ -15,6 +15,7 @@ class GetAllergensRequest extends HttpRequest {
     return (await super.process(RequestMode.get, 'user/allergens',
         queryParameters: <String, String>{
           "email": Authentication().getCredentials().email
-        }));
+        },
+        authNeeded: true));
   }
 }

@@ -8,6 +8,7 @@ class LogoutRequest extends HttpRequest {
     var apiKey = Authentication().getCredentials().apiKey;
     var email = Authentication().getCredentials().email;
     return (await super.process(RequestMode.post, 'auth/logout',
-        queryParameters: <String, String>{"email": email, "api_key": apiKey}));
+        queryParameters: <String, String>{"email": email, "api_key": apiKey},
+        authNeeded: true));
   }
 }

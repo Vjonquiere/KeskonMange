@@ -8,12 +8,14 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onPressed;
   final Color color;
   final double scaleSize;
+  final int fontSize;
 
   const CustomButton({
     required this.text,
     required this.onPressed,
     this.color = AppColors.green,
     this.scaleSize = 0.5,
+    this.fontSize = 12,
     super.key,
   });
 
@@ -42,7 +44,7 @@ class CustomButton extends StatelessWidget {
       child: Text(
         text,
         textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 16),
+        style: const TextStyle(fontSize: 12),
       ),
     );
   }
