@@ -29,6 +29,27 @@ jobs:
     - name: Build the project (if a build script exists)
       run: npm run build --if-present
       working-directory: './server'
+  
+  backend-format:
+    name: Backend format check
+    needs: backend-build
+    runs-on: ubuntu-latest
+    environment: test
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: ./server/package-lock.json
+    - name: Install dependencies (for prettier)
+      run: npm ci
+      working-directory: './server'
+    - name: Check format
+      run: npx prettier --check . 
+      working-directory: './server'
 
   backend-test:
     name: Backend test
