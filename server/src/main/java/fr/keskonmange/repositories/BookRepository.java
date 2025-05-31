@@ -76,4 +76,20 @@ public class BookRepository {
         jdbcTemplate.update("INSERT INTO recipe_book_links VALUES (?, ?, ?)", bookId, recipeId, LocalDate.now());
     }
 
+    public boolean isRecipeInBook(long bookId, long recipeId) {
+        return jdbcTemplate.queryForObject("SELECT COUNT(*) FROM recipe_book_links WHERE bookId = ? AND recipeId = ?", Integer.class, bookId, recipeId) != 0;
+    }
+
+    public void removeAllRecipes(long bookId) {
+        jdbcTemplate.update("DELETE FROM recipe_book_links WHERE bookId = ?", bookId);
+    }
+
+    public void removeAllShareLinks(long bookId) {
+        jdbcTemplate.update("DELETE FROM recipe_book_access WHERE bookId = ?", bookId);
+    }
+
+    public void removeShareLink(long bookId, long userId) {
+        jdbcTemplate.update("DELETE FROM recipe_book_access WHERE bookId = ? AND userId = ?", bookId, userId);
+    }
+
 }

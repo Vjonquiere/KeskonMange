@@ -30,20 +30,40 @@ public class BookService {
         bookRepository.createBook(book);
     }
 
-    public void deleteBook(long bookId, long userId) {
+    public void deleteBook(long bookId) {
         bookRepository.deleteBook(bookId);
+    }
+
+    public void deleteShareLink(long bookId, long userId) {
+        bookRepository.removeShareLink(bookId, userId);
+    }
+
+    public void deleteAllShareLinks(long bookId) {
+        bookRepository.removeAllShareLinks(bookId);
     }
 
     public void shareBook(long bookId, long shareWithUserId) {
         bookRepository.shareBook(bookId, shareWithUserId);
     }
 
-    public List<Integer> getRecipes(long bookId, long userId){
+    public List<Integer> getRecipes(long bookId){
         return bookRepository.getRecipes(bookId);
     }
 
-    public Integer getRecipeCount(long bookId, long userId){
+    public void removeAllRecipes(long bookId) {
+        bookRepository.removeAllRecipes(bookId);
+    }
+
+    public Integer getRecipeCount(long bookId){
         return bookRepository.getNumberOfRecipes(bookId);
+    }
+
+    public void addRecipeToBook(long bookId, int recipeId) {
+        bookRepository.linkRecipe(bookId, recipeId);
+    }
+
+    public boolean isRecipeInBook(long bookId, long recipeId) {
+        return bookRepository.isRecipeInBook(bookId, recipeId);
     }
 
 
