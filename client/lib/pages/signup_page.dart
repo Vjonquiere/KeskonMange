@@ -29,8 +29,6 @@ class _SignupPageState extends State<SignupPage> {
   final _postcodeController = TextEditingController();
   final storage = const FlutterSecureStorage();
 
-  List<String> _userAllergens = <String>[];
-
   ListView element = ListView();
   var stateValue = 0.0;
   var step = 0;

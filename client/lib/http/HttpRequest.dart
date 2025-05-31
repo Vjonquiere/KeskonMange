@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:client/constants.dart' as constants;
@@ -9,6 +11,11 @@ abstract class HttpRequest {
   String getBody() {
     if (_body != null) return _body!;
     return "";
+  }
+
+  Map<String, dynamic> getJsonBody() {
+    if (_body == null) const JsonDecoder();
+    return jsonDecode(_body!);
   }
 
   Future<int> process(RequestMode mode, String route,

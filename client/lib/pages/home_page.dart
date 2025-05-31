@@ -177,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         setState(() {
                           _selectedRecipeIndex =
-                              (_selectedRecipeIndex - 1 + length!) % length!;
+                              (_selectedRecipeIndex - 1 + length!) % length;
                         });
                       },
                       color: AppColors.white,
