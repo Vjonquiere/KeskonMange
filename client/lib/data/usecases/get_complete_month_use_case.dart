@@ -3,10 +3,11 @@ import 'package:client/model/month.dart';
 
 class GetCompleteMonthUseCase {
   CalendarRepository calendarRepository;
+  int monthCount;
 
-  GetCompleteMonthUseCase(this.calendarRepository);
+  GetCompleteMonthUseCase(this.calendarRepository, this.monthCount);
 
   Future<Month> execute() async {
-    return Month(2025, 12, [], []);
+    return calendarRepository.getCompleteMonth(monthCount);
   }
 }

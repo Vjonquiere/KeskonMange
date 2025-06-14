@@ -19,7 +19,7 @@ class RecipeTime {
 }
 
 class Recipe {
-  final int id;
+  int id;
   final String title;
   final String type;
   final int difficulty;
