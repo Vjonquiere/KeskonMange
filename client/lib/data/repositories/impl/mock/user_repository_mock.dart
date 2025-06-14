@@ -1,0 +1,55 @@
+import 'package:client/data/repositories/user_repository.dart';
+import 'package:client/model/allergens.dart';
+import 'package:client/model/user.dart';
+
+class UserRepositoryMock extends UserRepository {
+  User? _current;
+
+  @override
+  Future<int> activateUserAccount(String email, String code) async {
+    return 200;
+  }
+
+  @override
+  Future<int> checkApiKeyValidity(String email, String token) async {
+    return 200;
+  }
+
+  @override
+  Future<int> checkAuthenticationCode(String email, String code) async {
+    return 200;
+  }
+
+  @override
+  Future<int> createAccount(User user) async {
+    _current = user;
+    return 200;
+  }
+
+  @override
+  Future<int> getAuthenticationCode(String email) async {
+    return 200;
+  }
+
+  @override
+  Future<List<Allergens>> getUserAllergens() async {
+    if (_current == null) return [];
+    return _current!.allergens;
+  }
+
+  @override
+  Future<User> getUserInfos() async {
+    return _current!;
+  }
+
+  @override
+  Future<int> logout() async {
+    return 200;
+  }
+
+  @override
+  Future<int> setUserAllergens(List<Allergens> allergens) async {
+    _current!.allergens = allergens;
+    return 200;
+  }
+}

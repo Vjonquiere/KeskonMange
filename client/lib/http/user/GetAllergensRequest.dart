@@ -6,7 +6,7 @@ import '../authentication.dart';
 class GetAllergensRequest extends HttpRequest {
   GetAllergensRequest();
 
-  Allergens? getAllergens() {
+  Allergens getAllergens() {
     return Allergens.fromJson(jsonDecode(getBody()));
   }
 
