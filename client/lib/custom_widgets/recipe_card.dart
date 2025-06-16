@@ -1,12 +1,11 @@
+import 'package:client/model/recipe/preview.dart';
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../model/recipe.dart';
-
 class RecipeCard extends StatelessWidget {
-  final Recipe recipe;
+  final RecipePreview recipe;
 
   const RecipeCard({
     required this.recipe,

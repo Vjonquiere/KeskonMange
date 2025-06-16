@@ -7,8 +7,9 @@ import 'package:client/http/sign_up/UserVerificationRequest.dart';
 import 'package:client/http/user/GetAllergensRequest.dart';
 import 'package:client/http/user/LogoutRequest.dart';
 import 'package:client/http/user/SetAllergensRequest.dart';
-import 'package:client/model/allergens.dart';
 import 'package:client/model/user.dart';
+
+import '../../../../model/allergen.dart';
 
 class UserRepositoryApi extends UserRepository {
   @override
@@ -37,10 +38,10 @@ class UserRepositoryApi extends UserRepository {
   }
 
   @override
-  Future<List<Allergens>> getUserAllergens() async {
+  Future<List<Allergen>> getUserAllergens() async {
     GetAllergensRequest req = GetAllergensRequest();
     await req.send();
-    return [req.getAllergens()];
+    return req.getAllergens();
   }
 
   @override
@@ -55,7 +56,7 @@ class UserRepositoryApi extends UserRepository {
   }
 
   @override
-  Future<int> setUserAllergens(List<Allergens> allergens) async {
+  Future<int> setUserAllergens(List<Allergen> allergens) async {
     return (await SetAllergensRequest([""])
         .send()); // TODO: Change allergens from String
   }

@@ -1,13 +1,22 @@
 import 'dart:convert';
 import 'package:client/http/HttpRequest.dart';
-import '../../model/allergens.dart';
+import 'package:client/model/allergen.dart';
 import '../authentication.dart';
 
 class GetAllergensRequest extends HttpRequest {
   GetAllergensRequest();
 
-  Allergens getAllergens() {
-    return Allergens.fromJson(jsonDecode(getBody()));
+  List<Allergen> getAllergens() {
+    List<Allergen> reqAllergens = [];
+    switch (getJsonBody()) {
+      case {
+          'allergens': List<String> allergens,
+        }:
+        for (String allergen in allergens) {
+          reqAllergens.add(Allergen.fromString(allergen));
+        }
+    }
+    return reqAllergens;
   }
 
   @override

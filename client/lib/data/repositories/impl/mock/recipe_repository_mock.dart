@@ -1,30 +1,22 @@
-import 'dart:collection';
-import 'dart:ffi';
 import 'dart:ui';
-
 import 'package:client/data/repositories/recipe_repository.dart';
-import 'package:client/model/recipe.dart';
+import '../../../../model/recipe/preview.dart';
 
 class RecipeRepositoryMock extends RecipeRepository {
-  List<Recipe> recipes = [];
-  Map<int, RecipeRestrictions> restrictionsMap = HashMap();
-  Map<int, RecipeTime> timeMap = HashMap();
+  List<RecipePreview> recipes = [];
   int nextId = 0;
 
   @override
-  Future<int> createNewRecipe(
-      Recipe recipe, RecipeRestrictions restrictions, RecipeTime time) async {
+  Future<int> createNewRecipe(RecipePreview recipe) async {
     recipe.id = nextId;
     recipes.add(recipe);
-    restrictionsMap[nextId] = restrictions;
-    timeMap[nextId] = time;
     nextId++;
     return 200;
   }
 
   @override
-  Future<List<Recipe>> getLastRecipes(int count) async {
-    List<Recipe> last = [];
+  Future<List<RecipePreview>> getLastRecipes(int count) async {
+    List<RecipePreview> last = [];
     for (int i = 1; i <= count; i++) {
       last.add(recipes[recipes.length - i]);
     }
@@ -32,11 +24,11 @@ class RecipeRepositoryMock extends RecipeRepository {
   }
 
   @override
-  Future<Recipe> getRecipeFromId(int recipeId) async {
-    for (Recipe recipe in recipes) {
+  Future<RecipePreview?> getRecipeFromId(int recipeId) async {
+    for (RecipePreview recipe in recipes) {
       if (recipe.id == recipeId) return recipe;
     }
-    return Recipe(-1, "title", "type", -1, -1, -1, -1, -1);
+    return null;
   }
 
   @override

@@ -4,7 +4,7 @@ import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/http/calendar/CompleteMonthRequest.dart';
 import 'package:client/http/calendar/NextPlannedRecipesRequest.dart';
 import 'package:client/model/month.dart';
-import 'package:client/model/recipe.dart';
+import 'package:client/model/recipe/preview.dart';
 
 class CalendarRepositoryApi extends CalendarRepository {
   @override
@@ -15,7 +15,7 @@ class CalendarRepositoryApi extends CalendarRepository {
   }
 
   @override
-  Future<List<Recipe>> getNextPlannedRecipes(int count) async {
+  Future<List<RecipePreview>> getNextPlannedRecipes(int count) async {
     NextPlannedRecipesRequest req = NextPlannedRecipesRequest(count);
     await req.send();
     return []; // TODO: Change it with list of recipe

@@ -1,9 +1,9 @@
-import 'package:client/model/allergens.dart';
+import 'allergen.dart';
 
 class User {
   String email;
   String username;
-  List<Allergens> allergens;
+  List<Allergen> allergens;
 
   User(this.email, this.username, this.allergens);
 }

@@ -1,6 +1,6 @@
 import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/model/month.dart';
-import 'package:client/model/recipe.dart';
+import 'package:client/model/recipe/preview.dart';
 
 class CalendarRepositoryMock extends CalendarRepository {
   @override
@@ -18,7 +18,7 @@ class CalendarRepositoryMock extends CalendarRepository {
   }
 
   @override
-  Future<List<Recipe>> getNextPlannedRecipes(int count) async {
+  Future<List<RecipePreview>> getNextPlannedRecipes(int count) async {
     return [];
   }
 }

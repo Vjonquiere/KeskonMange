@@ -1,6 +1,7 @@
 import 'package:client/data/repositories/user_repository.dart';
-import 'package:client/model/allergens.dart';
 import 'package:client/model/user.dart';
+
+import '../../../../model/allergen.dart';
 
 class UserRepositoryMock extends UserRepository {
   User? _current;
@@ -32,7 +33,7 @@ class UserRepositoryMock extends UserRepository {
   }
 
   @override
-  Future<List<Allergens>> getUserAllergens() async {
+  Future<List<Allergen>> getUserAllergens() async {
     if (_current == null) return [];
     return _current!.allergens;
   }
@@ -48,7 +49,7 @@ class UserRepositoryMock extends UserRepository {
   }
 
   @override
-  Future<int> setUserAllergens(List<Allergens> allergens) async {
+  Future<int> setUserAllergens(List<Allergen> allergens) async {
     _current!.allergens = allergens;
     return 200;
   }
