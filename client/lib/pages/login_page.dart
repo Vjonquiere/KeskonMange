@@ -1,7 +1,7 @@
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/login/check_api_key_validity_use_case.dart';
+import 'package:client/data/usecases/login/get_authentication_code_use_case.dart';
 import 'package:client/http/authentication.dart';
-import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
-import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
-import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/signup_page.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,8 @@ import 'package:flutter/services.dart';
 import 'package:client/custom_widgets/colorful_text_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
+
+import '../http/sign_in/VerifyAuthenticationCodeRequest.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -26,19 +28,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    userLogged = checkUserAuth();
-  }
-
-  Future<int> checkUserAuth() async {
-    if (!(await Authentication().initCredentialsFromStorage())) {
-      await Authentication()
-          .deleteCredentialsFromStorage(); // Credentials are missing, don't try to check their validity
-      return -1;
-    }
-    String API_KEY = Authentication().getCredentials().apiKey;
-    String email = Authentication().getCredentials().email;
-    var req = CheckAPIKeyValidityRequest(email, API_KEY);
-    return req.send();
+    userLogged =
+        CheckApiKeyValidityUseCase(RepositoriesManager().getUserRepository())
+            .execute();
   }
 
   @override
@@ -143,12 +135,15 @@ class _LoginPageState extends State<LoginPage> {
                   }
                   return;
                 }
-                var sendCode =
-                    GetAuthenticationCodeRequest(_emailController.text);
-                if (!(await sendCode.send() == 200)) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text(sendCode.getBody()),
-                    duration: const Duration(milliseconds: 1500),
+                if (!(await GetAuthenticationCodeUseCase(
+                            RepositoriesManager().getUserRepository(),
+                            _emailController.text)
+                        .execute() ==
+                    200)) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'Something went wrong while trying to send code by mail'),
+                    duration: Duration(milliseconds: 1500),
                   ));
                   return;
                 }
