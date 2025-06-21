@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/signup/create_account_use_case.dart';
 import 'package:client/http/authentication.dart';
+import 'package:client/http/sign_up/CreateAccountRequest.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:client/utils/app_colors.dart';
@@ -13,10 +16,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../constants.dart';
-import '../http/sign_up/CreateAccountRequest.dart';
 import '../http/sign_up/UserVerificationRequest.dart';
 import '../http/sign_up/VerifyEmailRequest.dart';
 import '../http/sign_up/VerifyUsernameRequest.dart';
+import '../model/user.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -70,8 +73,9 @@ class _SignupPageState extends State<SignupPage> {
         content = AllergensToggle(this);
         break;
       case 4:
-        CreateAccountRequest(_emailController.text, _usernameController.text)
-            .send();
+        CreateAccountUseCase(RepositoriesManager().getUserRepository(),
+                User(_emailController.text, _usernameController.text, []))
+            .execute();
         content = accountVerification(context);
         break;
       default:

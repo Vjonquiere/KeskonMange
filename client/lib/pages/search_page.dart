@@ -1,13 +1,13 @@
 import 'dart:ffi';
 
 import 'package:client/custom_widgets/custom_buttons.dart';
-import 'package:client/http/recipe/GetLastRecipesRequest.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/widgets/search/Recipe.dart';
 import 'package:client/widgets/search/TopBar.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
+import '../http/recipe/GetLastRecipesRequest.dart';
 import '../http/recipe/GetRecipeFromIdRequest.dart';
 import '../widgets/search/Filter.dart';
 
