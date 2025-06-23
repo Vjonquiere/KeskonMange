@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:client/data/repositories/user_repository.dart';
 import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
 import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
@@ -9,12 +11,22 @@ import 'package:client/http/user/LogoutRequest.dart';
 import 'package:client/http/user/SetAllergensRequest.dart';
 import 'package:client/model/user.dart';
 
+import '../../../../http/sign_up/VerifyEmailRequest.dart';
+import '../../../../http/sign_up/VerifyUsernameRequest.dart';
 import '../../../../model/allergen.dart';
 
 class UserRepositoryApi extends UserRepository {
   @override
-  Future<int> activateUserAccount(String email, String code) async {
-    return (await UserVerificationRequest(email, code).send());
+  Future<String?> activateUserAccount(String email, String code) async {
+    var req = UserVerificationRequest(email, code);
+    if ((await req.send()) != 200) {
+      return null;
+    }
+    final apiKey = jsonDecode(req.getBody()) as Map<String, dynamic>;
+    if (apiKey.containsKey('token')) {
+      return apiKey["token"];
+    }
+    return null;
   }
 
   @override
@@ -59,5 +71,15 @@ class UserRepositoryApi extends UserRepository {
   Future<int> setUserAllergens(List<Allergen> allergens) async {
     return (await SetAllergensRequest([""])
         .send()); // TODO: Change allergens from String
+  }
+
+  @override
+  Future<int> checkMailAvailability(String email) async {
+    return (await VerifyEmailRequest(email).send());
+  }
+
+  @override
+  Future<int> checkUsernameAvailability(String username) async {
+    return (await VerifyUsernameRequest(username).send());
   }
 }

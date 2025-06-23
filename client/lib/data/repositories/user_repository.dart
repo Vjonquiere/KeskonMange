@@ -10,5 +10,7 @@ abstract class UserRepository {
   Future<int> checkAuthenticationCode(String email, String code);
   Future<int> createAccount(User user);
   Future<User> getUserInfos();
-  Future<int> activateUserAccount(String email, String code);
+  Future<String?> activateUserAccount(String email, String code);
+  Future<int> checkMailAvailability(String email);
+  Future<int> checkUsernameAvailability(String username);
 }

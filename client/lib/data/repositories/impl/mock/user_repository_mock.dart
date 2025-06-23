@@ -7,8 +7,8 @@ class UserRepositoryMock extends UserRepository {
   User? _current;
 
   @override
-  Future<int> activateUserAccount(String email, String code) async {
-    return 200;
+  Future<String?> activateUserAccount(String email, String code) async {
+    return "API_KEY";
   }
 
   @override
@@ -51,6 +51,18 @@ class UserRepositoryMock extends UserRepository {
   @override
   Future<int> setUserAllergens(List<Allergen> allergens) async {
     _current!.allergens = allergens;
+    return 200;
+  }
+
+  @override
+  Future<int> checkMailAvailability(String email) async {
+    if (_current?.email == email) return 400;
+    return 200;
+  }
+
+  @override
+  Future<int> checkUsernameAvailability(String username) async {
+    if (_current?.username == username) return 400;
     return 200;
   }
 }
