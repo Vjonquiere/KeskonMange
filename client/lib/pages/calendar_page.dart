@@ -20,7 +20,20 @@ class _CalendarPageState extends State<CalendarPage> {
   late Future<Month> requestResult;
   final currentMonthUseCase =
       GetCompleteMonthUseCase(RepositoriesManager().getCalendarRepository(), 0);
-  final List<String> months = ["Janvier", "Février", "Mars", "Avril"];
+  final List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
   @override
   void initState() {
