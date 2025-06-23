@@ -17,7 +17,9 @@ class RecipeRepositoryApi extends RecipeRepository {
   Future<List<RecipePreview>> getLastRecipes(int count) async {
     GetLastRecipesRequest req = GetLastRecipesRequest();
     if ((await req.send()) != 200) return [];
-    return [RecipePreview.fromJson(req.getJsonBody())];
+    return [
+      RecipePreview.fromJson(req.getJsonBody())
+    ]; // TODO: Change because it returns ids and not Recipes objects
   }
 
   @override
@@ -31,5 +33,12 @@ class RecipeRepositoryApi extends RecipeRepository {
   Future<Image> getRecipeImage(int recipeId, String format) {
     // TODO: implement getRecipeImage
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<int>> getLastRecipesIds(int count) async {
+    GetLastRecipesRequest req = GetLastRecipesRequest();
+    if ((await req.send()) != 200) return [];
+    return req.ids();
   }
 }

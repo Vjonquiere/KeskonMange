@@ -36,4 +36,13 @@ class RecipeRepositoryMock extends RecipeRepository {
     // TODO: implement getRecipeImage
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<int>> getLastRecipesIds(int count) async {
+    List<int> last = [];
+    for (int i = 1; i <= count; i++) {
+      last.add(recipes[recipes.length - i].id);
+    }
+    return last;
+  }
 }

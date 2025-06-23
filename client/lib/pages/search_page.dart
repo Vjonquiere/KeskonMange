@@ -1,14 +1,16 @@
 import 'dart:ffi';
 
 import 'package:client/custom_widgets/custom_buttons.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/recipe/get_recipe_from_id_use_case.dart';
+import 'package:client/data/usecases/recipes/get_last_recipes_ids_use_case.dart';
+import 'package:client/model/recipe/preview.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/widgets/search/Recipe.dart';
 import 'package:client/widgets/search/TopBar.dart';
 import 'package:flutter/material.dart';
 
 import '../custom_widgets/colorful_text_builder.dart';
-import '../http/recipe/GetLastRecipesRequest.dart';
-import '../http/recipe/GetRecipeFromIdRequest.dart';
 import '../widgets/search/Filter.dart';
 
 class SearchPage extends StatefulWidget {
@@ -19,12 +21,13 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  GetLastRecipesRequest request = GetLastRecipesRequest();
-  late Future<int> responseCode;
+  late Future<List<int>> recipesIds;
 
   @override
   void initState() {
-    responseCode = request.send();
+    recipesIds =
+        GetLastRecipesUseCase(RepositoriesManager().getRecipeRepository(), 10)
+            .execute();
     super.initState();
   }
 
@@ -41,37 +44,38 @@ class _SearchPageState extends State<SearchPage> {
               const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
               const Filter(),
               const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
-              FutureBuilder<int>(
-                  future: responseCode,
-                  builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                    //List<Widget> recipes = [];
+              FutureBuilder<List<int>>(
+                  future: recipesIds,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<int>> snapshot) {
                     if (snapshot.hasData) {
-                      if (snapshot.data == 200) {
-                        var recipeIds = request.ids();
-                        if (recipeIds.isEmpty) {
-                          return const Text("No recipes found");
-                        }
-                        return ListView.builder(
-                            itemCount: recipeIds.length,
-                            itemBuilder: (context, index) {
-                              var req =
-                                  GetRecipeRequest(recipeIds[index].toString());
-                              Future<int> res = req.send();
-                              return FutureBuilder<int>(
-                                  future: res,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData) {
-                                      var recipeData = req.getRecipe();
-                                      if (recipeData != null) {
-                                        return Recipe(
-                                            recipeData.title, "", 15, 14);
-                                      }
-                                    } else if (snapshot.hasError) {
-                                    } else {}
-                                    return Text("Something went wrong");
-                                  });
-                            });
+                      List<int> ids = snapshot.requireData;
+                      if (ids.isEmpty) {
+                        return const Text("No recipes found");
                       }
+                      return ListView.builder(
+                          itemCount: ids.length,
+                          itemBuilder: (context, index) {
+                            Future<RecipePreview?> res = GetRecipeFromIdUseCase(
+                                    RepositoriesManager().getRecipeRepository(),
+                                    ids[index])
+                                .execute();
+                            return FutureBuilder<RecipePreview?>(
+                                future: res,
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.requireData != null) {
+                                    return Recipe(
+                                        snapshot.requireData!.title,
+                                        "",
+                                        snapshot.requireData!.preparationTime,
+                                        snapshot.requireData!.cookTime);
+                                  } else if (snapshot.hasError) {
+                                  } else {}
+                                  return Text("Something went wrong");
+                                });
+                          });
+
                       return const Text("");
                     } else if (snapshot.hasError) {
                       return const Text("Something went wrong, try to reload");
