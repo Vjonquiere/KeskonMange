@@ -1,4 +1,4 @@
-import 'package:client/model/recipe.dart';
+import 'package:client/model/recipe/preview.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -7,7 +7,7 @@ import '../custom_widgets/custom_buttons.dart';
 import 'home_page.dart';
 
 class RecipePage extends StatefulWidget {
-  final Recipe recipe;
+  final RecipePreview recipe;
 
   RecipePage({required this.recipe});
   @override

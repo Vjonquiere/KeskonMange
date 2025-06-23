@@ -1,6 +1,12 @@
 import 'dart:convert';
 
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/signup/activate_account_use_case.dart';
+import 'package:client/data/usecases/signup/check_mail_availability_use_case.dart';
+import 'package:client/data/usecases/signup/check_username_availability_use_case.dart';
+import 'package:client/data/usecases/signup/create_account_use_case.dart';
 import 'package:client/http/authentication.dart';
+import 'package:client/http/sign_up/CreateAccountRequest.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:client/utils/app_colors.dart';
@@ -13,10 +19,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../constants.dart';
-import '../http/sign_up/CreateAccountRequest.dart';
-import '../http/sign_up/UserVerificationRequest.dart';
-import '../http/sign_up/VerifyEmailRequest.dart';
-import '../http/sign_up/VerifyUsernameRequest.dart';
+import '../model/user.dart';
 
 class SignupPage extends StatefulWidget {
   @override
@@ -70,8 +73,9 @@ class _SignupPageState extends State<SignupPage> {
         content = AllergensToggle(this);
         break;
       case 4:
-        CreateAccountRequest(_emailController.text, _usernameController.text)
-            .send();
+        CreateAccountUseCase(RepositoriesManager().getUserRepository(),
+                User(_emailController.text, _usernameController.text, []))
+            .execute();
         content = accountVerification(context);
         break;
       default:
@@ -154,9 +158,11 @@ class _SignupPageState extends State<SignupPage> {
             child: const Text('Next'),
             onPressed: () async {
               if (_usernameController.text == "") return;
-              var isUsernameUnique =
-                  await VerifyUsernameRequest(_usernameController.text).send();
-              if (!(isUsernameUnique == 200)) {
+              CheckUsernameAvailabilityUseCase uniqueUsername =
+                  CheckUsernameAvailabilityUseCase(
+                      RepositoriesManager().getUserRepository(),
+                      _usernameController.text);
+              if (!(await uniqueUsername.execute() == 200)) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('Username is already taken'),
                   duration: Duration(milliseconds: 1500),
@@ -220,9 +226,11 @@ class _SignupPageState extends State<SignupPage> {
                 ));
                 return;
               }
-              var isEmailUnique =
-                  await VerifyEmailRequest(_emailController.text).send();
-              if (!(isEmailUnique == 200)) {
+              CheckMailAvailabilityUseCase uniqueMail =
+                  CheckMailAvailabilityUseCase(
+                      RepositoriesManager().getUserRepository(),
+                      _emailController.text);
+              if (!(await uniqueMail.execute() == 200)) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text('Email is already used'),
                   duration: Duration(milliseconds: 1500),
@@ -333,24 +341,23 @@ class _SignupPageState extends State<SignupPage> {
             child: const Text('Next'),
             onPressed: () async {
               if (verificationCodeController.text == "") return;
-              var verificationRequest = UserVerificationRequest(
-                  _emailController.text, verificationCodeController.text);
-              if (!(await verificationRequest.send() == 200)) {
+              var activation = ActivateUserUseCase(
+                  RepositoriesManager().getUserRepository(),
+                  _emailController.text,
+                  verificationCodeController.text);
+              String? apiKey = await activation.execute();
+              if (apiKey == null) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                   content: Text("Verification code is not valid"),
                   duration: Duration(milliseconds: 1500),
                 ));
                 return;
               }
-              final apiKey = jsonDecode(verificationRequest.getBody())
-                  as Map<String, dynamic>;
-              if (apiKey.containsKey('token')) {
-                await Authentication().updateCredentialsFromStorage(
-                    apiKey["token"],
-                    _emailController.text,
-                    _usernameController.text);
-                await Authentication().refreshCredentialsFromStorage();
-              }
+
+              await Authentication().updateCredentialsFromStorage(
+                  apiKey, _emailController.text, _usernameController.text);
+              await Authentication().refreshCredentialsFromStorage();
+
               setState(() {
                 signupFinalized = true;
                 stateValue += oneStep();

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:client/http/calendar/CompleteMonthRequest.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/get_complete_month_use_case.dart';
 import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/widgets/calendar/Month.dart';
@@ -16,14 +17,28 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  late Future<int> requestResult;
-  final currentMonthRequest = CompleteMonthRequest(0);
-  final List<String> months = ["Janvier", "Février", "Mars", "Avril"];
+  late Future<Month> requestResult;
+  final currentMonthUseCase =
+      GetCompleteMonthUseCase(RepositoriesManager().getCalendarRepository(), 0);
+  final List<String> months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
   @override
   void initState() {
     super.initState();
-    requestResult = currentMonthRequest.send();
+    requestResult = currentMonthUseCase.execute();
   }
 
   @override
@@ -35,22 +50,19 @@ class _CalendarPageState extends State<CalendarPage> {
           ColorfulTextBuilder("Calendar", 30).getWidget(),
           FutureBuilder(
               future: requestResult,
-              builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+              builder: (BuildContext context, AsyncSnapshot<Month> snapshot) {
                 if (snapshot.hasData) {
-                  if (snapshot.data! == 200) {
-                    Month current = Month.fromJson(
-                        jsonDecode(currentMonthRequest.getBody()));
-                    return Column(
-                      children: [
-                        Text(
-                          "${months[current.month - 1]} ${current.year}",
-                          style: const TextStyle(
-                              color: AppColors.blue, fontSize: 25),
-                        ),
-                        MonthWidget(current),
-                      ],
-                    );
-                  }
+                  Month current = snapshot.requireData;
+                  return Column(
+                    children: [
+                      Text(
+                        "${months[current.month - 1]} ${current.year}",
+                        style: const TextStyle(
+                            color: AppColors.blue, fontSize: 25),
+                      ),
+                      MonthWidget(current),
+                    ],
+                  );
                   return const Text("Nothing found");
                 } else if (snapshot.hasError) {
                   return const Text("Error");

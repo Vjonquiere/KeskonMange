@@ -1,9 +1,8 @@
 import 'package:client/custom_widgets/cooking_info.dart';
 import 'package:client/custom_widgets/custom_buttons.dart';
 import 'package:client/custom_widgets/custom_dividers.dart';
-import 'package:client/custom_widgets/recipe_preview.dart';
-import 'package:client/http/recipe/GetRecipeFromIdRequest.dart';
-import 'package:client/model/recipe.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/get_recipe_from_id_use_case.dart';
 import 'package:client/pages/calendar_page.dart';
 import 'package:client/pages/planned_recipes_page.dart';
 import 'package:client/pages/my_creations_page.dart';
@@ -12,9 +11,11 @@ import 'package:client/pages/user_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:client/custom_widgets/recipe_preview.dart' as rpView;
 
 import '../custom_widgets/colorful_text_builder.dart';
 import '../custom_widgets/recipe_card.dart';
+import '../model/recipe/preview.dart';
 import '../utils/app_icons.dart';
 
 class HomePage extends StatefulWidget {
@@ -24,7 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedRecipeIndex = 0; // Track the selected recipe index
-  late Future<List<Recipe>> recipes; // List of recipes
+  late Future<List<RecipePreview?>> recipes; // List of recipes
 
   @override
   void initState() {
@@ -40,16 +41,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<Recipe> getRecipe(int id) async {
-    var recipe = GetRecipeRequest(id.toString());
-    if ((await recipe.send()) == 200) {
-      return recipe.getRecipe()!;
-    }
-    return Recipe(id, "error", "error", 0, 0, 0, 0, 0);
+  Future<RecipePreview?> getRecipe(int id) async {
+    return GetRecipeFromIdUseCase(
+            RepositoriesManager().getRecipeRepository(), id)
+        .execute();
   }
 
-  Future<List<Recipe>> getRecipes(List<int> ids) async {
-    List<Recipe> recipes = [];
+  Future<List<RecipePreview?>> getRecipes(List<int> ids) async {
+    List<RecipePreview?> recipes = [];
     for (var id = 0; id < ids.length; id++) {
       recipes.add(await getRecipe(ids[id]));
     }
@@ -128,18 +127,22 @@ class _HomePageState extends State<HomePage> {
           ),
           CustomButton(onPressed: () {}, text: "Let's go !"),
           const CustomDivider(important: true, color: AppColors.pink),
-          FutureBuilder<List<Recipe>>(
+          FutureBuilder<List<RecipePreview?>>(
               future: recipes,
-              builder:
-                  (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+              builder: (BuildContext context,
+                  AsyncSnapshot<List<RecipePreview?>> snapshot) {
                 List<Widget> children = [];
                 if (snapshot.hasData) {
                   var length = snapshot.data?.length;
                   for (var i = 0; i < length!; i++) {
-                    children.add(RecipePreview(
-                      recipe: snapshot.data![i],
-                      homepage: true,
-                    ));
+                    final preview = snapshot.data![i];
+                    if (preview != null) {
+                      children.add(rpView.RecipePreview(
+                        recipe: preview,
+                        homepage: true,
+                      ));
+                    }
+
                     children.add(const CustomDivider());
                   }
                   return Center(
@@ -161,14 +164,16 @@ class _HomePageState extends State<HomePage> {
   Widget mainRecipes(BuildContext context) {
     return Column(
       children: [
-        FutureBuilder<List<Recipe>>(
+        FutureBuilder<List<RecipePreview?>>(
             future: recipes,
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Recipe>> snapshot) {
+            builder: (BuildContext context,
+                AsyncSnapshot<List<RecipePreview?>> snapshot) {
               List<Widget> children = [];
 
               if (snapshot.hasData) {
                 var length = snapshot.data?.length;
+                final recipe = snapshot.data![_selectedRecipeIndex];
+                if (recipe == null) return Container();
                 children.add(Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -182,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                       },
                       color: AppColors.white,
                     ),
-                    RecipeCard(recipe: snapshot.data![_selectedRecipeIndex]),
+                    RecipeCard(recipe: recipe),
                     CustomButton(
                       text: "next",
                       onPressed: () {
