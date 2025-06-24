@@ -41,27 +41,69 @@ class _CalendarPageState extends State<CalendarPage> {
     requestResult = currentMonthUseCase.execute();
   }
 
+  void switchToNextMonth() {
+    if (currentMonthUseCase.monthCount >= 0) return;
+    setState(() {
+      currentMonthUseCase.monthCount++;
+      requestResult = currentMonthUseCase.execute();
+    });
+  }
+
+  void switchToPreviousMonth() {
+    setState(() {
+      currentMonthUseCase.monthCount--;
+      requestResult = currentMonthUseCase.execute();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
       child: Column(
         children: [
-          ColorfulTextBuilder("Calendar", 30).getWidget(),
+          ColorfulTextBuilder("Calendar", 40, true).getWidget(),
           FutureBuilder(
               future: requestResult,
               builder: (BuildContext context, AsyncSnapshot<Month> snapshot) {
                 if (snapshot.hasData) {
                   Month current = snapshot.requireData;
-                  return Column(
-                    children: [
-                      Text(
-                        "${months[current.month - 1]} ${current.year}",
-                        style: const TextStyle(
-                            color: AppColors.blue, fontSize: 25),
-                      ),
-                      MonthWidget(current),
-                    ],
+                  return GestureDetector(
+                    onVerticalDragEnd: (details) {
+                      double dy = details.velocity.pixelsPerSecond.dy;
+                      const swipeThreshold = 300;
+                      if (dy < -swipeThreshold) {
+                        switchToNextMonth();
+                      } else if (dy > swipeThreshold) {
+                        switchToPreviousMonth();
+                      }
+                    },
+                    child: Column(
+                      children: [
+                        IconButton(
+                            onPressed: () {
+                              switchToPreviousMonth();
+                            },
+                            icon: Icon(
+                              Icons.arrow_drop_up,
+                              size: 50.0,
+                            )),
+                        Text(
+                          "${months[current.month - 1]} ${current.year}",
+                          style: const TextStyle(
+                              color: AppColors.blue, fontSize: 25),
+                        ),
+                        MonthWidget(current),
+                        IconButton(
+                            onPressed: () {
+                              switchToNextMonth();
+                            },
+                            icon: Icon(
+                              Icons.arrow_drop_down,
+                              size: 50.0,
+                            )),
+                      ],
+                    ),
                   );
                   return const Text("Nothing found");
                 } else if (snapshot.hasError) {
