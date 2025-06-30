@@ -1,3 +1,4 @@
+import 'package:client/custom_widgets/ingredient_card.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -36,12 +37,14 @@ class _NewRecipePageState extends State<NewRecipePage> {
   void nextStep() {
     setState(() {
       step += 1;
+      stateValue += 0.2;
     });
   }
 
   void previousStep() {
     setState(() {
       step -= 1;
+      stateValue -= 0.2;
     });
   }
 
@@ -182,7 +185,34 @@ class _NewRecipePageState extends State<NewRecipePage> {
   }
 
   Widget addIngredientsStep(BuildContext context) {
-    return Column();
+    return Column(
+      children: [
+        ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IngredientCard("example"),
+            IngredientCard("example"),
+            IngredientCard("example"),
+            IngredientCard("example")
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            IngredientCard("example"),
+            IngredientCard("example"),
+            IngredientCard("example")
+          ],
+        ),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [Icon(Icons.search), Expanded(child: TextField())],
+        )
+
+
+      ],
+    );
   }
 
   Widget quantitiesStep(BuildContext context) {
