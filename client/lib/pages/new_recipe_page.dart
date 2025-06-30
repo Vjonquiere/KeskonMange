@@ -209,8 +209,6 @@ class _NewRecipePageState extends State<NewRecipePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [Icon(Icons.search), Expanded(child: TextField())],
         )
-
-
       ],
     );
   }

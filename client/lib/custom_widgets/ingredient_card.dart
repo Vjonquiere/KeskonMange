@@ -19,7 +19,8 @@ class IngredientCard extends StatelessWidget {
           //margin: EdgeInsets.symmetric(vertical: 1.0, horizontal: 2.0 ),
           color: AppColors.blue,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Text(_name),
           ),
         ),
