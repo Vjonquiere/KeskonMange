@@ -1,4 +1,7 @@
 import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/custom_widgets/ingredient_row.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -33,6 +36,13 @@ class _NewRecipePageState extends State<NewRecipePage> {
   var _typeOfMeal = "";
   var _sweet = 0;
   var _salty = 0;
+
+  List<IngredientCard> _selectedIngredients = [];
+  List<IngredientCard> _searchIngredients = [];
+  TextEditingController _ingredientSearchController = TextEditingController();
+  SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
+      SearchIngredientByNameUseCase(
+          RepositoriesManager().getIngredientRepository());
 
   void nextStep() {
     setState(() {
@@ -184,31 +194,55 @@ class _NewRecipePageState extends State<NewRecipePage> {
     );
   }
 
+  void removeIngredient(String name) {
+    for (IngredientCard ingredient in _selectedIngredients) {
+      if (ingredient.name == name) {
+        setState(() {
+          _selectedIngredients.remove(ingredient);
+          return;
+        });
+      }
+    }
+  }
+
   Widget addIngredientsStep(BuildContext context) {
     return Column(
       children: [
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IngredientCard("example"),
-            IngredientCard("example"),
-            IngredientCard("example"),
-            IngredientCard("example")
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IngredientCard("example"),
-            IngredientCard("example"),
-            IngredientCard("example")
-          ],
-        ),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [Icon(Icons.search), Expanded(child: TextField())],
-        )
+        IngredientRow(_selectedIngredients),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.search),
+                Expanded(
+                    child: TextField(
+                  controller: _ingredientSearchController,
+                  onChanged: (input) async {
+                    _searchIngredientByNameUseCase.name = input;
+                    var result = await _searchIngredientByNameUseCase.execute();
+
+                    setState(() {
+                      _searchIngredients = result.map((element) {
+                        return IngredientCard(element.name, () {
+                          setState(() {
+                            _selectedIngredients.add(IngredientCard(
+                              element.name,
+                              () => {},
+                              () => removeIngredient(element.name),
+                              removable: true,
+                              backgroundColor: AppColors.blue,
+                            ));
+                          });
+                        }, () => {});
+                      }).toList();
+                    });
+                  },
+                ))
+              ],
+            )),
+        IngredientRow(_searchIngredients),
       ],
     );
   }
