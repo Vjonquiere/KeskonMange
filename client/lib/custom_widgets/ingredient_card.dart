@@ -1,15 +1,16 @@
+import 'package:client/model/ingredient.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class IngredientCard extends StatelessWidget {
-  final String name;
+  final Ingredient ingredient;
   final VoidCallback _removeCallback;
   final VoidCallback _onClickCallback;
   final removable;
   final Color backgroundColor;
 
-  IngredientCard(this.name, this._onClickCallback, this._removeCallback,
+  IngredientCard(this.ingredient, this._onClickCallback, this._removeCallback,
       {super.key,
       this.removable = false,
       this.backgroundColor = AppColors.yellow});
@@ -30,7 +31,7 @@ class IngredientCard extends StatelessWidget {
             child: Container(
               padding:
                   const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-              child: Text(name),
+              child: Text(ingredient.name),
             ),
           ),
         ),

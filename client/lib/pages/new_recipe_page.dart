@@ -1,7 +1,9 @@
 import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/custom_widgets/ingredient_quantity.dart';
 import 'package:client/custom_widgets/ingredient_row.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
+import 'package:client/model/ingredient.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -194,9 +196,9 @@ class _NewRecipePageState extends State<NewRecipePage> {
     );
   }
 
-  void removeIngredient(String name) {
+  void removeIngredient(Ingredient target) {
     for (IngredientCard ingredient in _selectedIngredients) {
-      if (ingredient.name == name) {
+      if (ingredient.ingredient.name == target.name) {
         setState(() {
           _selectedIngredients.remove(ingredient);
           return;
@@ -225,12 +227,12 @@ class _NewRecipePageState extends State<NewRecipePage> {
 
                     setState(() {
                       _searchIngredients = result.map((element) {
-                        return IngredientCard(element.name, () {
+                        return IngredientCard(element, () {
                           setState(() {
                             _selectedIngredients.add(IngredientCard(
-                              element.name,
+                              element,
                               () => {},
-                              () => removeIngredient(element.name),
+                              () => removeIngredient(element),
                               removable: true,
                               backgroundColor: AppColors.blue,
                             ));
@@ -247,8 +249,17 @@ class _NewRecipePageState extends State<NewRecipePage> {
     );
   }
 
+  List<Ingredient> ingredientsCardsToIngredients() {
+    List<Ingredient> ingredients = [];
+    for (IngredientCard current in _selectedIngredients) {
+      ingredients.add(current.ingredient);
+    }
+    return ingredients;
+  }
+
   Widget quantitiesStep(BuildContext context) {
-    return Column();
+    if (_selectedIngredients.isEmpty) return Column();
+    return IngredientQuantity(ingredientsCardsToIngredients());
   }
 
   Widget cookingStep(BuildContext context) {
