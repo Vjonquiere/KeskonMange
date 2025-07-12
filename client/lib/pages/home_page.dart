@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    recipes = getRecipes([1, 2, 1]);
+    recipes = getRecipes([1, 2, 3]);
   }
 
   void _onRecipeChanged(int? index) {

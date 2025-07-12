@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:client/constants.dart' as constants;
+import 'package:client/variables.dart' as variables;
 import 'authentication.dart';
 
 abstract class HttpRequest {
@@ -23,7 +23,7 @@ abstract class HttpRequest {
       Map<String, Object> body = const {},
       bool authNeeded = false}) async {
     try {
-      var url = Uri.https(constants.SERVER_URL, route, queryParameters);
+      var url = Uri.https(variables.SERVER_URL, route, queryParameters);
       http.Response response;
       switch (mode) {
         case RequestMode.get:
