@@ -1,5 +1,3 @@
-const String SERVER_URL = "keskon-mange.fr:8080";
-
 final List<String> allergens = [
   "Gluten",
   "Fish",
