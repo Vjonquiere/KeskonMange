@@ -6,6 +6,7 @@ class CalendarRepositoryMock extends CalendarRepository {
   @override
   Future<Month> getCompleteMonth(int monthCount) async {
     DateTime current = DateTime.timestamp();
+    current = current.add(Duration(days: 30 * monthCount));
     return Month(current.year, current.month, [
       PlannedRecipe("${current.day}-${current.month}-${current.year}", 1, 1, "")
     ], [
