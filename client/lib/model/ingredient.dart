@@ -2,7 +2,7 @@ import 'package:client/model/ingredient_units.dart';
 
 class Ingredient {
   final String name;
-  final Units type;
+  final List<Unit> type;
 
   Ingredient(this.name, this.type);
 
@@ -11,7 +11,8 @@ class Ingredient {
       {
         'name': String name,
       } =>
-        Ingredient(name, Units.SpecialUnits),
+        Ingredient(name,
+            [SpecialUnit(SpecialUnits.EggSizes), VolumeUnit(VolumeUnits.Cup)]),
       _ => throw const FormatException('Failed to load ingredient.'),
     };
   }
