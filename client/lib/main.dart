@@ -1,4 +1,5 @@
 import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/model/recipe/preview.dart';
 import 'package:client/pages/login_page.dart';
 import 'package:client/utils/mock_repositories_sample_load.dart';
 import 'package:flutter/material.dart';
