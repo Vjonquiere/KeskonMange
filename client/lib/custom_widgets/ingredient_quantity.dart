@@ -27,11 +27,12 @@ class _IngredientQuantityState extends State<IngredientQuantity> {
   late Ingredient currentIngredient;
   late Set<Unit> selectedUnit;
   late Unit selectedDetailedUnit; // Used for precision unit
+  List<DropdownMenuItem<Unit>> items = [];
 
   _IngredientQuantityState(this.ingredients) {
     currentIngredient = ingredients.first;
     selectedUnit = {ingredients.first.type.first};
-    selectedDetailedUnit = ingredients.first.type.first;
+    updateUnits();
   }
 
   @override
@@ -43,38 +44,9 @@ class _IngredientQuantityState extends State<IngredientQuantity> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             OutlinedButton(
-                onPressed: () => {
-                      setState(() {
-                        if (currentIndex <= 0) return;
-                        values[currentIngredient] =
-                            iq.IngredientQuantity(selectedUnit.first, 0);
-                        currentIndex--;
-                        currentIngredient = ingredients[currentIndex];
-                        if (values.containsKey(currentIngredient)) {
-                          selectedUnit = {values[currentIngredient]!.unit};
-                        } else {
-                          selectedUnit = {currentIngredient.type.first};
-                        }
-                      })
-                    },
-                child: Text("previous")),
-            _getCard(currentIngredient),
-            OutlinedButton(
-                onPressed: () => {
-                      setState(() {
-                        values[currentIngredient] =
-                            iq.IngredientQuantity(selectedUnit.first, 0);
-                        if (currentIndex >= ingredients.length - 1) return;
-                        currentIndex++;
-                        currentIngredient = ingredients[currentIndex];
-                        if (values.containsKey(currentIngredient)) {
-                          selectedUnit = {values[currentIngredient]!.unit};
-                        } else {
-                          selectedUnit = {currentIngredient.type.first};
-                        }
-                      })
-                    },
-                child: Text("next")),
+                onPressed: previousIngredient, child: Text("previous")),
+            Expanded(child: _getCard(currentIngredient)),
+            OutlinedButton(onPressed: nextIngredient, child: Text("next")),
           ],
         ),
         SegmentedButton(
@@ -83,6 +55,7 @@ class _IngredientQuantityState extends State<IngredientQuantity> {
           onSelectionChanged: (newSelection) {
             setState(() {
               selectedUnit = newSelection;
+              updateUnits();
             });
           },
         ),
@@ -91,36 +64,8 @@ class _IngredientQuantityState extends State<IngredientQuantity> {
     );
   }
 
-  List<ButtonSegment<Unit>> _getTypeSelection(Ingredient ingredient) {
-    List<ButtonSegment<Unit>> types = [];
-    for (Unit unit in ingredient.type) {
-      types.add(ButtonSegment(value: unit, label: Text(unit.toString())));
-    }
-    return types;
-  }
-
-  Widget _getCard(Ingredient ingredient) {
-    return Card(
-      child: Column(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image(
-              image: AssetImage(AppIcons.getIcon("placeholder")),
-              width: 500,
-              fit: BoxFit.cover,
-            ),
-          ),
-          Row(
-            children: [Text(ingredient.name)],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildQuantitySelector() {
-    List<DropdownMenuItem<Unit>> items = [];
+  void updateUnits() {
+    items.clear();
     if (selectedUnit.first is VolumeUnit) {
       items.addAll(VolumeUnits.values.map((elt) => DropdownMenuItem(
           value: getUnitFromEnum(elt), child: Text(elt.name))));
@@ -136,10 +81,69 @@ class _IngredientQuantityState extends State<IngredientQuantity> {
     } else {
       throw Exception("");
     }
-    setState(() {
-      selectedDetailedUnit = items.first.value!;
-    });
+    selectedDetailedUnit = items.first.value!;
+  }
 
+  void nextIngredient() {
+    setState(() {
+      if (currentIndex >= ingredients.length - 1) return;
+      values[currentIngredient] = iq.IngredientQuantity(selectedUnit.first, 0);
+
+      currentIndex++;
+      currentIngredient = ingredients[currentIndex];
+      if (values.containsKey(currentIngredient)) {
+        selectedUnit = {values[currentIngredient]!.unit};
+      } else {
+        selectedUnit = {currentIngredient.type.first};
+      }
+      updateUnits();
+    });
+  }
+
+  void previousIngredient() {
+    setState(() {
+      if (currentIndex <= 0) return;
+      values[currentIngredient] = iq.IngredientQuantity(selectedUnit.first, 0);
+      currentIndex--;
+      currentIngredient = ingredients[currentIndex];
+      if (values.containsKey(currentIngredient)) {
+        selectedUnit = {values[currentIngredient]!.unit};
+      } else {
+        selectedUnit = {currentIngredient.type.first};
+      }
+      updateUnits();
+    });
+  }
+
+  List<ButtonSegment<Unit>> _getTypeSelection(Ingredient ingredient) {
+    List<ButtonSegment<Unit>> types = [];
+    for (Unit unit in ingredient.type) {
+      types.add(ButtonSegment(value: unit, label: Text(unit.toString())));
+    }
+    return types;
+  }
+
+  Widget _getCard(Ingredient ingredient) {
+    return Card(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image(
+              image: AssetImage(AppIcons.getIcon("placeholder")),
+              fit: BoxFit.cover,
+            ),
+          ),
+          Row(
+            children: [Text(ingredient.name)],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildQuantitySelector() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
