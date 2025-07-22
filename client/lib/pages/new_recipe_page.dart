@@ -1,3 +1,9 @@
+import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/custom_widgets/ingredient_quantity.dart';
+import 'package:client/custom_widgets/ingredient_row.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
+import 'package:client/model/ingredient.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -33,15 +39,24 @@ class _NewRecipePageState extends State<NewRecipePage> {
   var _sweet = 0;
   var _salty = 0;
 
+  List<IngredientCard> _selectedIngredients = [];
+  List<IngredientCard> _searchIngredients = [];
+  TextEditingController _ingredientSearchController = TextEditingController();
+  SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
+      SearchIngredientByNameUseCase(
+          RepositoriesManager().getIngredientRepository());
+
   void nextStep() {
     setState(() {
       step += 1;
+      stateValue += 0.2;
     });
   }
 
   void previousStep() {
     setState(() {
       step -= 1;
+      stateValue -= 0.2;
     });
   }
 
@@ -181,12 +196,70 @@ class _NewRecipePageState extends State<NewRecipePage> {
     );
   }
 
+  void removeIngredient(Ingredient target) {
+    for (IngredientCard ingredient in _selectedIngredients) {
+      if (ingredient.ingredient.name == target.name) {
+        setState(() {
+          _selectedIngredients.remove(ingredient);
+          return;
+        });
+      }
+    }
+  }
+
   Widget addIngredientsStep(BuildContext context) {
-    return Column();
+    return Column(
+      children: [
+        ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
+        IngredientRow(_selectedIngredients),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.search),
+                Expanded(
+                    child: TextField(
+                  controller: _ingredientSearchController,
+                  onChanged: (input) async {
+                    _searchIngredientByNameUseCase.name = input;
+                    var result = await _searchIngredientByNameUseCase.execute();
+
+                    setState(() {
+                      _searchIngredients = result.map((element) {
+                        return IngredientCard(element, () {
+                          setState(() {
+                            _selectedIngredients.add(IngredientCard(
+                              element,
+                              () => {},
+                              () => removeIngredient(element),
+                              removable: true,
+                              backgroundColor: AppColors.blue,
+                            ));
+                          });
+                        }, () => {});
+                      }).toList();
+                    });
+                  },
+                ))
+              ],
+            )),
+        IngredientRow(_searchIngredients),
+      ],
+    );
+  }
+
+  List<Ingredient> ingredientsCardsToIngredients() {
+    List<Ingredient> ingredients = [];
+    for (IngredientCard current in _selectedIngredients) {
+      ingredients.add(current.ingredient);
+    }
+    return ingredients;
   }
 
   Widget quantitiesStep(BuildContext context) {
-    return Column();
+    if (_selectedIngredients.isEmpty) return Column();
+    return IngredientQuantity(ingredientsCardsToIngredients());
   }
 
   Widget cookingStep(BuildContext context) {

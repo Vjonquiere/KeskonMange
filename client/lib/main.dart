@@ -1,6 +1,7 @@
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:client/pages/login_page.dart';
+import 'package:client/utils/mock_repositories_sample_load.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,6 +15,7 @@ class KeskonMangeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RepositoriesManager().useMockRepositories(); // Set repositories to use
+    MockRepositoriesSampleLoad();
     return ChangeNotifierProvider(
       create: (context) => KeskonMangeState(),
       child: MaterialApp(
