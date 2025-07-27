@@ -41,8 +41,9 @@ class _NewRecipePageState extends State<NewRecipePage> {
 
   List<IngredientCard> _selectedIngredients = [];
   List<IngredientCard> _searchIngredients = [];
-  TextEditingController _ingredientSearchController = TextEditingController();
-  SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
+  final TextEditingController _ingredientSearchController =
+      TextEditingController();
+  final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
       SearchIngredientByNameUseCase(
           RepositoriesManager().getIngredientRepository());
 
@@ -208,10 +209,13 @@ class _NewRecipePageState extends State<NewRecipePage> {
   }
 
   Widget addIngredientsStep(BuildContext context) {
+    if (_ingredientSearchController.text.isEmpty) {
+      updateDisplayedIngredients();
+    }
     return Column(
       children: [
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
-        IngredientRow(_selectedIngredients),
+        IngredientRow(_selectedIngredients, false),
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
@@ -222,31 +226,40 @@ class _NewRecipePageState extends State<NewRecipePage> {
                     child: TextField(
                   controller: _ingredientSearchController,
                   onChanged: (input) async {
-                    _searchIngredientByNameUseCase.name = input;
-                    var result = await _searchIngredientByNameUseCase.execute();
-
-                    setState(() {
-                      _searchIngredients = result.map((element) {
-                        return IngredientCard(element, () {
-                          setState(() {
-                            _selectedIngredients.add(IngredientCard(
-                              element,
-                              () => {},
-                              () => removeIngredient(element),
-                              removable: true,
-                              backgroundColor: AppColors.blue,
-                            ));
-                          });
-                        }, () => {});
-                      }).toList();
-                    });
+                    updateDisplayedIngredients(name: input);
                   },
                 ))
               ],
             )),
-        IngredientRow(_searchIngredients),
+        IngredientRow(_searchIngredients, true),
       ],
     );
+  }
+
+  void updateDisplayedIngredients({String name = ""}) async {
+    _searchIngredientByNameUseCase.name = name;
+    var result = await _searchIngredientByNameUseCase.execute();
+
+    setState(() {
+      _searchIngredients = result.map((element) {
+        return IngredientCard(element, () {
+          bool alreadySelected = _selectedIngredients.any(
+            (card) => card.ingredient == element,
+          );
+          if (!alreadySelected) {
+            setState(() {
+              _selectedIngredients.add(IngredientCard(
+                element,
+                () => {},
+                () => removeIngredient(element),
+                removable: true,
+                backgroundColor: AppColors.blue,
+              ));
+            });
+          }
+        }, () => {});
+      }).toList();
+    });
   }
 
   List<Ingredient> ingredientsCardsToIngredients() {
