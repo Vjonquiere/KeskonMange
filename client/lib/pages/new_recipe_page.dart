@@ -4,6 +4,7 @@ import 'package:client/custom_widgets/ingredient_row.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
 import 'package:client/model/ingredient.dart';
+import 'package:client/pages/recipe_step_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -276,7 +277,18 @@ class _NewRecipePageState extends State<NewRecipePage> {
   }
 
   Widget cookingStep(BuildContext context) {
-    return Column();
+    return Column(
+      children: [
+        CustomButton(
+          text: "add",
+          onPressed: () => {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => RecipeStepPage()))
+          },
+          scaleSize: 1.0,
+        )
+      ],
+    );
   }
 
   Widget recapStep(BuildContext context) {
