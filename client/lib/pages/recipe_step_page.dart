@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../utils/app_colors.dart';
+import 'package:client/model/recipe/step.dart' as st;
 
 class RecipeStepPage extends StatefulWidget {
   @override
@@ -10,6 +11,9 @@ class RecipeStepPage extends StatefulWidget {
 }
 
 class RecipeStep extends State<RecipeStepPage> {
+  TextEditingController _stepController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,16 +22,19 @@ class RecipeStep extends State<RecipeStepPage> {
       ),
       body: Column(
         children: [
-          TextField(),
-          const Flexible(
+          TextField(
+            controller: _titleController,
+          ),
+          Flexible(
             flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: _stepController,
                 keyboardType: TextInputType.multiline,
                 maxLines: null,
                 expands: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Write your recipe step...',
                   border: OutlineInputBorder(
                       borderSide: BorderSide(
@@ -54,13 +61,16 @@ class RecipeStep extends State<RecipeStepPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {Navigator.of(context).pop()},
                       icon: Icon(
                         Icons.close,
                         color: AppColors.orange,
                       )),
                   IconButton(
-                      onPressed: () => {},
+                      onPressed: () => {
+                            Navigator.of(context).pop(st.Step(
+                                _titleController.text, _stepController.text))
+                          },
                       icon: Icon(
                         Icons.check,
                         color: AppColors.green,

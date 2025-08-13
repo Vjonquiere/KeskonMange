@@ -1,6 +1,7 @@
 import 'package:client/custom_widgets/ingredient_card.dart';
 import 'package:client/custom_widgets/ingredient_quantity.dart';
 import 'package:client/custom_widgets/ingredient_row.dart';
+import 'package:client/custom_widgets/step.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
 import 'package:client/model/ingredient.dart';
@@ -16,6 +17,7 @@ import '../custom_widgets/custom_buttons.dart';
 import '../utils/app_icons.dart';
 import 'home_page.dart';
 import 'my_creations_page.dart';
+import 'package:client/model/recipe/step.dart' as st;
 
 class NewRecipePage extends StatefulWidget {
   @override
@@ -42,6 +44,7 @@ class _NewRecipePageState extends State<NewRecipePage> {
 
   List<IngredientCard> _selectedIngredients = [];
   List<IngredientCard> _searchIngredients = [];
+  List<StepWidget> _steps = [];
   final TextEditingController _ingredientSearchController =
       TextEditingController();
   final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
@@ -276,18 +279,48 @@ class _NewRecipePageState extends State<NewRecipePage> {
     return IngredientQuantity(ingredientsCardsToIngredients());
   }
 
+  void addStep() async {
+    st.Step? stepValue = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RecipeStepPage()));
+    if (stepValue != null) {
+      debugPrint(stepValue.toString());
+      setState(() {
+        _steps.add(StepWidget(
+          stepValue,
+          stepNumber: _steps.length + 1,
+          key: Key("${_steps.length}"),
+        ));
+      });
+    }
+  }
+
   Widget cookingStep(BuildContext context) {
-    return Column(
-      children: [
-        CustomButton(
-          text: "add",
-          onPressed: () => {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => RecipeStepPage()))
-          },
-          scaleSize: 1.0,
-        )
-      ],
+    return ReorderableListView(
+      footer: CustomButton(
+        text: "add",
+        onPressed: addStep,
+        scaleSize: 1.0,
+      ),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: _steps,
+      onReorder: (int oldIndex, int newIndex) {
+        setState(() {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
+          final StepWidget item = _steps.removeAt(oldIndex);
+          _steps.insert(newIndex, item);
+          _steps = List.generate(
+            _steps.length,
+            (index) => StepWidget(
+              _steps[index].step,
+              stepNumber: index + 1,
+              key: Key("${index + 1}"),
+            ),
+          );
+        });
+      },
     );
   }
 
