@@ -58,7 +58,10 @@ class HomePage extends StatelessWidget {
                 CustomButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(create: (context) => CalendarViewModel(), child: CalendarPage(),)));
+                          builder: (context) => ChangeNotifierProvider(
+                                create: (context) => CalendarViewModel(),
+                                child: CalendarPage(),
+                              )));
                     },
                     text: 'calendar'),
               ],
