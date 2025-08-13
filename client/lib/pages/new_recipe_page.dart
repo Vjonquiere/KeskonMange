@@ -1,3 +1,11 @@
+import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/custom_widgets/ingredient_quantity.dart';
+import 'package:client/custom_widgets/ingredient_row.dart';
+import 'package:client/custom_widgets/step.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
+import 'package:client/model/ingredient.dart';
+import 'package:client/pages/recipe_step_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -9,6 +17,7 @@ import '../custom_widgets/custom_buttons.dart';
 import '../utils/app_icons.dart';
 import 'home_page.dart';
 import 'my_creations_page.dart';
+import 'package:client/model/recipe/step.dart' as st;
 
 class NewRecipePage extends StatefulWidget {
   @override
@@ -33,15 +42,26 @@ class _NewRecipePageState extends State<NewRecipePage> {
   var _sweet = 0;
   var _salty = 0;
 
+  List<IngredientCard> _selectedIngredients = [];
+  List<IngredientCard> _searchIngredients = [];
+  List<StepWidget> _steps = [];
+  final TextEditingController _ingredientSearchController =
+      TextEditingController();
+  final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
+      SearchIngredientByNameUseCase(
+          RepositoriesManager().getIngredientRepository());
+
   void nextStep() {
     setState(() {
       step += 1;
+      stateValue += 0.2;
     });
   }
 
   void previousStep() {
     setState(() {
       step -= 1;
+      stateValue -= 0.2;
     });
   }
 
@@ -181,16 +201,127 @@ class _NewRecipePageState extends State<NewRecipePage> {
     );
   }
 
+  void removeIngredient(Ingredient target) {
+    for (IngredientCard ingredient in _selectedIngredients) {
+      if (ingredient.ingredient.name == target.name) {
+        setState(() {
+          _selectedIngredients.remove(ingredient);
+          return;
+        });
+      }
+    }
+  }
+
   Widget addIngredientsStep(BuildContext context) {
-    return Column();
+    if (_ingredientSearchController.text.isEmpty) {
+      updateDisplayedIngredients();
+    }
+    return Column(
+      children: [
+        ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
+        IngredientRow(_selectedIngredients, false),
+        Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.search),
+                Expanded(
+                    child: TextField(
+                  controller: _ingredientSearchController,
+                  onChanged: (input) async {
+                    updateDisplayedIngredients(name: input);
+                  },
+                ))
+              ],
+            )),
+        IngredientRow(_searchIngredients, true),
+      ],
+    );
+  }
+
+  void updateDisplayedIngredients({String name = ""}) async {
+    _searchIngredientByNameUseCase.name = name;
+    var result = await _searchIngredientByNameUseCase.execute();
+
+    setState(() {
+      _searchIngredients = result.map((element) {
+        return IngredientCard(element, () {
+          bool alreadySelected = _selectedIngredients.any(
+            (card) => card.ingredient == element,
+          );
+          if (!alreadySelected) {
+            setState(() {
+              _selectedIngredients.add(IngredientCard(
+                element,
+                () => {},
+                () => removeIngredient(element),
+                removable: true,
+                backgroundColor: AppColors.blue,
+              ));
+            });
+          }
+        }, () => {});
+      }).toList();
+    });
+  }
+
+  List<Ingredient> ingredientsCardsToIngredients() {
+    List<Ingredient> ingredients = [];
+    for (IngredientCard current in _selectedIngredients) {
+      ingredients.add(current.ingredient);
+    }
+    return ingredients;
   }
 
   Widget quantitiesStep(BuildContext context) {
-    return Column();
+    if (_selectedIngredients.isEmpty) return Column();
+    return IngredientQuantity(ingredientsCardsToIngredients());
+  }
+
+  void addStep() async {
+    st.Step? stepValue = await Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => RecipeStepPage()));
+    if (stepValue != null) {
+      debugPrint(stepValue.toString());
+      setState(() {
+        _steps.add(StepWidget(
+          stepValue,
+          stepNumber: _steps.length + 1,
+          key: Key("${_steps.length}"),
+        ));
+      });
+    }
   }
 
   Widget cookingStep(BuildContext context) {
-    return Column();
+    return ReorderableListView(
+      footer: CustomButton(
+        text: "add",
+        onPressed: addStep,
+        scaleSize: 1.0,
+      ),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      children: _steps,
+      onReorder: (int oldIndex, int newIndex) {
+        setState(() {
+          if (oldIndex < newIndex) {
+            newIndex -= 1;
+          }
+          final StepWidget item = _steps.removeAt(oldIndex);
+          _steps.insert(newIndex, item);
+          _steps = List.generate(
+            _steps.length,
+            (index) => StepWidget(
+              _steps[index].step,
+              stepNumber: index + 1,
+              key: Key("${index + 1}"),
+            ),
+          );
+        });
+      },
+    );
   }
 
   Widget recapStep(BuildContext context) {
