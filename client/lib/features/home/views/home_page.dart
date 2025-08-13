@@ -2,6 +2,7 @@ import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/viewmodels/coming_recipes_viewmodel.dart';
 import 'package:client/features/home/viewmodels/home_page_viewmodel.dart';
+import 'package:client/features/recipe_calendar/viewmodels/calendar_viewmodel.dart';
 import 'package:client/features/recipe_calendar/views/calendar_page.dart';
 import 'package:client/features/recipe_planning/views/planned_recipes_page.dart';
 import 'package:client/features/user_creations/views/my_creations_page.dart';
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
                 CustomButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CalendarPage()));
+                          builder: (context) => ChangeNotifierProvider(create: (context) => CalendarViewModel(), child: CalendarPage(),)));
                     },
                     text: 'calendar'),
               ],

@@ -6,10 +6,13 @@ import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/features/recipe_calendar/widgets/Month.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../../core/widget_states.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../home/views/home_page.dart';
+import '../viewmodels/calendar_viewmodel.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -17,9 +20,6 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
-  late Future<Month> requestResult;
-  final currentMonthUseCase =
-      GetCompleteMonthUseCase(RepositoriesManager().getCalendarRepository(), 0);
   final List<String> months = [
     "January",
     "February",
@@ -36,81 +36,51 @@ class _CalendarPageState extends State<CalendarPage> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    requestResult = currentMonthUseCase.execute();
-  }
-
-  void switchToNextMonth() {
-    if (currentMonthUseCase.monthCount >= 0) return;
-    setState(() {
-      currentMonthUseCase.monthCount++;
-      requestResult = currentMonthUseCase.execute();
-    });
-  }
-
-  void switchToPreviousMonth() {
-    setState(() {
-      currentMonthUseCase.monthCount--;
-      requestResult = currentMonthUseCase.execute();
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<CalendarViewModel>(context);
     return Scaffold(
         body: SafeArea(
       child: Column(
         children: [
           ColorfulTextBuilder("Calendar", 40, true).getWidget(),
-          FutureBuilder(
-              future: requestResult,
-              builder: (BuildContext context, AsyncSnapshot<Month> snapshot) {
-                if (snapshot.hasData) {
-                  Month current = snapshot.requireData;
-                  return GestureDetector(
-                    onVerticalDragEnd: (details) {
-                      double dy = details.velocity.pixelsPerSecond.dy;
-                      const swipeThreshold = 300;
-                      if (dy < -swipeThreshold) {
-                        switchToNextMonth();
-                      } else if (dy > swipeThreshold) {
-                        switchToPreviousMonth();
-                      }
-                    },
-                    child: Column(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              switchToPreviousMonth();
-                            },
-                            icon: Icon(
-                              Icons.arrow_drop_up,
-                              size: 50.0,
-                            )),
-                        Text(
-                          "${months[current.month - 1]} ${current.year}",
-                          style: const TextStyle(
-                              color: AppColors.blue, fontSize: 25),
-                        ),
-                        MonthWidget(current),
-                        IconButton(
-                            onPressed: () {
-                              switchToNextMonth();
-                            },
-                            icon: Icon(
-                              Icons.arrow_drop_down,
-                              size: 50.0,
-                            )),
-                      ],
+          switch (viewModel.state) {
+            WidgetStates.idle => Container(),
+            WidgetStates.loading => const CircularProgressIndicator(),
+            WidgetStates.error => Text("error"),
+            WidgetStates.ready => GestureDetector(
+                onVerticalDragEnd: (details) {
+                  double dy = details.velocity.pixelsPerSecond.dy;
+                  const swipeThreshold = 300;
+                  if (dy < -swipeThreshold) {
+                    viewModel.nextMonth();
+                  } else if (dy > swipeThreshold) {
+                    viewModel.previousMonth();
+                  }
+                },
+                child: Column(
+                  children: [
+                    IconButton(
+                        onPressed: viewModel.previousMonth,
+                        icon: const Icon(
+                          Icons.arrow_drop_up,
+                          size: 50.0,
+                        )),
+                    Text(
+                      "${months[viewModel.currentMonth.month - 1]} ${viewModel.currentMonth.year}",
+                      style:
+                          const TextStyle(color: AppColors.blue, fontSize: 25),
                     ),
-                  );
-                  return const Text("Nothing found");
-                } else if (snapshot.hasError) {
-                  return const Text("Error");
-                }
-                return const CircularProgressIndicator();
-              }),
+                    MonthWidget(viewModel.currentMonth),
+                    IconButton(
+                        onPressed: viewModel.nextMonth,
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          size: 50.0,
+                        )),
+                  ],
+                ),
+              ),
+          },
           CustomButton(
             onPressed: () {
               Navigator.of(context)
