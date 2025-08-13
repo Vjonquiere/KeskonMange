@@ -4,12 +4,12 @@ import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/get_complete_month_use_case.dart';
 import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
-import 'package:client/widgets/calendar/Month.dart';
+import 'package:client/features/recipe_calendar/widgets/Month.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/custom_buttons.dart';
-import 'home_page.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../core/widgets/custom_buttons.dart';
+import '../../home/views/home_page.dart';
 
 class CalendarPage extends StatefulWidget {
   @override

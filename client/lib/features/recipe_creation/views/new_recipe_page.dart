@@ -1,22 +1,22 @@
-import 'package:client/custom_widgets/ingredient_card.dart';
-import 'package:client/custom_widgets/ingredient_quantity.dart';
-import 'package:client/custom_widgets/ingredient_row.dart';
-import 'package:client/custom_widgets/step.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_card.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_quantity.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_row.dart';
+import 'package:client/features/recipe_creation/widgets/step.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/ingredient/search_ingredient_by_name_use_case.dart';
 import 'package:client/model/ingredient.dart';
-import 'package:client/pages/recipe_step_page.dart';
+import 'package:client/features/recipe_creation/views/recipe_step_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/custom_buttons.dart';
-import '../utils/app_icons.dart';
-import 'home_page.dart';
-import 'my_creations_page.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../core/widgets/custom_buttons.dart';
+import '../../../utils/app_icons.dart';
+import '../../home/views/home_page.dart';
+import '../../user_creations/views/my_creations_page.dart';
 import 'package:client/model/recipe/step.dart' as st;
 
 class NewRecipePage extends StatefulWidget {

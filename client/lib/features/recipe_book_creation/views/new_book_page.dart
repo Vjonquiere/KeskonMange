@@ -1,10 +1,10 @@
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/custom_buttons.dart';
-import 'home_page.dart';
-import 'my_creations_page.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../core/widgets/custom_buttons.dart';
+import '../../home/views/home_page.dart';
+import '../../user_creations/views/my_creations_page.dart';
 
 class NewBookPage extends StatefulWidget {
   @override

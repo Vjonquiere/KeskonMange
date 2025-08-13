@@ -1,6 +1,6 @@
 import 'dart:ffi';
 
-import 'package:client/custom_widgets/custom_buttons.dart';
+import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/recipe/get_recipe_from_id_use_case.dart';
 import 'package:client/data/usecases/recipes/get_last_recipes_ids_use_case.dart';
@@ -10,8 +10,8 @@ import 'package:client/widgets/search/Recipe.dart';
 import 'package:client/widgets/search/TopBar.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../widgets/search/Filter.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../widgets/search/Filter.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

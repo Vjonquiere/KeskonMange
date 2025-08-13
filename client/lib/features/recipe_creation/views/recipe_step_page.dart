@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../utils/app_colors.dart';
+import '../../../utils/app_colors.dart';
 import 'package:client/model/recipe/step.dart' as st;
 
 class RecipeStepPage extends StatefulWidget {

@@ -1,13 +1,13 @@
 import 'dart:collection';
 
-import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_card.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:client/model/ingredient_units.dart';
 import 'package:client/model/ingredient_quantity.dart' as iq;
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../utils/app_icons.dart';
+import '../../../utils/app_icons.dart';
 
 class IngredientQuantity extends StatefulWidget {
   final List<Ingredient> _ingredients;

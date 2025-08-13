@@ -1,7 +1,7 @@
-import 'package:client/widgets/calendar/Week.dart';
+import 'package:client/features/recipe_calendar/widgets/Week.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../model/month.dart';
+import '../../../model/month.dart';
 
 class MonthWidget extends StatelessWidget {
   final Month _month;

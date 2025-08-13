@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/app_colors.dart';
+import '../../../utils/app_colors.dart';
 
 class Day extends StatelessWidget {
   final int _day;

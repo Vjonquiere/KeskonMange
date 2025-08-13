@@ -2,15 +2,15 @@ import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/login/check_api_key_validity_use_case.dart';
 import 'package:client/data/usecases/login/get_authentication_code_use_case.dart';
 import 'package:client/http/authentication.dart';
-import 'package:client/pages/home_page.dart';
-import 'package:client/pages/signup_page.dart';
+import 'package:client/features/home/views/home_page.dart';
+import 'package:client/features/user_signup/views/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:client/custom_widgets/colorful_text_builder.dart';
+import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:convert';
 
-import '../http/sign_in/VerifyAuthenticationCodeRequest.dart';
+import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
 
 class LoginPage extends StatefulWidget {
   @override

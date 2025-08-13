@@ -2,12 +2,12 @@ import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/custom_buttons.dart';
-import '../utils/app_icons.dart';
-import 'home_page.dart';
-import 'new_book_page.dart';
-import 'new_recipe_page.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../core/widgets/custom_buttons.dart';
+import '../../../utils/app_icons.dart';
+import '../../home/views/home_page.dart';
+import '../../recipe_book_creation/views/new_book_page.dart';
+import '../../recipe_creation/views/new_recipe_page.dart';
 
 class MyCreationsPage extends StatefulWidget {
   @override

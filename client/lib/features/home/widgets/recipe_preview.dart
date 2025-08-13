@@ -3,7 +3,7 @@ import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
-import '../pages/recipe_page.dart';
+import '../../recipe/views/recipe_page.dart';
 import 'package:client/model/recipe/preview.dart' as rpModel;
 
 class RecipePreview extends StatelessWidget {

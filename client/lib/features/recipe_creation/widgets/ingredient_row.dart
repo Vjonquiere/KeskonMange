@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:client/custom_widgets/custom_buttons.dart';
-import 'package:client/custom_widgets/ingredient_card.dart';
+import 'package:client/core/widgets/custom_buttons.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_card.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

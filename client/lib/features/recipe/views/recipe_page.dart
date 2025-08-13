@@ -2,9 +2,9 @@ import 'package:client/model/recipe/preview.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/custom_buttons.dart';
-import 'home_page.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../core/widgets/custom_buttons.dart';
+import '../../home/views/home_page.dart';
 
 class RecipePage extends StatefulWidget {
   final RecipePreview recipe;

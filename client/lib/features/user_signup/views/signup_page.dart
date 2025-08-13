@@ -7,19 +7,19 @@ import 'package:client/data/usecases/signup/check_username_availability_use_case
 import 'package:client/data/usecases/signup/create_account_use_case.dart';
 import 'package:client/http/authentication.dart';
 import 'package:client/http/sign_up/CreateAccountRequest.dart';
-import 'package:client/pages/home_page.dart';
-import 'package:client/pages/login_page.dart';
+import 'package:client/features/home/views/home_page.dart';
+import 'package:client/features/user_login/views/login_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../custom_widgets/colorful_text_builder.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../constants.dart';
-import '../model/user.dart';
+import '../../../constants.dart';
+import '../../../model/user.dart';
 
 class SignupPage extends StatefulWidget {
   @override

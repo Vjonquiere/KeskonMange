@@ -1,22 +1,22 @@
-import 'package:client/custom_widgets/cooking_info.dart';
-import 'package:client/custom_widgets/custom_buttons.dart';
-import 'package:client/custom_widgets/custom_dividers.dart';
+import 'package:client/core/widgets/cooking_info.dart';
+import 'package:client/core/widgets/custom_buttons.dart';
+import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/data/usecases/get_recipe_from_id_use_case.dart';
-import 'package:client/pages/calendar_page.dart';
-import 'package:client/pages/planned_recipes_page.dart';
-import 'package:client/pages/my_creations_page.dart';
-import 'package:client/pages/search_page.dart';
-import 'package:client/pages/user_page.dart';
+import 'package:client/features/recipe_calendar/views/calendar_page.dart';
+import 'package:client/features/recipe_planning/views/planned_recipes_page.dart';
+import 'package:client/features/user_creations/views/my_creations_page.dart';
+import 'package:client/features/recipe_search/views/search_page.dart';
+import 'package:client/features/user_profile/views/user_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:client/custom_widgets/recipe_preview.dart' as rpView;
+import 'package:client/features/home/widgets/recipe_preview.dart' as rpView;
 
-import '../custom_widgets/colorful_text_builder.dart';
-import '../custom_widgets/recipe_card.dart';
-import '../model/recipe/preview.dart';
-import '../utils/app_icons.dart';
+import '../../../core/widgets/colorful_text_builder.dart';
+import '../widgets/recipe_card.dart';
+import '../../../model/recipe/preview.dart';
+import '../../../utils/app_icons.dart';
 
 class HomePage extends StatefulWidget {
   @override
