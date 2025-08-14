@@ -1,6 +1,8 @@
+import 'package:client/features/recipe_creation/viewmodels/new_recipe_viewmodel.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
@@ -139,8 +141,10 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
         CustomButton(
           text: "add",
           onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => NewRecipePage()));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                    create: (context) => NewRecipeViewModel(),
+                    child: NewRecipePage())));
           },
           scaleSize: 0.75,
         ),
