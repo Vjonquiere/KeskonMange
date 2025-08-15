@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 enum WholeItemsUnits {
   Piece,
   Clove,
@@ -98,5 +100,20 @@ Unit getUnitFromEnum(Object enumValue) {
     return SpecialUnit(enumValue);
   } else {
     throw ArgumentError('Unsupported enum type: $enumValue');
+  }
+}
+
+Unit getUnitFromString(String unitString){
+  switch (unitString) {
+    case "wholeUnit":
+      return WholeUnit(WholeItemsUnits.Bottle);
+    case "volumeUnit":
+      return VolumeUnit(VolumeUnits.Teaspoon);
+    case "weightUnit":
+      return WeightUnit(WeightUnits.Gram);
+    case "specialUnit":
+      return SpecialUnit(SpecialUnits.StickOfButter);
+    default:
+      throw ArgumentError('Unsupported unit string: $unitString');
   }
 }
