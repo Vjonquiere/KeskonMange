@@ -41,7 +41,9 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
       alignment: Alignment.center,
       children: [
         Container(
-          decoration: BoxDecoration(border: Border.all(color: AppColors.green, width: 2), borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(
+              border: Border.all(color: AppColors.green, width: 2),
+              borderRadius: BorderRadius.circular(20)),
           height: 150,
           width: 80,
           child: ListWheelScrollView.useDelegate(

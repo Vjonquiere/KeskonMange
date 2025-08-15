@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_colors.dart';
 
-class NumberPicker extends StatelessWidget{
+class NumberPicker extends StatelessWidget {
   String title;
   String buttonText;
 
-
   NumberPicker({super.key, required this.title, required this.buttonText});
-
 
   @override
   Widget build(BuildContext context) {
@@ -58,5 +56,4 @@ class NumberPicker extends StatelessWidget{
       ),
     );
   }
-  
 }

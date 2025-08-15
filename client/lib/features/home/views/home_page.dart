@@ -45,8 +45,10 @@ class HomePage extends StatelessWidget {
                     text: 'book'),
                 FloatingActionButton(
                   onPressed: () {
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => ChangeNotifierProvider(create: (context) => SearchPageViewModel(), child: SearchPage())));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => ChangeNotifierProvider(
+                            create: (context) => SearchPageViewModel(),
+                            child: SearchPage())));
                   },
                   child: SvgPicture.asset(AppIcons.getIcon('search')),
                 ),

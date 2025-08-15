@@ -41,19 +41,19 @@ class _SearchPageState extends State<SearchPage> {
               WidgetStates.idle => CircularProgressIndicator(),
               WidgetStates.loading => throw UnimplementedError(),
               WidgetStates.ready => Expanded(
-                child: ListView.builder(
-                  itemCount: viewModel.recipesCount,
-                  itemBuilder: (context, index) {
-                    RecipePreview recipe = viewModel.getRecipe(index);
-                    return Recipe(
-                      recipe.title,
-                      "",
-                      recipe.preparationTime,
-                      recipe.cookTime,
-                    );
-                  },
+                  child: ListView.builder(
+                    itemCount: viewModel.recipesCount,
+                    itemBuilder: (context, index) {
+                      RecipePreview recipe = viewModel.getRecipe(index);
+                      return Recipe(
+                        recipe.title,
+                        "",
+                        recipe.preparationTime,
+                        recipe.cookTime,
+                      );
+                    },
+                  ),
                 ),
-              ),
               WidgetStates.error => throw UnimplementedError(),
             },
             const SizedBox(height: 10),
@@ -67,6 +67,5 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
     );
-
   }
 }

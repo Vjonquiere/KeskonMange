@@ -103,7 +103,7 @@ Unit getUnitFromEnum(Object enumValue) {
   }
 }
 
-Unit getUnitFromString(String unitString){
+Unit getUnitFromString(String unitString) {
   switch (unitString) {
     case "wholeUnit":
       return WholeUnit(WholeItemsUnits.Bottle);

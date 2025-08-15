@@ -15,14 +15,12 @@ class Ingredient {
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-      'id': int id,
-      'name': String name,
-      'units': List<dynamic> units,
+        'id': int id,
+        'name': String name,
+        'units': List<dynamic> units,
       } =>
-          Ingredient._(
-              name,
-              units.map((e) => getUnitFromString(e as String)).toList(),
-              id),
+        Ingredient._(name,
+            units.map((e) => getUnitFromString(e as String)).toList(), id),
       {
         'id': int id,
         'name': String name,
