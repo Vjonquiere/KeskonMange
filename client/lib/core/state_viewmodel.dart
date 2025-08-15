@@ -5,7 +5,7 @@ abstract class StateViewModel extends ViewModel {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  bool isValid();
+  Future<bool> isValid();
 
   @protected
   void setErrorMessage(String? message) {

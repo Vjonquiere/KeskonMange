@@ -1,4 +1,4 @@
-import 'package:client/features/recipe_creation/viewmodels/state_viewmodel.dart';
+import 'package:client/core/state_viewmodel.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -82,7 +82,7 @@ class IngredientsViewModel extends StateViewModel {
   }
 
   @override
-  bool isValid() {
+  Future<bool> isValid() async {
     return true;
   }
 }

@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:client/features/recipe_creation/viewmodels/state_viewmodel.dart';
+import 'package:client/core/state_viewmodel.dart';
 import 'package:flutter/material.dart';
 
 import '../../../model/ingredient.dart';
@@ -103,7 +103,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   }
 
   @override
-  bool isValid() {
+  Future<bool> isValid() async {
     return true;
   }
 }
