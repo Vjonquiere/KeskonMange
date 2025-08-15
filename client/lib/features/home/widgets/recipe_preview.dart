@@ -87,8 +87,8 @@ class RecipePreview extends StatelessWidget {
           recipe.title.toUpperCase(),
           softWrap: true,
         ),
-        const Text("preparation ..min"),
-        const Text("cooking ..min")
+        Text("preparation ${recipe.preparationTime} min"),
+        Text("cooking ${recipe.cookTime} min")
       ],
     );
   }

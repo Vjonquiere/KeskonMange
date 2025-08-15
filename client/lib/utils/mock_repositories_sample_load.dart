@@ -61,7 +61,7 @@ class MockRepositoriesSampleLoad {
             .createIngredient(loadedIngredient);
         loadedIngredients++;
       } on Exception catch (_) {
-        debugPrint("1 recipe cant be loaded ($ingredient)");
+        debugPrint("1 ingredient cant be loaded ($ingredient)");
       }
     }
     debugPrint("$loadedIngredients ingredients were loaded from sample file");
