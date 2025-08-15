@@ -28,8 +28,8 @@ class Recipe extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(10)),
-                  child: Image.network(
-                    _imageUrl,
+                  child: Image(
+                    image: AssetImage(AppIcons.getIcon("placeholder_square")),
                     width: 64,
                     height: 64,
                   ),
