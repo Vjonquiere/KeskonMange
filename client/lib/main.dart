@@ -26,7 +26,8 @@ class KeskonMangeApp extends StatelessWidget {
           fontFamily: "Raleway",
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
         ),
-        home: ChangeNotifierProvider(create: (context) => LoginPageViewModel(), child: LoginPage()),
+        home: ChangeNotifierProvider(
+            create: (context) => LoginPageViewModel(), child: LoginPage()),
         //home : HomePage(),
       ),
     );
