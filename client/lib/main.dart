@@ -1,4 +1,5 @@
 import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:client/features/user_login/views/login_page.dart';
 import 'package:client/utils/mock_repositories_sample_load.dart';
@@ -25,7 +26,7 @@ class KeskonMangeApp extends StatelessWidget {
           fontFamily: "Raleway",
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
         ),
-        home: LoginPage(),
+        home: ChangeNotifierProvider(create: (context) => LoginPageViewModel(), child: LoginPage()),
         //home : HomePage(),
       ),
     );

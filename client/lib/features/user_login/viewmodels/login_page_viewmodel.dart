@@ -1,0 +1,90 @@
+import 'dart:convert';
+
+import 'package:client/core/ViewModel.dart';
+import 'package:client/core/widget_states.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../../../data/repositories/repositories_manager.dart';
+import '../../../data/usecases/login/check_api_key_validity_use_case.dart';
+import '../../../data/usecases/login/get_authentication_code_use_case.dart';
+import '../../../http/authentication.dart';
+import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
+
+class LoginPageViewModel extends ViewModel {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _storage = const FlutterSecureStorage(); // Where API key is stored
+
+  bool _signInPressed = false;
+  late int _userLogged;
+
+  bool _hasError = false;
+  String _errorMessage = "";
+
+  TextEditingController get emailController => _emailController;
+  TextEditingController get passwordController => _passwordController;
+  int get userLogged => _userLogged;
+  bool get signInPressed => _signInPressed;
+  bool get hasError => _hasError;
+  String get errorMessage => _errorMessage;
+
+  LoginPageViewModel() {
+    isUserLogged();
+  }
+
+  Future<void> isUserLogged() async {
+    _userLogged = await CheckApiKeyValidityUseCase(
+            RepositoriesManager().getUserRepository())
+        .execute();
+    setStateValue(WidgetStates.ready);
+    notifyListeners();
+  }
+
+  void onBackButtonPressed() {
+    _signInPressed = false;
+    notifyListeners();
+  }
+
+  void clearError() {
+    _hasError = false;
+    notifyListeners();
+  }
+
+  void onSignInPressed() async {
+    _hasError = false;
+    if (_emailController.text == "") return;
+    if (signInPressed) {
+      var verifyCode = VerifyAuthenticationCodeRequest(
+          _emailController.text, _passwordController.text);
+      if (!(await verifyCode.send() == 200)) {
+        _hasError = true;
+        _errorMessage = verifyCode.getBody();
+        notifyListeners();
+        return;
+      }
+      final apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
+      if (apiKey.containsKey('token') && apiKey.containsKey('username')) {
+        await Authentication().updateCredentialsFromStorage(
+            apiKey["token"], _emailController.text, apiKey["username"]);
+        await Authentication().refreshCredentialsFromStorage();
+        _userLogged = 200;
+        notifyListeners();
+      }
+      return;
+    }
+    if (!(await GetAuthenticationCodeUseCase(
+                RepositoriesManager().getUserRepository(),
+                _emailController.text)
+            .execute() ==
+        200)) {
+      _hasError = true;
+      _errorMessage = "Something went wrong while trying to send code by mail";
+      notifyListeners();
+      return;
+    }
+    _signInPressed = true;
+    notifyListeners();
+  }
+}
