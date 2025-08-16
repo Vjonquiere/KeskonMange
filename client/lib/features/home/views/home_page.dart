@@ -13,6 +13,7 @@ import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import '../../user_creations/viewmodels/my_creations_viewmodel.dart';
 import '../viewmodels/today_meal_viewmodel.dart';
 import '../widgets/coming_recipes.dart';
 import '../../../utils/app_icons.dart';
@@ -40,7 +41,9 @@ class HomePage extends StatelessWidget {
                 CustomButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MyCreationsPage()));
+                          builder: (context) => ChangeNotifierProvider(
+                              create: (context) => MyCreationViewModel(),
+                              child: MyCreationsPage())));
                     },
                     text: 'book'),
                 FloatingActionButton(

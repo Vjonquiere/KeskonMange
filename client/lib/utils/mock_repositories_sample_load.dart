@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:client/model/recipe/preview.dart';
@@ -8,6 +7,8 @@ import 'package:flutter/foundation.dart';
 import 'package:client/variables.dart' as variables;
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+
+import '../model/book/preview.dart';
 
 class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
@@ -37,6 +38,7 @@ class MockRepositoriesSampleLoad {
         final decoded = jsonDecode(content);
         _loadRecipes(_extractRecipes(decoded));
         _loadIngredients(_extractIngredients(decoded));
+        _loadBooks(_extractBooks(decoded));
       } catch (e) {
         debugPrint("Can't load source [$source]: $e");
         break;
@@ -55,6 +57,11 @@ class MockRepositoriesSampleLoad {
       return fileContent["ingredients"] as List;
     throw const FormatException(
         "Mock file can't be loaded: no ingredients found");
+  }
+
+  List<dynamic> _extractBooks(Map<String, dynamic> fileContent) {
+    if (fileContent.containsKey("books")) return fileContent["books"] as List;
+    throw const FormatException("Mock file can't be loaded: no books found");
   }
 
   void _loadRecipes(List<dynamic> recipes) {
@@ -88,5 +95,19 @@ class MockRepositoriesSampleLoad {
       }
     }
     debugPrint("$loadedIngredients ingredients were loaded from sample file");
+  }
+
+  void _loadBooks(List<dynamic> books) {
+    int loadedBooks = 0;
+    for (dynamic book in books) {
+      try {
+        BookPreview loadedBook = BookPreview.fromJson(book);
+        RepositoriesManager().getBookRepository().createNewBook(loadedBook);
+        loadedBooks++;
+      } on Exception catch (_) {
+        debugPrint("1 book cant be loaded ($book)");
+      }
+    }
+    debugPrint("$loadedBooks books were loaded from sample file");
   }
 }
