@@ -26,6 +26,7 @@ jobs:
   client-build:
     needs: client-format
     name: Build Flutter App
+    environment: test
     runs-on: ubuntu-latest
 
     steps:
