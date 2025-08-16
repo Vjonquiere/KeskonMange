@@ -38,7 +38,7 @@ jobs:
           flutter-version: "3.24.5"
 
       - name: Get mock File
-        run: wget -O assets/sample.json ${{ secrets.SAMPLE_FILE_URL }}
+        run: wget -O assets/sample.json "${{ secrets.SAMPLE_FILE_URL }}"
         working-directory: './client'
 
       - name: Install dependencies
