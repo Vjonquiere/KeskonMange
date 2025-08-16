@@ -1,6 +1,7 @@
 import 'package:client/core/widget_states.dart';
 import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
 import 'package:client/features/home/views/home_page.dart';
+import 'package:client/features/user_signup/viewmodels/signup_viewmodel.dart';
 import 'package:client/features/user_signup/views/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -75,8 +76,10 @@ class LoginPage extends StatelessWidget {
               TextButton(
                 child: const Text('Sign up'),
                 onPressed: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => SignupPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                          create: (context) => SignupViewModel(),
+                          child: SignupPage())));
                 },
               ),
             if (viewModel.signInPressed)
