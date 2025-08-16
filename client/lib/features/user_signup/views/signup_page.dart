@@ -47,9 +47,11 @@ class _SignupPageState extends State<SignupPage> {
     SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
     Widget content;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (viewModel.signupFinalized){
+      if (viewModel.signupFinalized) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => ChangeNotifierProvider(create: (context) => HomePageViewModel(), child: HomePage())),
+          MaterialPageRoute(
+              builder: (_) => ChangeNotifierProvider(
+                  create: (context) => HomePageViewModel(), child: HomePage())),
         );
         return;
       }
@@ -64,7 +66,6 @@ class _SignupPageState extends State<SignupPage> {
           );
         }
       }
-
     });
 
     switch (viewModel.currentIndex) {

@@ -40,7 +40,7 @@ class SignupViewModel extends ViewModel {
 
   Future<void> nextStep() async {
     if (await (currentViewModel.isValid())) {
-      if (_currentIndex == _stepCount-1) _signupFinalized = true;
+      if (_currentIndex == _stepCount - 1) _signupFinalized = true;
       _currentIndex += 1;
       _progressBarValue = _currentIndex / _stepCount;
       if (_currentIndex == _stepCount - 1) {
