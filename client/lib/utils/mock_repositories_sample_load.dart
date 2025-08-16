@@ -7,6 +7,7 @@ import 'package:client/model/recipe/preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:client/variables.dart' as variables;
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
@@ -18,13 +19,26 @@ class MockRepositoriesSampleLoad {
   }
 
   Future<void> _loadSamples() async {
-    for (String file in variables.mockSampleFiles) {
+    for (String source in variables.mockSampleFiles) {
       try {
-        String content = await rootBundle.loadString(file);
-        _loadRecipes(_extractRecipes(jsonDecode(content)));
-        _loadIngredients(_extractIngredients(jsonDecode(content)));
+        String content;
+
+        if (source.startsWith("http://") || source.startsWith("https://")) {
+          final response = await http.get(Uri.parse(source));
+          if (response.statusCode == 200) {
+            content = response.body;
+          } else {
+            throw Exception("HTTP ${response.statusCode}");
+          }
+        } else {
+          content = await rootBundle.loadString(source);
+        }
+
+        final decoded = jsonDecode(content);
+        _loadRecipes(_extractRecipes(decoded));
+        _loadIngredients(_extractIngredients(decoded));
       } catch (e) {
-        debugPrint("Can't load file [$file]: $e");
+        debugPrint("Can't load source [$source]: $e");
         break;
       }
     }
