@@ -64,6 +64,7 @@ flutter:
     - assets/icons/recipes/
     - assets/icons/recipe_book/
     - assets/icons/weather/
+    - assets/sample.json
 
 
   # The following line ensures that the Material Icons font is

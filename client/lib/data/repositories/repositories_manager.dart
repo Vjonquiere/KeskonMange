@@ -19,6 +19,9 @@ class RepositoriesManager {
   static final RepositoriesManager _instance = RepositoriesManager._internal();
   factory RepositoriesManager() => _instance;
   RepositoriesManager._internal();
+  bool _useMockRepositories = false;
+
+  bool get currentlyUsingMockRepositories => _useMockRepositories;
 
   late BookRepository _bookRepository;
   late CalendarRepository _calendarRepository;
@@ -32,6 +35,7 @@ class RepositoriesManager {
     _recipeRepository = RecipeRepositoryMock();
     _userRepository = UserRepositoryMock();
     _ingredientRepository = IngredientRepositoryMock();
+    _useMockRepositories = true;
   }
 
   void useApiRepositories() {
@@ -40,6 +44,7 @@ class RepositoriesManager {
     _recipeRepository = RecipeRepositoryApi();
     _userRepository = UserRepositoryApi();
     _ingredientRepository = IngredientRepositoryApi();
+    _useMockRepositories = false;
   }
 
   BookRepository getBookRepository() => _bookRepository;

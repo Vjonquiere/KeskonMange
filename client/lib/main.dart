@@ -16,7 +16,9 @@ class KeskonMangeApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     RepositoriesManager().useMockRepositories(); // Set repositories to use
-    MockRepositoriesSampleLoad();
+    if (RepositoriesManager().currentlyUsingMockRepositories) {
+      MockRepositoriesSampleLoad.create();
+    }
     return ChangeNotifierProvider(
       create: (context) => KeskonMangeState(),
       child: MaterialApp(
