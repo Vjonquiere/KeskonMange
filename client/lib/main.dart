@@ -15,27 +15,31 @@ class KeskonMangeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoriesManager().useMockRepositories(); // Set repositories to use
-    if (RepositoriesManager().currentlyUsingMockRepositories) {
-      MockRepositoriesSampleLoad.create();
-    }
-    return ChangeNotifierProvider(
-      create: (context) => KeskonMangeState(),
-      child: MaterialApp(
-        title: 'KeskonMange',
-        theme: ThemeData(
-          useMaterial3: true,
-          fontFamily: "Raleway",
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
-        ),
-        home: ChangeNotifierProvider(
-            create: (context) => LoginPageViewModel(), child: LoginPage()),
-        //home : HomePage(),
-      ),
+    RepositoriesManager().useMockRepositories();
+
+    return FutureBuilder<MockRepositoriesSampleLoad>(
+      future: RepositoriesManager().currentlyUsingMockRepositories
+          ? MockRepositoriesSampleLoad.create()
+          : Future.value(null),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return MaterialApp(
+          title: 'KeskonMange',
+          theme: ThemeData(
+            useMaterial3: true,
+            fontFamily: "Raleway",
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
+          ),
+          home: ChangeNotifierProvider(
+            create: (context) => LoginPageViewModel(),
+            child: LoginPage(),
+          ),
+        );
+      },
     );
   }
-}
-
-class KeskonMangeState extends ChangeNotifier {
-  //for things that will be updated regularly
 }
