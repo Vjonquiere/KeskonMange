@@ -1,4 +1,7 @@
+import 'package:client/core/widget_states.dart';
 import 'package:client/features/recipe_creation/viewmodels/new_recipe_viewmodel.dart';
+import 'package:client/features/user_creations/viewmodels/my_creations_viewmodel.dart';
+import 'package:client/features/user_creations/widgets/book_preview.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -6,19 +9,16 @@ import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
+import '../../../model/book/preview.dart';
 import '../../../utils/app_icons.dart';
 import '../../home/views/home_page.dart';
 import '../../recipe_book_creation/views/new_book_page.dart';
 import '../../recipe_creation/views/new_recipe_page.dart';
 
-class MyCreationsPage extends StatefulWidget {
-  @override
-  State<MyCreationsPage> createState() => _MyCreationsPageState();
-}
-
-class _MyCreationsPageState extends State<MyCreationsPage> {
+class MyCreationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    MyCreationViewModel viewModel = Provider.of<MyCreationViewModel>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -37,83 +37,37 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
         ),
         body: TabBarView(
           children: [
-            recipeBooksTab(),
-            recipesTab(),
+            recipeBooksTab(context, viewModel),
+            recipesTab(context),
           ],
         ),
       ),
     );
   }
 
-  Widget recipeBooksTab() {
+  Widget recipeBooksTab(BuildContext context, MyCreationViewModel viewModel) {
     return Column(
       children: [
         const SizedBox(height: 10.0),
-        recipeBook("All saved recipes", "public"),
-        CustomButton(
-          text: "add",
+        switch (viewModel.state) {
+          WidgetStates.idle => CircularProgressIndicator(),
+          WidgetStates.loading => CircularProgressIndicator(),
+          WidgetStates.ready => Expanded(
+              child: ListView.builder(
+                  itemCount: viewModel.booksCount,
+                  itemBuilder: (context, index) =>
+                      BookPreviewWidget(viewModel.books[index]))),
+          WidgetStates.error => Text("Error"),
+        },
+        SizedBox(height: 10.0),
+        FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
                 .push(MaterialPageRoute(builder: (context) => NewBookPage()));
           },
-          scaleSize: 0.75,
+          child: Icon(Icons.add),
         ),
-      ],
-    );
-  }
-
-  Widget recipeBook(String title, String status) {
-    return Row(
-      children: [
-        const SizedBox(width: 10.0),
-        recipeImage(),
-        const SizedBox(width: 10.0),
-        Column(
-          children: [
-            Text(title),
-            recipeBookPrivacy(status),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget recipeImage() {
-    return Card.filled(
-      color: AppColors.beige,
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Image(
-          image: AssetImage(AppIcons.getIcon("placeholder_square")),
-          width: 64,
-          height: 64,
-        ),
-      ),
-    );
-  }
-
-  Widget recipeBookPrivacy(String context) {
-    if (context == "public") {
-      return Row(
-        children: [
-          SvgPicture.asset(
-            AppIcons.getIcon("public"),
-            width: 16,
-          ),
-          const SizedBox(width: 10.0),
-          const Text("public"),
-        ],
-      );
-    }
-    return Row(
-      children: [
-        SvgPicture.asset(
-          AppIcons.getIcon("private"),
-          width: 16,
-        ),
-        const SizedBox(width: 10.0),
-        const Text("private"),
+        SizedBox(height: 10.0),
       ],
     );
   }
@@ -134,7 +88,7 @@ class _MyCreationsPageState extends State<MyCreationsPage> {
     );
   }
 
-  Widget recipesTab() {
+  Widget recipesTab(BuildContext context) {
     return Column(
       children: [
         const SizedBox(height: 10.0),
