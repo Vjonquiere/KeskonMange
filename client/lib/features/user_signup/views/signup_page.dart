@@ -25,7 +25,12 @@ import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../constants.dart';
 import '../../../model/user.dart';
+import '../viewmodels/account_verification_viewmodel.dart';
+import '../viewmodels/allergens_viewmodel.dart';
+import '../viewmodels/email_viewmodel.dart';
+import '../viewmodels/post_code_viewmodel.dart';
 import '../viewmodels/signup_viewmodel.dart';
+import '../viewmodels/username_viewmodel.dart';
 import '../widgets/email_step.dart';
 import '../widgets/post_code_step.dart';
 
@@ -42,6 +47,12 @@ class _SignupPageState extends State<SignupPage> {
     SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
     Widget content;
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (viewModel.signupFinalized){
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => ChangeNotifierProvider(create: (context) => HomePageViewModel(), child: HomePage())),
+        );
+        return;
+      }
       if (viewModel.isStepStateError) {
         String? message = viewModel.currentStepErrorMessage;
         if (message != null) {
@@ -53,36 +64,37 @@ class _SignupPageState extends State<SignupPage> {
           );
         }
       }
+
     });
 
     switch (viewModel.currentIndex) {
       case 0:
         content = ChangeNotifierProvider.value(
-          value: viewModel.currentViewModel,
+          value: viewModel.currentViewModel as UsernameViewModel,
           child: UsernameStep(),
         );
         break;
       case 1:
         content = ChangeNotifierProvider.value(
-          value: viewModel.currentViewModel,
+          value: viewModel.currentViewModel as EmailViewModel,
           child: EmailStep(),
         );
         break;
       case 2:
         content = ChangeNotifierProvider.value(
-          value: viewModel.currentViewModel,
+          value: viewModel.currentViewModel as PostCodeViewModel,
           child: PostCodeStep(),
         );
         break;
       case 3:
         content = ChangeNotifierProvider.value(
-          value: viewModel.currentViewModel,
+          value: viewModel.currentViewModel as AllergensViewModel,
           child: AllergensStep(),
         );
         break;
       case 4:
         content = ChangeNotifierProvider.value(
-          value: viewModel.currentViewModel,
+          value: viewModel.currentViewModel as AccountVerificationViewModel,
           child: AccountVerificationStep(),
         );
         break;
