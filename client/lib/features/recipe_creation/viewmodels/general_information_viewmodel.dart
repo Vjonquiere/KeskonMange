@@ -5,22 +5,28 @@ class GeneralInformationViewModel extends StateViewModel {
   int _portions = 1;
   String _typeOfMeal = "";
   final TextEditingController _recipeTitleController = TextEditingController();
-  final TextEditingController _preparationTimeController =
-      TextEditingController();
-  final TextEditingController _cookingTimeController = TextEditingController();
+  int _preparationTime = 10;
+  int _cookingTime = 15;
 
   int get portions => _portions;
   String get typeOfMeal => _typeOfMeal;
   TextEditingController get recipeTitleController => _recipeTitleController;
-  TextEditingController get preparationTimeController =>
-      _preparationTimeController;
-  TextEditingController get cookingTimeController => _cookingTimeController;
+  int get preparationTime => _preparationTime;
+  int get cookingTime => _cookingTime;
 
-  void setPortions(int? portions) {
-    if (portions != null) {
-      _portions = portions;
-      notifyListeners();
-    }
+  void setPortions(int portions) {
+    _portions = portions;
+    notifyListeners();
+  }
+
+  void setPreparationTime(int newPreparationTime) {
+    _preparationTime = newPreparationTime;
+    notifyListeners();
+  }
+
+  void setCookingTime(int newCookingTime) {
+    _cookingTime = newCookingTime;
+    notifyListeners();
   }
 
   void setMealType(String? typeOfMeal) {

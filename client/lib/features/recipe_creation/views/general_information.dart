@@ -1,3 +1,4 @@
+import 'package:client/core/widgets/number_picker.dart';
 import 'package:client/features/recipe_creation/viewmodels/general_information_viewmodel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,26 +27,24 @@ class GeneralInformation extends StatelessWidget {
 
   Widget numberOfPeopleFed(GeneralInformationViewModel viewModel) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         questionText("How many persons does it feed?"),
-        Wrap(
-          spacing: 10.0, // Space between radio buttons
-          children: List.generate(10, (index) {
-            int value = index + 1;
-            return Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Radio<int>(
-                  value: value,
-                  groupValue: viewModel.portions,
-                  activeColor: AppColors.pink,
-                  onChanged: viewModel.setPortions,
-                ),
-                Text(value.toString()),
-              ],
-            );
-          }),
-        ),
+        Row(
+          children: [
+            Text("It's for ${viewModel.portions} people"),
+            SizedBox(
+              width: 10,
+            ),
+            NumberPicker(
+              title: "Preparation Time",
+              buttonText: "change",
+              onValueChanged: viewModel.setPortions,
+              maxValue: 10,
+              initialValue: viewModel.portions,
+            )
+          ],
+        )
       ],
     );
   }
@@ -79,8 +78,8 @@ class GeneralInformation extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                mealTypeRadioButton(viewModel, "Other"),
-                const Text("Other:"),
+                mealTypeRadioButton(viewModel, "Other:"),
+                //const Text("Other:"),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 120,
@@ -142,28 +141,34 @@ class GeneralInformation extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Padding(
+                Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      "Preparation time in minutes\t",
+                      "You need ${viewModel.preparationTime} minutes of preparation\t",
                     )),
-                SizedBox(
-                  width: 50,
-                  child: userTextInput("", viewModel.preparationTimeController),
+                NumberPicker(
+                  title: "Preparation Time",
+                  buttonText: "change",
+                  onValueChanged: viewModel.setPreparationTime,
+                  maxValue: 120,
+                  initialValue: viewModel.preparationTime,
                 )
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                const Padding(
+                Padding(
                     padding: EdgeInsets.all(5.0),
                     child: Text(
-                      "Cooking time in minutes\t",
+                      "It will cook for ${viewModel.cookingTime} minutes\t",
                     )),
-                SizedBox(
-                  width: 50,
-                  child: userTextInput("", viewModel.cookingTimeController),
+                NumberPicker(
+                  title: "Cooking Time",
+                  buttonText: "change",
+                  onValueChanged: viewModel.setCookingTime,
+                  maxValue: 120,
+                  initialValue: viewModel.cookingTime,
                 )
               ],
             ),

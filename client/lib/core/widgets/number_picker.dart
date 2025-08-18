@@ -9,8 +9,19 @@ import '../../utils/app_colors.dart';
 class NumberPicker extends StatelessWidget {
   String title;
   String buttonText;
+  void Function(int) onValueChanged;
+  int initialValue;
+  int maxValue;
+  int minValue;
 
-  NumberPicker({super.key, required this.title, required this.buttonText});
+  NumberPicker(
+      {super.key,
+      required this.title,
+      required this.buttonText,
+      required this.onValueChanged,
+      this.initialValue = 5,
+      this.maxValue = 10,
+      this.minValue = 1});
 
   @override
   Widget build(BuildContext context) {
@@ -33,12 +44,10 @@ class NumberPicker extends StatelessWidget {
                       ColorfulTextBuilder(title, 30, true).getWidget(),
                       Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                       RotaryNumberPicker(
-                        maxValue: 10,
-                        minValue: 0,
-                        initialValue: 5,
-                        onChanged: (value) {
-                          print(value);
-                        },
+                        maxValue: maxValue,
+                        minValue: minValue,
+                        initialValue: initialValue,
+                        onChanged: onValueChanged,
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       CustomButton(
