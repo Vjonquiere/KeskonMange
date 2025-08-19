@@ -99,7 +99,7 @@ class Book extends StatelessWidget {
         WidgetStates.ready => Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(padding: EdgeInsetsGeometry.only(top: 20)),
+              Padding(padding: EdgeInsetsGeometry.only(top: 25)),
               topContainer(context, viewModel),
               CustomDivider(),
               recipeList(context, viewModel),
@@ -108,7 +108,7 @@ class Book extends StatelessWidget {
         WidgetStates.error => Text("Error"),
       },
       floatingActionButton: CustomButton(
-          text: "Back",
+          text: "back",
           onPressed: () {
             Navigator.of(context).pop();
           }),

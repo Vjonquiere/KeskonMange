@@ -25,8 +25,7 @@ class _RecipePageState extends State<RecipePage> {
           const Placeholder(color: AppColors.green),
           CustomButton(
             onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+              Navigator.of(context).pop();
             },
             text: 'back',
           ),
