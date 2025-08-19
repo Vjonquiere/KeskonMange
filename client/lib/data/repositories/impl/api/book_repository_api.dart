@@ -18,7 +18,7 @@ class BookRepositoryApi extends BookRepository {
   }
 
   @override
-  Future<Book> getBook(int bookId) {
+  Future<Book?> getBook(int bookId) {
     // TODO: implement getBook
     throw UnimplementedError();
   }

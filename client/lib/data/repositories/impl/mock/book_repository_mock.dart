@@ -5,23 +5,33 @@ import '../../../../model/book/complete.dart';
 import '../../../../model/book/preview.dart';
 
 class BookRepositoryMock extends BookRepository {
-  List<BookPreview> books = [];
+  List<Book> books = [];
 
   @override
   Future<int> addRecipeToBook(int bookId, int recipeId) async {
+    for (Book book in books) {
+      if (book.id == bookId) {
+        book.recipesIds.add(recipeId);
+        return 200;
+      }
+    }
     return 200;
   }
 
   @override
   Future<int> createNewBook(BookPreview book) async {
-    books.add(book);
+    books.add(Book.fromPreview(book));
     return 200;
   }
 
   @override
-  Future<Book> getBook(int bookId) {
-    // TODO: implement getBook
-    throw UnimplementedError();
+  Future<Book?> getBook(int bookId) async {
+    for (Book book in books) {
+      if (book.id == bookId) {
+        return book;
+      }
+    }
+    return null;
   }
 
   @override
