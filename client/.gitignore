@@ -151,5 +151,5 @@ app.*.symbols
 .gclient_previous_sync_commits
 
 # Var files
-lib/variables.dart
 assets/sample.json
+lib/variables.dart

@@ -17,40 +17,47 @@ class NewBookPage extends StatelessWidget {
   Widget build(BuildContext context) {
     NewBookViewModel viewModel = Provider.of<NewBookViewModel>(context);
     return Scaffold(
+      appBar: AppBar(
+        title: ColorfulTextBuilder("Create a new book", 30).getWidget(),
+      ),
       body: Column(
         children: [
-          ColorfulTextBuilder("Create a new book", 30).getWidget(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Enter a book name:",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              SizedBox(
-                child: TextField(
-                  controller: viewModel.titleController,
+          Padding(
+            padding: EdgeInsets.only(left: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "Enter a book name:",
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
-                width: 200,
-              )
-            ],
+                SizedBox(
+                  width: 10,
+                ),
+                SizedBox(
+                  child: TextField(
+                    controller: viewModel.titleController,
+                  ),
+                  width: 200,
+                )
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text("Is this book public ?",
-                  style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(
-                width: 10,
-              ),
-              Switch(
-                  value: viewModel.public,
-                  onChanged: viewModel.onPublicValueChanged),
-            ],
-          ),
+          Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text("Is this book public ?",
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Switch(
+                      value: viewModel.public,
+                      onChanged: viewModel.onPublicValueChanged),
+                ],
+              )),
           CustomDivider(
             color: AppColors.pink,
           ),
@@ -58,9 +65,12 @@ class NewBookPage extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          SearchBar(
-            leading: Icon(Icons.search),
-            onChanged: viewModel.searchUpdate,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: SearchBar(
+              leading: Icon(Icons.search),
+              onChanged: viewModel.searchUpdate,
+            ),
           ),
           SizedBox(
             height: 15,
@@ -70,6 +80,7 @@ class NewBookPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return Container(
                   margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  padding: EdgeInsets.only(right: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: (viewModel.isRecipeSelected(
@@ -85,29 +96,44 @@ class NewBookPage extends StatelessWidget {
                       (viewModel.isRecipeSelected(
                               viewModel.searchedRecipes[index])
                           ? CustomButton(
+                              iconSize: 32,
                               text: 'bin',
                               color: AppColors.red,
                               onPressed: () => viewModel.removeRecipe(
                                   viewModel.searchedRecipes[index]))
                           : CustomButton(
+                              iconSize: 32,
                               text: 'add',
-                              onPressed: () => viewModel
-                                  .addRecipe(viewModel.searchedRecipes[index])))
+                              onPressed: () => viewModel.addRecipe(
+                                  viewModel.searchedRecipes[index]))),
                     ],
                   ));
             },
             itemCount: viewModel.searchRecipesCount,
           )),
-          CustomButton(text: "Create", onPressed: viewModel.pushBook),
+        ],
+      ),
+      bottomNavigationBar: SafeArea(
+          child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
           CustomButton(
+            iconSize: 32,
             onPressed: () {
               Navigator.of(context).pop(
                   MaterialPageRoute(builder: (context) => MyCreationsPage()));
             },
             text: 'back',
           ),
+          CustomButton(
+              text: "Create",
+              onPressed: () async {
+                if (await viewModel.pushBook()) {
+                  Navigator.of(context).pop();
+                }
+              }),
         ],
-      ),
+      )),
     );
   }
 }

@@ -22,7 +22,7 @@ class NewBookViewModel extends ViewModel {
     notifyListeners();
   }
 
-  void pushBook() async {
+  Future<bool> pushBook() async {
     int bookId = await RepositoriesManager().getBookRepository().createNewBook(
         BookPreview(-1, _titleController.text, DateTime.now(), -1, _public));
     for (int id in _selectedRecipes) {
@@ -30,6 +30,7 @@ class NewBookViewModel extends ViewModel {
           .getBookRepository()
           .addRecipeToBook(bookId, id);
     }
+    return true;
   }
 
   void searchUpdate(String search) async {

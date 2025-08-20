@@ -65,17 +65,28 @@ class Book extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomButton(
+              iconSize: 32,
               text: "trash",
               onPressed: () {},
               color: AppColors.red,
             ),
+            SizedBox(
+              height: 5,
+            ),
             CustomButton(
+              iconSize: 32,
               text: "upload",
               onPressed: () {},
               color: AppColors.yellow,
             ),
           ],
-        )
+        ),
+        CustomButton(
+          iconSize: 32,
+          text: "pen",
+          onPressed: () {},
+          color: AppColors.blue,
+        ),
       ],
     );
   }
@@ -93,7 +104,8 @@ class Book extends StatelessWidget {
   Widget build(BuildContext context) {
     BookViewModel viewModel = Provider.of<BookViewModel>(context);
     return Scaffold(
-      body: switch (viewModel.state) {
+      body: SafeArea(
+          child: switch (viewModel.state) {
         WidgetStates.idle => CircularProgressIndicator(),
         WidgetStates.loading => CircularProgressIndicator(),
         WidgetStates.ready => Column(
@@ -106,7 +118,7 @@ class Book extends StatelessWidget {
             ],
           ),
         WidgetStates.error => Text("Error"),
-      },
+      }),
       floatingActionButton: CustomButton(
           text: "back",
           onPressed: () {

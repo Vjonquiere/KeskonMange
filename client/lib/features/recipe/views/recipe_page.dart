@@ -24,6 +24,7 @@ class _RecipePageState extends State<RecipePage> {
           ColorfulTextBuilder(widget.recipe.title, 30).getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(
+            iconSize: 32,
             onPressed: () {
               Navigator.of(context).pop();
             },
