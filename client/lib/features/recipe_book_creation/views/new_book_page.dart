@@ -11,6 +11,8 @@ import '../../home/widgets/recipe_preview.dart';
 import '../../user_creations/views/my_creations_page.dart';
 
 class NewBookPage extends StatelessWidget {
+  const NewBookPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     NewBookViewModel viewModel = Provider.of<NewBookViewModel>(context);
@@ -21,7 +23,10 @@ class NewBookPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Enter a book name:"),
+              Text(
+                "Enter a book name:",
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
               SizedBox(
                 width: 10,
               ),
@@ -29,14 +34,15 @@ class NewBookPage extends StatelessWidget {
                 child: TextField(
                   controller: viewModel.titleController,
                 ),
-                width: 300,
+                width: 200,
               )
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Is this book public ?"),
+              Text("Is this book public ?",
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(
                 width: 10,
               ),
@@ -48,7 +54,10 @@ class NewBookPage extends StatelessWidget {
           CustomDivider(
             color: AppColors.pink,
           ),
-          Text("Add recipes"),
+          ColorfulTextBuilder("Add recipes", 20, true).getWidget(),
+          SizedBox(
+            height: 5,
+          ),
           SearchBar(
             leading: Icon(Icons.search),
             onChanged: viewModel.searchUpdate,
@@ -59,7 +68,33 @@ class NewBookPage extends StatelessWidget {
           Expanded(
               child: ListView.builder(
             itemBuilder: (context, index) {
-              return RecipePreview(recipe: viewModel.searchedRecipes[index]);
+              return Container(
+                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                          color: (viewModel.isRecipeSelected(
+                                  viewModel.searchedRecipes[index])
+                              ? AppColors.green
+                              : Colors.transparent),
+                          width: 3),
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      RecipePreview(recipe: viewModel.searchedRecipes[index]),
+                      (viewModel.isRecipeSelected(
+                              viewModel.searchedRecipes[index])
+                          ? CustomButton(
+                              text: 'bin',
+                              color: AppColors.red,
+                              onPressed: () => viewModel.removeRecipe(
+                                  viewModel.searchedRecipes[index]))
+                          : CustomButton(
+                              text: 'add',
+                              onPressed: () => viewModel
+                                  .addRecipe(viewModel.searchedRecipes[index])))
+                    ],
+                  ));
             },
             itemCount: viewModel.searchRecipesCount,
           )),

@@ -20,8 +20,10 @@ class BookRepositoryMock extends BookRepository {
 
   @override
   Future<int> createNewBook(BookPreview book) async {
-    books.add(Book.fromPreview(book));
-    return 200;
+    Book newBook = Book.fromPreview(book);
+    newBook.id = books.length;
+    books.add(newBook);
+    return newBook.id;
   }
 
   @override
