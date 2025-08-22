@@ -40,4 +40,15 @@ class BookRepositoryMock extends BookRepository {
   Future<List<BookPreview>> getUserBooks(User user) async {
     return books;
   }
+
+  @override
+  Future<int> deleteBook(int bookId) async {
+    for (Book book in books) {
+      if (book.id == bookId) {
+        books.remove(book);
+        return 200;
+      }
+    }
+    return 404;
+  }
 }

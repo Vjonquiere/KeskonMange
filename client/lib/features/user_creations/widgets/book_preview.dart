@@ -11,8 +11,9 @@ import '../../book/viewmodels/book_viewmodel.dart';
 
 class BookPreviewWidget extends StatelessWidget {
   final BookPreview _preview;
+  final VoidCallback _refreshOnPop;
 
-  BookPreviewWidget(this._preview);
+  BookPreviewWidget(this._preview, this._refreshOnPop);
 
   Widget recipeImage() {
     return Card.filled(
@@ -33,10 +34,14 @@ class BookPreviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ChangeNotifierProvider(
-                create: (context) => BookViewModel(_preview.id),
-                child: Book())));
+        Navigator.of(context)
+            .push(MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                    create: (context) => BookViewModel(_preview.id),
+                    child: Book())))
+            .then((_) {
+          _refreshOnPop();
+        });
       },
       child: Container(
         width: double.infinity,

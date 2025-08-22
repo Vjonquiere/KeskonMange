@@ -56,8 +56,8 @@ class MyCreationsPage extends StatelessWidget {
           WidgetStates.ready => Expanded(
               child: ListView.builder(
                   itemCount: viewModel.booksCount,
-                  itemBuilder: (context, index) =>
-                      BookPreviewWidget(viewModel.books[index]))),
+                  itemBuilder: (context, index) => BookPreviewWidget(
+                      viewModel.books[index], viewModel.getUserBooks))),
           WidgetStates.error => Text("Error"),
         },
         SizedBox(height: 10.0),

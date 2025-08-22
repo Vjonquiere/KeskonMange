@@ -7,4 +7,5 @@ abstract class BookRepository {
   Future<int> addRecipeToBook(int bookId, int recipeId);
   Future<List<BookPreview>> getUserBooks(User user);
   Future<Book?> getBook(int bookId);
+  Future<int> deleteBook(int bookId);
 }

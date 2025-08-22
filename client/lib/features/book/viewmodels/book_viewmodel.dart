@@ -2,6 +2,7 @@ import 'package:client/core/widget_states.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/book/complete.dart';
 import 'package:client/model/recipe/preview.dart';
+import 'package:flutter/cupertino.dart';
 
 import '../../../core/ViewModel.dart';
 
@@ -38,5 +39,9 @@ class BookViewModel extends ViewModel {
           .getRecipeFromId(recipeId);
       if (recipe != null) _recipePreviews.add(recipe);
     }
+  }
+
+  Future<void> deleteBook() async {
+    await RepositoriesManager().getBookRepository().deleteBook(_bookId);
   }
 }
