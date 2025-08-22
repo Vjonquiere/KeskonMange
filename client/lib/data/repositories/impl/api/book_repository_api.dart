@@ -34,4 +34,10 @@ class BookRepositoryApi extends BookRepository {
     // TODO: implement deleteBook
     throw UnimplementedError();
   }
+
+  @override
+  Future<int> deleteRecipeFromBook(int bookId, int recipeId) {
+    // TODO: implement deleteRecipeFromBook
+    throw UnimplementedError();
+  }
 }

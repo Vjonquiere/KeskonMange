@@ -91,7 +91,7 @@ class Book extends StatelessWidget {
         CustomButton(
           iconSize: 32,
           text: "pen",
-          onPressed: () {},
+          onPressed: viewModel.switchEditMode,
           color: AppColors.blue,
         ),
       ],
@@ -103,6 +103,21 @@ class Book extends StatelessWidget {
         child: ListView.builder(
             itemCount: viewModel.recipeCount,
             itemBuilder: (BuildContext context, int index) {
+              if (viewModel.editMode) {
+                return Row(
+                  children: [
+                    RecipePreview(recipe: viewModel.recipes[index]),
+                    CustomButton(
+                      text: "trash",
+                      onPressed: () {
+                        viewModel.deleteRecipe(viewModel.recipes[index].id);
+                      },
+                      iconSize: 32,
+                      color: AppColors.red,
+                    )
+                  ],
+                );
+              }
               return RecipePreview(recipe: viewModel.recipes[index]);
             }));
   }
@@ -121,6 +136,16 @@ class Book extends StatelessWidget {
               Padding(padding: EdgeInsetsGeometry.only(top: 25)),
               topContainer(context, viewModel),
               CustomDivider(),
+              viewModel.editMode
+                  ? Container(
+                      margin: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(5),
+                      child: Center(child: Text("Currently in edit mode")),
+                      decoration: BoxDecoration(
+                          color: AppColors.yellow,
+                          borderRadius: BorderRadius.circular(10)),
+                    )
+                  : Container(),
               recipeList(context, viewModel),
             ],
           ),

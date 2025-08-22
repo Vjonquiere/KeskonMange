@@ -51,4 +51,16 @@ class BookRepositoryMock extends BookRepository {
     }
     return 404;
   }
+
+  @override
+  Future<int> deleteRecipeFromBook(int bookId, int recipeId) async {
+    for (Book book in books) {
+      if (book.id == bookId) {
+        if (book.recipesIds.contains(recipeId)) {
+          book.recipesIds.remove(recipeId);
+        }
+      }
+    }
+    return 200;
+  }
 }

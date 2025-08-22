@@ -10,10 +10,12 @@ class BookViewModel extends ViewModel {
   int _bookId;
   late Book _book;
   List<RecipePreview> _recipePreviews = [];
+  bool _editMode = false;
 
   Book get book => _book;
   int get recipeCount => _recipePreviews.length;
   List<RecipePreview> get recipes => _recipePreviews;
+  bool get editMode => _editMode;
 
   BookViewModel(this._bookId) {
     loadBook();
@@ -43,5 +45,17 @@ class BookViewModel extends ViewModel {
 
   Future<void> deleteBook() async {
     await RepositoriesManager().getBookRepository().deleteBook(_bookId);
+  }
+
+  Future<void> deleteRecipe(int recipeId) async {
+    await RepositoriesManager()
+        .getBookRepository()
+        .deleteRecipeFromBook(_bookId, recipeId);
+    loadBook();
+  }
+
+  void switchEditMode() {
+    _editMode = !_editMode;
+    notifyListeners();
   }
 }
