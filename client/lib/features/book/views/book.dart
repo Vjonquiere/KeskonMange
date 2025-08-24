@@ -152,6 +152,7 @@ class Book extends StatelessWidget {
         WidgetStates.error => Text("Error"),
       }),
       floatingActionButton: CustomButton(
+          iconSize: 32,
           text: "back",
           onPressed: () {
             Navigator.of(context).pop();

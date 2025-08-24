@@ -17,6 +17,10 @@ class NewBookViewModel extends ViewModel {
   List<RecipePreview> get searchedRecipes => _searchedRecipes;
   int get searchRecipesCount => _searchedRecipes.length;
 
+  NewBookViewModel() {
+    searchUpdate("");
+  }
+
   void onPublicValueChanged(bool public) {
     _public = public;
     notifyListeners();
