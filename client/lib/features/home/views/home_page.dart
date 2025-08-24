@@ -33,12 +33,14 @@ class HomePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 CustomButton(
+                    iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) => UserPage()));
                     },
                     text: 'pen'),
                 CustomButton(
+                    iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
@@ -56,12 +58,14 @@ class HomePage extends StatelessWidget {
                   child: SvgPicture.asset(AppIcons.getIcon('search')),
                 ),
                 CustomButton(
+                    iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PlannedRecipesPage()));
                     },
                     text: 'upload'),
                 CustomButton(
+                    iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(

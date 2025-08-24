@@ -7,5 +7,6 @@ abstract class RecipeRepository {
   Future<List<RecipePreview>> getLastRecipes(int count);
   Future<List<int>> getLastRecipesIds(int count);
   Future<RecipePreview?> getRecipeFromId(int recipeId);
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName);
   Future<Image> getRecipeImage(int recipeId, String format);
 }

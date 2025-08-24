@@ -41,4 +41,10 @@ class RecipeRepositoryApi extends RecipeRepository {
     if ((await req.send()) != 200) return [];
     return req.ids();
   }
+
+  @override
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) {
+    // TODO: implement getRecipeMatchingName
+    throw UnimplementedError();
+  }
 }

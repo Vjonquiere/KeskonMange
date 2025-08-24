@@ -18,7 +18,7 @@ class BookRepositoryApi extends BookRepository {
   }
 
   @override
-  Future<Book> getBook(int bookId) {
+  Future<Book?> getBook(int bookId) {
     // TODO: implement getBook
     throw UnimplementedError();
   }
@@ -26,6 +26,18 @@ class BookRepositoryApi extends BookRepository {
   @override
   Future<List<BookPreview>> getUserBooks(User user) {
     // TODO: implement getUserBooks
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> deleteBook(int bookId) {
+    // TODO: implement deleteBook
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<int> deleteRecipeFromBook(int bookId, int recipeId) {
+    // TODO: implement deleteRecipeFromBook
     throw UnimplementedError();
   }
 }

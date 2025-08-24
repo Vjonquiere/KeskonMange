@@ -8,6 +8,7 @@ import 'package:client/variables.dart' as variables;
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
+import '../model/book/complete.dart';
 import '../model/book/preview.dart';
 
 class MockRepositoriesSampleLoad {
@@ -101,11 +102,17 @@ class MockRepositoriesSampleLoad {
     int loadedBooks = 0;
     for (dynamic book in books) {
       try {
-        BookPreview loadedBook = BookPreview.fromJson(book);
+        Book loadedBook = Book.fromJson(book);
         RepositoriesManager().getBookRepository().createNewBook(loadedBook);
+        for (int recipeId in loadedBook.recipesIds) {
+          RepositoriesManager()
+              .getBookRepository()
+              .addRecipeToBook(loadedBook.id, recipeId);
+          //debugPrint("Recipe $recipeId added to book ${loadedBook.id}");
+        }
         loadedBooks++;
-      } on Exception catch (_) {
-        debugPrint("1 book cant be loaded ($book)");
+      } on Exception catch (exception) {
+        debugPrint("1 book cant be loaded ($book): $exception");
       }
     }
     debugPrint("$loadedBooks books were loaded from sample file");

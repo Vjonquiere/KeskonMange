@@ -45,4 +45,14 @@ class RecipeRepositoryMock extends RecipeRepository {
     }
     return last;
   }
+
+  @override
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) async {
+    List<RecipePreview> matching = [];
+    for (RecipePreview recipe in recipes) {
+      if (recipe.title.toLowerCase().contains(recipeName.toLowerCase()))
+        matching.add(recipe);
+    }
+    return matching;
+  }
 }

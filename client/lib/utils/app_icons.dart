@@ -35,6 +35,7 @@ class AppIcons {
   static const String book = 'assets/icons/recipe_book/book.svg';
   static const String private = 'assets/icons/recipe_book/private.svg';
   static const String public = 'assets/icons/recipe_book/public.svg';
+  static const String trash = 'assets/icons/recipe_book/trash.svg';
 
   //Recipes
   static const String cake = 'assets/icons/recipes/cake.svg';
@@ -97,6 +98,7 @@ class AppIcons {
     'book': book,
     'private': private,
     'public': public,
+    'trash': trash,
 
     // Recipes
     'cake': cake,

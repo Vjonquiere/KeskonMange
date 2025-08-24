@@ -1,15 +1,19 @@
+import 'package:client/features/book/views/book.dart';
 import 'package:client/model/book/preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
+import '../../book/viewmodels/book_viewmodel.dart';
 
 class BookPreviewWidget extends StatelessWidget {
   final BookPreview _preview;
+  final VoidCallback _refreshOnPop;
 
-  BookPreviewWidget(this._preview);
+  BookPreviewWidget(this._preview, this._refreshOnPop);
 
   Widget recipeImage() {
     return Card.filled(
@@ -28,31 +32,48 @@ class BookPreviewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 10.0),
-        recipeImage(),
-        const SizedBox(width: 10.0),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                    create: (context) => BookViewModel(_preview.id),
+                    child: Book())))
+            .then((_) {
+          _refreshOnPop();
+        });
+      },
+      child: Container(
+        width: double.infinity,
+        color: Colors.transparent,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
           children: [
-            Text(
-              _preview.name,
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            Row(
+            const SizedBox(width: 10.0),
+            recipeImage(),
+            const SizedBox(width: 10.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SvgPicture.asset(
-                  AppIcons.getIcon(_preview.public ? "public" : "private"),
-                  width: 16,
+                Text(
+                  _preview.name,
+                  style: TextStyle(fontWeight: FontWeight.w600),
                 ),
-                const SizedBox(width: 10.0),
-                Text(_preview.public ? "public" : "private"),
+                Row(
+                  children: [
+                    SvgPicture.asset(
+                      AppIcons.getIcon(_preview.public ? "public" : "private"),
+                      width: 16,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Text(_preview.public ? "Public" : "Private"),
+                  ],
+                ),
               ],
             ),
           ],
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:client/core/widget_states.dart';
+import 'package:client/features/recipe_book_creation/viewmodels/new_book_viewmodel.dart';
 import 'package:client/features/recipe_creation/viewmodels/new_recipe_viewmodel.dart';
 import 'package:client/features/user_creations/viewmodels/my_creations_viewmodel.dart';
 import 'package:client/features/user_creations/widgets/book_preview.dart';
@@ -55,15 +56,19 @@ class MyCreationsPage extends StatelessWidget {
           WidgetStates.ready => Expanded(
               child: ListView.builder(
                   itemCount: viewModel.booksCount,
-                  itemBuilder: (context, index) =>
-                      BookPreviewWidget(viewModel.books[index]))),
+                  itemBuilder: (context, index) => BookPreviewWidget(
+                      viewModel.books[index], viewModel.getUserBooks))),
           WidgetStates.error => Text("Error"),
         },
         SizedBox(height: 10.0),
         FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => NewBookPage()));
+                .push(MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                        create: (context) => NewBookViewModel(),
+                        child: NewBookPage())))
+                .then((res) => viewModel.getUserBooks());
           },
           child: Icon(Icons.add),
         ),
