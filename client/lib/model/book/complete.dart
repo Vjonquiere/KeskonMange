@@ -27,4 +27,9 @@ class Book extends BookPreview {
       _ => throw const FormatException('Failed to load book.')
     };
   }
+
+  @override
+  String toString() {
+    return "Book => {id:$id, name:$name, creationDate:$creationDate, numberOfRecipes:$recipesIds}";
+  }
 }

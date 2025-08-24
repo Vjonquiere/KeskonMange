@@ -108,7 +108,7 @@ class MockRepositoriesSampleLoad {
           RepositoriesManager()
               .getBookRepository()
               .addRecipeToBook(loadedBook.id, recipeId);
-          debugPrint("Recipe $recipeId added to book ${loadedBook.id}");
+          //debugPrint("Recipe $recipeId added to book ${loadedBook.id}");
         }
         loadedBooks++;
       } on Exception catch (exception) {
