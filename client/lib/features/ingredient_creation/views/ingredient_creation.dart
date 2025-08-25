@@ -10,21 +10,25 @@ import '../../../constants.dart';
 import '../../../utils/app_icons.dart';
 
 class IngredientCreation extends StatelessWidget {
+  Widget boldText(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 14,
+      ),
+      textAlign: TextAlign.left,
+    );
+  }
+
   Widget nameStep() {
-    return const Row(
+    return Row(
       children: [
-        Text(
-          "How is it called ?",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          textAlign: TextAlign.left,
-        ),
-        SizedBox(
+        boldText("How is it called ?"),
+        const SizedBox(
           width: 20,
         ),
-        SizedBox(
+        const SizedBox(
           child: TextField(),
           width: 250,
         ),
@@ -32,34 +36,44 @@ class IngredientCreation extends StatelessWidget {
     );
   }
 
-  Widget ingredientType() {
-    return Column();
+  Widget categoryStep(IngredientCreationViewModel viewModel) {
+    return Column(
+      children: [
+        boldText("Which category?"),
+        SegmentedButton(
+            segments: List.generate(
+                viewModel.categoriesCount,
+                (int index) => ButtonSegment(
+                    value: viewModel.categories[index].toString(),
+                    label: Text(viewModel.categories[index].toString()))),
+            onSelectionChanged: viewModel.updateSelectedCategory,
+            selected: viewModel.selectedCategoryString),
+        ToggleButtons(
+            children: List.generate(
+                viewModel.selectedCategory.getSubCategories().length,
+                (int index) =>
+                    Text(viewModel.selectedCategory.getSubCategories()[index])),
+            isSelected: List.generate(
+                viewModel.selectedCategory.getSubCategories().length,
+                (int index) => false))
+      ],
+    );
   }
 
-  Widget specificationsStep() {
+  Widget specificationsStep(IngredientCreationViewModel viewModel) {
     return Row(
       children: [
-        Text(
-          "Is it ?",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          textAlign: TextAlign.left,
-        ),
+        boldText("Is it ?"),
         SegmentedButton(
-          segments: [
-            ButtonSegment(
-                value: "vegetarian",
-                label: Text("vegetarian"),
-                icon: Icon(Icons.accessibility_new_rounded)),
-            ButtonSegment(
-                value: "vegan",
-                label: Text("vegan"),
-                icon: Icon(Icons.accessibility_new_rounded))
-          ],
-          selected: {},
+          segments: List.generate(
+              viewModel.specificationsCount,
+              (int index) => ButtonSegment(
+                  value: viewModel.specifications[index],
+                  label: Text(viewModel.specifications[index]))),
+          selected: viewModel.selectedSpecifications,
+          onSelectionChanged: viewModel.updateSelectedSpecifications,
           emptySelectionAllowed: true,
+          multiSelectionEnabled: true,
         )
       ],
     );
@@ -68,14 +82,7 @@ class IngredientCreation extends StatelessWidget {
   Widget allergensStep() {
     return Column(
       children: [
-        const Text(
-          "Does it contain allergens ?",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 14,
-          ),
-          textAlign: TextAlign.left,
-        ),
+        boldText("Does it contain allergens ?"),
         AllergensSelector(
             selected: List.generate(allergens.length, (index) => false),
             onSelected: (index, boo) {})
@@ -94,8 +101,12 @@ class IngredientCreation extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
-        child: Column(
-            children: [nameStep(), specificationsStep(), allergensStep()]),
+        child: Column(children: [
+          nameStep(),
+          specificationsStep(viewModel),
+          categoryStep(viewModel),
+          allergensStep()
+        ]),
       ),
     );
   }
