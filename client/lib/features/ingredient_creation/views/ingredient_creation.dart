@@ -130,6 +130,17 @@ class IngredientCreation extends StatelessWidget {
         }
       });
     }
+
+    if (viewModel.state == WidgetStates.error) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Error: ${viewModel.errorMessage!}"),
+          duration: const Duration(seconds: 5),
+          showCloseIcon: true,
+        ));
+        viewModel.clearError();
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title:

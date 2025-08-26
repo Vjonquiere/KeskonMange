@@ -83,8 +83,22 @@ class IngredientCreationViewModel extends ViewModel {
     notifyListeners();
   }
 
+  @override
+  void clearError() {
+    super.clearError();
+    setStateValue(WidgetStates.ready);
+  }
+
   void pushIngredient() async {
     // TODO: test data valid
+    bool error = false;
+    error |= _nameController.text == "";
+    if (error) {
+      setStateValue(WidgetStates.error);
+      setErrorMessage("Name can't be empty");
+      notifyListeners();
+      return;
+    }
     int status = await RepositoriesManager()
         .getIngredientRepository()
         .createIngredient(Ingredient(
