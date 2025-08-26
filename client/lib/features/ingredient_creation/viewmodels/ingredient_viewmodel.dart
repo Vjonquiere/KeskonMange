@@ -7,8 +7,6 @@ import 'package:client/features/ingredient_creation/model/fat_category.dart';
 import 'package:client/features/ingredient_creation/model/fruit_vegetable_category.dart';
 import 'package:client/features/ingredient_creation/model/meat_category.dart';
 import 'package:client/features/ingredient_creation/model/sweets_category.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
 
 class IngredientCreationViewModel extends ViewModel {
   final List<String> _specifications = ["vegetarian", "vegan"];
@@ -34,6 +32,9 @@ class IngredientCreationViewModel extends ViewModel {
   Set<String> get selectedCategoryString => {_selectedCategory.toString()};
   IngredientCategory get selectedCategory => _selectedCategory;
   int get selectedSubCategoryIndex => _selectedSubCategoryIndex;
+  List<bool> get selectedSubCategories => List.generate(
+      _selectedCategory.getSubCategories().length,
+      (int index) => index == _selectedSubCategoryIndex ? true : false);
 
   IngredientCreationViewModel();
 
@@ -41,6 +42,7 @@ class IngredientCreationViewModel extends ViewModel {
     for (IngredientCategory category in _categories) {
       if (category.toString() == selectedCategoryString.first) {
         _selectedCategory = category;
+        _selectedSubCategoryIndex = 0;
       }
     }
     notifyListeners();
@@ -51,7 +53,7 @@ class IngredientCreationViewModel extends ViewModel {
     notifyListeners();
   }
 
-  void selectedSubCategory(int index) {
+  void updateSelectedSubCategory(int index) {
     _selectedSubCategoryIndex = index;
     notifyListeners();
   }

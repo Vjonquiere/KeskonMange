@@ -40,22 +40,27 @@ class IngredientCreation extends StatelessWidget {
     return Column(
       children: [
         boldText("Which category?"),
-        SegmentedButton(
-            segments: List.generate(
-                viewModel.categoriesCount,
-                (int index) => ButtonSegment(
-                    value: viewModel.categories[index].toString(),
-                    label: Text(viewModel.categories[index].toString()))),
-            onSelectionChanged: viewModel.updateSelectedCategory,
-            selected: viewModel.selectedCategoryString),
+        Wrap(
+          children: [
+            SegmentedButton(
+                segments: List.generate(
+                    viewModel.categoriesCount,
+                    (int index) => ButtonSegment(
+                        value: viewModel.categories[index].toString(),
+                        label: Text(viewModel.categories[index].toString()))),
+                onSelectionChanged: viewModel.updateSelectedCategory,
+                selected: viewModel.selectedCategoryString),
+          ],
+        ),
         ToggleButtons(
+            isSelected: List.generate(
+                viewModel.selectedCategory.getSubCategories().length,
+                (int index) => viewModel.selectedSubCategories[index]),
+            onPressed: viewModel.updateSelectedSubCategory,
             children: List.generate(
                 viewModel.selectedCategory.getSubCategories().length,
                 (int index) =>
-                    Text(viewModel.selectedCategory.getSubCategories()[index])),
-            isSelected: List.generate(
-                viewModel.selectedCategory.getSubCategories().length,
-                (int index) => false))
+                    Text(viewModel.selectedCategory.getSubCategories()[index])))
       ],
     );
   }

@@ -3,7 +3,7 @@ import 'package:client/features/ingredient_creation/model/Ingredient_category.da
 class MeatCategory implements IngredientCategory {
   @override
   List<String> getSubCategories() {
-    return [];
+    return ["meat", "fish", "egg"];
   }
 
   @override

@@ -3,7 +3,11 @@ import 'package:client/features/ingredient_creation/model/Ingredient_category.da
 class DairyProductsCategory implements IngredientCategory {
   @override
   List<String> getSubCategories() {
-    return [];
+    return [
+      "milk",
+      "cheese",
+      "dairy",
+    ];
   }
 
   @override
