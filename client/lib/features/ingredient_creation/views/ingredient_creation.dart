@@ -1,9 +1,11 @@
 import 'package:client/core/widgets/allergens_selector.dart';
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
+import 'package:client/model/ingredient_units.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
@@ -21,16 +23,18 @@ class IngredientCreation extends StatelessWidget {
     );
   }
 
-  Widget nameStep() {
+  Widget nameStep(IngredientCreationViewModel viewModel) {
     return Row(
       children: [
         boldText("How is it called ?"),
         const SizedBox(
           width: 20,
         ),
-        const SizedBox(
-          child: TextField(),
+        SizedBox(
           width: 250,
+          child: TextField(
+            controller: viewModel.nameController,
+          ),
         ),
       ],
     );
@@ -84,13 +88,32 @@ class IngredientCreation extends StatelessWidget {
     );
   }
 
-  Widget allergensStep() {
+  Widget unitStep(IngredientCreationViewModel viewModel) {
+    return Column(
+      children: [
+        boldText("Which unit to measure this ingredient ?"),
+        SegmentedButton(
+          segments: List.generate(
+              units.length,
+              (int index) => ButtonSegment(
+                  value: units.values.elementAt(index).toString(),
+                  label: Text(units.values.elementAt(index).toString()))),
+          selected: viewModel.selectedUnits,
+          emptySelectionAllowed: false,
+          multiSelectionEnabled: true,
+          onSelectionChanged: viewModel.updateSelectedUnits,
+        )
+      ],
+    );
+  }
+
+  Widget allergensStep(IngredientCreationViewModel viewModel) {
     return Column(
       children: [
         boldText("Does it contain allergens ?"),
         AllergensSelector(
-            selected: List.generate(allergens.length, (index) => false),
-            onSelected: (index, boo) {})
+            selected: viewModel.allergensValues,
+            onSelected: viewModel.switchSelectedAllergen)
       ],
     );
   }
@@ -107,10 +130,14 @@ class IngredientCreation extends StatelessWidget {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 5),
         child: Column(children: [
-          nameStep(),
+          nameStep(viewModel),
           specificationsStep(viewModel),
           categoryStep(viewModel),
-          allergensStep()
+          unitStep(viewModel),
+          allergensStep(viewModel),
+          ElevatedButton(
+              onPressed: viewModel.pushIngredient,
+              child: Text("Create ingredient !"))
         ]),
       ),
     );
