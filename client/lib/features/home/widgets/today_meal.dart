@@ -16,6 +16,7 @@ class TodayMeal extends StatelessWidget {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
       WidgetStates.error => Text("error"),
+      WidgetStates.dispose => Text("dispose"),
       WidgetStates.ready => Column(
           children: [
             Row(

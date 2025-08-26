@@ -12,6 +12,7 @@ import 'package:client/features/ingredient_creation/model/sweets_category.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:flutter/material.dart';
 
+import '../../../core/widget_states.dart';
 import '../../../model/ingredient_units.dart';
 
 class IngredientCreationViewModel extends ViewModel {
@@ -93,6 +94,9 @@ class IngredientCreationViewModel extends ViewModel {
                 .toList()));
     if (status != 200) {
       // TODO: error management
+    } else {
+      setStateValue(WidgetStates.dispose);
     }
+    notifyListeners();
   }
 }

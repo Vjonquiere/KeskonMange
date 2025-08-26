@@ -9,6 +9,7 @@ import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
+import '../../../core/widget_states.dart';
 import '../../../utils/app_icons.dart';
 
 class IngredientCreation extends StatelessWidget {
@@ -122,6 +123,13 @@ class IngredientCreation extends StatelessWidget {
   Widget build(BuildContext context) {
     IngredientCreationViewModel viewModel =
         Provider.of<IngredientCreationViewModel>(context);
+    if (viewModel.state == WidgetStates.dispose) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (Navigator.of(context).canPop()) {
+          Navigator.of(context).pop();
+        }
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title:

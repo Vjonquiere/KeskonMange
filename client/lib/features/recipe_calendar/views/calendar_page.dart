@@ -47,6 +47,7 @@ class _CalendarPageState extends State<CalendarPage> {
             WidgetStates.idle => Container(),
             WidgetStates.loading => const CircularProgressIndicator(),
             WidgetStates.error => Text("error"),
+            WidgetStates.dispose => Text("disppose"),
             WidgetStates.ready => GestureDetector(
                 onVerticalDragEnd: (details) {
                   double dy = details.velocity.pixelsPerSecond.dy;
