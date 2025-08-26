@@ -150,6 +150,7 @@ class Book extends StatelessWidget {
             ],
           ),
         WidgetStates.error => Text("Error"),
+        WidgetStates.dispose => Text("Dispose"),
       }),
       floatingActionButton: CustomButton(
           iconSize: 32,

@@ -40,6 +40,7 @@ class _SearchPageState extends State<SearchPage> {
             switch (viewModel.state) {
               WidgetStates.idle => CircularProgressIndicator(),
               WidgetStates.loading => throw UnimplementedError(),
+              WidgetStates.dispose => Text("dispose"),
               WidgetStates.ready => Expanded(
                   child: ListView.builder(
                     itemCount: viewModel.recipesCount,

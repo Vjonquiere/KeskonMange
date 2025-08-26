@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:client/core/widgets/custom_buttons.dart';
+import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
+import 'package:client/features/ingredient_creation/views/ingredient_creation.dart';
 import 'package:client/features/recipe_creation/widgets/ingredient_card.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class IngredientRow extends StatelessWidget {
   final List<IngredientCard> _ingredients;
@@ -15,7 +18,7 @@ class IngredientRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (_ingredients.isEmpty && _searchForIngredients) {
-      return noIngredientsFound();
+      return noIngredientsFound(context);
     }
     List<Row> rows = [];
     bool isThreeRow = false;
@@ -37,13 +40,19 @@ class IngredientRow extends StatelessWidget {
     return Column(children: rows);
   }
 
-  Widget noIngredientsFound() {
+  Widget noIngredientsFound(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("Ouch... It seems like no ingredient was found!"),
         CustomButton(
-            text: "Add it!", onPressed: () => {}, color: AppColors.yellow)
+            text: "Add it!",
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => ChangeNotifierProvider(
+                      create: (context) => IngredientCreationViewModel(),
+                      child: IngredientCreation(),
+                    ))),
+            color: AppColors.yellow)
       ],
     );
     return Center(
