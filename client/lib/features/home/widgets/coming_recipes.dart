@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widget_states.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../model/recipe/preview.dart' as rpModel;
 import '../viewmodels/coming_recipes_viewmodel.dart';
 
@@ -27,7 +28,7 @@ class ComingRecipes extends StatelessWidget {
     return switch (viewModel.state) {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
-      WidgetStates.error => Text("error"),
+      WidgetStates.error => Text(AppLocalizations.of(context)!.error),
       WidgetStates.ready => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: viewModel.recipes

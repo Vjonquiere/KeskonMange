@@ -1,0 +1,45 @@
+{
+    "error" : "erreur",
+    "today": "Aujourd'hui",
+    "letsgo" : "C'est parti !",
+    "preparation_time": "Préparation {time} min",
+    "@preparation_time": {
+        "description": "Temps de préparation d'une recette",
+        "placeholders": {
+            "time": {
+                "type": "num",
+                "example": "12"
+            }
+        }
+    },
+    "cooking_time": "Cuisson {time} min",
+    "@cooking_time": {
+        "description": "Temps de cuisson d'une recette",
+        "placeholders": {
+            "time": {
+                "type": "num",
+                "example": "35"
+            }
+        }
+    },
+    "planning_mealTime": "Repas prévu à {hour}",
+    "@planning_mealTime": {
+        "description": "Repas programmé à l'heure donnée",
+        "placeholders": {
+            "hour": {
+                "type": "String",
+                "example": "1:35 PM"
+            }
+        }
+    },
+    "planning_startCooking": "Commence à cuisiner dans {time} minutes",
+    "@planning_startCooking": {
+        "description": "Commencer à cuisiner dans 'time' minutes pour avoir le repas à l'heure prévue",
+        "placeholders": {
+            "time": {
+                "type": "num",
+                "example": "12"
+            }
+        }
+    }
+}
