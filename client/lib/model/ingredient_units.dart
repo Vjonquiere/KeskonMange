@@ -40,56 +40,37 @@ enum SpecialUnits {
   Sheet,
 }
 
-/*enum Units {
-  WholeItemsUnits,
-  VolumeUnits,
-  WeightUnits,
-  SpecialUnits,
-}*/
+enum UnitCategory {
+  wholeItem,
+  volume,
+  weight,
+  special,
+}
 
-sealed class Unit {}
+class Unit {
+  final UnitCategory _unitCategory;
+  final dynamic _unit;
 
-class WholeUnit extends Unit {
-  final WholeItemsUnits value;
-  WholeUnit(this.value);
+  UnitCategory get unitCategory => _unitCategory;
+
+  Unit(this._unitCategory, this._unit);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Unit) return false;
+    return _unit == other._unit;
+  }
 
   @override
   String toString() {
-    return "WholeUnit";
+    return _unitCategory.toString().split(".").last;
   }
-}
-
-class VolumeUnit extends Unit {
-  final VolumeUnits value;
-  VolumeUnit(this.value);
 
   @override
-  String toString() {
-    return "VolumeUnit";
-  }
+  int get hashCode => _unitCategory.hashCode ^ _unit.hashCode;
 }
 
-class WeightUnit extends Unit {
-  final WeightUnits value;
-  WeightUnit(this.value);
-
-  @override
-  String toString() {
-    return "WeightUnit";
-  }
-}
-
-class SpecialUnit extends Unit {
-  final SpecialUnits value;
-  SpecialUnit(this.value);
-
-  @override
-  String toString() {
-    return "SpecialUnit";
-  }
-}
-
-Unit getUnitFromEnum(Object enumValue) {
+/*Unit getUnitFromEnum(Object enumValue) {
   if (enumValue is WholeItemsUnits) {
     return WholeUnit(enumValue);
   } else if (enumValue is VolumeUnits) {
@@ -101,9 +82,9 @@ Unit getUnitFromEnum(Object enumValue) {
   } else {
     throw ArgumentError('Unsupported enum type: $enumValue');
   }
-}
+}*/
 
-Unit getUnitFromString(String unitString) {
+/*Unit getUnitFromString(String unitString) {
   switch (unitString) {
     case "wholeUnit":
       return WholeUnit(WholeItemsUnits.Bottle);
@@ -113,6 +94,21 @@ Unit getUnitFromString(String unitString) {
       return WeightUnit(WeightUnits.Gram);
     case "specialUnit":
       return SpecialUnit(SpecialUnits.StickOfButter);
+    default:
+      throw ArgumentError('Unsupported unit string: $unitString');
+  }
+}*/
+
+Unit getUnitFromString(String unitString) {
+  switch (unitString) {
+    case "wholeUnit":
+      return Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle);
+    case "volumeUnit":
+      return Unit(UnitCategory.volume, VolumeUnits.Teaspoon);
+    case "weightUnit":
+      return Unit(UnitCategory.weight, WeightUnits.Gram);
+    case "specialUnit":
+      return Unit(UnitCategory.special, SpecialUnits.StickOfButter);
     default:
       throw ArgumentError('Unsupported unit string: $unitString');
   }

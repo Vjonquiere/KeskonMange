@@ -34,9 +34,10 @@ class IngredientQuantities extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text("I need"),
-        const SizedBox(
+        SizedBox(
             width: 75,
             child: TextField(
+              controller: viewModel.quantityController,
               maxLength: 4,
               keyboardType: TextInputType.number,
             )),
