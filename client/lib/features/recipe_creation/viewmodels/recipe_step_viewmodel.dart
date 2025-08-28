@@ -22,6 +22,6 @@ class RecipeStepViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    return true;
+    return _steps.isNotEmpty;
   }
 }

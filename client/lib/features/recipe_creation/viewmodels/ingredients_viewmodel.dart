@@ -83,6 +83,6 @@ class IngredientsViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    return true;
+    return _selectedIngredients.isNotEmpty;
   }
 }

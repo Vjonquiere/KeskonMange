@@ -5,21 +5,22 @@ import 'package:client/model/ingredient.dart';
 import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/recipe/preview.dart';
 
+import '../../../model/recipe/recipe.dart';
+import '../../../model/recipe/step.dart';
+
 class RecipeReviewViewModel extends StateViewModel {
-  late RecipePreview _recipe;
-  late HashMap<Ingredient, IngredientQuantity> _ingredients = HashMap();
+  late Recipe _recipe;
 
   RecipeReviewViewModel();
 
-  RecipePreview get recipe => _recipe;
-  HashMap<Ingredient, IngredientQuantity> get ingredients => _ingredients;
+  RecipePreview get recipePreview => _recipe.recipePreview;
+  HashMap<Ingredient, IngredientQuantity> get ingredients =>
+      _recipe.ingredients;
+  int get portions => _recipe.portions;
+  List<Step> get steps => _recipe.steps;
 
-  void setRecipe(RecipePreview recipe) {
+  void setRecipe(Recipe recipe) {
     _recipe = recipe;
-  }
-
-  void setIngredients(HashMap<Ingredient, IngredientQuantity> ingredients) {
-    _ingredients = ingredients;
   }
 
   @override

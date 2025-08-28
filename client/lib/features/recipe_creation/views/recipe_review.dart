@@ -1,8 +1,12 @@
+import 'package:client/core/widgets/cooking_info.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+
+import '../../../utils/app_colors.dart';
 
 class RecipeReview extends StatelessWidget {
   @override
@@ -12,21 +16,72 @@ class RecipeReview extends StatelessWidget {
     return Column(
       children: [
         Row(
-          children: [Text("Recipe name:"), Text(viewModel.recipe.title)],
+          children: [
+            const Text(
+              "Recipe name:",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(viewModel.recipePreview.title)
+          ],
         ),
         Row(
           children: [
-            SvgPicture.asset(AppIcons.getIcon("list"), width: 32),
-            Text("For x persons:")
+            Card.filled(
+              color: AppColors.beige,
+              elevation: 2,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image(
+                  image: AssetImage(AppIcons.getIcon("placeholder")),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                ),
+              ),
+            ),
+            const CookingInfo(
+              recipe: "",
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            SvgPicture.asset(AppIcons.getIcon("list"), width: 48),
+            Text("For ${viewModel.portions} persons:")
           ],
         ),
         Wrap(
+          runAlignment: WrapAlignment.center,
           children: List.generate(
               viewModel.ingredients.length,
-              (int index) => Text(
-                  "${viewModel.ingredients.keys.elementAt(index).name} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.toString()}")),
-          runAlignment: WrapAlignment.center,
+              (int index) => Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    child: Text(
+                        "${viewModel.ingredients.keys.elementAt(index).name} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.toString()}"),
+                  )),
         ),
+        Row(
+          children: [
+            SvgPicture.asset(AppIcons.getIcon("prep"), width: 48),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: List.generate(
+                  viewModel.steps.length,
+                  (int index) => Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Step $index: ${viewModel.steps[index].title}",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.orange),
+                          ),
+                          FittedBox(
+                            child: Text(viewModel.steps[index].stepText),
+                          )
+                        ],
+                      )),
+            )
+          ],
+        )
       ],
     );
   }

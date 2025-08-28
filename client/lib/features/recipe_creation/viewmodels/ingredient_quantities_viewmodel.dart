@@ -13,7 +13,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   late Ingredient _currentIngredient;
   late Set<UnitCategory> _selectedUnit;
   late Unit _selectedDetailedUnit;
-  List<DropdownMenuItem<Unit>> _items = [];
+  final List<DropdownMenuItem<Unit>> _items = [];
   HashMap<Ingredient, IngredientQuantity> values = HashMap();
   final TextEditingController _quantityController = TextEditingController();
 
@@ -98,7 +98,6 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     if (setDetailedUnit) {
       _selectedDetailedUnit = _items.first.value!;
     }
-    //notifyListeners();
   }
 
   List<ButtonSegment<UnitCategory>> _getTypeSelection() {
@@ -124,6 +123,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
+    if (_ingredients.length != values.length) return false;
     return true;
   }
 }

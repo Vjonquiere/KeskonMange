@@ -124,7 +124,7 @@ class NewRecipePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         //TODO: add actions to buttons
         children: [
-          CustomButton(text: "MODIFY", onPressed: () {}),
+          CustomButton(text: "MODIFY", onPressed: viewModel.previousStep),
           CustomButton(
             text: "PUBLISH",
             onPressed: () {},
