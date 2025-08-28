@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../l10n/app_localizations.dart';
 import '../viewmodels/post_code_viewmodel.dart';
 
 class PostCodeStep extends StatelessWidget {
@@ -14,10 +15,9 @@ class PostCodeStep extends StatelessWidget {
       Column(
         children: <Widget>[
           const SizedBox(height: 16.0),
-          ColorfulTextBuilder("Where do you live?", 40).getWidget(),
-          ColorfulTextBuilder(
-                  'This data will be used to give you recipes based on the weather.',
-                  20)
+          ColorfulTextBuilder(AppLocalizations.of(context)!.housing, 40)
+              .getWidget(),
+          ColorfulTextBuilder(AppLocalizations.of(context)!.housing_info, 20)
               .getWidget(),
         ],
       ),

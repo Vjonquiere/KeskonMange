@@ -37,7 +37,7 @@ class KeskonMangeApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('en'),
-            Locale('fr','FR'),
+            Locale('fr', 'FR'),
           ],
           theme: ThemeData(
             useMaterial3: true,

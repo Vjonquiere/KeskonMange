@@ -56,7 +56,8 @@ class TodayMeal extends StatelessWidget {
     final viewModel = Provider.of<TodayMealViewModel>(context);
     return Column(
       children: [
-        ColorfulTextBuilder(AppLocalizations.of(context)!.today, 35, true).getWidget(),
+        ColorfulTextBuilder(AppLocalizations.of(context)!.today, 35, true)
+            .getWidget(),
         mainRecipes(context, viewModel),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -71,7 +72,8 @@ class TodayMeal extends StatelessWidget {
             ),
           ],
         ),
-        CustomButton(onPressed: () {}, text: AppLocalizations.of(context)!.letsgo)
+        CustomButton(
+            onPressed: () {}, text: AppLocalizations.of(context)!.letsgo)
       ],
     );
   }

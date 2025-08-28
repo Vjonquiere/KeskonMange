@@ -7,6 +7,7 @@ import '../../../utils/app_colors.dart';
 class WeekWidget extends StatelessWidget {
   final Month _month;
   final int _index;
+  //TODO: internationalize the days
   final List<String> days = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
   WeekWidget(this._month, this._index, {super.key});
 

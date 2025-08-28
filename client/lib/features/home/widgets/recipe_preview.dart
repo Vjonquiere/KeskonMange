@@ -88,7 +88,8 @@ class RecipePreview extends StatelessWidget {
           recipe.title.toUpperCase(),
           softWrap: true,
         ),
-        Text(AppLocalizations.of(context)!.preparation_time(recipe.preparationTime)),
+        Text(AppLocalizations.of(context)!
+            .preparation_time(recipe.preparationTime)),
         Text(AppLocalizations.of(context)!.cooking_time(recipe.cookTime))
       ],
     );

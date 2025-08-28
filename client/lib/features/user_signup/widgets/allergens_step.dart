@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../utils/app_icons.dart';
 import '../viewmodels/allergens_viewmodel.dart';
 
@@ -14,7 +15,8 @@ class AllergensStep extends StatelessWidget {
     AllergensViewModel viewModel = Provider.of<AllergensViewModel>(context);
     return Column(
       children: [
-        ColorfulTextBuilder("Do you have allergens?", 40).getWidget(),
+        ColorfulTextBuilder(AppLocalizations.of(context)!.have_allergens, 40)
+            .getWidget(),
         const SizedBox(height: 16.0),
         Wrap(
           spacing: 8.0, // Space between buttons

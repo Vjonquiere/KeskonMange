@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../l10n/app_localizations.dart';
 
 class EmailStep extends StatelessWidget {
   @override
@@ -13,7 +14,8 @@ class EmailStep extends StatelessWidget {
       Column(
         children: <Widget>[
           const SizedBox(height: 16.0),
-          ColorfulTextBuilder("How can we contact you?", 40).getWidget(),
+          ColorfulTextBuilder(AppLocalizations.of(context)!.give_email, 40)
+              .getWidget(),
         ],
       ),
       const SizedBox(height: 20.0),

@@ -24,6 +24,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 import '../../../constants.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../model/user.dart';
 import '../viewmodels/account_verification_viewmodel.dart';
 import '../viewmodels/allergens_viewmodel.dart';
@@ -100,7 +101,8 @@ class _SignupPageState extends State<SignupPage> {
         );
         break;
       default:
-        content = const Center(child: Text("No more steps"));
+        content =
+            Center(child: Text(AppLocalizations.of(context)!.no_more_steps));
     }
 
     return Scaffold(
@@ -112,7 +114,8 @@ class _SignupPageState extends State<SignupPage> {
             Column(
               children: <Widget>[
                 const SizedBox(height: 16.0),
-                ColorfulTextBuilder("Let's get to know you!", 50, true)
+                ColorfulTextBuilder(
+                        AppLocalizations.of(context)!.sign_up_title, 50, true)
                     .getWidget(),
               ],
             ),
@@ -147,11 +150,11 @@ class _SignupPageState extends State<SignupPage> {
                           Navigator.of(context).pop();
                         }
                       : viewModel.previousStep,
-                  child: const Text('Go Back'),
+                  child: Text(AppLocalizations.of(context)!.back),
                 ),
                 ElevatedButton(
                   onPressed: viewModel.nextStep,
-                  child: const Text('Next'),
+                  child: Text(AppLocalizations.of(context)!.next),
                 ),
               ],
             ),

@@ -6,11 +6,13 @@ import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/features/recipe_calendar/widgets/Month.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widget_states.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../home/views/home_page.dart';
 import '../viewmodels/calendar_viewmodel.dart';
 
@@ -20,6 +22,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  //TODO: internationalize the months cleanly
   final List<String> months = [
     "January",
     "February",
@@ -42,7 +45,8 @@ class _CalendarPageState extends State<CalendarPage> {
         body: SafeArea(
       child: Column(
         children: [
-          ColorfulTextBuilder("Calendar", 40, true).getWidget(),
+          ColorfulTextBuilder(AppLocalizations.of(context)!.calendar, 40, true)
+              .getWidget(),
           switch (viewModel.state) {
             WidgetStates.idle => Container(),
             WidgetStates.loading => const CircularProgressIndicator(),

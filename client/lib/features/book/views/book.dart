@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
 import '../viewmodels/book_viewmodel.dart';
@@ -43,9 +44,10 @@ class Book extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text(
-                "Created on ${viewModel.book.creationDate.day}/${viewModel.book.creationDate.month}/${viewModel.book.creationDate.year}"),
-            Text("By ${viewModel.book.ownerId}"),
+            Text(AppLocalizations.of(context)!
+                .book_creation(viewModel.book.creationDate)),
+            Text(AppLocalizations.of(context)!
+                .book_owner(viewModel.book.ownerId)),
             Row(
               children: [
                 SvgPicture.asset(
@@ -54,7 +56,8 @@ class Book extends StatelessWidget {
                   width: 16,
                 ),
                 const SizedBox(width: 10.0),
-                Text("${viewModel.book.public ? "Public" : "Private"} album"),
+                Text(
+                    "${viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private}"),
               ],
             ),
           ],
@@ -140,7 +143,9 @@ class Book extends StatelessWidget {
                   ? Container(
                       margin: EdgeInsets.all(5),
                       padding: EdgeInsets.all(5),
-                      child: Center(child: Text("Currently in edit mode")),
+                      child: Center(
+                          child: Text(
+                              AppLocalizations.of(context)!.book_edit_mode)),
                       decoration: BoxDecoration(
                           color: AppColors.yellow,
                           borderRadius: BorderRadius.circular(10)),
