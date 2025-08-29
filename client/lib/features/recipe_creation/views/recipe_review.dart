@@ -1,5 +1,6 @@
 import 'package:client/core/widgets/cooking_info.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
+import 'package:client/features/recipe_creation/widgets/ingredient_review_card.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class RecipeReview extends StatelessWidget {
     RecipeReviewViewModel viewModel =
         Provider.of<RecipeReviewViewModel>(context);
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Row(
           children: [
@@ -25,6 +27,7 @@ class RecipeReview extends StatelessWidget {
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Card.filled(
               color: AppColors.beige,
@@ -54,32 +57,42 @@ class RecipeReview extends StatelessWidget {
               viewModel.ingredients.length,
               (int index) => Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                        "${viewModel.ingredients.keys.elementAt(index).name} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.toString()}"),
+                    child: IngredientReviewCard(
+                        viewModel.ingredients.keys.elementAt(index).name,
+                        "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}"),
                   )),
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(AppIcons.getIcon("prep"), width: 48),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            SizedBox(
+              width: 10,
+            ),
+            Expanded(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: List.generate(
                   viewModel.steps.length,
                   (int index) => Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             "Step $index: ${viewModel.steps[index].title}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: AppColors.orange),
+                            textAlign: TextAlign.start,
                           ),
-                          FittedBox(
-                            child: Text(viewModel.steps[index].stepText),
-                          )
+                          Text(
+                            viewModel.steps[index].stepText,
+                            softWrap: true,
+                            overflow: TextOverflow.visible,
+                            textAlign: TextAlign.start,
+                          ),
                         ],
                       )),
-            )
+            )),
           ],
         )
       ],

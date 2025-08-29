@@ -52,6 +52,7 @@ class Unit {
   final dynamic _unit;
 
   UnitCategory get unitCategory => _unitCategory;
+  dynamic get unit => _unit;
 
   Unit(this._unitCategory, this._unit);
 
