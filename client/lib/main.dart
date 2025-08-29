@@ -1,3 +1,4 @@
+import 'package:client/core/widgets/global_message.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
 import 'package:client/features/user_login/views/login_page.dart';
@@ -45,6 +46,9 @@ class KeskonMangeApp extends StatelessWidget {
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
           ),
+          builder: (context, child) {
+            return GlobalMessage(child: child!);
+          },
           home: ChangeNotifierProvider(
             create: (context) => LoginPageViewModel(),
             child: LoginPage(),
