@@ -8,9 +8,9 @@ class Ingredient {
   Ingredient(this._name, this._type);
   Ingredient._(this._name, this._type, this._id);
 
-  get name => _name;
-  get type => _type;
-  get id => _id;
+  String get name => _name;
+  List<Unit> get type => _type;
+  int get id => _id;
 
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     return switch (json) {
@@ -26,14 +26,11 @@ class Ingredient {
         'name': String name,
       } =>
         Ingredient._(
-            name,
-            [SpecialUnit(SpecialUnits.EggSizes), VolumeUnit(VolumeUnits.Cup)],
-            id),
+            name, [Unit(UnitCategory.special, SpecialUnits.EggSizes)], id),
       {
         'name': String name,
       } =>
-        Ingredient(name,
-            [SpecialUnit(SpecialUnits.EggSizes), VolumeUnit(VolumeUnits.Cup)]),
+        Ingredient(name, [Unit(UnitCategory.special, SpecialUnits.EggSizes)]),
       _ => throw const FormatException('Failed to load ingredient.'),
     };
   }

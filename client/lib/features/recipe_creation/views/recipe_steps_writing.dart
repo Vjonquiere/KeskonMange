@@ -13,7 +13,7 @@ class RecipeStepsWriting extends StatelessWidget {
   void addStep(BuildContext context, RecipeStepViewModel viewModel) async {
     st.Step? stepValue = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => RecipeStepPage()));
-    if (stepValue != null) {
+    if (stepValue != null && stepValue.stepText != "") {
       debugPrint(stepValue.toString());
       viewModel.addStep(stepValue);
     }
@@ -38,7 +38,7 @@ class RecipeStepsWriting extends StatelessWidget {
       footer: CustomButton(
         text: "add",
         onPressed: () => addStep(context, viewModel),
-        scaleSize: 1.0,
+        iconSize: 32,
       ),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),

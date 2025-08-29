@@ -9,7 +9,7 @@ class JsonRecipeBuilder extends RecipeBuilder {
   void addIngredients(List<Ingredient> ingredients) {
     String ingredientsString = "";
     for (Ingredient ingredient in ingredients) {
-      ingredientsString += ingredient.id + ",";
+      ingredientsString += "${ingredient.id},";
     }
     _recipe +=
         '"ingredients": [${ingredientsString.substring(0, ingredientsString.length - 1)}],';

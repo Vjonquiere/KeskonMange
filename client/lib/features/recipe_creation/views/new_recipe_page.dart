@@ -1,7 +1,9 @@
 import 'package:client/features/recipe_creation/viewmodels/ingredient_quantities_viewmodel.dart';
 import 'package:client/features/recipe_creation/viewmodels/ingredients_viewmodel.dart';
+import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_step_viewmodel.dart';
 import 'package:client/features/recipe_creation/views/general_information.dart';
+import 'package:client/features/recipe_creation/views/recipe_review.dart';
 import 'package:client/features/recipe_creation/views/recipe_steps_writing.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +50,11 @@ class NewRecipePage extends StatelessWidget {
         content = ChangeNotifierProvider.value(
             value: (viewModel.currentStepViewModel as RecipeStepViewModel),
             child: RecipeStepsWriting());
+        break;
+      case 4:
+        content = ChangeNotifierProvider.value(
+            value: (viewModel.currentStepViewModel as RecipeReviewViewModel),
+            child: RecipeReview());
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -117,7 +124,7 @@ class NewRecipePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         //TODO: add actions to buttons
         children: [
-          CustomButton(text: "MODIFY", onPressed: () {}),
+          CustomButton(text: "MODIFY", onPressed: viewModel.previousStep),
           CustomButton(
             text: "PUBLISH",
             onPressed: () {},

@@ -108,7 +108,7 @@ class MyCreationsPage extends StatelessWidget {
                     create: (context) => NewRecipeViewModel(),
                     child: NewRecipePage())));
           },
-          scaleSize: 0.75,
+          iconSize: 32,
         ),
       ],
     );

@@ -22,8 +22,12 @@ class RecipeStep extends State<RecipeStepPage> {
       ),
       body: Column(
         children: [
-          TextField(
-            controller: _titleController,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: TextField(
+              controller: _titleController,
+              decoration: const InputDecoration(hintText: "Enter step title"),
+            ),
           ),
           Flexible(
             flex: 1,
