@@ -35,11 +35,14 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     notifyListeners();
   }
 
-  void previousIngredient() {
-    if (_currentIndex <= 0) return;
+  void _saveCurrentIngredientQuantity() {
     values[_currentIngredient] = IngredientQuantity(
         _selectedDetailedUnit, int.parse(_quantityController.text));
-    _currentIndex--;
+  }
+
+  void _loadIngredient(bool next) {
+    _saveCurrentIngredientQuantity();
+    next ? _currentIndex++ : _currentIndex--;
     _currentIngredient = ingredients[_currentIndex];
 
     if (values.containsKey(_currentIngredient)) {
@@ -47,34 +50,24 @@ class IngredientQuantitiesViewModel extends StateViewModel {
       _quantityController.text =
           values[_currentIngredient]!.quantity.toString();
       _selectedDetailedUnit = values[_currentIngredient]!.unit;
+      updateUnits();
     } else {
       _quantityController.text = "";
       _selectedUnit = {_currentIngredient.type.first.unitCategory};
-      _selectedDetailedUnit = _items.first.value!;
+      updateUnits(setDetailedUnit: true);
     }
-    updateUnits();
+  }
+
+  void previousIngredient() {
+    if (_currentIndex <= 0) return;
+    _loadIngredient(false);
     notifyListeners();
   }
 
   void nextIngredient() {
     if (_currentIndex >= ingredients.length - 1 ||
         int.tryParse(_quantityController.text) == null) return;
-    values[_currentIngredient] = IngredientQuantity(
-        _selectedDetailedUnit, int.parse(_quantityController.text));
-    _currentIndex++;
-    _currentIngredient = ingredients[_currentIndex];
-
-    if (values.containsKey(_currentIngredient)) {
-      _selectedUnit = {values[_currentIngredient]!.unit.unitCategory};
-      _quantityController.text =
-          values[_currentIngredient]!.quantity.toString();
-      _selectedDetailedUnit = values[_currentIngredient]!.unit;
-    } else {
-      _quantityController.text = "";
-      _selectedUnit = {_currentIngredient.type.first.unitCategory};
-      _selectedDetailedUnit = _items.first.value!;
-    }
-    updateUnits();
+    _loadIngredient(true);
     notifyListeners();
   }
 
@@ -123,6 +116,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
+    _saveCurrentIngredientQuantity();
     if (_ingredients.length != values.length) return false;
     return true;
   }

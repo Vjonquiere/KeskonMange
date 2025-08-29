@@ -71,35 +71,6 @@ class Unit {
   int get hashCode => _unitCategory.hashCode ^ _unit.hashCode;
 }
 
-/*Unit getUnitFromEnum(Object enumValue) {
-  if (enumValue is WholeItemsUnits) {
-    return WholeUnit(enumValue);
-  } else if (enumValue is VolumeUnits) {
-    return VolumeUnit(enumValue);
-  } else if (enumValue is WeightUnits) {
-    return WeightUnit(enumValue);
-  } else if (enumValue is SpecialUnits) {
-    return SpecialUnit(enumValue);
-  } else {
-    throw ArgumentError('Unsupported enum type: $enumValue');
-  }
-}*/
-
-/*Unit getUnitFromString(String unitString) {
-  switch (unitString) {
-    case "wholeUnit":
-      return WholeUnit(WholeItemsUnits.Bottle);
-    case "volumeUnit":
-      return VolumeUnit(VolumeUnits.Teaspoon);
-    case "weightUnit":
-      return WeightUnit(WeightUnits.Gram);
-    case "specialUnit":
-      return SpecialUnit(SpecialUnits.StickOfButter);
-    default:
-      throw ArgumentError('Unsupported unit string: $unitString');
-  }
-}*/
-
 Unit getUnitFromString(String unitString) {
   switch (unitString) {
     case "wholeUnit":
