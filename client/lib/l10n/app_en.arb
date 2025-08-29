@@ -1,0 +1,99 @@
+
+{
+  "error" : "error",
+  "today": "Today",
+  "letsgo": "Let's go !",
+  "preparation_time": "Preparation {time} min",
+  "@preparation_time": {
+    "description": "Preparation time of a recipe",
+    "placeholders": {
+      "time": {
+        "type": "num",
+        "example": "12"
+      }
+    }
+  },
+  "cooking_time": "Cooking {time} min",
+  "@cooking_time": {
+    "description": "Cooking time of a recipe",
+    "placeholders": {
+      "time": {
+        "type": "num",
+        "example": "35"
+      }
+    }
+  },
+  "planning_meal_time": "Meal at {hour}",
+  "@planning_meal_time": {
+    "description": "Meal planned to be ready for the given hour",
+    "placeholders": {
+      "hour": {
+        "type": "String",
+        "example": "1:35 PM"
+      }
+    }
+  },
+  "planning_start_cooking": "Start cooking in {time} minutes",
+  "@planning_start_cooking": {
+    "description": "Start cooking in 'time' minutes to have the meal ready at the right time",
+    "placeholders": {
+      "time": {
+        "type": "num",
+        "example": "12"
+      }
+    }
+  },
+  "confirm" : "Confirm",
+  "book_creation": "Created on {date}",
+  "@book_creation": {
+    "placeholders": {
+      "date": {
+        "type": "DateTime",
+        "format": "yMd"
+      }
+    }
+  },
+  "book_owner": "By {owner}",
+  "@book_owner": {
+    "placeholders": {
+      "owner": {
+        "type": "num",
+        "example": "-1"
+      }
+    }
+  },
+  "book_public": "Public album",
+  "book_private": "Private album",
+  "book_edit_mode": "Currently in edit mode",
+  "book_delete" : "Delete this book ?",
+  "book_delete_warning": "If you delete this book, you won't be able to retrieve it. If you've shared it with people, they won't have access to it anymore.",
+  "create_book": "Create a new book",
+  "book_name": "Enter a book name:",
+  "create": "Create",
+  "book_add_recipes": "Add recipes",
+  "book_visibility": "Is this book public ?",
+  "calendar": "Calendar",
+  "recipe_books" : "Recipe books",
+  "recipes" : "Recipes",
+  "my_creations" : "My creations !",
+  "public": "Public",
+  "private": "Private",
+  "email_code": "Code (via email)",
+  "sign_up" : "Sign up",
+  "back" : "Go back",
+  "sign_in": "Sign in",
+  "user": "User",
+  "sign_up_title" : "Let's get to know you !",
+  "next": "Next",
+  "no_more_steps" : "No more steps",
+  "verification_finalize" : "Let's finalise the setup!",
+  "verification_code" : "Enter the code we have sent by mail",
+  "have_allergens" : "Do you have allergens?",
+  "give_email" : "How can we contact you?",
+  "housing": "Where do you live?",
+  "housing_info" : "This information will be used to give you recipe recommendations based on the weather.",
+  "username": "Username",
+  "choose_username" : "How should we call you ?"
+
+
+}

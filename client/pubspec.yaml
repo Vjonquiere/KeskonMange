@@ -40,6 +40,9 @@ dependencies:
   flutter_svg: ^2.0.16
   flutter_secure_storage: ^9.2.2
   percent_indicator: ^4.0.1
+  flutter_localizations:
+    sdk: flutter
+  intl: any
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +60,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  generate: true
   assets:
     - assets/
     - assets/icons/allergens/

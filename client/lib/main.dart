@@ -4,6 +4,8 @@ import 'package:client/features/user_login/views/login_page.dart';
 import 'package:client/utils/mock_repositories_sample_load.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'l10n/app_localizations.dart';
 
 void main() {
   runApp(const KeskonMangeApp());
@@ -27,6 +29,16 @@ class KeskonMangeApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'KeskonMange',
+          localizationsDelegates: const [
+            AppLocalizations.delegate,
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+          ],
+          supportedLocales: const [
+            Locale('en'),
+            Locale('fr', 'FR'),
+          ],
           theme: ThemeData(
             useMaterial3: true,
             fontFamily: "Raleway",

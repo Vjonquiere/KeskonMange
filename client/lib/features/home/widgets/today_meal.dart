@@ -7,6 +7,7 @@ import '../../../core/widget_states.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/cooking_info.dart';
 import '../../../core/widgets/custom_buttons.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../model/recipe/preview.dart';
 import '../../../utils/app_colors.dart';
 
@@ -15,7 +16,7 @@ class TodayMeal extends StatelessWidget {
     return switch (viewModel.state) {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
-      WidgetStates.error => Text("error"),
+      WidgetStates.error => Text(AppLocalizations.of(context)!.error),
       WidgetStates.ready => Column(
           children: [
             Row(
@@ -55,7 +56,8 @@ class TodayMeal extends StatelessWidget {
     final viewModel = Provider.of<TodayMealViewModel>(context);
     return Column(
       children: [
-        ColorfulTextBuilder("Today", 35, true).getWidget(),
+        ColorfulTextBuilder(AppLocalizations.of(context)!.today, 35, true)
+            .getWidget(),
         mainRecipes(context, viewModel),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -70,7 +72,8 @@ class TodayMeal extends StatelessWidget {
             ),
           ],
         ),
-        CustomButton(onPressed: () {}, text: "Let's go !")
+        CustomButton(
+            onPressed: () {}, text: AppLocalizations.of(context)!.letsgo)
       ],
     );
   }

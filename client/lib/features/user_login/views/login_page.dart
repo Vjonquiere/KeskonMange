@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:provider/provider.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -58,9 +60,9 @@ class LoginPage extends StatelessWidget {
         if (viewModel.signInPressed)
           TextField(
             controller: viewModel.passwordController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               filled: true,
-              labelText: 'Code (via email)',
+              labelText: AppLocalizations.of(context)!.email_code,
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -74,7 +76,7 @@ class LoginPage extends StatelessWidget {
           children: <Widget>[
             if (!viewModel.signInPressed)
               TextButton(
-                child: const Text('Sign up'),
+                child: Text(AppLocalizations.of(context)!.sign_up),
                 onPressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChangeNotifierProvider(
@@ -84,11 +86,11 @@ class LoginPage extends StatelessWidget {
               ),
             if (viewModel.signInPressed)
               TextButton(
-                child: const Text('Go Back'),
+                child: Text(AppLocalizations.of(context)!.back),
                 onPressed: viewModel.onBackButtonPressed,
               ),
             ElevatedButton(
-              child: const Text('Sign in'),
+              child: Text(AppLocalizations.of(context)!.sign_in),
               onPressed: viewModel.onSignInPressed,
             ),
           ],
