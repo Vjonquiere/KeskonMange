@@ -34,6 +34,7 @@ class ComingRecipes extends StatelessWidget {
           children: viewModel.recipes
               .map((recipe) => _homeRecipePreview(recipe))
               .toList()),
+      WidgetStates.dispose => Text("dispose"),
     };
   }
 }

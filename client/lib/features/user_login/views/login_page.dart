@@ -21,6 +21,7 @@ class LoginPage extends StatelessWidget {
       WidgetStates.loading => const CircularProgressIndicator(),
       WidgetStates.ready => loginPage(context, viewModel),
       WidgetStates.error => const Text("Error"),
+      WidgetStates.dispose => Text("dispose"),
     }));
   }
 

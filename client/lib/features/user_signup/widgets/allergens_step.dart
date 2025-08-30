@@ -1,3 +1,4 @@
+import 'package:client/core/widgets/allergens_selector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -18,20 +19,9 @@ class AllergensStep extends StatelessWidget {
         ColorfulTextBuilder(AppLocalizations.of(context)!.have_allergens, 40)
             .getWidget(),
         const SizedBox(height: 16.0),
-        Wrap(
-          spacing: 8.0, // Space between buttons
-          runSpacing: 8.0, // Space between lines
-          children: List.generate(allergens.length, (index) {
-            return FilterChip(
-              avatar: SvgPicture.asset(AppIcons.getIcon(allergens[index])),
-              label: Text(allergens[index]),
-              selected: viewModel.selected[index],
-              onSelected: (bool selected) {
-                viewModel.onSelectedSwitch(index, selected);
-              },
-            );
-          }),
-        ),
+        AllergensSelector(
+            selected: viewModel.selected,
+            onSelected: viewModel.onSelectedSwitch),
       ],
     );
   }

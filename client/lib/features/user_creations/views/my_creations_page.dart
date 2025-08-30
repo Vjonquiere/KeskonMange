@@ -54,6 +54,7 @@ class MyCreationsPage extends StatelessWidget {
         switch (viewModel.state) {
           WidgetStates.idle => CircularProgressIndicator(),
           WidgetStates.loading => CircularProgressIndicator(),
+          WidgetStates.dispose => Text("dispose"),
           WidgetStates.ready => Expanded(
               child: ListView.builder(
                   itemCount: viewModel.booksCount,

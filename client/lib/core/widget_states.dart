@@ -1,1 +1,1 @@
-enum WidgetStates { idle, loading, ready, error }
+enum WidgetStates { idle, loading, ready, error, dispose }

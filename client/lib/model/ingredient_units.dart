@@ -47,6 +47,13 @@ enum UnitCategory {
   special,
 }
 
+Map<String, Unit> units = {
+  "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle),
+  "volume": Unit(UnitCategory.volume, VolumeUnits.Gallon),
+  "weight": Unit(UnitCategory.weight, WeightUnits.Gram),
+  "special": Unit(UnitCategory.special, SpecialUnits.EggSizes)
+};
+
 class Unit {
   final UnitCategory _unitCategory;
   final dynamic _unit;
@@ -72,14 +79,15 @@ class Unit {
 }
 
 Unit getUnitFromString(String unitString) {
+  unitString = unitString.toLowerCase();
   switch (unitString) {
-    case "wholeUnit":
+    case "wholeunit":
       return Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle);
-    case "volumeUnit":
+    case "volumeunit":
       return Unit(UnitCategory.volume, VolumeUnits.Teaspoon);
-    case "weightUnit":
+    case "weightunit":
       return Unit(UnitCategory.weight, WeightUnits.Gram);
-    case "specialUnit":
+    case "specialunit":
       return Unit(UnitCategory.special, SpecialUnits.StickOfButter);
     default:
       throw ArgumentError('Unsupported unit string: $unitString');

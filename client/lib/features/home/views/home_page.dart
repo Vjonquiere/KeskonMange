@@ -2,6 +2,8 @@ import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/viewmodels/coming_recipes_viewmodel.dart';
 import 'package:client/features/home/viewmodels/home_page_viewmodel.dart';
+import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
+import 'package:client/features/ingredient_creation/views/ingredient_creation.dart';
 import 'package:client/features/recipe_calendar/viewmodels/calendar_viewmodel.dart';
 import 'package:client/features/recipe_calendar/views/calendar_page.dart';
 import 'package:client/features/recipe_planning/views/planned_recipes_page.dart';
@@ -61,7 +63,15 @@ class HomePage extends StatelessWidget {
                     iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => PlannedRecipesPage()));
+                          builder: (context) => ChangeNotifierProvider(
+                                create: (context) =>
+                                    IngredientCreationViewModel(),
+                                child: IngredientCreation(),
+                              )));
+
+                      /*
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PlannedRecipesPage()));*/
                     },
                     text: 'upload'),
                 CustomButton(
