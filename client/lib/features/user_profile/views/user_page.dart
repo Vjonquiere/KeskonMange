@@ -3,6 +3,7 @@ import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../home/views/home_page.dart';
 
 class UserPage extends StatefulWidget {
@@ -17,7 +18,8 @@ class _UserPageState extends State<UserPage> {
       color: AppColors.white, // Set the background color
       child: Column(
         children: [
-          ColorfulTextBuilder("User", 30).getWidget(),
+          ColorfulTextBuilder(AppLocalizations.of(context)!.user, 30)
+              .getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(
             onPressed: () {

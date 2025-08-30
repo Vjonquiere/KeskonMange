@@ -11,99 +11,113 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   List<Ingredient> _ingredients = [];
   int _currentIndex = 0;
   late Ingredient _currentIngredient;
-  late Set<Unit> _selectedUnit;
+  late Set<UnitCategory> _selectedUnit;
   late Unit _selectedDetailedUnit;
-  List<DropdownMenuItem<Unit>> _items = [];
+  final List<DropdownMenuItem<Unit>> _items = [];
   HashMap<Ingredient, IngredientQuantity> values = HashMap();
+  final TextEditingController _quantityController = TextEditingController();
 
   List<Ingredient> get ingredients => _ingredients;
   int get currentIndex => _currentIndex;
   Ingredient get currentIngredient => _currentIngredient;
-  Set<Unit> get selectedUnit => _selectedUnit;
+  Set<UnitCategory> get selectedUnit => _selectedUnit;
   Unit get selectedDetailedUnit => _selectedDetailedUnit;
   List<DropdownMenuItem<Unit>> get items => _items;
-  List<ButtonSegment<Unit>> get getTypeSelection => _getTypeSelection();
+  List<ButtonSegment<UnitCategory>> get getTypeSelection => _getTypeSelection();
+  TextEditingController get quantityController => _quantityController;
 
   void setIngredients(List<Ingredient> ingredients) {
     _ingredients = ingredients;
     _currentIngredient = ingredients[0];
-    _selectedUnit = {_currentIngredient.type.first};
-    _selectedDetailedUnit = _selectedUnit.first;
-    updateUnits();
-    notifyListeners();
-  }
-
-  void previousIngredient() {
-    if (_currentIndex <= 0) return;
-    values[_currentIngredient] = IngredientQuantity(_selectedUnit.first, 0);
-    _currentIndex--;
-    _currentIngredient = ingredients[_currentIndex];
-    if (values.containsKey(_currentIngredient)) {
-      _selectedUnit = {values[_currentIngredient]!.unit};
-    } else {
-      _selectedUnit = {_currentIngredient.type.first};
-    }
-    updateUnits();
-    notifyListeners();
-  }
-
-  void nextIngredient() {
-    if (_currentIndex >= ingredients.length - 1) return;
-    values[_currentIngredient] = IngredientQuantity(_selectedUnit.first, 0);
-    _currentIndex++;
-    _currentIngredient = ingredients[_currentIndex];
-    if (values.containsKey(_currentIngredient)) {
-      _selectedUnit = {values[_currentIngredient]!.unit};
-    } else {
-      _selectedUnit = {_currentIngredient.type.first};
-    }
-    updateUnits();
-    notifyListeners();
-  }
-
-  void updateUnits() {
-    _items.clear();
-    if (_selectedUnit.first is VolumeUnit) {
-      _items.addAll(VolumeUnits.values.map((elt) => DropdownMenuItem(
-          value: getUnitFromEnum(elt), child: Text(elt.name))));
-    } else if (_selectedUnit.first is SpecialUnit) {
-      _items.addAll(SpecialUnits.values.map((elt) => DropdownMenuItem(
-          value: getUnitFromEnum(elt), child: Text(elt.name))));
-    } else if (_selectedUnit.first is WeightUnit) {
-      _items.addAll(WeightUnits.values.map((elt) => DropdownMenuItem(
-          value: getUnitFromEnum(elt), child: Text(elt.name))));
-    } else if (_selectedUnit.first is WholeUnit) {
-      _items.addAll(WholeItemsUnits.values.map((elt) => DropdownMenuItem(
-          value: getUnitFromEnum(elt), child: Text(elt.name))));
-    } else {
-      throw Exception("");
-    }
+    _selectedUnit = {_currentIngredient.type.first.unitCategory};
+    updateUnits(setDetailedUnit: true);
     _selectedDetailedUnit = _items.first.value!;
     notifyListeners();
   }
 
-  List<ButtonSegment<Unit>> _getTypeSelection() {
-    List<ButtonSegment<Unit>> types = [];
+  void _saveCurrentIngredientQuantity() {
+    values[_currentIngredient] = IngredientQuantity(
+        _selectedDetailedUnit, int.parse(_quantityController.text));
+  }
+
+  void _loadIngredient(bool next) {
+    _saveCurrentIngredientQuantity();
+    next ? _currentIndex++ : _currentIndex--;
+    _currentIngredient = ingredients[_currentIndex];
+
+    if (values.containsKey(_currentIngredient)) {
+      _selectedUnit = {values[_currentIngredient]!.unit.unitCategory};
+      _quantityController.text =
+          values[_currentIngredient]!.quantity.toString();
+      _selectedDetailedUnit = values[_currentIngredient]!.unit;
+      updateUnits();
+    } else {
+      _quantityController.text = "";
+      _selectedUnit = {_currentIngredient.type.first.unitCategory};
+      updateUnits(setDetailedUnit: true);
+    }
+  }
+
+  void previousIngredient() {
+    if (_currentIndex <= 0) return;
+    _loadIngredient(false);
+    notifyListeners();
+  }
+
+  void nextIngredient() {
+    if (_currentIndex >= ingredients.length - 1 ||
+        int.tryParse(_quantityController.text) == null) return;
+    _loadIngredient(true);
+    notifyListeners();
+  }
+
+  void updateUnits({setDetailedUnit = false}) {
+    _items.clear();
+    if (_selectedUnit.first == UnitCategory.volume) {
+      _items.addAll(VolumeUnits.values.map((elt) => DropdownMenuItem(
+          value: Unit(UnitCategory.volume, elt), child: Text(elt.name))));
+    } else if (_selectedUnit.first == UnitCategory.special) {
+      _items.addAll(SpecialUnits.values.map((elt) => DropdownMenuItem(
+          value: Unit(UnitCategory.special, elt), child: Text(elt.name))));
+    } else if (_selectedUnit.first == UnitCategory.weight) {
+      _items.addAll(WeightUnits.values.map((elt) => DropdownMenuItem(
+          value: Unit(UnitCategory.weight, elt), child: Text(elt.name))));
+    } else if (_selectedUnit.first == UnitCategory.wholeItem) {
+      _items.addAll(WholeItemsUnits.values.map((elt) => DropdownMenuItem(
+          value: Unit(UnitCategory.wholeItem, elt), child: Text(elt.name))));
+    } else {
+      throw Exception("");
+    }
+    if (setDetailedUnit) {
+      _selectedDetailedUnit = _items.first.value!;
+    }
+  }
+
+  List<ButtonSegment<UnitCategory>> _getTypeSelection() {
+    List<ButtonSegment<UnitCategory>> types = [];
     for (Unit unit in _currentIngredient.type) {
-      types.add(ButtonSegment(value: unit, label: Text(unit.toString())));
+      types.add(ButtonSegment(
+          value: unit.unitCategory, label: Text(unit.toString())));
     }
     return types;
   }
 
-  void updateSelectedUnit(Set<Unit> unit) {
+  void updateSelectedUnit(Set<UnitCategory> unit) {
     _selectedUnit = unit;
-    updateUnits();
+    updateUnits(setDetailedUnit: true);
+    notifyListeners();
   }
 
   void updateDetailedSelectedUnit(Unit? unit) {
     if (unit == null) return;
     _selectedDetailedUnit = unit;
-    debugPrint(unit.toString());
     notifyListeners();
   }
 
   @override
   Future<bool> isValid() async {
+    _saveCurrentIngredientQuantity();
+    if (_ingredients.length != values.length) return false;
     return true;
   }
 }

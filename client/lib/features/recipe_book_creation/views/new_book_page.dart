@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../home/views/home_page.dart';
 import '../../home/widgets/recipe_preview.dart';
 import '../../user_creations/views/my_creations_page.dart';
@@ -18,7 +19,9 @@ class NewBookPage extends StatelessWidget {
     NewBookViewModel viewModel = Provider.of<NewBookViewModel>(context);
     return Scaffold(
       appBar: AppBar(
-        title: ColorfulTextBuilder("Create a new book", 30).getWidget(),
+        title:
+            ColorfulTextBuilder(AppLocalizations.of(context)!.create_book, 30)
+                .getWidget(),
       ),
       body: Column(
         children: [
@@ -28,7 +31,7 @@ class NewBookPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
-                  "Enter a book name:",
+                  AppLocalizations.of(context)!.book_name,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
@@ -48,7 +51,7 @@ class NewBookPage extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text("Is this book public ?",
+                  Text(AppLocalizations.of(context)!.book_visibility,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   SizedBox(
                     width: 10,
@@ -61,7 +64,9 @@ class NewBookPage extends StatelessWidget {
           CustomDivider(
             color: AppColors.pink,
           ),
-          ColorfulTextBuilder("Add recipes", 20, true).getWidget(),
+          ColorfulTextBuilder(
+                  AppLocalizations.of(context)!.book_add_recipes, 20, true)
+              .getWidget(),
           SizedBox(
             height: 5,
           ),
@@ -126,7 +131,7 @@ class NewBookPage extends StatelessWidget {
             text: 'back',
           ),
           CustomButton(
-              text: "Create",
+              text: AppLocalizations.of(context)!.create,
               onPressed: () async {
                 if (await viewModel.pushBook()) {
                   Navigator.of(context).pop();

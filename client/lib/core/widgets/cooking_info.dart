@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../l10n/app_localizations.dart';
+
 class CookingInfo extends StatelessWidget {
   final String recipe;
   final String iconName;
@@ -27,11 +29,12 @@ class CookingInfo extends StatelessWidget {
               width: 32,
               height: 32,
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Preparation time"),
-                Text("cooking time"),
+                //TODO: link this to the next recipe
+                Text(AppLocalizations.of(context)!.preparation_time(10)),
+                Text(AppLocalizations.of(context)!.cooking_time(15)),
               ],
             ),
           ],
@@ -45,11 +48,12 @@ class CookingInfo extends StatelessWidget {
               width: 32,
               height: 32,
             ),
-            const Column(
+            Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Meal at 20h30"),
-                Text("Start cooking in 50min "),
+                Text(AppLocalizations.of(context)!.planning_meal_time(
+                    TimeOfDay(hour: 20, minute: 30).format(context))),
+                Text(AppLocalizations.of(context)!.planning_start_cooking(50)),
               ],
             ),
           ],

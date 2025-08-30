@@ -40,86 +40,55 @@ enum SpecialUnits {
   Sheet,
 }
 
-/*enum Units {
-  WholeItemsUnits,
-  VolumeUnits,
-  WeightUnits,
-  SpecialUnits,
-}*/
+enum UnitCategory {
+  wholeItem,
+  volume,
+  weight,
+  special,
+}
+
 Map<String, Unit> units = {
-  "whole": WholeUnit(WholeItemsUnits.Piece),
-  "volume": VolumeUnit(VolumeUnits.Gallon),
-  "weight": WeightUnit(WeightUnits.Gram),
-  "special": SpecialUnit(SpecialUnits.EggSizes)
+  "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle),
+  "volume": Unit(UnitCategory.volume, VolumeUnits.Gallon),
+  "weight": Unit(UnitCategory.weight, WeightUnits.Gram),
+  "special": Unit(UnitCategory.special, SpecialUnits.EggSizes)
 };
 
-sealed class Unit {}
+class Unit {
+  final UnitCategory _unitCategory;
+  final dynamic _unit;
 
-class WholeUnit extends Unit {
-  final WholeItemsUnits value;
-  WholeUnit(this.value);
+  UnitCategory get unitCategory => _unitCategory;
+  dynamic get unit => _unit;
+
+  Unit(this._unitCategory, this._unit);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is! Unit) return false;
+    return _unit == other._unit;
+  }
 
   @override
   String toString() {
-    return "WholeUnit";
+    return _unitCategory.toString().split(".").last;
   }
-}
-
-class VolumeUnit extends Unit {
-  final VolumeUnits value;
-  VolumeUnit(this.value);
 
   @override
-  String toString() {
-    return "VolumeUnit";
-  }
-}
-
-class WeightUnit extends Unit {
-  final WeightUnits value;
-  WeightUnit(this.value);
-
-  @override
-  String toString() {
-    return "WeightUnit";
-  }
-}
-
-class SpecialUnit extends Unit {
-  final SpecialUnits value;
-  SpecialUnit(this.value);
-
-  @override
-  String toString() {
-    return "SpecialUnit";
-  }
-}
-
-Unit getUnitFromEnum(Object enumValue) {
-  if (enumValue is WholeItemsUnits) {
-    return WholeUnit(enumValue);
-  } else if (enumValue is VolumeUnits) {
-    return VolumeUnit(enumValue);
-  } else if (enumValue is WeightUnits) {
-    return WeightUnit(enumValue);
-  } else if (enumValue is SpecialUnits) {
-    return SpecialUnit(enumValue);
-  } else {
-    throw ArgumentError('Unsupported enum type: $enumValue');
-  }
+  int get hashCode => _unitCategory.hashCode ^ _unit.hashCode;
 }
 
 Unit getUnitFromString(String unitString) {
   unitString = unitString.toLowerCase();
   switch (unitString) {
     case "wholeunit":
-      return WholeUnit(WholeItemsUnits.Bottle);
+      return Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle);
     case "volumeunit":
-      return VolumeUnit(VolumeUnits.Teaspoon);
+      return Unit(UnitCategory.volume, VolumeUnits.Teaspoon);
     case "weightunit":
-      return WeightUnit(WeightUnits.Gram);
+      return Unit(UnitCategory.weight, WeightUnits.Gram);
     case "specialunit":
-      return SpecialUnit(SpecialUnits.StickOfButter);
+      return Unit(UnitCategory.special, SpecialUnits.StickOfButter);
     default:
       throw ArgumentError('Unsupported unit string: $unitString');
   }

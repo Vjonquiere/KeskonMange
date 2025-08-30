@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
 import '../../book/viewmodels/book_viewmodel.dart';
@@ -66,7 +67,9 @@ class BookPreviewWidget extends StatelessWidget {
                       width: 16,
                     ),
                     const SizedBox(width: 10.0),
-                    Text(_preview.public ? "Public" : "Private"),
+                    Text(_preview.public
+                        ? AppLocalizations.of(context)!.public
+                        : AppLocalizations.of(context)!.private),
                   ],
                 ),
               ],

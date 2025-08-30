@@ -3,6 +3,7 @@ import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
 
+import '../../../l10n/app_localizations.dart';
 import '../../recipe/views/recipe_page.dart';
 import 'package:client/model/recipe/preview.dart' as rpModel;
 
@@ -87,8 +88,9 @@ class RecipePreview extends StatelessWidget {
           recipe.title.toUpperCase(),
           softWrap: true,
         ),
-        Text("preparation ${recipe.preparationTime} min"),
-        Text("cooking ${recipe.cookTime} min")
+        Text(AppLocalizations.of(context)!
+            .preparation_time(recipe.preparationTime)),
+        Text(AppLocalizations.of(context)!.cooking_time(recipe.cookTime))
       ],
     );
   }
@@ -97,6 +99,7 @@ class RecipePreview extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        //TODO: link these to recipes + add internationalization
         Text(
           "E P D",
           style: DefaultTextStyle.of(context).style.apply(fontSizeFactor: 0.7),
@@ -124,6 +127,7 @@ class RecipePreview extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              //TODO: link to recipe planning + add internationalization
               Text(
                 "day".toUpperCase(),
                 style: DefaultTextStyle.of(context)

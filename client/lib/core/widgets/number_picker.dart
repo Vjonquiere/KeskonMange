@@ -4,6 +4,7 @@ import 'package:client/core/widgets/rotary_number_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 
 class NumberPicker extends StatelessWidget {
@@ -51,7 +52,7 @@ class NumberPicker extends StatelessWidget {
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       CustomButton(
-                        text: 'Confirm',
+                        text: AppLocalizations.of(context)!.confirm,
                         fontSize: 25,
                         onPressed: () => Navigator.pop(context),
                       ),

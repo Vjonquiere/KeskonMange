@@ -4,6 +4,8 @@ import 'package:client/features/user_creations/views/my_creations_page.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../l10n/app_localizations.dart';
+
 class DeleteBookDialog extends StatelessWidget {
   VoidCallback _onDeleteBookPressed;
 
@@ -14,11 +16,11 @@ class DeleteBookDialog extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        ColorfulTextBuilder("Delete this book ?", 25, true).getWidget(),
+        ColorfulTextBuilder(AppLocalizations.of(context)!.book_delete, 25, true)
+            .getWidget(),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 5, vertical: 5),
-          child: Text(
-              "If you delete this book, you wouldn't be able to retreive it. If you've shared it with people, they couldn't have access to it anymore."),
+          child: Text(AppLocalizations.of(context)!.book_delete_warning),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
+import '../../../l10n/app_localizations.dart';
 
 class UsernameStep extends StatelessWidget {
   @override
@@ -13,15 +14,16 @@ class UsernameStep extends StatelessWidget {
       Column(
         children: <Widget>[
           const SizedBox(height: 16.0),
-          ColorfulTextBuilder("How should we call you?", 40).getWidget(),
+          ColorfulTextBuilder(AppLocalizations.of(context)!.choose_username, 40)
+              .getWidget(),
         ],
       ),
       const SizedBox(height: 20.0),
       TextField(
         controller: viewModel.usernameController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           filled: true,
-          labelText: 'Username',
+          labelText: AppLocalizations.of(context)!.username,
         ),
       ),
     ]);

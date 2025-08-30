@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../model/book/preview.dart';
 import '../../../utils/app_icons.dart';
 import '../../home/views/home_page.dart';
@@ -24,17 +25,17 @@ class MyCreationsPage extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          bottom: const TabBar(
+          bottom: TabBar(
             tabs: [
               Tab(
-                text: "Recipe Books",
+                text: AppLocalizations.of(context)!.recipe_books,
               ),
               Tab(
-                text: " Recipes",
+                text: AppLocalizations.of(context)!.recipes,
               ),
             ],
           ),
-          title: title(),
+          title: title(context),
         ),
         body: TabBarView(
           children: [
@@ -78,11 +79,13 @@ class MyCreationsPage extends StatelessWidget {
     );
   }
 
-  Widget title() {
+  Widget title(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        ColorfulTextBuilder("My creations!", 30, true).getWidget(),
+        ColorfulTextBuilder(
+                AppLocalizations.of(context)!.my_creations, 30, true)
+            .getWidget(),
         IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
@@ -106,7 +109,7 @@ class MyCreationsPage extends StatelessWidget {
                     create: (context) => NewRecipeViewModel(),
                     child: NewRecipePage())));
           },
-          scaleSize: 0.75,
+          iconSize: 32,
         ),
       ],
     );
