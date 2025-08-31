@@ -8,16 +8,16 @@ class SetAllergensRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    for (final allergen in _allergens) {
+    for (final String allergen in _allergens) {
       if (!constants.allergens.contains(allergen)) {
         return -1; // One allergens is not valid
       }
     }
     return (await super.process(RequestMode.post, 'user/allergens',
         queryParameters: <String, String>{
-          "email": Authentication().getCredentials().email
+          "email": Authentication().getCredentials().email,
         },
-        body: {"allergens": _allergens},
-        authNeeded: true));
+        body: <String, Object>{"allergens": _allergens},
+        authNeeded: true,));
   }
 }

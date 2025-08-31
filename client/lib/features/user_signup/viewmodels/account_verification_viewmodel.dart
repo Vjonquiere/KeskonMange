@@ -9,7 +9,7 @@ import '../../../http/authentication.dart';
 import '../../../model/user.dart';
 
 class AccountVerificationViewModel extends StateViewModel {
-  final _verificationCodeController = TextEditingController();
+  final TextEditingController _verificationCodeController = TextEditingController();
   late User _user;
 
   TextEditingController get verificationCodeController =>
@@ -18,11 +18,11 @@ class AccountVerificationViewModel extends StateViewModel {
   @override
   Future<bool> isValid() async {
     if (_verificationCodeController.text == "") return false;
-    var activation = ActivateUserUseCase(
+    final ActivateUserUseCase activation = ActivateUserUseCase(
         RepositoriesManager().getUserRepository(),
         _user.email,
-        _verificationCodeController.text);
-    String? apiKey = await activation.execute();
+        _verificationCodeController.text,);
+    final String? apiKey = await activation.execute();
     if (apiKey == null) {
       setStateValue(WidgetStates.error);
       setErrorMessage("Verification code is not valid");
@@ -43,7 +43,7 @@ class AccountVerificationViewModel extends StateViewModel {
 
   void createUser() {
     CreateAccountUseCase(RepositoriesManager().getUserRepository(),
-            User(_user.email, _user.username, _user.allergens))
+            User(_user.email, _user.username, _user.allergens),)
         .execute();
   }
 }

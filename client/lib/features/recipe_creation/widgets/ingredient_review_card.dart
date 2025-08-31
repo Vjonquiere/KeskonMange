@@ -6,7 +6,7 @@ class IngredientReviewCard extends StatelessWidget {
   final String _ingredientQuantity;
 
   const IngredientReviewCard(this._ingredientName, this._ingredientQuantity,
-      {super.key});
+      {super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +15,12 @@ class IngredientReviewCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
         child: Column(
-          children: [
+          children: <Widget>[
             Text(
               _ingredientName,
               style: const TextStyle(fontSize: 17),
             ),
-            Text(_ingredientQuantity)
+            Text(_ingredientQuantity),
           ],
         ),
       ),

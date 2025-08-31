@@ -10,7 +10,7 @@ class CreateRecipeRequest extends HttpRequest {
   @override
   Future<int> send() async {
     return (await super.process(RequestMode.post, 'recipe/add',
-        body: {
+        body: <String, Object>{
           'title': _recipe.title,
           'type': _recipe.type,
           'difficulty': _recipe.difficulty,
@@ -26,8 +26,8 @@ class CreateRecipeRequest extends HttpRequest {
           'rest': _recipe.restTime,
           'cook': _recipe.cookTime,
           'owner': _recipe.owner,
-          'public': _recipe.public
+          'public': _recipe.public,
         },
-        authNeeded: true));
+        authNeeded: true,));
   }
 }

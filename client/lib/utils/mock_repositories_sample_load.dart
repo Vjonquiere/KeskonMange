@@ -13,7 +13,7 @@ class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
 
   static Future<MockRepositoriesSampleLoad> create() async {
-    final repo = MockRepositoriesSampleLoad._();
+    final MockRepositoriesSampleLoad repo = MockRepositoriesSampleLoad._();
     await repo._loadSamples();
     return repo;
   }
@@ -24,7 +24,7 @@ class MockRepositoriesSampleLoad {
         String content;
 
         if (source.startsWith("http://") || source.startsWith("https://")) {
-          final response = await http.get(Uri.parse(source));
+          final http.Response response = await http.get(Uri.parse(source));
           if (response.statusCode == 200) {
             content = response.body;
           } else {
@@ -57,7 +57,7 @@ class MockRepositoriesSampleLoad {
       return fileContent["ingredients"] as List;
     }
     throw const FormatException(
-        "Mock file can't be loaded: no ingredients found");
+        "Mock file can't be loaded: no ingredients found",);
   }
 
   List<dynamic> _extractBooks(Map<String, dynamic> fileContent) {
@@ -69,7 +69,7 @@ class MockRepositoriesSampleLoad {
     int loadedRecipes = 0;
     for (dynamic recipe in recipes) {
       try {
-        RecipePreview loadedRecipe = RecipePreview.fromJson(recipe);
+        final RecipePreview loadedRecipe = RecipePreview.fromJson(recipe);
         RepositoriesManager()
             .getRecipeRepository()
             .createNewRecipe(loadedRecipe);
@@ -86,7 +86,7 @@ class MockRepositoriesSampleLoad {
     int loadedIngredients = 0;
     for (dynamic ingredient in ingredients) {
       try {
-        Ingredient loadedIngredient = Ingredient.fromJson(ingredient);
+        final Ingredient loadedIngredient = Ingredient.fromJson(ingredient);
         RepositoriesManager()
             .getIngredientRepository()
             .createIngredient(loadedIngredient);
@@ -102,7 +102,7 @@ class MockRepositoriesSampleLoad {
     int loadedBooks = 0;
     for (dynamic book in books) {
       try {
-        Book loadedBook = Book.fromJson(book);
+        final Book loadedBook = Book.fromJson(book);
         RepositoriesManager().getBookRepository().createNewBook(loadedBook);
         for (int recipeId in loadedBook.recipesIds) {
           RepositoriesManager()

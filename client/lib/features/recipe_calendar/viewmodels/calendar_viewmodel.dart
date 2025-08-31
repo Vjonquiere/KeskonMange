@@ -7,7 +7,7 @@ import '../../../data/usecases/get_complete_month_use_case.dart';
 
 class CalendarViewModel extends ViewModel {
   Month? _currentMonth;
-  final _currentMonthUseCase =
+  final GetCompleteMonthUseCase _currentMonthUseCase =
       GetCompleteMonthUseCase(RepositoriesManager().getCalendarRepository(), 0);
 
   Month get currentMonth => _currentMonth!;

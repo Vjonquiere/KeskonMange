@@ -13,8 +13,8 @@ class CheckApiKeyValidityUseCase {
           .deleteCredentialsFromStorage(); // Credentials are missing, don't try to check their validity
       return -1;
     }
-    String apiKey = Authentication().getCredentials().apiKey;
-    String email = Authentication().getCredentials().email;
+    final String apiKey = Authentication().getCredentials().apiKey;
+    final String email = Authentication().getCredentials().email;
     return _userRepository.checkApiKeyValidity(email, apiKey);
   }
 }

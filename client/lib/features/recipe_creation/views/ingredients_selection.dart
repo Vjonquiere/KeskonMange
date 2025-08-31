@@ -13,22 +13,22 @@ class IngredientSelection extends StatelessWidget {
     final IngredientsViewModel viewModel =
         Provider.of<IngredientsViewModel>(context);
     return Column(
-      children: [
+      children: <Widget>[
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
         IngredientRow(viewModel.getSelectedIngredients(), false),
         Padding(
             padding: const EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: <Widget>[
                 const Icon(Icons.search),
                 Expanded(
                     child: TextField(
                   controller: viewModel.ingredientSearchController,
                   onChanged: viewModel.searchStringChanged,
-                ))
+                ),),
               ],
-            )),
+            ),),
         IngredientRow(viewModel.getSearchIngredients(), true),
       ],
     );

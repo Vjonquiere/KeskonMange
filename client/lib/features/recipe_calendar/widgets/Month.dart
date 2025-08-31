@@ -9,7 +9,7 @@ class MonthWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> cols = [];
+    final List<Widget> cols = <Widget>[];
     for (int i = 0; i < _month.monthTemplate[0].length; i++) {
       cols.add(WeekWidget(_month, i));
       cols.add(const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)));

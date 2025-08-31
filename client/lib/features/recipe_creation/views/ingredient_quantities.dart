@@ -13,7 +13,7 @@ class IngredientQuantities extends StatelessWidget {
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image(
@@ -22,7 +22,7 @@ class IngredientQuantities extends StatelessWidget {
             ),
           ),
           Row(
-            children: [Text(ingredient.name)],
+            children: <Widget>[Text(ingredient.name)],
           ),
         ],
       ),
@@ -32,7 +32,7 @@ class IngredientQuantities extends StatelessWidget {
   Widget _buildQuantitySelector(IngredientQuantitiesViewModel viewModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         const Text("I need"),
         SizedBox(
             width: 75,
@@ -40,12 +40,12 @@ class IngredientQuantities extends StatelessWidget {
               controller: viewModel.quantityController,
               maxLength: 4,
               keyboardType: TextInputType.number,
-            )),
+            ),),
         DropdownButton(
             value: viewModel.selectedDetailedUnit,
             iconEnabledColor: AppColors.green,
             items: viewModel.items,
-            onChanged: viewModel.updateDetailedSelectedUnit),
+            onChanged: viewModel.updateDetailedSelectedUnit,),
         Text("of ${viewModel.currentIngredient.name}"),
       ],
     );
@@ -57,16 +57,16 @@ class IngredientQuantities extends StatelessWidget {
         Provider.of<IngredientQuantitiesViewModel>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             OutlinedButton(
                 onPressed: viewModel.previousIngredient,
-                child: const Text("previous")),
+                child: const Text("previous"),),
             Expanded(child: _getCard(viewModel.currentIngredient)),
             OutlinedButton(
-                onPressed: viewModel.nextIngredient, child: const Text("next")),
+                onPressed: viewModel.nextIngredient, child: const Text("next"),),
           ],
         ),
         SegmentedButton(

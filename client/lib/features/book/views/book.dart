@@ -17,7 +17,7 @@ class Book extends StatelessWidget {
 
   Widget topContainer(BuildContext context, BookViewModel viewModel) {
     return Row(
-      children: [
+      children: <Widget>[
         Card.filled(
           color: AppColors.beige,
           elevation: 2,
@@ -35,7 +35,7 @@ class Book extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               viewModel.book.name,
               style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
@@ -44,19 +44,19 @@ class Book extends StatelessWidget {
               height: 10,
             ),
             Text(AppLocalizations.of(context)!
-                .book_creation(viewModel.book.creationDate)),
+                .book_creation(viewModel.book.creationDate),),
             Text(AppLocalizations.of(context)!
-                .book_owner(viewModel.book.ownerId)),
+                .book_owner(viewModel.book.ownerId),),
             Row(
-              children: [
+              children: <Widget>[
                 SvgPicture.asset(
                   AppIcons.getIcon(
-                      viewModel.book.public ? "public" : "private"),
+                      viewModel.book.public ? "public" : "private",),
                   width: 16,
                 ),
                 const SizedBox(width: 10.0),
                 Text(
-                    viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private),
+                    viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private,),
               ],
             ),
           ],
@@ -65,8 +65,7 @@ class Book extends StatelessWidget {
           width: 20,
         ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             CustomButton(
               iconSize: 32,
               text: "trash",
@@ -75,7 +74,7 @@ class Book extends StatelessWidget {
                     context: context,
                     builder: (context) => Dialog(
                           child: DeleteBookDialog(viewModel.deleteBook),
-                        ));
+                        ),);
               },
               color: AppColors.red,
             ),
@@ -107,7 +106,7 @@ class Book extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               if (viewModel.editMode) {
                 return Row(
-                  children: [
+                  children: <Widget>[
                     RecipePreview(recipe: viewModel.recipes[index]),
                     CustomButton(
                       text: "trash",
@@ -116,25 +115,24 @@ class Book extends StatelessWidget {
                       },
                       iconSize: 32,
                       color: AppColors.red,
-                    )
+                    ),
                   ],
                 );
               }
               return RecipePreview(recipe: viewModel.recipes[index]);
-            }));
+            },),);
   }
 
   @override
   Widget build(BuildContext context) {
-    BookViewModel viewModel = Provider.of<BookViewModel>(context);
+    final BookViewModel viewModel = Provider.of<BookViewModel>(context);
     return Scaffold(
       body: SafeArea(
           child: switch (viewModel.state) {
         WidgetStates.idle => const CircularProgressIndicator(),
         WidgetStates.loading => const CircularProgressIndicator(),
         WidgetStates.ready => Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: <Widget>[
               const Padding(padding: EdgeInsetsGeometry.only(top: 25)),
               topContainer(context, viewModel),
               const CustomDivider(),
@@ -144,10 +142,10 @@ class Book extends StatelessWidget {
                       padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           color: AppColors.yellow,
-                          borderRadius: BorderRadius.circular(10)),
+                          borderRadius: BorderRadius.circular(10),),
                       child: Center(
                           child: Text(
-                              AppLocalizations.of(context)!.book_edit_mode)),
+                              AppLocalizations.of(context)!.book_edit_mode,),),
                     )
                   : Container(),
               recipeList(context, viewModel),
@@ -155,13 +153,13 @@ class Book extends StatelessWidget {
           ),
         WidgetStates.error => const Text("Error"),
         WidgetStates.dispose => const Text("Dispose"),
-      }),
+      },),
       floatingActionButton: CustomButton(
           iconSize: 32,
           text: "back",
           onPressed: () {
             Navigator.of(context).pop();
-          }),
+          },),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }

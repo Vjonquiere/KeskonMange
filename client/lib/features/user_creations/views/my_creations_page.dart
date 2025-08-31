@@ -19,13 +19,13 @@ class MyCreationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyCreationViewModel viewModel = Provider.of<MyCreationViewModel>(context);
+    final MyCreationViewModel viewModel = Provider.of<MyCreationViewModel>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            tabs: [
+            tabs: <Widget>[
               Tab(
                 text: AppLocalizations.of(context)!.recipe_books,
               ),
@@ -37,7 +37,7 @@ class MyCreationsPage extends StatelessWidget {
           title: title(context),
         ),
         body: TabBarView(
-          children: [
+          children: <Widget>[
             recipeBooksTab(context, viewModel),
             recipesTab(context),
           ],
@@ -48,7 +48,7 @@ class MyCreationsPage extends StatelessWidget {
 
   Widget recipeBooksTab(BuildContext context, MyCreationViewModel viewModel) {
     return Column(
-      children: [
+      children: <Widget>[
         const SizedBox(height: 10.0),
         switch (viewModel.state) {
           WidgetStates.idle => const CircularProgressIndicator(),
@@ -58,7 +58,7 @@ class MyCreationsPage extends StatelessWidget {
               child: ListView.builder(
                   itemCount: viewModel.booksCount,
                   itemBuilder: (context, index) => BookPreviewWidget(
-                      viewModel.books[index], viewModel.getUserBooks))),
+                      viewModel.books[index], viewModel.getUserBooks,),),),
           WidgetStates.error => const Text("Error"),
         },
         const SizedBox(height: 10.0),
@@ -68,7 +68,7 @@ class MyCreationsPage extends StatelessWidget {
                 .push(MaterialPageRoute(
                     builder: (context) => ChangeNotifierProvider(
                         create: (context) => NewBookViewModel(),
-                        child: const NewBookPage())))
+                        child: const NewBookPage(),),),)
                 .then((res) => viewModel.getUserBooks());
           },
           child: const Icon(Icons.add),
@@ -81,9 +81,9 @@ class MyCreationsPage extends StatelessWidget {
   Widget title(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
+      children: <Widget>[
         ColorfulTextBuilder(
-                AppLocalizations.of(context)!.my_creations, 30, true)
+                AppLocalizations.of(context)!.my_creations, 30, true,)
             .getWidget(),
         IconButton(
           onPressed: () {},
@@ -91,14 +91,14 @@ class MyCreationsPage extends StatelessWidget {
             AppIcons.getIcon("help"),
             width: 32,
           ),
-        )
+        ),
       ],
     );
   }
 
   Widget recipesTab(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         const SizedBox(height: 10.0),
         CustomButton(
           text: "add",
@@ -106,7 +106,7 @@ class MyCreationsPage extends StatelessWidget {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
                     create: (context) => NewRecipeViewModel(),
-                    child: const NewRecipePage())));
+                    child: const NewRecipePage(),),),);
           },
           iconSize: 32,
         ),

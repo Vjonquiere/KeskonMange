@@ -23,7 +23,7 @@ class RecipeStep extends State<RecipeStepPage> {
         title: const Text("New recipe step"),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
@@ -32,7 +32,6 @@ class RecipeStep extends State<RecipeStepPage> {
             ),
           ),
           Flexible(
-            flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
@@ -46,17 +45,17 @@ class RecipeStep extends State<RecipeStepPage> {
                       borderSide: BorderSide(
                     color: AppColors.blue,
                     width: 10.0,
-                  )),
+                  ),),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                     color: AppColors.orange,
                     width: 5.0,
-                  )),
+                  ),),
                   focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                     color: AppColors.blue,
                     width: 6.0,
-                  )),
+                  ),),
                 ),
               ),
             ),
@@ -65,24 +64,24 @@ class RecipeStep extends State<RecipeStepPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: <Widget>[
                   IconButton(
-                      onPressed: () => {Navigator.of(context).pop()},
+                      onPressed: () => <void>{Navigator.of(context).pop()},
                       icon: const Icon(
                         Icons.close,
                         color: AppColors.orange,
-                      )),
+                      ),),
                   IconButton(
-                      onPressed: () => {
+                      onPressed: () => <void>{
                             Navigator.of(context).pop(st.Step(
-                                _titleController.text, _stepController.text))
+                                _titleController.text, _stepController.text,),),
                           },
                       icon: const Icon(
                         Icons.check,
                         color: AppColors.green,
-                      )),
-                ]),
-          )
+                      ),),
+                ],),
+          ),
         ],
       ),
     );

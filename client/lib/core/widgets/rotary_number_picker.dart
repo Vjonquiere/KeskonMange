@@ -35,15 +35,15 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount = widget.maxValue - widget.minValue + 1;
+    final int itemCount = widget.maxValue - widget.minValue + 1;
 
     return Stack(
       alignment: Alignment.center,
-      children: [
+      children: <Widget>[
         Container(
           decoration: BoxDecoration(
               border: Border.all(color: AppColors.green, width: 2),
-              borderRadius: BorderRadius.circular(20)),
+              borderRadius: BorderRadius.circular(20),),
           height: 150,
           width: 80,
           child: ListWheelScrollView.useDelegate(
@@ -57,7 +57,7 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
             childDelegate: ListWheelChildBuilderDelegate(
               builder: (context, index) {
                 if (index < 0 || index >= itemCount) return null;
-                final value = widget.minValue + index;
+                final int value = widget.minValue + index;
                 return Center(
                   child: Text(
                     value.toString(),

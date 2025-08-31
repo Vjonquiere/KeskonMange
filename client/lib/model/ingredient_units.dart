@@ -46,11 +46,11 @@ enum UnitCategory {
   special,
 }
 
-Map<String, Unit> units = {
+Map<String, Unit> units = <String, Unit>{
   "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle),
   "volume": Unit(UnitCategory.volume, VolumeUnits.Gallon),
   "weight": Unit(UnitCategory.weight, WeightUnits.Gram),
-  "special": Unit(UnitCategory.special, SpecialUnits.EggSizes)
+  "special": Unit(UnitCategory.special, SpecialUnits.EggSizes),
 };
 
 class Unit {

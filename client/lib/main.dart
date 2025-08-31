@@ -22,7 +22,7 @@ class KeskonMangeApp extends StatelessWidget {
     return FutureBuilder<MockRepositoriesSampleLoad>(
       future: RepositoriesManager().currentlyUsingMockRepositories
           ? MockRepositoriesSampleLoad.create()
-          : Future.value(null),
+          : Future.value(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
@@ -30,13 +30,13 @@ class KeskonMangeApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'KeskonMange',
-          localizationsDelegates: const [
+          localizationsDelegates: const <LocalizationsDelegate>[
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
+          supportedLocales: const <Locale>[
             Locale('en'),
             Locale('fr', 'FR'),
           ],

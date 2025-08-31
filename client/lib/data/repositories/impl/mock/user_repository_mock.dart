@@ -34,7 +34,7 @@ class UserRepositoryMock extends UserRepository {
 
   @override
   Future<List<Allergen>> getUserAllergens() async {
-    if (_current == null) return [];
+    if (_current == null) return <Allergen>[];
     return _current!.allergens;
   }
 

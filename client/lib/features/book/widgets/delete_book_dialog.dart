@@ -14,7 +14,7 @@ class DeleteBookDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         ColorfulTextBuilder(AppLocalizations.of(context)!.book_delete, 25, true)
             .getWidget(),
         Padding(
@@ -23,7 +23,7 @@ class DeleteBookDialog extends StatelessWidget {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             CustomButton(
               text: "back",
               onPressed: () {
@@ -45,7 +45,7 @@ class DeleteBookDialog extends StatelessWidget {
         ),
         const SizedBox(
           height: 20,
-        )
+        ),
       ],
     );
   }

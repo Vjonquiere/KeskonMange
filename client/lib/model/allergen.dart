@@ -15,7 +15,7 @@ enum Allergen {
   milk;
 
   factory Allergen.fromString(String allergenString) {
-    for (final allergen in Allergen.values) {
+    for (final Allergen allergen in Allergen.values) {
       if (allergen.toString() == allergenString) return allergen;
     }
     throw Exception("$allergenString isn't an known allergen");

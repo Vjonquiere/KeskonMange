@@ -21,7 +21,7 @@ class NumberPicker extends StatelessWidget {
       required this.onValueChanged,
       this.initialValue = 5,
       this.maxValue = 10,
-      this.minValue = 1});
+      this.minValue = 1,});
 
   @override
   Widget build(BuildContext context) {

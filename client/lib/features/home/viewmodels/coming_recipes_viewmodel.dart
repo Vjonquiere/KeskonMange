@@ -6,7 +6,7 @@ import '../../../data/repositories/repositories_manager.dart';
 import '../../../data/usecases/get_recipe_from_id_use_case.dart';
 
 class ComingRecipesViewModel extends ViewModel {
-  List<RecipePreview> _recipes = [];
+  List<RecipePreview> _recipes = <RecipePreview>[];
 
   List<RecipePreview> get recipes => _recipes;
 
@@ -16,11 +16,11 @@ class ComingRecipesViewModel extends ViewModel {
 
   Future<void> getRecipes() async {
     //recipes = await RepositoriesManager().getCalendarRepository().getNextPlannedRecipes(3);
-    var ids = [1, 2, 3];
-    List<RecipePreview> recipes = [];
-    for (var id = 0; id < ids.length; id++) {
-      RecipePreview? recipe = await GetRecipeFromIdUseCase(
-              RepositoriesManager().getRecipeRepository(), ids[id])
+    final List<int> ids = <int>[1, 2, 3];
+    final List<RecipePreview> recipes = <RecipePreview>[];
+    for (int id = 0; id < ids.length; id++) {
+      final RecipePreview? recipe = await GetRecipeFromIdUseCase(
+              RepositoriesManager().getRecipeRepository(), ids[id],)
           .execute();
       if (recipe != null) recipes.add(recipe);
     }

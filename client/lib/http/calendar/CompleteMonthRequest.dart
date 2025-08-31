@@ -9,6 +9,6 @@ class CompleteMonthRequest extends HttpRequest {
   Future<int> send() async {
     return (await super.process(RequestMode.get, "calendar/completeMonth",
         queryParameters: <String, String>{"previous": _previous.toString()},
-        authNeeded: true));
+        authNeeded: true,));
   }
 }

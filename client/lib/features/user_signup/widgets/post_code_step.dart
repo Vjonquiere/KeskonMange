@@ -11,7 +11,7 @@ class PostCodeStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    PostCodeViewModel viewModel = Provider.of<PostCodeViewModel>(context);
+    final PostCodeViewModel viewModel = Provider.of<PostCodeViewModel>(context);
     return Column(children: <Widget>[
       Column(
         children: <Widget>[
@@ -31,9 +31,9 @@ class PostCodeStep extends StatelessWidget {
         ),
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
+          FilteringTextInputFormatter.digitsOnly,
         ],
       ),
-    ]);
+    ],);
   }
 }

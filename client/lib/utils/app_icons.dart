@@ -61,7 +61,7 @@ class AppIcons {
       'assets/icons/place_holder_square.png';
 
   // A map to store icon references for easy lookup
-  static const Map<String, String> _iconMap = {
+  static const Map<String, String> _iconMap = <String, String>{
     // Basic icons
     'search': search,
     'add': add,

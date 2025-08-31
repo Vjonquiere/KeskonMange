@@ -19,20 +19,20 @@ abstract class HttpRequest {
   }
 
   Future<int> process(RequestMode mode, String route,
-      {Map<String, String> queryParameters = const {},
-      Map<String, Object> body = const {},
-      bool authNeeded = false}) async {
+      {Map<String, String> queryParameters = const <String, String>{},
+      Map<String, Object> body = const <String, Object>{},
+      bool authNeeded = false,}) async {
     try {
-      var url = Uri.https(Config().serverUrl, route, queryParameters);
+      final Uri url = Uri.https(Config().serverUrl, route, queryParameters);
       http.Response response;
       switch (mode) {
         case RequestMode.get:
           response = await http.get(url,
-              headers: authNeeded ? Authentication().httpHeader() : null);
+              headers: authNeeded ? Authentication().httpHeader() : null,);
         case RequestMode.post:
           response = await http.post(url,
               headers: authNeeded ? Authentication().httpHeader() : null,
-              body: body);
+              body: body,);
       }
       _body = response.body;
       if (kDebugMode) {

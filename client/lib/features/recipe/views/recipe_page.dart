@@ -19,7 +19,7 @@ class _RecipePageState extends State<RecipePage> {
     return Container(
       color: AppColors.white, // Set the background color
       child: Column(
-        children: [
+        children: <Widget>[
           ColorfulTextBuilder(widget.recipe.title, 30).getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(

@@ -19,12 +19,12 @@ class NewRecipeViewModel extends ViewModel {
   int _currentIndex = 0;
   double _progressBarValue = 0.0;
 
-  late final List<StateViewModel> _steps = [
+  late final List<StateViewModel> _steps = <StateViewModel>[
     _generalInformationViewModel,
     _ingredientsViewModel,
     _ingredientQuantitiesViewModel,
     _recipeStepViewModel,
-    _recipeReviewViewModel
+    _recipeReviewViewModel,
   ];
 
   int get currentStep => _currentIndex;
@@ -35,7 +35,7 @@ class NewRecipeViewModel extends ViewModel {
     if (await (_steps[_currentIndex].isValid())) {
       if (_currentIndex == 1) {
         _ingredientQuantitiesViewModel.setIngredients(
-            _ingredientsViewModel.getSelectedIngredientsClone());
+            _ingredientsViewModel.getSelectedIngredientsClone(),);
       }
       if (_currentIndex == 3) {
         _recipeReviewViewModel.setRecipe(Recipe(
@@ -56,10 +56,10 @@ class NewRecipeViewModel extends ViewModel {
                 16,
                 20,
                 -1,
-                1),
+                1,),
             _ingredientQuantitiesViewModel.values,
             _generalInformationViewModel.portions,
-            _recipeStepViewModel.steps));
+            _recipeStepViewModel.steps,),);
       }
       _currentIndex++;
       _progressBarValue = _currentIndex / _steps.length;

@@ -15,7 +15,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LoginPageViewModel viewModel = Provider.of<LoginPageViewModel>(context);
+    final LoginPageViewModel viewModel = Provider.of<LoginPageViewModel>(context);
     return Scaffold(
         body: SafeArea(
             child: switch (viewModel.state) {
@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
       WidgetStates.ready => loginPage(context, viewModel),
       WidgetStates.error => const Text("Error"),
       WidgetStates.dispose => const Text("dispose"),
-    }));
+    },),);
   }
 
   Widget loginPage(BuildContext context, LoginPageViewModel viewModel) {
@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly,
             ],
           ),
 
@@ -84,7 +84,7 @@ class LoginPage extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChangeNotifierProvider(
                           create: (context) => SignupViewModel(),
-                          child: const SignupPage())));
+                          child: const SignupPage(),),),);
                 },
               ),
             if (viewModel.signInPressed)

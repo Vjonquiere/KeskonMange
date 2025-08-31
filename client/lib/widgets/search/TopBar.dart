@@ -12,12 +12,11 @@ class TopBar extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: const BoxDecoration(
-          shape: BoxShape.rectangle,
           color: AppColors.beige,
-          borderRadius: BorderRadius.all(Radius.circular(10))),
+          borderRadius: BorderRadius.all(Radius.circular(10)),),
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Row(
-        children: [
+        children: <Widget>[
           //Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
           CircleAvatar(
             backgroundColor: AppColors.green,

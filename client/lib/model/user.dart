@@ -10,11 +10,11 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'email': String email,
-        'username': String username,
-        'allergens': List<dynamic> allergens
+        'email': final String email,
+        'username': final String username,
+        'allergens': final List<dynamic> allergens
       } =>
-        User(email, username, []), // TODO: allergens
+        User(email, username, <Allergen>[]), // TODO: allergens
       _ => throw const FormatException('Failed to load user.')
     };
   }

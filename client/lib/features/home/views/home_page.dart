@@ -32,29 +32,29 @@ class HomePage extends StatelessWidget {
             color: AppColors.green,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 CustomButton(
                     iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const UserPage()));
+                          MaterialPageRoute(builder: (context) => const UserPage()),);
                     },
-                    text: 'pen'),
+                    text: 'pen',),
                 CustomButton(
                     iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                               create: (context) => MyCreationViewModel(),
-                              child: const MyCreationsPage())));
+                              child: const MyCreationsPage(),),),);
                     },
-                    text: 'book'),
+                    text: 'book',),
                 FloatingActionButton(
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ChangeNotifierProvider(
                             create: (context) => SearchPageViewModel(),
-                            child: const SearchPage())));
+                            child: const SearchPage(),),),);
                   },
                   child: SvgPicture.asset(AppIcons.getIcon('search')),
                 ),
@@ -66,13 +66,13 @@ class HomePage extends StatelessWidget {
                                 create: (context) =>
                                     IngredientCreationViewModel(),
                                 child: const IngredientCreation(),
-                              )));
+                              ),),);
 
                       /*
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PlannedRecipesPage()));*/
                     },
-                    text: 'upload'),
+                    text: 'upload',),
                 CustomButton(
                     iconSize: 32,
                     onPressed: () {
@@ -80,35 +80,35 @@ class HomePage extends StatelessWidget {
                           builder: (context) => ChangeNotifierProvider(
                                 create: (context) => CalendarViewModel(),
                                 child: const CalendarPage(),
-                              )));
+                              ),),);
                     },
-                    text: 'calendar'),
+                    text: 'calendar',),
               ],
             ),
           ),
           body: SafeArea(
             child: ListView(
-              children: [
+              children: <Widget>[
                 home(context),
               ],
             ),
-          )),
+          ),),
     );
   }
 
   Widget home(context) {
     return Center(
       child: Column(
-        children: [
+        children: <Widget>[
           ChangeNotifierProvider(
-              create: (context) => TodayMealViewModel(), child: const TodayMeal()),
+              create: (context) => TodayMealViewModel(), child: const TodayMeal(),),
           const CustomDivider(important: true, color: AppColors.pink),
           Center(
             child: ChangeNotifierProvider(
               create: (context) => ComingRecipesViewModel(),
               child: const ComingRecipes(),
             ),
-          )
+          ),
         ],
       ),
     );

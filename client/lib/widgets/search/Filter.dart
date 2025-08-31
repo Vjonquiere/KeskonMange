@@ -12,7 +12,7 @@ class Filter extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(left: 30),
       child: Row(
-        children: [
+        children: <Widget>[
           SvgPicture.asset(
             AppIcons.getIcon("toDoList"),
             width: 40,
@@ -22,7 +22,7 @@ class Filter extends StatelessWidget {
           const Text(
             "Filter by",
             style: TextStyle(color: AppColors.blue, fontSize: 17),
-          )
+          ),
         ],
       ),
     );

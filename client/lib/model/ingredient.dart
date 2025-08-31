@@ -15,22 +15,22 @@ class Ingredient {
   factory Ingredient.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': int id,
-        'name': String name,
-        'units': List<dynamic> units,
+        'id': final int id,
+        'name': final String name,
+        'units': final List<dynamic> units,
       } =>
         Ingredient._(name,
-            units.map((e) => getUnitFromString(e as String)).toList(), id),
+            units.map((e) => getUnitFromString(e as String)).toList(), id,),
       {
-        'id': int id,
-        'name': String name,
+        'id': final int id,
+        'name': final String name,
       } =>
         Ingredient._(
-            name, [Unit(UnitCategory.special, SpecialUnits.EggSizes)], id),
+            name, <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)], id,),
       {
-        'name': String name,
+        'name': final String name,
       } =>
-        Ingredient(name, [Unit(UnitCategory.special, SpecialUnits.EggSizes)]),
+        Ingredient(name, <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)]),
       _ => throw const FormatException('Failed to load ingredient.'),
     };
   }

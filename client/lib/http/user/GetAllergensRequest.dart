@@ -6,10 +6,10 @@ class GetAllergensRequest extends HttpRequest {
   GetAllergensRequest();
 
   List<Allergen> getAllergens() {
-    List<Allergen> reqAllergens = [];
+    final List<Allergen> reqAllergens = <Allergen>[];
     switch (getJsonBody()) {
       case {
-          'allergens': List<String> allergens,
+          'allergens': final List<String> allergens,
         }:
         for (String allergen in allergens) {
           reqAllergens.add(Allergen.fromString(allergen));
@@ -22,8 +22,8 @@ class GetAllergensRequest extends HttpRequest {
   Future<int> send() async {
     return (await super.process(RequestMode.get, 'user/allergens',
         queryParameters: <String, String>{
-          "email": Authentication().getCredentials().email
+          "email": Authentication().getCredentials().email,
         },
-        authNeeded: true));
+        authNeeded: true,));
   }
 }

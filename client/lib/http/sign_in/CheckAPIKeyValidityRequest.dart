@@ -8,6 +8,6 @@ class CheckAPIKeyValidityRequest extends HttpRequest {
   @override
   Future<int> send() async {
     return (await super.process(RequestMode.post, 'auth/test',
-        queryParameters: <String, String>{"email": _email, "api_key": _token}));
+        queryParameters: <String, String>{"email": _email, "api_key": _token},));
   }
 }

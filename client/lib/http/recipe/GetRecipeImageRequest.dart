@@ -9,7 +9,7 @@ class GetRecipeImageRequest extends HttpRequest {
   @override
   Future<int> send() {
     return super.process(RequestMode.get, "/recipe/image",
-        queryParameters: {"recipeId": _recipeId.toString(), "format": _format},
-        authNeeded: true);
+        queryParameters: <String, String>{"recipeId": _recipeId.toString(), "format": _format},
+        authNeeded: true,);
   }
 }

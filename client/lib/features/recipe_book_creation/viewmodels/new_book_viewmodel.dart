@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 class NewBookViewModel extends ViewModel {
   final TextEditingController _titleController = TextEditingController();
   bool _public = true;
-  List<RecipePreview> _searchedRecipes = [];
-  final List<int> _selectedRecipes = [];
+  List<RecipePreview> _searchedRecipes = <RecipePreview>[];
+  final List<int> _selectedRecipes = <int>[];
 
   TextEditingController get titleController => _titleController;
   bool get public => _public;
@@ -25,8 +25,8 @@ class NewBookViewModel extends ViewModel {
   }
 
   Future<bool> pushBook() async {
-    int bookId = await RepositoriesManager().getBookRepository().createNewBook(
-        BookPreview(-1, _titleController.text, DateTime.now(), -1, _public));
+    final int bookId = await RepositoriesManager().getBookRepository().createNewBook(
+        BookPreview(-1, _titleController.text, DateTime.now(), -1, _public),);
     for (int id in _selectedRecipes) {
       await RepositoriesManager()
           .getBookRepository()

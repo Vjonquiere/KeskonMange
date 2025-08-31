@@ -12,7 +12,7 @@ class RecipeStepsWriting extends StatelessWidget {
   const RecipeStepsWriting({super.key});
 
   void addStep(BuildContext context, RecipeStepViewModel viewModel) async {
-    st.Step? stepValue = await Navigator.of(context)
+    final st.Step? stepValue = await Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => const RecipeStepPage()));
     if (stepValue != null && stepValue.stepText != "") {
       debugPrint(stepValue.toString());

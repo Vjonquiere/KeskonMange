@@ -8,6 +8,6 @@ class CreateNewBookRequest extends HttpRequest {
   Future<int> send() async {
     return (await super.process(RequestMode.post, 'books/create',
         queryParameters: <String, String>{"name": _bookName},
-        authNeeded: true));
+        authNeeded: true,));
   }
 }

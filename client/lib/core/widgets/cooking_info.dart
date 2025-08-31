@@ -23,7 +23,7 @@ class CookingInfo extends StatelessWidget {
     switch (iconName) {
       case "timer":
         return Row(
-          children: [
+          children: <Widget>[
             SvgPicture.asset(
               AppIcons.getIcon("timer"),
               width: 32,
@@ -31,7 +31,7 @@ class CookingInfo extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 //TODO: link this to the next recipe
                 Text(AppLocalizations.of(context)!.preparation_time(10)),
                 Text(AppLocalizations.of(context)!.cooking_time(15)),
@@ -42,7 +42,7 @@ class CookingInfo extends StatelessWidget {
 
       case "bell":
         return Row(
-          children: [
+          children: <Widget>[
             SvgPicture.asset(
               AppIcons.getIcon("bell"),
               width: 32,
@@ -50,9 +50,9 @@ class CookingInfo extends StatelessWidget {
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(AppLocalizations.of(context)!.planning_meal_time(
-                    const TimeOfDay(hour: 20, minute: 30).format(context))),
+                    const TimeOfDay(hour: 20, minute: 30).format(context),),),
                 Text(AppLocalizations.of(context)!.planning_start_cooking(50)),
               ],
             ),

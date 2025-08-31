@@ -32,19 +32,19 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
+    final SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
     Widget content;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.signupFinalized) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
               builder: (_) => ChangeNotifierProvider(
-                  create: (context) => HomePageViewModel(), child: const HomePage())),
+                  create: (context) => HomePageViewModel(), child: const HomePage(),),),
         );
         return;
       }
       if (viewModel.isStepStateError) {
-        String? message = viewModel.currentStepErrorMessage;
+        final String? message = viewModel.currentStepErrorMessage;
         if (message != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -102,7 +102,7 @@ class _SignupPageState extends State<SignupPage> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 ColorfulTextBuilder(
-                        AppLocalizations.of(context)!.sign_up_title, 50, true)
+                        AppLocalizations.of(context)!.sign_up_title, 50, true,)
                     .getWidget(),
               ],
             ),
@@ -122,7 +122,7 @@ class _SignupPageState extends State<SignupPage> {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChangeNotifierProvider(
                           create: (context) => HomePageViewModel(),
-                          child: const HomePage())));
+                          child: const HomePage(),),),);
                 }
               },
             ),

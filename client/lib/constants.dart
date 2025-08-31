@@ -1,4 +1,4 @@
-final List<String> allergens = [
+final List<String> allergens = <String>[
   "Gluten",
   "Fish",
   "Peanuts",
@@ -12,5 +12,5 @@ final List<String> allergens = [
   "Crustaceans",
   "Soy",
   "Nuts",
-  "Milk"
+  "Milk",
 ];

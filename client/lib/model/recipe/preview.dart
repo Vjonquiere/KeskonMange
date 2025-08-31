@@ -34,28 +34,28 @@ class RecipePreview {
       this.restTime,
       this.cookTime,
       this.owner,
-      this.public);
+      this.public,);
 
   factory RecipePreview.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': int id,
-        'title': String title,
-        'type': String type,
-        'difficulty': int difficulty,
-        'cost': int cost,
-        'vegetarian': int vegetarian,
-        'vegan': int vegan,
-        'hasGluten': int hasGluten,
-        'hasLactose': int hasLactose,
-        'hasPork': int hasPork,
-        'salty': int salty,
-        'sweet': int sweet,
-        'preparation': int preparation,
-        'rest': int rest,
-        'cook': int cook,
-        'owner': int owner,
-        'public': int public
+        'id': final int id,
+        'title': final String title,
+        'type': final String type,
+        'difficulty': final int difficulty,
+        'cost': final int cost,
+        'vegetarian': final int vegetarian,
+        'vegan': final int vegan,
+        'hasGluten': final int hasGluten,
+        'hasLactose': final int hasLactose,
+        'hasPork': final int hasPork,
+        'salty': final int salty,
+        'sweet': final int sweet,
+        'preparation': final int preparation,
+        'rest': final int rest,
+        'cook': final int cook,
+        'owner': final int owner,
+        'public': final int public
       } =>
         RecipePreview(
             id,
@@ -74,7 +74,7 @@ class RecipePreview {
             rest,
             cook,
             owner,
-            public),
+            public,),
       _ => throw const FormatException('Failed to load recipe.'),
     };
   }

@@ -3,7 +3,7 @@ import 'package:client/features/ingredient_creation/model/Ingredient_category.da
 class CerealStarchesCategory implements IngredientCategory {
   @override
   List<String> getSubCategories() {
-    return ["cereal", "starches"];
+    return <String>["cereal", "starches"];
   }
 
   @override

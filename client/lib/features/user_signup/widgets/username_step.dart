@@ -10,7 +10,7 @@ class UsernameStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UsernameViewModel viewModel = Provider.of<UsernameViewModel>(context);
+    final UsernameViewModel viewModel = Provider.of<UsernameViewModel>(context);
     return Column(children: <Widget>[
       Column(
         children: <Widget>[
@@ -27,6 +27,6 @@ class UsernameStep extends StatelessWidget {
           labelText: AppLocalizations.of(context)!.username,
         ),
       ),
-    ]);
+    ],);
   }
 }

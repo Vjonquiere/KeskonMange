@@ -49,12 +49,12 @@ class NewRecipePage extends StatelessWidget {
       case 3:
         content = ChangeNotifierProvider.value(
             value: (viewModel.currentStepViewModel as RecipeStepViewModel),
-            child: const RecipeStepsWriting());
+            child: const RecipeStepsWriting(),);
         break;
       case 4:
         content = ChangeNotifierProvider.value(
             value: (viewModel.currentStepViewModel as RecipeReviewViewModel),
-            child: const RecipeReview());
+            child: const RecipeReview(),);
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -105,17 +105,17 @@ class NewRecipePage extends StatelessWidget {
     if (viewModel.currentStep == 0) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+        children: <Widget>[
           CustomButton(
               text: "GO BACK",
               onPressed: () {
                 Navigator.of(context).pop(
-                    MaterialPageRoute(builder: (context) => const MyCreationsPage()));
-              }),
+                    MaterialPageRoute(builder: (context) => const MyCreationsPage()),);
+              },),
           CustomButton(
             text: "NEXT",
             onPressed: viewModel.nextStep,
-          )
+          ),
         ],
       );
     }
@@ -123,25 +123,25 @@ class NewRecipePage extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         //TODO: add actions to buttons
-        children: [
+        children: <Widget>[
           CustomButton(text: "MODIFY", onPressed: viewModel.previousStep),
           CustomButton(
             text: "PUBLISH",
             onPressed: () {},
             color: AppColors.pink,
           ),
-          CustomButton(text: "DELETE", onPressed: () {})
+          CustomButton(text: "DELETE", onPressed: () {}),
         ],
       );
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
+      children: <Widget>[
         CustomButton(
           text: "PREVIOUS",
           onPressed: viewModel.previousStep,
         ),
-        CustomButton(text: "NEXT", onPressed: viewModel.nextStep)
+        CustomButton(text: "NEXT", onPressed: viewModel.nextStep),
       ],
     );
   }

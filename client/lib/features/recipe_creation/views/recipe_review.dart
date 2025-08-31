@@ -13,23 +13,22 @@ class RecipeReview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RecipeReviewViewModel viewModel =
+    final RecipeReviewViewModel viewModel =
         Provider.of<RecipeReviewViewModel>(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Row(
-          children: [
+          children: <Widget>[
             const Text(
               "Recipe name:",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(viewModel.recipePreview.title)
+            Text(viewModel.recipePreview.title),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             Card.filled(
               color: AppColors.beige,
               elevation: 2,
@@ -47,9 +46,9 @@ class RecipeReview extends StatelessWidget {
           ],
         ),
         Row(
-          children: [
+          children: <Widget>[
             SvgPicture.asset(AppIcons.getIcon("list"), width: 48),
-            Text("For ${viewModel.portions} persons:")
+            Text("For ${viewModel.portions} persons:"),
           ],
         ),
         Wrap(
@@ -60,12 +59,12 @@ class RecipeReview extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: IngredientReviewCard(
                         viewModel.ingredients.keys.elementAt(index).name,
-                        "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}"),
-                  )),
+                        "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}",),
+                  ),),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             SvgPicture.asset(AppIcons.getIcon("prep"), width: 48),
             const SizedBox(
               width: 10,
@@ -77,12 +76,12 @@ class RecipeReview extends StatelessWidget {
                   viewModel.steps.length,
                   (int index) => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "Step $index: ${viewModel.steps[index].title}",
                             style: const TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: AppColors.orange),
+                                color: AppColors.orange,),
                             textAlign: TextAlign.start,
                           ),
                           Text(
@@ -92,10 +91,10 @@ class RecipeReview extends StatelessWidget {
                             textAlign: TextAlign.start,
                           ),
                         ],
-                      )),
-            )),
+                      ),),
+            ),),
           ],
-        )
+        ),
       ],
     );
   }

@@ -8,11 +8,11 @@ import '../../../utils/app_colors.dart';
 import '../widgets/ingredient_card.dart';
 
 class IngredientsViewModel extends StateViewModel {
-  final List<Ingredient> _selectedIngredients = [];
-  final List<Ingredient> _searchIngredients = [];
+  final List<Ingredient> _selectedIngredients = <Ingredient>[];
+  final List<Ingredient> _searchIngredients = <Ingredient>[];
   final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
       SearchIngredientByNameUseCase(
-          RepositoriesManager().getIngredientRepository());
+          RepositoriesManager().getIngredientRepository(),);
   final TextEditingController _ingredientSearchController =
       TextEditingController();
 
@@ -38,24 +38,24 @@ class IngredientsViewModel extends StateViewModel {
   }
 
   List<IngredientCard> getSelectedIngredients() {
-    List<IngredientCard> ingredients = [];
+    final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _selectedIngredients) {
       ingredients.add(IngredientCard(
         ingredient,
-        () => {},
+        () => <dynamic, dynamic>{},
         () => removeIngredient(ingredient),
         removable: true,
         backgroundColor: AppColors.blue,
-      ));
+      ),);
     }
     return ingredients;
   }
 
   List<IngredientCard> getSearchIngredients() {
-    List<IngredientCard> ingredients = [];
+    final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _searchIngredients) {
       ingredients.add(IngredientCard(ingredient,
-          () => addIngredient(ingredient), () => removeIngredient(ingredient)));
+          () => addIngredient(ingredient), () => removeIngredient(ingredient),),);
     }
     return ingredients;
   }
@@ -67,8 +67,8 @@ class IngredientsViewModel extends StateViewModel {
   void updateDisplayedIngredients({String name = ""}) async {
     _searchIngredients.clear();
     _searchIngredientByNameUseCase.name = name;
-    List<Ingredient> result = await _searchIngredientByNameUseCase.execute();
-    for (var e in result) {
+    final List<Ingredient> result = await _searchIngredientByNameUseCase.execute();
+    for (Ingredient e in result) {
       if (!_selectedIngredients.contains(e)) {
         _searchIngredients.add(e);
       }

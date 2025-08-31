@@ -13,9 +13,9 @@ import '../../../http/authentication.dart';
 import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
 
 class LoginPageViewModel extends ViewModel {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _storage = const FlutterSecureStorage(); // Where API key is stored
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage(); // Where API key is stored
 
   bool _signInPressed = false;
   late int _userLogged;
@@ -37,7 +37,7 @@ class LoginPageViewModel extends ViewModel {
 
   Future<void> isUserLogged() async {
     _userLogged = await CheckApiKeyValidityUseCase(
-            RepositoriesManager().getUserRepository())
+            RepositoriesManager().getUserRepository(),)
         .execute();
     setStateValue(WidgetStates.ready);
     notifyListeners();
@@ -58,18 +58,18 @@ class LoginPageViewModel extends ViewModel {
     _hasError = false;
     if (_emailController.text == "") return;
     if (signInPressed) {
-      var verifyCode = VerifyAuthenticationCodeRequest(
-          _emailController.text, _passwordController.text);
+      final VerifyAuthenticationCodeRequest verifyCode = VerifyAuthenticationCodeRequest(
+          _emailController.text, _passwordController.text,);
       if (!(await verifyCode.send() == 200)) {
         _hasError = true;
         _errorMessage = verifyCode.getBody();
         notifyListeners();
         return;
       }
-      final apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
+      final Map<String, dynamic> apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
       if (apiKey.containsKey('token') && apiKey.containsKey('username')) {
         await Authentication().updateCredentialsFromStorage(
-            apiKey["token"], _emailController.text, apiKey["username"]);
+            apiKey["token"], _emailController.text, apiKey["username"],);
         await Authentication().refreshCredentialsFromStorage();
         _userLogged = 200;
         notifyListeners();
@@ -78,7 +78,7 @@ class LoginPageViewModel extends ViewModel {
     }
     if (!(await GetAuthenticationCodeUseCase(
                 RepositoriesManager().getUserRepository(),
-                _emailController.text)
+                _emailController.text,)
             .execute() ==
         200)) {
       _hasError = true;

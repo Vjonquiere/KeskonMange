@@ -10,7 +10,7 @@ class CreateAccountRequest extends HttpRequest {
     return (await super.process(RequestMode.post, 'user/create',
         queryParameters: <String, String>{
           "email": _email,
-          "username": _username
-        }));
+          "username": _username,
+        },));
   }
 }

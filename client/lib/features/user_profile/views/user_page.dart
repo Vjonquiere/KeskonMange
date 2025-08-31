@@ -19,7 +19,7 @@ class _UserPageState extends State<UserPage> {
     return Container(
       color: AppColors.white, // Set the background color
       child: Column(
-        children: [
+        children: <Widget>[
           ColorfulTextBuilder(AppLocalizations.of(context)!.user, 30)
               .getWidget(),
           const Placeholder(color: AppColors.green),

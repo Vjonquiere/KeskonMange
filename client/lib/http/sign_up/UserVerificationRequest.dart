@@ -8,6 +8,6 @@ class UserVerificationRequest extends HttpRequest {
   @override
   Future<int> send() async {
     return (await super.process(RequestMode.post, 'user/verify',
-        queryParameters: <String, String>{"email": _email, "code": _code}));
+        queryParameters: <String, String>{"email": _email, "code": _code},));
   }
 }

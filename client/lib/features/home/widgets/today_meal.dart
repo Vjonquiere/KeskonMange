@@ -20,10 +20,10 @@ class TodayMeal extends StatelessWidget {
       WidgetStates.error => Text(AppLocalizations.of(context)!.error),
       WidgetStates.dispose => const Text("dispose"),
       WidgetStates.ready => Column(
-          children: [
+          children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
+              children: <Widget>[
                 CustomButton(
                   text: "previous",
                   onPressed: viewModel.previousRecipe,
@@ -47,7 +47,7 @@ class TodayMeal extends StatelessWidget {
                   activeColor: AppColors.green,
                 );
               }),
-            )
+            ),
           ],
         ),
     };
@@ -55,18 +55,17 @@ class TodayMeal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<TodayMealViewModel>(context);
+    final TodayMealViewModel viewModel = Provider.of<TodayMealViewModel>(context);
     return Column(
-      children: [
+      children: <Widget>[
         ColorfulTextBuilder(AppLocalizations.of(context)!.today, 35, true)
             .getWidget(),
         mainRecipes(context, viewModel),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             CookingInfo(
               recipe: "lasagne",
-              iconName: "timer",
             ),
             CookingInfo(
               recipe: "lasagne",
@@ -75,7 +74,7 @@ class TodayMeal extends StatelessWidget {
           ],
         ),
         CustomButton(
-            onPressed: () {}, text: AppLocalizations.of(context)!.letsgo)
+            onPressed: () {}, text: AppLocalizations.of(context)!.letsgo,),
       ],
     );
   }

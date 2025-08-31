@@ -8,7 +8,7 @@ import '../../../core/ViewModel.dart';
 class BookViewModel extends ViewModel {
   final int _bookId;
   late Book _book;
-  final List<RecipePreview> _recipePreviews = [];
+  final List<RecipePreview> _recipePreviews = <RecipePreview>[];
   bool _editMode = false;
 
   Book get book => _book;
@@ -23,7 +23,7 @@ class BookViewModel extends ViewModel {
   Future<void> loadBook() async {
     setStateValue(WidgetStates.loading);
     notifyListeners();
-    Book? fetchedBook =
+    final Book? fetchedBook =
         await RepositoriesManager().getBookRepository().getBook(_bookId);
     if (fetchedBook == null) return;
     _book = fetchedBook;
@@ -35,7 +35,7 @@ class BookViewModel extends ViewModel {
   Future<void> loadRecipes() async {
     _recipePreviews.clear();
     for (int recipeId in _book.recipesIds) {
-      RecipePreview? recipe = await RepositoriesManager()
+      final RecipePreview? recipe = await RepositoriesManager()
           .getRecipeRepository()
           .getRecipeFromId(recipeId);
       if (recipe != null) _recipePreviews.add(recipe);

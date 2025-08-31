@@ -18,10 +18,10 @@ class AccountVerificationStep extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 16.0),
           ColorfulTextBuilder(
-                  AppLocalizations.of(context)!.verification_finalize, 40)
+                  AppLocalizations.of(context)!.verification_finalize, 40,)
               .getWidget(),
           ColorfulTextBuilder(
-                  AppLocalizations.of(context)!.verification_code, 20)
+                  AppLocalizations.of(context)!.verification_code, 20,)
               .getWidget(),
         ],
       ),
@@ -35,9 +35,9 @@ class AccountVerificationStep extends StatelessWidget {
         ),
         keyboardType: TextInputType.number,
         inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
+          FilteringTextInputFormatter.digitsOnly,
         ],
       ),
-    ]);
+    ],);
   }
 }

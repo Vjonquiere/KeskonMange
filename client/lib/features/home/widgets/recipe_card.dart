@@ -14,9 +14,9 @@ class RecipeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double cardWidth = screenWidth * 0.8;
-    double imageWidth = cardWidth * 0.6;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double cardWidth = screenWidth * 0.8;
+    final double imageWidth = cardWidth * 0.6;
 
     return Card(
       color: AppColors.beige,
@@ -28,7 +28,7 @@ class RecipeCard extends StatelessWidget {
       child: IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Container(
               padding: const EdgeInsets.all(8.0),
               width: 60,
@@ -36,18 +36,17 @@ class RecipeCard extends StatelessWidget {
                   color: AppColors.green,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0))),
+                      bottomLeft: Radius.circular(8.0),),),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.max,
-                children: [
+                children: <Widget>[
                   //TODO: add the icons according to the recipe
                   SvgPicture.asset(AppIcons.getIcon("veggie"),
-                      width: 32, height: 32),
+                      width: 32, height: 32,),
                   SvgPicture.asset(AppIcons.getIcon("meal"),
-                      width: 32, height: 32),
+                      width: 32, height: 32,),
                   SvgPicture.asset(AppIcons.getIcon("cake"),
-                      width: 32, height: 32),
+                      width: 32, height: 32,),
                 ],
               ),
             ),
@@ -55,7 +54,7 @@ class RecipeCard extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
                     child: Image(

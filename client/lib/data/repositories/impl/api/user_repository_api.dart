@@ -18,11 +18,11 @@ import '../../../../model/allergen.dart';
 class UserRepositoryApi extends UserRepository {
   @override
   Future<String?> activateUserAccount(String email, String code) async {
-    var req = UserVerificationRequest(email, code);
+    final UserVerificationRequest req = UserVerificationRequest(email, code);
     if ((await req.send()) != 200) {
       return null;
     }
-    final apiKey = jsonDecode(req.getBody()) as Map<String, dynamic>;
+    final Map<String, dynamic> apiKey = jsonDecode(req.getBody()) as Map<String, dynamic>;
     if (apiKey.containsKey('token')) {
       return apiKey["token"];
     }
@@ -51,7 +51,7 @@ class UserRepositoryApi extends UserRepository {
 
   @override
   Future<List<Allergen>> getUserAllergens() async {
-    GetAllergensRequest req = GetAllergensRequest();
+    final GetAllergensRequest req = GetAllergensRequest();
     await req.send();
     return req.getAllergens();
   }
@@ -69,7 +69,7 @@ class UserRepositoryApi extends UserRepository {
 
   @override
   Future<int> setUserAllergens(List<Allergen> allergens) async {
-    return (await SetAllergensRequest([""])
+    return (await SetAllergensRequest(<String>[""])
         .send()); // TODO: Change allergens from String
   }
 

@@ -10,7 +10,7 @@ class EmailStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EmailViewModel viewModel = Provider.of<EmailViewModel>(context);
+    final EmailViewModel viewModel = Provider.of<EmailViewModel>(context);
     return Column(children: <Widget>[
       Column(
         children: <Widget>[
@@ -28,6 +28,6 @@ class EmailStep extends StatelessWidget {
           labelText: 'Email',
         ),
       ),
-    ]);
+    ],);
   }
 }

@@ -20,7 +20,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> {
   //TODO: internationalize the months cleanly
-  final List<String> months = [
+  final List<String> months = <String>[
     "January",
     "February",
     "March",
@@ -32,16 +32,16 @@ class _CalendarPageState extends State<CalendarPage> {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<CalendarViewModel>(context);
+    final CalendarViewModel viewModel = Provider.of<CalendarViewModel>(context);
     return Scaffold(
         body: SafeArea(
       child: Column(
-        children: [
+        children: <Widget>[
           ColorfulTextBuilder(AppLocalizations.of(context)!.calendar, 40, true)
               .getWidget(),
           switch (viewModel.state) {
@@ -51,8 +51,8 @@ class _CalendarPageState extends State<CalendarPage> {
             WidgetStates.dispose => const Text("disppose"),
             WidgetStates.ready => GestureDetector(
                 onVerticalDragEnd: (details) {
-                  double dy = details.velocity.pixelsPerSecond.dy;
-                  const swipeThreshold = 300;
+                  final double dy = details.velocity.pixelsPerSecond.dy;
+                  const int swipeThreshold = 300;
                   if (dy < -swipeThreshold) {
                     viewModel.nextMonth();
                   } else if (dy > swipeThreshold) {
@@ -60,13 +60,13 @@ class _CalendarPageState extends State<CalendarPage> {
                   }
                 },
                 child: Column(
-                  children: [
+                  children: <Widget>[
                     IconButton(
                         onPressed: viewModel.previousMonth,
                         icon: const Icon(
                           Icons.arrow_drop_up,
                           size: 50.0,
-                        )),
+                        ),),
                     Text(
                       "${months[viewModel.currentMonth.month - 1]} ${viewModel.currentMonth.year}",
                       style:
@@ -78,7 +78,7 @@ class _CalendarPageState extends State<CalendarPage> {
                         icon: const Icon(
                           Icons.arrow_drop_down,
                           size: 50.0,
-                        )),
+                        ),),
                   ],
                 ),
               ),
@@ -93,6 +93,6 @@ class _CalendarPageState extends State<CalendarPage> {
           ),
         ],
       ),
-    ));
+    ),);
   }
 }

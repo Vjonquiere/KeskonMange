@@ -9,10 +9,10 @@ class PlannedRecipe {
   factory PlannedRecipe.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        "date": String date,
-        "recipeId": int recipeId,
-        "done": int done,
-        "result_img": String resultImage,
+        "date": final String date,
+        "recipeId": final int recipeId,
+        "done": final int done,
+        "result_img": final String resultImage,
       } =>
         PlannedRecipe(date, recipeId, done, resultImage),
       _ => throw const FormatException('Failed to load PlannedRecipe.'),
@@ -29,24 +29,24 @@ class Month {
   int month;
   List<PlannedRecipe> plannedRecipes;
   List<List<int>> monthTemplate;
-  final List<String> days = ["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
+  final List<String> days = <String>["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
 
   Month(this.year, this.month, this.plannedRecipes, this.monthTemplate);
 
   factory Month.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        "year": int year,
-        "month": int month,
-        "recipes": List recipesJson,
-        "monthTemplate": List monthTemplateJson,
+        "year": final int year,
+        "month": final int month,
+        "recipes": final List recipesJson,
+        "monthTemplate": final List monthTemplateJson,
       } =>
         Month(
           year,
           month,
           recipesJson
               .map((recipe) =>
-                  PlannedRecipe.fromJson(recipe as Map<String, dynamic>))
+                  PlannedRecipe.fromJson(recipe as Map<String, dynamic>),)
               .toList(),
           monthTemplateJson.map((e) => List<int>.from(e as List)).toList(),
         ),

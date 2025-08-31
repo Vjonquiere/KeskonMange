@@ -7,27 +7,27 @@ import '../../../model/recipe/preview.dart';
 
 class TodayMealViewModel extends ViewModel {
   int _currentRecipeIndex = 0;
-  List<RecipePreview> _recipes = [];
+  List<RecipePreview> _recipes = <RecipePreview>[];
 
   int get radioButtonCount => _recipes.length;
   int get currentRadioButton => _currentRecipeIndex;
   RecipePreview get currentRecipe => _recipes[_currentRecipeIndex];
 
   TodayMealViewModel() {
-    _getRecipes([1, 2, 3]);
+    _getRecipes(<int>[1, 2, 3]);
     notifyListeners();
   }
 
   Future<RecipePreview?> _getRecipe(int id) async {
     return GetRecipeFromIdUseCase(
-            RepositoriesManager().getRecipeRepository(), id)
+            RepositoriesManager().getRecipeRepository(), id,)
         .execute();
   }
 
   void _getRecipes(List<int> ids) async {
-    List<RecipePreview> recipes = [];
-    for (var id = 0; id < ids.length; id++) {
-      RecipePreview? recipe = await _getRecipe(ids[id]);
+    final List<RecipePreview> recipes = <RecipePreview>[];
+    for (int id = 0; id < ids.length; id++) {
+      final RecipePreview? recipe = await _getRecipe(ids[id]);
       if (recipe != null) recipes.add(recipe);
     }
     _recipes = recipes;

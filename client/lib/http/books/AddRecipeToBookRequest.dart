@@ -10,8 +10,8 @@ class AddRecipeToBookRequest extends HttpRequest {
     return (await super.process(RequestMode.post, 'books/recipe/add',
         queryParameters: <String, String>{
           "bookId": _bookId.toString(),
-          "recipeId": _recipeId.toString()
+          "recipeId": _recipeId.toString(),
         },
-        authNeeded: true));
+        authNeeded: true,));
   }
 }

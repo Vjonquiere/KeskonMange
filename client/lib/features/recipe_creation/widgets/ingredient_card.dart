@@ -12,18 +12,17 @@ class IngredientCard extends StatelessWidget {
   const IngredientCard(this.ingredient, this._onClickCallback, this._removeCallback,
       {super.key,
       this.removable = false,
-      this.backgroundColor = AppColors.yellow});
+      this.backgroundColor = AppColors.yellow,});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: [
+      children: <Widget>[
         GestureDetector(
           onTap: _onClickCallback,
           child: Card.filled(
             shape: const RoundedRectangleBorder(
-                side: BorderSide.none,
-                borderRadius: BorderRadius.all(Radius.circular(5.0))),
+                borderRadius: BorderRadius.all(Radius.circular(5.0)),),
 
             //margin: EdgeInsets.symmetric(vertical: 1.0, horizontal: 2.0 ),
             color: backgroundColor,
@@ -43,12 +42,12 @@ class IngredientCard extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(5.0),
                   decoration: const BoxDecoration(
-                      shape: BoxShape.circle, color: AppColors.orange),
+                      shape: BoxShape.circle, color: AppColors.orange,),
 
                   //alignment: Alignment.topLeft,
                   child: const Text("x"),
                 ),
-              ))
+              ),),
       ],
     );
   }

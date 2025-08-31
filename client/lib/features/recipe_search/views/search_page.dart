@@ -19,12 +19,12 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    SearchPageViewModel viewModel = Provider.of<SearchPageViewModel>(context);
+    final SearchPageViewModel viewModel = Provider.of<SearchPageViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const Padding(padding: EdgeInsets.only(top: 20)),
             const TopBar(),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
@@ -38,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
                   child: ListView.builder(
                     itemCount: viewModel.recipesCount,
                     itemBuilder: (context, index) {
-                      RecipePreview recipe = viewModel.getRecipe(index);
+                      final RecipePreview recipe = viewModel.getRecipe(index);
                       return Recipe(
                         recipe.title,
                         "",

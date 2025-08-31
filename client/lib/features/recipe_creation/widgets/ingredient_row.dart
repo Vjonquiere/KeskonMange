@@ -19,19 +19,19 @@ class IngredientRow extends StatelessWidget {
     if (_ingredients.isEmpty && _searchForIngredients) {
       return noIngredientsFound(context);
     }
-    List<Row> rows = [];
+    final List<Row> rows = <Row>[];
     bool isThreeRow = false;
     for (int i = 0; i < _ingredients.length;) {
-      List<IngredientCard> currentRow = [];
+      final List<IngredientCard> currentRow = <IngredientCard>[];
       currentRow.addAll(_ingredients.getRange(
           i,
           isThreeRow
               ? min(i + 3, _ingredients.length)
-              : min(i + 4, _ingredients.length)));
+              : min(i + 4, _ingredients.length),),);
       rows.add(Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: currentRow,
-      ));
+      ),);
       i = i + (isThreeRow ? 3 : 4);
       isThreeRow = !isThreeRow;
     }
@@ -42,7 +42,7 @@ class IngredientRow extends StatelessWidget {
   Widget noIngredientsFound(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         const Text("Ouch... It seems like no ingredient was found!"),
         CustomButton(
             text: "Add it!",
@@ -50,8 +50,8 @@ class IngredientRow extends StatelessWidget {
                 builder: (context) => ChangeNotifierProvider(
                       create: (context) => IngredientCreationViewModel(),
                       child: const IngredientCreation(),
-                    ))),
-            color: AppColors.yellow)
+                    ),),),
+            color: AppColors.yellow,),
       ],
     );
     return const Center(

@@ -13,7 +13,7 @@ class ComingRecipes extends StatelessWidget {
 
   Widget _homeRecipePreview(rpModel.RecipePreview recipe) {
     return Column(
-      children: [
+      children: <Widget>[
         RecipePreview(
           recipe: recipe,
           homepage: true,
@@ -25,7 +25,7 @@ class ComingRecipes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<ComingRecipesViewModel>(context);
+    final ComingRecipesViewModel viewModel = Provider.of<ComingRecipesViewModel>(context);
     return switch (viewModel.state) {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
@@ -34,7 +34,7 @@ class ComingRecipes extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: viewModel.recipes
               .map((recipe) => _homeRecipePreview(recipe))
-              .toList()),
+              .toList(),),
       WidgetStates.dispose => const Text("dispose"),
     };
   }

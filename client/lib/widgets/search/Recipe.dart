@@ -11,14 +11,14 @@ class Recipe extends StatelessWidget {
 
   const Recipe(this._recipeName, this._imageUrl, this._preparationTime,
       this._cookingTime,
-      {super.key});
+      {super.key,});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(left: 20),
       child: Row(
-        children: [
+        children: <Widget>[
           //const Padding(padding: EdgeInsets.symmetric(horizontal: 10) ),
           Card.filled(
             color: AppColors.beige,
@@ -32,25 +32,24 @@ class Recipe extends StatelessWidget {
                     width: 64,
                     height: 64,
                   ),
-                )),
+                ),),
           ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 10)),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               Text(_recipeName,
                   style: const TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.start),
+                      fontSize: 15, fontWeight: FontWeight.w600,),
+                  textAlign: TextAlign.start,),
               Text("Preparation $_preparationTime min",
                   style: const TextStyle(fontSize: 15),
-                  textAlign: TextAlign.start),
+                  textAlign: TextAlign.start,),
               Text("Cuisson $_cookingTime min",
                   style: const TextStyle(fontSize: 15),
-                  textAlign: TextAlign.start)
+                  textAlign: TextAlign.start,),
             ],
-          )
+          ),
         ],
       ),
     );

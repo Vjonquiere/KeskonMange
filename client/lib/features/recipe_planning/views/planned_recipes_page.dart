@@ -18,7 +18,7 @@ class _PlannedRecipesPageState extends State<PlannedRecipesPage> {
     return Container(
       color: AppColors.white, // Set the background color
       child: Column(
-        children: [
+        children: <Widget>[
           ColorfulTextBuilder("PlannedRecipes", 30).getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(
