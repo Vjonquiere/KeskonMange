@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 
 class RecipeReview extends StatelessWidget {
+  const RecipeReview({super.key});
+
   @override
   Widget build(BuildContext context) {
     RecipeReviewViewModel viewModel =
@@ -55,7 +57,7 @@ class RecipeReview extends StatelessWidget {
           children: List.generate(
               viewModel.ingredients.length,
               (int index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
+                    padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: IngredientReviewCard(
                         viewModel.ingredients.keys.elementAt(index).name,
                         "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}"),
@@ -65,7 +67,7 @@ class RecipeReview extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(AppIcons.getIcon("prep"), width: 48),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(

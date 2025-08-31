@@ -2,7 +2,7 @@ import 'package:client/core/state_viewmodel.dart';
 import 'package:client/model/recipe/step.dart';
 
 class RecipeStepViewModel extends StateViewModel {
-  List<Step> _steps = [];
+  final List<Step> _steps = [];
 
   List<Step> get steps => _steps;
 

@@ -68,11 +68,11 @@ class IngredientsViewModel extends StateViewModel {
     _searchIngredients.clear();
     _searchIngredientByNameUseCase.name = name;
     List<Ingredient> result = await _searchIngredientByNameUseCase.execute();
-    result.forEach((e) {
+    for (var e in result) {
       if (!_selectedIngredients.contains(e)) {
         _searchIngredients.add(e);
       }
-    });
+    }
     notifyListeners();
   }
 

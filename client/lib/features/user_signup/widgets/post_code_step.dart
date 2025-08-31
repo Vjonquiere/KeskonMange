@@ -7,6 +7,8 @@ import '../../../l10n/app_localizations.dart';
 import '../viewmodels/post_code_viewmodel.dart';
 
 class PostCodeStep extends StatelessWidget {
+  const PostCodeStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     PostCodeViewModel viewModel = Provider.of<PostCodeViewModel>(context);

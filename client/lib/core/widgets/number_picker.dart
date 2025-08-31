@@ -42,14 +42,14 @@ class NumberPicker extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ColorfulTextBuilder(title, 30, true).getWidget(),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
                       RotaryNumberPicker(
                         maxValue: maxValue,
                         minValue: minValue,
                         initialValue: initialValue,
                         onChanged: onValueChanged,
                       ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       CustomButton(
                         text: AppLocalizations.of(context)!.confirm,
                         fontSize: 25,

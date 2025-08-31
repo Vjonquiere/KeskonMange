@@ -6,7 +6,6 @@ import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmo
 import 'package:client/features/ingredient_creation/views/ingredient_creation.dart';
 import 'package:client/features/recipe_calendar/viewmodels/calendar_viewmodel.dart';
 import 'package:client/features/recipe_calendar/views/calendar_page.dart';
-import 'package:client/features/recipe_planning/views/planned_recipes_page.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
 import 'package:client/features/user_creations/views/my_creations_page.dart';
 import 'package:client/features/recipe_search/views/search_page.dart';
@@ -38,7 +37,7 @@ class HomePage extends StatelessWidget {
                     iconSize: 32,
                     onPressed: () {
                       Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => UserPage()));
+                          MaterialPageRoute(builder: (context) => const UserPage()));
                     },
                     text: 'pen'),
                 CustomButton(
@@ -47,7 +46,7 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                               create: (context) => MyCreationViewModel(),
-                              child: MyCreationsPage())));
+                              child: const MyCreationsPage())));
                     },
                     text: 'book'),
                 FloatingActionButton(
@@ -55,7 +54,7 @@ class HomePage extends StatelessWidget {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ChangeNotifierProvider(
                             create: (context) => SearchPageViewModel(),
-                            child: SearchPage())));
+                            child: const SearchPage())));
                   },
                   child: SvgPicture.asset(AppIcons.getIcon('search')),
                 ),
@@ -66,7 +65,7 @@ class HomePage extends StatelessWidget {
                           builder: (context) => ChangeNotifierProvider(
                                 create: (context) =>
                                     IngredientCreationViewModel(),
-                                child: IngredientCreation(),
+                                child: const IngredientCreation(),
                               )));
 
                       /*
@@ -80,7 +79,7 @@ class HomePage extends StatelessWidget {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ChangeNotifierProvider(
                                 create: (context) => CalendarViewModel(),
-                                child: CalendarPage(),
+                                child: const CalendarPage(),
                               )));
                     },
                     text: 'calendar'),
@@ -102,12 +101,12 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: [
           ChangeNotifierProvider(
-              create: (context) => TodayMealViewModel(), child: TodayMeal()),
+              create: (context) => TodayMealViewModel(), child: const TodayMeal()),
           const CustomDivider(important: true, color: AppColors.pink),
           Center(
             child: ChangeNotifierProvider(
               create: (context) => ComingRecipesViewModel(),
-              child: ComingRecipes(),
+              child: const ComingRecipes(),
             ),
           )
         ],

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:client/http/HttpRequest.dart';
 import 'package:client/model/allergen.dart';
 import '../authentication.dart';

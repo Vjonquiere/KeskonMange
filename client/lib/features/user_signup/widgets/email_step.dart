@@ -6,6 +6,8 @@ import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../l10n/app_localizations.dart';
 
 class EmailStep extends StatelessWidget {
+  const EmailStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     EmailViewModel viewModel = Provider.of<EmailViewModel>(context);

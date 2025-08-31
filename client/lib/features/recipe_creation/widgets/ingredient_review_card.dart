@@ -5,7 +5,7 @@ class IngredientReviewCard extends StatelessWidget {
   final String _ingredientName;
   final String _ingredientQuantity;
 
-  IngredientReviewCard(this._ingredientName, this._ingredientQuantity,
+  const IngredientReviewCard(this._ingredientName, this._ingredientQuantity,
       {super.key});
 
   @override
@@ -13,12 +13,12 @@ class IngredientReviewCard extends StatelessWidget {
     return Card.filled(
       color: AppColors.green,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+        padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
         child: Column(
           children: [
             Text(
               _ingredientName,
-              style: TextStyle(fontSize: 17),
+              style: const TextStyle(fontSize: 17),
             ),
             Text(_ingredientQuantity)
           ],

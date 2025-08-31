@@ -9,7 +9,7 @@ class IngredientCard extends StatelessWidget {
   final removable;
   final Color backgroundColor;
 
-  IngredientCard(this.ingredient, this._onClickCallback, this._removeCallback,
+  const IngredientCard(this.ingredient, this._onClickCallback, this._removeCallback,
       {super.key,
       this.removable = false,
       this.backgroundColor = AppColors.yellow});
@@ -41,12 +41,12 @@ class IngredientCard extends StatelessWidget {
               child: InkWell(
                 onTap: _removeCallback,
                 child: Container(
-                  padding: EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(5.0),
                   decoration: const BoxDecoration(
                       shape: BoxShape.circle, color: AppColors.orange),
 
                   //alignment: Alignment.topLeft,
-                  child: Text("x"),
+                  child: const Text("x"),
                 ),
               ))
       ],

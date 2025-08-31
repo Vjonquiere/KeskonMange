@@ -7,6 +7,8 @@ import '../../../l10n/app_localizations.dart';
 import '../../home/views/home_page.dart';
 
 class UserPage extends StatefulWidget {
+  const UserPage({super.key});
+
   @override
   State<UserPage> createState() => _UserPageState();
 }
@@ -24,7 +26,7 @@ class _UserPageState extends State<UserPage> {
           CustomButton(
             onPressed: () {
               Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => HomePage()));
+                  .push(MaterialPageRoute(builder: (context) => const HomePage()));
             },
             text: 'back',
           ),

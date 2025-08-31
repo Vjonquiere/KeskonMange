@@ -51,7 +51,7 @@ class KeskonMangeApp extends StatelessWidget {
           },
           home: ChangeNotifierProvider(
             create: (context) => LoginPageViewModel(),
-            child: LoginPage(),
+            child: const LoginPage(),
           ),
         );
       },

@@ -28,14 +28,14 @@ class CustomButton extends StatelessWidget {
       return GestureDetector(
           onTap: onPressed,
           child: Container(
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
                 color: color, borderRadius: BorderRadius.circular(100)),
+            width: iconSize,
+            height: iconSize,
             child: SvgPicture.asset(
               AppIcons.getIcon(text),
             ),
-            width: iconSize,
-            height: iconSize,
           ));
       IconButton(
         iconSize: iconSize,

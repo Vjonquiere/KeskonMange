@@ -1,5 +1,4 @@
 import 'package:client/model/recipe/preview.dart';
-import 'package:flutter/material.dart';
 
 import '../../../core/ViewModel.dart';
 import '../../../core/widget_states.dart';
@@ -23,7 +22,6 @@ class ComingRecipesViewModel extends ViewModel {
       RecipePreview? recipe = await GetRecipeFromIdUseCase(
               RepositoriesManager().getRecipeRepository(), ids[id])
           .execute();
-      ;
       if (recipe != null) recipes.add(recipe);
     }
     _recipes = recipes;

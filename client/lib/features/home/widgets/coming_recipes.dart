@@ -9,6 +9,8 @@ import '../../../model/recipe/preview.dart' as rpModel;
 import '../viewmodels/coming_recipes_viewmodel.dart';
 
 class ComingRecipes extends StatelessWidget {
+  const ComingRecipes({super.key});
+
   Widget _homeRecipePreview(rpModel.RecipePreview recipe) {
     return Column(
       children: [
@@ -33,7 +35,7 @@ class ComingRecipes extends StatelessWidget {
           children: viewModel.recipes
               .map((recipe) => _homeRecipePreview(recipe))
               .toList()),
-      WidgetStates.dispose => Text("dispose"),
+      WidgetStates.dispose => const Text("dispose"),
     };
   }
 }

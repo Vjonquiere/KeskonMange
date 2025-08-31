@@ -7,9 +7,10 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
-import '../viewmodels/new_recipe_viewmodel.dart';
 
 class GeneralInformation extends StatelessWidget {
+  const GeneralInformation({super.key});
+
   Padding questionText(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -32,7 +33,7 @@ class GeneralInformation extends StatelessWidget {
         Row(
           children: [
             Text("It's for ${viewModel.portions} people"),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             NumberPicker(
@@ -141,7 +142,7 @@ class GeneralInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Text(
                       "You need ${viewModel.preparationTime} minutes of preparation\t",
                     )),
@@ -158,7 +159,7 @@ class GeneralInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                    padding: EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(5.0),
                     child: Text(
                       "It will cook for ${viewModel.cookingTime} minutes\t",
                     )),

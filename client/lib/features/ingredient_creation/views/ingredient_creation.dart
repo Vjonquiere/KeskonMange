@@ -3,14 +3,13 @@ import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
 import 'package:client/model/ingredient_units.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
 import '../../../core/widget_states.dart';
-import '../../../utils/app_icons.dart';
 
 class IngredientCreation extends StatelessWidget {
+  const IngredientCreation({super.key});
+
   Widget boldText(String text) {
     return Text(
       text,
@@ -145,7 +144,7 @@ class IngredientCreation extends StatelessWidget {
             ColorfulTextBuilder("Create new ingredient", 30, true).getWidget(),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 5),
         child: Column(children: [
           nameStep(viewModel),
           specificationsStep(viewModel),
@@ -154,7 +153,7 @@ class IngredientCreation extends StatelessWidget {
           allergensStep(viewModel),
           ElevatedButton(
               onPressed: viewModel.pushIngredient,
-              child: Text("Create ingredient !"))
+              child: const Text("Create ingredient !"))
         ]),
       ),
     );

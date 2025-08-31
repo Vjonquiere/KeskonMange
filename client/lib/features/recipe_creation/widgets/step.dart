@@ -13,17 +13,17 @@ class StepWidget extends StatelessWidget {
     return Stack(
       children: [
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+            padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
             child: Container(
                 decoration: BoxDecoration(
                     border: Border.all(color: AppColors.kaki, width: 3.0),
-                    borderRadius: BorderRadius.all(Radius.zero)),
+                    borderRadius: const BorderRadius.all(Radius.zero)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "STEP $stepNumber: ${step.title}",
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: AppColors.orange, fontWeight: FontWeight.bold),
                     ),
                     FractionallySizedBox(
@@ -34,9 +34,9 @@ class StepWidget extends StatelessWidget {
             top: -5,
             right: 0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: AppColors.yellow, shape: BoxShape.circle),
-              child: Padding(
+              child: const Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("X"),
               ),
@@ -46,8 +46,8 @@ class StepWidget extends StatelessWidget {
             right: 0,
             child: Container(
               decoration:
-                  BoxDecoration(color: AppColors.blue, shape: BoxShape.circle),
-              child: Padding(
+                  const BoxDecoration(color: AppColors.blue, shape: BoxShape.circle),
+              child: const Padding(
                 padding: EdgeInsets.all(3.0),
                 child: Icon(
                   Icons.edit,

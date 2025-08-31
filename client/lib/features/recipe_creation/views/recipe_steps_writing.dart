@@ -9,9 +9,11 @@ import '../../../model/recipe/step.dart' as st;
 import '../widgets/step.dart';
 
 class RecipeStepsWriting extends StatelessWidget {
+  const RecipeStepsWriting({super.key});
+
   void addStep(BuildContext context, RecipeStepViewModel viewModel) async {
     st.Step? stepValue = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RecipeStepPage()));
+        .push(MaterialPageRoute(builder: (context) => const RecipeStepPage()));
     if (stepValue != null && stepValue.stepText != "") {
       debugPrint(stepValue.toString());
       viewModel.addStep(stepValue);
@@ -40,7 +42,7 @@ class RecipeStepsWriting extends StatelessWidget {
         iconSize: 32,
       ),
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       onReorder: viewModel.reorderSteps,
       children: _generateSteps(viewModel),
     );

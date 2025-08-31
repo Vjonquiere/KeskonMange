@@ -4,6 +4,8 @@ import '../../../utils/app_colors.dart';
 import 'package:client/model/recipe/step.dart' as st;
 
 class RecipeStepPage extends StatefulWidget {
+  const RecipeStepPage({super.key});
+
   @override
   State<StatefulWidget> createState() {
     return RecipeStep();
@@ -11,19 +13,19 @@ class RecipeStepPage extends StatefulWidget {
 }
 
 class RecipeStep extends State<RecipeStepPage> {
-  TextEditingController _stepController = TextEditingController();
-  TextEditingController _titleController = TextEditingController();
+  final TextEditingController _stepController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("New recipe step"),
+        title: const Text("New recipe step"),
       ),
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: TextField(
               controller: _titleController,
               decoration: const InputDecoration(hintText: "Enter step title"),
@@ -60,13 +62,13 @@ class RecipeStep extends State<RecipeStepPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
                       onPressed: () => {Navigator.of(context).pop()},
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.close,
                         color: AppColors.orange,
                       )),
@@ -75,7 +77,7 @@ class RecipeStep extends State<RecipeStepPage> {
                             Navigator.of(context).pop(st.Step(
                                 _titleController.text, _stepController.text))
                           },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.check,
                         color: AppColors.green,
                       )),

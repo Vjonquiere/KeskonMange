@@ -30,7 +30,7 @@ class Book extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Column(
@@ -38,9 +38,9 @@ class Book extends StatelessWidget {
           children: [
             Text(
               viewModel.book.name,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(AppLocalizations.of(context)!
@@ -56,12 +56,12 @@ class Book extends StatelessWidget {
                 ),
                 const SizedBox(width: 10.0),
                 Text(
-                    "${viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private}"),
+                    viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private),
               ],
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Column(
@@ -79,7 +79,7 @@ class Book extends StatelessWidget {
               },
               color: AppColors.red,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             CustomButton(
@@ -130,31 +130,31 @@ class Book extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: switch (viewModel.state) {
-        WidgetStates.idle => CircularProgressIndicator(),
-        WidgetStates.loading => CircularProgressIndicator(),
+        WidgetStates.idle => const CircularProgressIndicator(),
+        WidgetStates.loading => const CircularProgressIndicator(),
         WidgetStates.ready => Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(padding: EdgeInsetsGeometry.only(top: 25)),
+              const Padding(padding: EdgeInsetsGeometry.only(top: 25)),
               topContainer(context, viewModel),
-              CustomDivider(),
+              const CustomDivider(),
               viewModel.editMode
                   ? Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.all(5),
-                      child: Center(
-                          child: Text(
-                              AppLocalizations.of(context)!.book_edit_mode)),
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
                           color: AppColors.yellow,
                           borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                          child: Text(
+                              AppLocalizations.of(context)!.book_edit_mode)),
                     )
                   : Container(),
               recipeList(context, viewModel),
             ],
           ),
-        WidgetStates.error => Text("Error"),
-        WidgetStates.dispose => Text("Dispose"),
+        WidgetStates.error => const Text("Error"),
+        WidgetStates.dispose => const Text("Dispose"),
       }),
       floatingActionButton: CustomButton(
           iconSize: 32,

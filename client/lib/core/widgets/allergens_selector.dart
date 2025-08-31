@@ -8,7 +8,7 @@ class AllergensSelector extends StatelessWidget {
   void Function(int, bool) onSelected;
   List<bool> selected;
 
-  AllergensSelector({required this.selected, required this.onSelected});
+  AllergensSelector({super.key, required this.selected, required this.onSelected});
 
   @override
   Widget build(BuildContext context) {

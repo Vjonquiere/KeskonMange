@@ -1,12 +1,7 @@
-import 'dart:convert';
 
-import 'package:client/data/repositories/repositories_manager.dart';
-import 'package:client/data/usecases/get_complete_month_use_case.dart';
-import 'package:client/model/month.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/features/recipe_calendar/widgets/Month.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widget_states.dart';
@@ -17,6 +12,8 @@ import '../../home/views/home_page.dart';
 import '../viewmodels/calendar_viewmodel.dart';
 
 class CalendarPage extends StatefulWidget {
+  const CalendarPage({super.key});
+
   @override
   State<CalendarPage> createState() => _CalendarPageState();
 }
@@ -50,8 +47,8 @@ class _CalendarPageState extends State<CalendarPage> {
           switch (viewModel.state) {
             WidgetStates.idle => Container(),
             WidgetStates.loading => const CircularProgressIndicator(),
-            WidgetStates.error => Text("error"),
-            WidgetStates.dispose => Text("disppose"),
+            WidgetStates.error => const Text("error"),
+            WidgetStates.dispose => const Text("disppose"),
             WidgetStates.ready => GestureDetector(
                 onVerticalDragEnd: (details) {
                   double dy = details.velocity.pixelsPerSecond.dy;
@@ -90,7 +87,7 @@ class _CalendarPageState extends State<CalendarPage> {
             iconSize: 32,
             onPressed: () {
               Navigator.of(context)
-                  .pop(MaterialPageRoute(builder: (context) => HomePage()));
+                  .pop(MaterialPageRoute(builder: (context) => const HomePage()));
             },
             text: 'back',
           ),

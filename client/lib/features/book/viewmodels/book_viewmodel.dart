@@ -2,14 +2,13 @@ import 'package:client/core/widget_states.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/book/complete.dart';
 import 'package:client/model/recipe/preview.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../core/ViewModel.dart';
 
 class BookViewModel extends ViewModel {
-  int _bookId;
+  final int _bookId;
   late Book _book;
-  List<RecipePreview> _recipePreviews = [];
+  final List<RecipePreview> _recipePreviews = [];
   bool _editMode = false;
 
   Book get book => _book;

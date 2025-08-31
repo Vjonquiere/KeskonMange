@@ -28,6 +28,7 @@ class LoginPageViewModel extends ViewModel {
   int get userLogged => _userLogged;
   bool get signInPressed => _signInPressed;
   bool get hasError => _hasError;
+  @override
   String get errorMessage => _errorMessage;
 
   LoginPageViewModel() {
@@ -47,6 +48,7 @@ class LoginPageViewModel extends ViewModel {
     notifyListeners();
   }
 
+  @override
   void clearError() {
     _hasError = false;
     notifyListeners();

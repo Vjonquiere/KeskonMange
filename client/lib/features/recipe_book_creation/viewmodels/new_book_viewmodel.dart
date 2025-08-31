@@ -1,16 +1,14 @@
 import 'package:client/core/ViewModel.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
-import 'package:client/http/authentication.dart';
 import 'package:client/model/book/preview.dart';
 import 'package:client/model/recipe/preview.dart';
-import 'package:client/model/user.dart';
 import 'package:flutter/material.dart';
 
 class NewBookViewModel extends ViewModel {
   final TextEditingController _titleController = TextEditingController();
   bool _public = true;
   List<RecipePreview> _searchedRecipes = [];
-  List<int> _selectedRecipes = [];
+  final List<int> _selectedRecipes = [];
 
   TextEditingController get titleController => _titleController;
   bool get public => _public;

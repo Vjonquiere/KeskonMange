@@ -6,6 +6,8 @@ import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../l10n/app_localizations.dart';
 
 class UsernameStep extends StatelessWidget {
+  const UsernameStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     UsernameViewModel viewModel = Provider.of<UsernameViewModel>(context);

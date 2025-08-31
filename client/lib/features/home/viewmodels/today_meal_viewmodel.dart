@@ -1,5 +1,4 @@
 import 'package:client/core/ViewModel.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../core/widget_states.dart';
 import '../../../data/repositories/repositories_manager.dart';

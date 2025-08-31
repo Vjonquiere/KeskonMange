@@ -30,7 +30,7 @@ class IngredientCreationViewModel extends ViewModel {
   ];
   late IngredientCategory _selectedCategory = _categories.first;
   int _selectedSubCategoryIndex = 0;
-  List<bool> _allergens = List.generate(allergens.length, (e) => false);
+  final List<bool> _allergens = List.generate(allergens.length, (e) => false);
   Set<String> _selectedUnits = {units.values.first.toString()};
 
   TextEditingController get nameController => _nameController;

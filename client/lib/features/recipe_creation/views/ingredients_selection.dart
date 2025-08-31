@@ -6,6 +6,8 @@ import '../viewmodels/ingredients_viewmodel.dart';
 import '../widgets/ingredient_row.dart';
 
 class IngredientSelection extends StatelessWidget {
+  const IngredientSelection({super.key});
+
   @override
   Widget build(BuildContext context) {
     final IngredientsViewModel viewModel =

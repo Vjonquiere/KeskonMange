@@ -8,16 +8,17 @@ import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/cooking_info.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../model/recipe/preview.dart';
 import '../../../utils/app_colors.dart';
 
 class TodayMeal extends StatelessWidget {
+  const TodayMeal({super.key});
+
   Widget mainRecipes(BuildContext context, TodayMealViewModel viewModel) {
     return switch (viewModel.state) {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
       WidgetStates.error => Text(AppLocalizations.of(context)!.error),
-      WidgetStates.dispose => Text("dispose"),
+      WidgetStates.dispose => const Text("dispose"),
       WidgetStates.ready => Column(
           children: [
             Row(

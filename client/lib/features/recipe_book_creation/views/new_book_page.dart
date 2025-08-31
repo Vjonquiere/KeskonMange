@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../home/views/home_page.dart';
 import '../../home/widgets/recipe_preview.dart';
 import '../../user_creations/views/my_creations_page.dart';
 
@@ -26,34 +25,34 @@ class NewBookPage extends StatelessWidget {
       body: Column(
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Text(
                   AppLocalizations.of(context)!.book_name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
+                  width: 200,
                   child: TextField(
                     controller: viewModel.titleController,
                   ),
-                  width: 200,
                 )
               ],
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(left: 10),
+              padding: const EdgeInsets.only(left: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(AppLocalizations.of(context)!.book_visibility,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(
                     width: 10,
                   ),
                   Switch(
@@ -61,31 +60,31 @@ class NewBookPage extends StatelessWidget {
                       onChanged: viewModel.onPublicValueChanged),
                 ],
               )),
-          CustomDivider(
+          const CustomDivider(
             color: AppColors.pink,
           ),
           ColorfulTextBuilder(
                   AppLocalizations.of(context)!.book_add_recipes, 20, true)
               .getWidget(),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SearchBar(
-              leading: Icon(Icons.search),
+              leading: const Icon(Icons.search),
               onChanged: viewModel.searchUpdate,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Expanded(
               child: ListView.builder(
             itemBuilder: (context, index) {
               return Container(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                  padding: EdgeInsets.only(right: 5),
+                  margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  padding: const EdgeInsets.only(right: 5),
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: (viewModel.isRecipeSelected(
@@ -126,7 +125,7 @@ class NewBookPage extends StatelessWidget {
             iconSize: 32,
             onPressed: () {
               Navigator.of(context).pop(
-                  MaterialPageRoute(builder: (context) => MyCreationsPage()));
+                  MaterialPageRoute(builder: (context) => const MyCreationsPage()));
             },
             text: 'back',
           ),

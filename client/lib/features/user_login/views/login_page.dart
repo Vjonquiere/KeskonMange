@@ -11,6 +11,8 @@ import 'package:provider/provider.dart';
 import '../../../l10n/app_localizations.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     LoginPageViewModel viewModel = Provider.of<LoginPageViewModel>(context);
@@ -21,7 +23,7 @@ class LoginPage extends StatelessWidget {
       WidgetStates.loading => const CircularProgressIndicator(),
       WidgetStates.ready => loginPage(context, viewModel),
       WidgetStates.error => const Text("Error"),
-      WidgetStates.dispose => Text("dispose"),
+      WidgetStates.dispose => const Text("dispose"),
     }));
   }
 
@@ -38,7 +40,7 @@ class LoginPage extends StatelessWidget {
 
       if (viewModel.userLogged == 200) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => HomePage()),
+          MaterialPageRoute(builder: (_) => const HomePage()),
         );
       }
     });
@@ -82,17 +84,17 @@ class LoginPage extends StatelessWidget {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => ChangeNotifierProvider(
                           create: (context) => SignupViewModel(),
-                          child: SignupPage())));
+                          child: const SignupPage())));
                 },
               ),
             if (viewModel.signInPressed)
               TextButton(
-                child: Text(AppLocalizations.of(context)!.back),
                 onPressed: viewModel.onBackButtonPressed,
+                child: Text(AppLocalizations.of(context)!.back),
               ),
             ElevatedButton(
-              child: Text(AppLocalizations.of(context)!.sign_in),
               onPressed: viewModel.onSignInPressed,
+              child: Text(AppLocalizations.of(context)!.sign_in),
             ),
           ],
         ),

@@ -5,7 +5,6 @@ import 'package:client/features/recipe_creation/viewmodels/recipe_step_viewmodel
 import 'package:client/core/state_viewmodel.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:client/model/recipe/recipe.dart';
-import '../model/creation_steps.dart';
 import 'general_information_viewmodel.dart';
 import 'ingredients_viewmodel.dart';
 
@@ -34,9 +33,10 @@ class NewRecipeViewModel extends ViewModel {
 
   void nextStep() async {
     if (await (_steps[_currentIndex].isValid())) {
-      if (_currentIndex == 1)
+      if (_currentIndex == 1) {
         _ingredientQuantitiesViewModel.setIngredients(
             _ingredientsViewModel.getSelectedIngredientsClone());
+      }
       if (_currentIndex == 3) {
         _recipeReviewViewModel.setRecipe(Recipe(
             RecipePreview(

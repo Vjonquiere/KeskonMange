@@ -1,4 +1,3 @@
-import '../user.dart';
 
 class BookPreview {
   int id;

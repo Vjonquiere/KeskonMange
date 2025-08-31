@@ -9,12 +9,12 @@ class RotaryNumberPicker extends StatefulWidget {
   final ValueChanged<int>? onChanged;
 
   const RotaryNumberPicker({
-    Key? key,
+    super.key,
     required this.minValue,
     required this.maxValue,
     required this.initialValue,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<RotaryNumberPicker> createState() => _RotaryNumberPickerState();

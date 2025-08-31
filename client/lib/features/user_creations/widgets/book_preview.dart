@@ -13,7 +13,7 @@ class BookPreviewWidget extends StatelessWidget {
   final BookPreview _preview;
   final VoidCallback _refreshOnPop;
 
-  BookPreviewWidget(this._preview, this._refreshOnPop);
+  const BookPreviewWidget(this._preview, this._refreshOnPop, {super.key});
 
   Widget recipeImage() {
     return Card.filled(
@@ -38,7 +38,7 @@ class BookPreviewWidget extends StatelessWidget {
             .push(MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
                     create: (context) => BookViewModel(_preview.id),
-                    child: Book())))
+                    child: const Book())))
             .then((_) {
           _refreshOnPop();
         });
@@ -57,7 +57,7 @@ class BookPreviewWidget extends StatelessWidget {
               children: [
                 Text(
                   _preview.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 Row(
                   children: [

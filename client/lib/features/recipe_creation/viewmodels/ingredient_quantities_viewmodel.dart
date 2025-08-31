@@ -66,7 +66,9 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   void nextIngredient() {
     if (_currentIndex >= ingredients.length - 1 ||
-        int.tryParse(_quantityController.text) == null) return;
+        int.tryParse(_quantityController.text) == null) {
+      return;
+    }
     _loadIngredient(true);
     notifyListeners();
   }

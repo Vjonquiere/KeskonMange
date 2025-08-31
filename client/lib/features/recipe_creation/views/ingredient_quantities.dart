@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/ingredient.dart';
-import '../../../model/ingredient_units.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
 
 class IngredientQuantities extends StatelessWidget {
+  const IngredientQuantities({super.key});
+
   Widget _getCard(Ingredient ingredient) {
     return Card(
       child: Column(
@@ -32,7 +33,7 @@ class IngredientQuantities extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("I need"),
+        const Text("I need"),
         SizedBox(
             width: 75,
             child: TextField(
@@ -62,10 +63,10 @@ class IngredientQuantities extends StatelessWidget {
           children: [
             OutlinedButton(
                 onPressed: viewModel.previousIngredient,
-                child: Text("previous")),
+                child: const Text("previous")),
             Expanded(child: _getCard(viewModel.currentIngredient)),
             OutlinedButton(
-                onPressed: viewModel.nextIngredient, child: Text("next")),
+                onPressed: viewModel.nextIngredient, child: const Text("next")),
           ],
         ),
         SegmentedButton(

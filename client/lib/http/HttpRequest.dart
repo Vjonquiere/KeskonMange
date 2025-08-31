@@ -35,8 +35,9 @@ abstract class HttpRequest {
               body: body);
       }
       _body = response.body;
-      if (kDebugMode)
+      if (kDebugMode) {
         print("REQUEST | $route | ${response.statusCode} ${response.body}");
+      }
       return response.statusCode;
     } on Exception catch (e) {
       if (kDebugMode) {

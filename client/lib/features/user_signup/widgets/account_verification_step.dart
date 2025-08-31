@@ -7,6 +7,8 @@ import '../../../l10n/app_localizations.dart';
 import '../viewmodels/account_verification_viewmodel.dart';
 
 class AccountVerificationStep extends StatelessWidget {
+  const AccountVerificationStep({super.key});
+
   @override
   Widget build(BuildContext context) {
     final AccountVerificationViewModel viewModel =

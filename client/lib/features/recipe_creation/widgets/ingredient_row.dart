@@ -12,7 +12,7 @@ class IngredientRow extends StatelessWidget {
   final List<IngredientCard> _ingredients;
   final bool _searchForIngredients;
 
-  const IngredientRow(this._ingredients, this._searchForIngredients);
+  const IngredientRow(this._ingredients, this._searchForIngredients, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +29,8 @@ class IngredientRow extends StatelessWidget {
               ? min(i + 3, _ingredients.length)
               : min(i + 4, _ingredients.length)));
       rows.add(Row(
-        children: currentRow,
         mainAxisAlignment: MainAxisAlignment.center,
+        children: currentRow,
       ));
       i = i + (isThreeRow ? 3 : 4);
       isThreeRow = !isThreeRow;
@@ -43,18 +43,18 @@ class IngredientRow extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text("Ouch... It seems like no ingredient was found!"),
+        const Text("Ouch... It seems like no ingredient was found!"),
         CustomButton(
             text: "Add it!",
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => ChangeNotifierProvider(
                       create: (context) => IngredientCreationViewModel(),
-                      child: IngredientCreation(),
+                      child: const IngredientCreation(),
                     ))),
             color: AppColors.yellow)
       ],
     );
-    return Center(
+    return const Center(
       child: Text("nothing found"),
     );
   }

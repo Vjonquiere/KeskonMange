@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:client/config.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/ingredient.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/book/complete.dart';
-import '../model/book/preview.dart';
 
 class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
@@ -48,14 +46,16 @@ class MockRepositoriesSampleLoad {
   }
 
   List<dynamic> _extractRecipes(Map<String, dynamic> fileContent) {
-    if (fileContent.containsKey("recipes"))
+    if (fileContent.containsKey("recipes")) {
       return fileContent["recipes"] as List;
+    }
     throw const FormatException("Mock file can't be loaded: no recipes found");
   }
 
   List<dynamic> _extractIngredients(Map<String, dynamic> fileContent) {
-    if (fileContent.containsKey("ingredients"))
+    if (fileContent.containsKey("ingredients")) {
       return fileContent["ingredients"] as List;
+    }
     throw const FormatException(
         "Mock file can't be loaded: no ingredients found");
   }
