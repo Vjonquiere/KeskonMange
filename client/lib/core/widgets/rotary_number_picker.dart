@@ -42,20 +42,21 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
       children: <Widget>[
         Container(
           decoration: BoxDecoration(
-              border: Border.all(color: AppColors.green, width: 2),
-              borderRadius: BorderRadius.circular(20),),
+            border: Border.all(color: AppColors.green, width: 2),
+            borderRadius: BorderRadius.circular(20),
+          ),
           height: 150,
           width: 80,
           child: ListWheelScrollView.useDelegate(
             controller: _controller,
             physics: const FixedExtentScrollPhysics(),
             itemExtent: 40,
-            onSelectedItemChanged: (index) {
+            onSelectedItemChanged: (int index) {
               _currentValue = widget.minValue + index;
               widget.onChanged?.call(_currentValue);
             },
             childDelegate: ListWheelChildBuilderDelegate(
-              builder: (context, index) {
+              builder: (BuildContext context, int index) {
                 if (index < 0 || index >= itemCount) return null;
                 final int value = widget.minValue + index;
                 return Center(

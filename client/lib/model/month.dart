@@ -29,7 +29,15 @@ class Month {
   int month;
   List<PlannedRecipe> plannedRecipes;
   List<List<int>> monthTemplate;
-  final List<String> days = <String>["lun", "mar", "mer", "jeu", "ven", "sam", "dim"];
+  final List<String> days = <String>[
+    "lun",
+    "mar",
+    "mer",
+    "jeu",
+    "ven",
+    "sam",
+    "dim"
+  ];
 
   Month(this.year, this.month, this.plannedRecipes, this.monthTemplate);
 
@@ -45,8 +53,10 @@ class Month {
           year,
           month,
           recipesJson
-              .map((recipe) =>
-                  PlannedRecipe.fromJson(recipe as Map<String, dynamic>),)
+              .map(
+                (recipe) =>
+                    PlannedRecipe.fromJson(recipe as Map<String, dynamic>),
+              )
               .toList(),
           monthTemplateJson.map((e) => List<int>.from(e as List)).toList(),
         ),

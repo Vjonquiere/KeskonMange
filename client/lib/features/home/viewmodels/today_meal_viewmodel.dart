@@ -20,8 +20,9 @@ class TodayMealViewModel extends ViewModel {
 
   Future<RecipePreview?> _getRecipe(int id) async {
     return GetRecipeFromIdUseCase(
-            RepositoriesManager().getRecipeRepository(), id,)
-        .execute();
+      RepositoriesManager().getRecipeRepository(),
+      id,
+    ).execute();
   }
 
   void _getRecipes(List<int> ids) async {

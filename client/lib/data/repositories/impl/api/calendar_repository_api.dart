@@ -10,7 +10,8 @@ class CalendarRepositoryApi extends CalendarRepository {
   @override
   Future<Month> getCompleteMonth(int monthCount) async {
     final CompleteMonthRequest req = CompleteMonthRequest(monthCount);
-    if ((await req.send()) != 200) return Month(1970, 1, <PlannedRecipe>[], <List<int>>[]);
+    if ((await req.send()) != 200)
+      return Month(1970, 1, <PlannedRecipe>[], <List<int>>[]);
     return Month.fromJson(jsonDecode(req.getBody()));
   }
 

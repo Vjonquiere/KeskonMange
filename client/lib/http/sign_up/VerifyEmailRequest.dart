@@ -6,7 +6,10 @@ class VerifyEmailRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.get, 'user/availableEmail',
-        queryParameters: <String, String>{"email": _email},));
+    return (await super.process(
+      RequestMode.get,
+      'user/availableEmail',
+      queryParameters: <String, String>{"email": _email},
+    ));
   }
 }

@@ -12,7 +12,8 @@ class IngredientsViewModel extends StateViewModel {
   final List<Ingredient> _searchIngredients = <Ingredient>[];
   final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
       SearchIngredientByNameUseCase(
-          RepositoriesManager().getIngredientRepository(),);
+    RepositoriesManager().getIngredientRepository(),
+  );
   final TextEditingController _ingredientSearchController =
       TextEditingController();
 
@@ -25,14 +26,15 @@ class IngredientsViewModel extends StateViewModel {
 
   void removeIngredient(Ingredient target) {
     _selectedIngredients
-        .removeWhere((ingredient) => ingredient.name == target.name);
+        .removeWhere((Ingredient ingredient) => ingredient.name == target.name);
     notifyListeners();
   }
 
   void addIngredient(Ingredient ingredient) {
     if (!_selectedIngredients.contains(ingredient)) {
       _selectedIngredients.add(ingredient);
-      _searchIngredients.removeWhere((e) => e.name == ingredient.name);
+      _searchIngredients
+          .removeWhere((Ingredient e) => e.name == ingredient.name);
       notifyListeners();
     }
   }
@@ -40,13 +42,15 @@ class IngredientsViewModel extends StateViewModel {
   List<IngredientCard> getSelectedIngredients() {
     final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _selectedIngredients) {
-      ingredients.add(IngredientCard(
-        ingredient,
-        () => <dynamic, dynamic>{},
-        () => removeIngredient(ingredient),
-        removable: true,
-        backgroundColor: AppColors.blue,
-      ),);
+      ingredients.add(
+        IngredientCard(
+          ingredient,
+          () => <dynamic, dynamic>{},
+          () => removeIngredient(ingredient),
+          removable: true,
+          backgroundColor: AppColors.blue,
+        ),
+      );
     }
     return ingredients;
   }
@@ -54,8 +58,13 @@ class IngredientsViewModel extends StateViewModel {
   List<IngredientCard> getSearchIngredients() {
     final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _searchIngredients) {
-      ingredients.add(IngredientCard(ingredient,
-          () => addIngredient(ingredient), () => removeIngredient(ingredient),),);
+      ingredients.add(
+        IngredientCard(
+          ingredient,
+          () => addIngredient(ingredient),
+          () => removeIngredient(ingredient),
+        ),
+      );
     }
     return ingredients;
   }
@@ -67,7 +76,8 @@ class IngredientsViewModel extends StateViewModel {
   void updateDisplayedIngredients({String name = ""}) async {
     _searchIngredients.clear();
     _searchIngredientByNameUseCase.name = name;
-    final List<Ingredient> result = await _searchIngredientByNameUseCase.execute();
+    final List<Ingredient> result =
+        await _searchIngredientByNameUseCase.execute();
     for (Ingredient e in result) {
       if (!_selectedIngredients.contains(e)) {
         _searchIngredients.add(e);

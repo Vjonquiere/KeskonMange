@@ -57,7 +57,8 @@ class MockRepositoriesSampleLoad {
       return fileContent["ingredients"] as List;
     }
     throw const FormatException(
-        "Mock file can't be loaded: no ingredients found",);
+      "Mock file can't be loaded: no ingredients found",
+    );
   }
 
   List<dynamic> _extractBooks(Map<String, dynamic> fileContent) {

@@ -33,20 +33,31 @@ class RecipeCard extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               width: 60,
               decoration: const BoxDecoration(
-                  color: AppColors.green,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(8.0),
-                      bottomLeft: Radius.circular(8.0),),),
+                color: AppColors.green,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(8.0),
+                  bottomLeft: Radius.circular(8.0),
+                ),
+              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   //TODO: add the icons according to the recipe
-                  SvgPicture.asset(AppIcons.getIcon("veggie"),
-                      width: 32, height: 32,),
-                  SvgPicture.asset(AppIcons.getIcon("meal"),
-                      width: 32, height: 32,),
-                  SvgPicture.asset(AppIcons.getIcon("cake"),
-                      width: 32, height: 32,),
+                  SvgPicture.asset(
+                    AppIcons.getIcon("veggie"),
+                    width: 32,
+                    height: 32,
+                  ),
+                  SvgPicture.asset(
+                    AppIcons.getIcon("meal"),
+                    width: 32,
+                    height: 32,
+                  ),
+                  SvgPicture.asset(
+                    AppIcons.getIcon("cake"),
+                    width: 32,
+                    height: 32,
+                  ),
                 ],
               ),
             ),

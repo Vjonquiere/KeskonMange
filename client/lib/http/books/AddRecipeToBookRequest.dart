@@ -7,11 +7,14 @@ class AddRecipeToBookRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.post, 'books/recipe/add',
-        queryParameters: <String, String>{
-          "bookId": _bookId.toString(),
-          "recipeId": _recipeId.toString(),
-        },
-        authNeeded: true,));
+    return (await super.process(
+      RequestMode.post,
+      'books/recipe/add',
+      queryParameters: <String, String>{
+        "bookId": _bookId.toString(),
+        "recipeId": _recipeId.toString(),
+      },
+      authNeeded: true,
+    ));
   }
 }

@@ -25,8 +25,8 @@ class _UserPageState extends State<UserPage> {
           const Placeholder(color: AppColors.green),
           CustomButton(
             onPressed: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => const HomePage()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => const HomePage()));
             },
             text: 'back',
           ),

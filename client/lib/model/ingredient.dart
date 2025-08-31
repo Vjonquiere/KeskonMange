@@ -19,18 +19,25 @@ class Ingredient {
         'name': final String name,
         'units': final List<dynamic> units,
       } =>
-        Ingredient._(name,
-            units.map((e) => getUnitFromString(e as String)).toList(), id,),
+        Ingredient._(
+          name,
+          units.map((e) => getUnitFromString(e as String)).toList(),
+          id,
+        ),
       {
         'id': final int id,
         'name': final String name,
       } =>
         Ingredient._(
-            name, <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)], id,),
+          name,
+          <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)],
+          id,
+        ),
       {
         'name': final String name,
       } =>
-        Ingredient(name, <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)]),
+        Ingredient(
+            name, <Unit>[Unit(UnitCategory.special, SpecialUnits.EggSizes)]),
       _ => throw const FormatException('Failed to load ingredient.'),
     };
   }

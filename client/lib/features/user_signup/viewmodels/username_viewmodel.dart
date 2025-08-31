@@ -15,8 +15,9 @@ class UsernameViewModel extends StateViewModel {
     if (_usernameController.text == "") return false;
     final CheckUsernameAvailabilityUseCase uniqueUsername =
         CheckUsernameAvailabilityUseCase(
-            RepositoriesManager().getUserRepository(),
-            _usernameController.text,);
+      RepositoriesManager().getUserRepository(),
+      _usernameController.text,
+    );
     if (!(await uniqueUsername.execute() == 200)) {
       setStateValue(WidgetStates.error);
       setErrorMessage("Username is already taken");

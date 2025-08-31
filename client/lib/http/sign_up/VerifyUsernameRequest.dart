@@ -6,7 +6,10 @@ class VerifyUsernameRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.get, 'user/availableUsername',
-        queryParameters: <String, String>{"username": _username},));
+    return (await super.process(
+      RequestMode.get,
+      'user/availableUsername',
+      queryParameters: <String, String>{"username": _username},
+    ));
   }
 }

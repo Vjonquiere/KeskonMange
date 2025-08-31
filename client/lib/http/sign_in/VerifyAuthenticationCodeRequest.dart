@@ -7,7 +7,10 @@ class VerifyAuthenticationCodeRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.post, 'auth/signin',
-        queryParameters: <String, String>{"email": _email, "code": _code},));
+    return (await super.process(
+      RequestMode.post,
+      'auth/signin',
+      queryParameters: <String, String>{"email": _email, "code": _code},
+    ));
   }
 }

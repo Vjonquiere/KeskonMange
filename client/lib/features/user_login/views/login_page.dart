@@ -15,16 +15,19 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LoginPageViewModel viewModel = Provider.of<LoginPageViewModel>(context);
+    final LoginPageViewModel viewModel =
+        Provider.of<LoginPageViewModel>(context);
     return Scaffold(
-        body: SafeArea(
-            child: switch (viewModel.state) {
-      WidgetStates.idle => const CircularProgressIndicator(),
-      WidgetStates.loading => const CircularProgressIndicator(),
-      WidgetStates.ready => loginPage(context, viewModel),
-      WidgetStates.error => const Text("Error"),
-      WidgetStates.dispose => const Text("dispose"),
-    },),);
+      body: SafeArea(
+        child: switch (viewModel.state) {
+          WidgetStates.idle => const CircularProgressIndicator(),
+          WidgetStates.loading => const CircularProgressIndicator(),
+          WidgetStates.ready => loginPage(context, viewModel),
+          WidgetStates.error => const Text("Error"),
+          WidgetStates.dispose => const Text("dispose"),
+        },
+      ),
+    );
   }
 
   Widget loginPage(BuildContext context, LoginPageViewModel viewModel) {
@@ -81,10 +84,14 @@ class LoginPage extends StatelessWidget {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.sign_up),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                          create: (context) => SignupViewModel(),
-                          child: const SignupPage(),),),);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) => SignupViewModel(),
+                        child: const SignupPage(),
+                      ),
+                    ),
+                  );
                 },
               ),
             if (viewModel.signInPressed)

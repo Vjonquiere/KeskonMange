@@ -22,8 +22,11 @@ class RecipePreview extends StatelessWidget {
     if (homepage) {
       return InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => RecipePage(recipe: recipe),),);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) => RecipePage(recipe: recipe),
+            ),
+          );
         },
         child: Row(
           children: <Widget>[
@@ -47,8 +50,11 @@ class RecipePreview extends StatelessWidget {
     } else {
       return InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => RecipePage(recipe: recipe),),);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) => RecipePage(recipe: recipe),
+            ),
+          );
         },
         child: Row(
           children: <Widget>[
@@ -86,8 +92,10 @@ class RecipePreview extends StatelessWidget {
           recipe.title.toUpperCase(),
           softWrap: true,
         ),
-        Text(AppLocalizations.of(context)!
-            .preparation_time(recipe.preparationTime),),
+        Text(
+          AppLocalizations.of(context)!
+              .preparation_time(recipe.preparationTime),
+        ),
         Text(AppLocalizations.of(context)!.cooking_time(recipe.cookTime)),
       ],
     );

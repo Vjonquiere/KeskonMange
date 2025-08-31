@@ -26,73 +26,94 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => HomePageViewModel(),
+      create: (BuildContext context) => HomePageViewModel(),
       child: Scaffold(
-          bottomNavigationBar: BottomAppBar(
-            color: AppColors.green,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CustomButton(
-                    iconSize: 32,
-                    onPressed: () {
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => const UserPage()),);
-                    },
-                    text: 'pen',),
-                CustomButton(
-                    iconSize: 32,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                              create: (context) => MyCreationViewModel(),
-                              child: const MyCreationsPage(),),),);
-                    },
-                    text: 'book',),
-                FloatingActionButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => ChangeNotifierProvider(
-                            create: (context) => SearchPageViewModel(),
-                            child: const SearchPage(),),),);
-                  },
-                  child: SvgPicture.asset(AppIcons.getIcon('search')),
-                ),
-                CustomButton(
-                    iconSize: 32,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                                create: (context) =>
-                                    IngredientCreationViewModel(),
-                                child: const IngredientCreation(),
-                              ),),);
+        bottomNavigationBar: BottomAppBar(
+          color: AppColors.green,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              CustomButton(
+                iconSize: 32,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => const UserPage()),
+                  );
+                },
+                text: 'pen',
+              ),
+              CustomButton(
+                iconSize: 32,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) => MyCreationViewModel(),
+                        child: const MyCreationsPage(),
+                      ),
+                    ),
+                  );
+                },
+                text: 'book',
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) => SearchPageViewModel(),
+                        child: const SearchPage(),
+                      ),
+                    ),
+                  );
+                },
+                child: SvgPicture.asset(AppIcons.getIcon('search')),
+              ),
+              CustomButton(
+                iconSize: 32,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) =>
+                            IngredientCreationViewModel(),
+                        child: const IngredientCreation(),
+                      ),
+                    ),
+                  );
 
-                      /*
+                  /*
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => PlannedRecipesPage()));*/
-                    },
-                    text: 'upload',),
-                CustomButton(
-                    iconSize: 32,
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ChangeNotifierProvider(
-                                create: (context) => CalendarViewModel(),
-                                child: const CalendarPage(),
-                              ),),);
-                    },
-                    text: 'calendar',),
-              ],
-            ),
+                },
+                text: 'upload',
+              ),
+              CustomButton(
+                iconSize: 32,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) => CalendarViewModel(),
+                        child: const CalendarPage(),
+                      ),
+                    ),
+                  );
+                },
+                text: 'calendar',
+              ),
+            ],
           ),
-          body: SafeArea(
-            child: ListView(
-              children: <Widget>[
-                home(context),
-              ],
-            ),
-          ),),
+        ),
+        body: SafeArea(
+          child: ListView(
+            children: <Widget>[
+              home(context),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -101,11 +122,13 @@ class HomePage extends StatelessWidget {
       child: Column(
         children: <Widget>[
           ChangeNotifierProvider(
-              create: (context) => TodayMealViewModel(), child: const TodayMeal(),),
+            create: (BuildContext context) => TodayMealViewModel(),
+            child: const TodayMeal(),
+          ),
           const CustomDivider(important: true, color: AppColors.pink),
           Center(
             child: ChangeNotifierProvider(
-              create: (context) => ComingRecipesViewModel(),
+              create: (BuildContext context) => ComingRecipesViewModel(),
               child: const ComingRecipes(),
             ),
           ),

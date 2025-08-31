@@ -1,4 +1,3 @@
-
 import 'package:client/utils/app_colors.dart';
 import 'package:client/features/recipe_calendar/widgets/Month.dart';
 import 'package:flutter/material.dart';
@@ -39,60 +38,64 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     final CalendarViewModel viewModel = Provider.of<CalendarViewModel>(context);
     return Scaffold(
-        body: SafeArea(
-      child: Column(
-        children: <Widget>[
-          ColorfulTextBuilder(AppLocalizations.of(context)!.calendar, 40, true)
-              .getWidget(),
-          switch (viewModel.state) {
-            WidgetStates.idle => Container(),
-            WidgetStates.loading => const CircularProgressIndicator(),
-            WidgetStates.error => const Text("error"),
-            WidgetStates.dispose => const Text("disppose"),
-            WidgetStates.ready => GestureDetector(
-                onVerticalDragEnd: (details) {
-                  final double dy = details.velocity.pixelsPerSecond.dy;
-                  const int swipeThreshold = 300;
-                  if (dy < -swipeThreshold) {
-                    viewModel.nextMonth();
-                  } else if (dy > swipeThreshold) {
-                    viewModel.previousMonth();
-                  }
-                },
-                child: Column(
-                  children: <Widget>[
-                    IconButton(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            ColorfulTextBuilder(
+                    AppLocalizations.of(context)!.calendar, 40, true)
+                .getWidget(),
+            switch (viewModel.state) {
+              WidgetStates.idle => Container(),
+              WidgetStates.loading => const CircularProgressIndicator(),
+              WidgetStates.error => const Text("error"),
+              WidgetStates.dispose => const Text("disppose"),
+              WidgetStates.ready => GestureDetector(
+                  onVerticalDragEnd: (DragEndDetails details) {
+                    final double dy = details.velocity.pixelsPerSecond.dy;
+                    const int swipeThreshold = 300;
+                    if (dy < -swipeThreshold) {
+                      viewModel.nextMonth();
+                    } else if (dy > swipeThreshold) {
+                      viewModel.previousMonth();
+                    }
+                  },
+                  child: Column(
+                    children: <Widget>[
+                      IconButton(
                         onPressed: viewModel.previousMonth,
                         icon: const Icon(
                           Icons.arrow_drop_up,
                           size: 50.0,
-                        ),),
-                    Text(
-                      "${months[viewModel.currentMonth.month - 1]} ${viewModel.currentMonth.year}",
-                      style:
-                          const TextStyle(color: AppColors.blue, fontSize: 25),
-                    ),
-                    MonthWidget(viewModel.currentMonth),
-                    IconButton(
+                        ),
+                      ),
+                      Text(
+                        "${months[viewModel.currentMonth.month - 1]} ${viewModel.currentMonth.year}",
+                        style: const TextStyle(
+                            color: AppColors.blue, fontSize: 25),
+                      ),
+                      MonthWidget(viewModel.currentMonth),
+                      IconButton(
                         onPressed: viewModel.nextMonth,
                         icon: const Icon(
                           Icons.arrow_drop_down,
                           size: 50.0,
-                        ),),
-                  ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-          },
-          CustomButton(
-            iconSize: 32,
-            onPressed: () {
-              Navigator.of(context)
-                  .pop(MaterialPageRoute(builder: (context) => const HomePage()));
             },
-            text: 'back',
-          ),
-        ],
+            CustomButton(
+              iconSize: 32,
+              onPressed: () {
+                Navigator.of(context).pop(MaterialPageRoute(
+                    builder: (BuildContext context) => const HomePage()));
+              },
+              text: 'back',
+            ),
+          ],
+        ),
       ),
-    ),);
+    );
   }
 }

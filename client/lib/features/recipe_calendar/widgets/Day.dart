@@ -31,10 +31,15 @@ class Day extends StatelessWidget {
                     height: 25,
                     color: AppColors.yellow,
                     child: Center(
-                        child: Text("$_day",
-                            style: const TextStyle(
-                                color: Colors.black54, fontSize: 12,),
-                            textAlign: TextAlign.center,),),
+                      child: Text(
+                        "$_day",
+                        style: const TextStyle(
+                          color: Colors.black54,
+                          fontSize: 12,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
                 ),
         ),

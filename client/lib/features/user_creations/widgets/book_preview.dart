@@ -35,10 +35,14 @@ class BookPreviewWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                    create: (context) => BookViewModel(_preview.id),
-                    child: const Book(),),),)
+            .push(
+          MaterialPageRoute(
+            builder: (BuildContext context) => ChangeNotifierProvider(
+              create: (BuildContext context) => BookViewModel(_preview.id),
+              child: const Book(),
+            ),
+          ),
+        )
             .then((_) {
           _refreshOnPop();
         });
@@ -65,9 +69,11 @@ class BookPreviewWidget extends StatelessWidget {
                       width: 16,
                     ),
                     const SizedBox(width: 10.0),
-                    Text(_preview.public
-                        ? AppLocalizations.of(context)!.public
-                        : AppLocalizations.of(context)!.private,),
+                    Text(
+                      _preview.public
+                          ? AppLocalizations.of(context)!.public
+                          : AppLocalizations.of(context)!.private,
+                    ),
                   ],
                 ),
               ],

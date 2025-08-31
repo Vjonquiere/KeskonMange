@@ -13,11 +13,14 @@ class SetAllergensRequest extends HttpRequest {
         return -1; // One allergens is not valid
       }
     }
-    return (await super.process(RequestMode.post, 'user/allergens',
-        queryParameters: <String, String>{
-          "email": Authentication().getCredentials().email,
-        },
-        body: <String, Object>{"allergens": _allergens},
-        authNeeded: true,));
+    return (await super.process(
+      RequestMode.post,
+      'user/allergens',
+      queryParameters: <String, String>{
+        "email": Authentication().getCredentials().email,
+      },
+      body: <String, Object>{"allergens": _allergens},
+      authNeeded: true,
+    ));
   }
 }

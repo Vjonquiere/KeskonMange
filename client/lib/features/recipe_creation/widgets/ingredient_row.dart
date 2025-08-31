@@ -12,7 +12,8 @@ class IngredientRow extends StatelessWidget {
   final List<IngredientCard> _ingredients;
   final bool _searchForIngredients;
 
-  const IngredientRow(this._ingredients, this._searchForIngredients, {super.key});
+  const IngredientRow(this._ingredients, this._searchForIngredients,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +24,20 @@ class IngredientRow extends StatelessWidget {
     bool isThreeRow = false;
     for (int i = 0; i < _ingredients.length;) {
       final List<IngredientCard> currentRow = <IngredientCard>[];
-      currentRow.addAll(_ingredients.getRange(
+      currentRow.addAll(
+        _ingredients.getRange(
           i,
           isThreeRow
               ? min(i + 3, _ingredients.length)
-              : min(i + 4, _ingredients.length),),);
-      rows.add(Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: currentRow,
-      ),);
+              : min(i + 4, _ingredients.length),
+        ),
+      );
+      rows.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: currentRow,
+        ),
+      );
       i = i + (isThreeRow ? 3 : 4);
       isThreeRow = !isThreeRow;
     }
@@ -45,13 +51,17 @@ class IngredientRow extends StatelessWidget {
       children: <Widget>[
         const Text("Ouch... It seems like no ingredient was found!"),
         CustomButton(
-            text: "Add it!",
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                      create: (context) => IngredientCreationViewModel(),
-                      child: const IngredientCreation(),
-                    ),),),
-            color: AppColors.yellow,),
+          text: "Add it!",
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (BuildContext context) => ChangeNotifierProvider(
+                create: (BuildContext context) => IngredientCreationViewModel(),
+                child: const IngredientCreation(),
+              ),
+            ),
+          ),
+          color: AppColors.yellow,
+        ),
       ],
     );
     return const Center(

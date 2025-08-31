@@ -22,7 +22,8 @@ class UserRepositoryApi extends UserRepository {
     if ((await req.send()) != 200) {
       return null;
     }
-    final Map<String, dynamic> apiKey = jsonDecode(req.getBody()) as Map<String, dynamic>;
+    final Map<String, dynamic> apiKey =
+        jsonDecode(req.getBody()) as Map<String, dynamic>;
     if (apiKey.containsKey('token')) {
       return apiKey["token"];
     }

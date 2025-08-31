@@ -15,7 +15,8 @@ import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
 class LoginPageViewModel extends ViewModel {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FlutterSecureStorage _storage = const FlutterSecureStorage(); // Where API key is stored
+  final FlutterSecureStorage _storage =
+      const FlutterSecureStorage(); // Where API key is stored
 
   bool _signInPressed = false;
   late int _userLogged;
@@ -37,8 +38,8 @@ class LoginPageViewModel extends ViewModel {
 
   Future<void> isUserLogged() async {
     _userLogged = await CheckApiKeyValidityUseCase(
-            RepositoriesManager().getUserRepository(),)
-        .execute();
+      RepositoriesManager().getUserRepository(),
+    ).execute();
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }
@@ -58,18 +59,25 @@ class LoginPageViewModel extends ViewModel {
     _hasError = false;
     if (_emailController.text == "") return;
     if (signInPressed) {
-      final VerifyAuthenticationCodeRequest verifyCode = VerifyAuthenticationCodeRequest(
-          _emailController.text, _passwordController.text,);
+      final VerifyAuthenticationCodeRequest verifyCode =
+          VerifyAuthenticationCodeRequest(
+        _emailController.text,
+        _passwordController.text,
+      );
       if (!(await verifyCode.send() == 200)) {
         _hasError = true;
         _errorMessage = verifyCode.getBody();
         notifyListeners();
         return;
       }
-      final Map<String, dynamic> apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
+      final Map<String, dynamic> apiKey =
+          jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
       if (apiKey.containsKey('token') && apiKey.containsKey('username')) {
         await Authentication().updateCredentialsFromStorage(
-            apiKey["token"], _emailController.text, apiKey["username"],);
+          apiKey["token"],
+          _emailController.text,
+          apiKey["username"],
+        );
         await Authentication().refreshCredentialsFromStorage();
         _userLogged = 200;
         notifyListeners();
@@ -77,9 +85,9 @@ class LoginPageViewModel extends ViewModel {
       return;
     }
     if (!(await GetAuthenticationCodeUseCase(
-                RepositoriesManager().getUserRepository(),
-                _emailController.text,)
-            .execute() ==
+          RepositoriesManager().getUserRepository(),
+          _emailController.text,
+        ).execute() ==
         200)) {
       _hasError = true;
       _errorMessage = "Something went wrong while trying to send code by mail";

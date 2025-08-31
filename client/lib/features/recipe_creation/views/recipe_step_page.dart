@@ -42,20 +42,23 @@ class RecipeStep extends State<RecipeStepPage> {
                 decoration: const InputDecoration(
                   hintText: 'Write your recipe step...',
                   border: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.blue,
-                    width: 10.0,
-                  ),),
+                    borderSide: BorderSide(
+                      color: AppColors.blue,
+                      width: 10.0,
+                    ),
+                  ),
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.orange,
-                    width: 5.0,
-                  ),),
+                    borderSide: BorderSide(
+                      color: AppColors.orange,
+                      width: 5.0,
+                    ),
+                  ),
                   focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                    color: AppColors.blue,
-                    width: 6.0,
-                  ),),
+                    borderSide: BorderSide(
+                      color: AppColors.blue,
+                      width: 6.0,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -63,24 +66,31 @@ class RecipeStep extends State<RecipeStepPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  IconButton(
-                      onPressed: () => <void>{Navigator.of(context).pop()},
-                      icon: const Icon(
-                        Icons.close,
-                        color: AppColors.orange,
-                      ),),
-                  IconButton(
-                      onPressed: () => <void>{
-                            Navigator.of(context).pop(st.Step(
-                                _titleController.text, _stepController.text,),),
-                          },
-                      icon: const Icon(
-                        Icons.check,
-                        color: AppColors.green,
-                      ),),
-                ],),
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                IconButton(
+                  onPressed: () => <void>{Navigator.of(context).pop()},
+                  icon: const Icon(
+                    Icons.close,
+                    color: AppColors.orange,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => <void>{
+                    Navigator.of(context).pop(
+                      st.Step(
+                        _titleController.text,
+                        _stepController.text,
+                      ),
+                    ),
+                  },
+                  icon: const Icon(
+                    Icons.check,
+                    color: AppColors.green,
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

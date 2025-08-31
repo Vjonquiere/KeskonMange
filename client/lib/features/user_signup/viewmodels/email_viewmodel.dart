@@ -19,8 +19,11 @@ class EmailViewModel extends StateViewModel {
       setStateValue(WidgetStates.error);
       return false;
     }
-    final CheckMailAvailabilityUseCase uniqueMail = CheckMailAvailabilityUseCase(
-        RepositoriesManager().getUserRepository(), _emailController.text,);
+    final CheckMailAvailabilityUseCase uniqueMail =
+        CheckMailAvailabilityUseCase(
+      RepositoriesManager().getUserRepository(),
+      _emailController.text,
+    );
     if (!(await uniqueMail.execute() == 200)) {
       setErrorMessage("Email is already used");
       setStateValue(WidgetStates.error);

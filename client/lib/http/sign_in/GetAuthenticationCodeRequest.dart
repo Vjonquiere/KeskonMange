@@ -6,7 +6,10 @@ class GetAuthenticationCodeRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.post, 'auth/signin',
-        queryParameters: <String, String>{"email": _email},));
+    return (await super.process(
+      RequestMode.post,
+      'auth/signin',
+      queryParameters: <String, String>{"email": _email},
+    ));
   }
 }

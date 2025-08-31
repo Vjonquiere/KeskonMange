@@ -12,15 +12,17 @@ class AllergensStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AllergensViewModel viewModel = Provider.of<AllergensViewModel>(context);
+    final AllergensViewModel viewModel =
+        Provider.of<AllergensViewModel>(context);
     return Column(
       children: <Widget>[
         ColorfulTextBuilder(AppLocalizations.of(context)!.have_allergens, 40)
             .getWidget(),
         const SizedBox(height: 16.0),
         AllergensSelector(
-            selected: viewModel.selected,
-            onSelected: viewModel.onSelectedSwitch,),
+          selected: viewModel.selected,
+          onSelected: viewModel.onSelectedSwitch,
+        ),
       ],
     );
   }

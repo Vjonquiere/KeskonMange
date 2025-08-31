@@ -12,8 +12,9 @@ class RecipeStepsWriting extends StatelessWidget {
   const RecipeStepsWriting({super.key});
 
   void addStep(BuildContext context, RecipeStepViewModel viewModel) async {
-    final st.Step? stepValue = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => const RecipeStepPage()));
+    final st.Step? stepValue = await Navigator.of(context).push(
+        MaterialPageRoute(
+            builder: (BuildContext context) => const RecipeStepPage()));
     if (stepValue != null && stepValue.stepText != "") {
       debugPrint(stepValue.toString());
       viewModel.addStep(stepValue);
@@ -23,7 +24,7 @@ class RecipeStepsWriting extends StatelessWidget {
   List<StepWidget> _generateSteps(RecipeStepViewModel viewModel) {
     return List.generate(
       viewModel.steps.length,
-      (index) => StepWidget(
+      (int index) => StepWidget(
         viewModel.steps[index],
         stepNumber: index + 1,
         key: Key("${index + 1}"),

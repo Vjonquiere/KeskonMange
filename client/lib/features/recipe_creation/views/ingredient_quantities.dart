@@ -35,17 +35,19 @@ class IngredientQuantities extends StatelessWidget {
       children: <Widget>[
         const Text("I need"),
         SizedBox(
-            width: 75,
-            child: TextField(
-              controller: viewModel.quantityController,
-              maxLength: 4,
-              keyboardType: TextInputType.number,
-            ),),
+          width: 75,
+          child: TextField(
+            controller: viewModel.quantityController,
+            maxLength: 4,
+            keyboardType: TextInputType.number,
+          ),
+        ),
         DropdownButton(
-            value: viewModel.selectedDetailedUnit,
-            iconEnabledColor: AppColors.green,
-            items: viewModel.items,
-            onChanged: viewModel.updateDetailedSelectedUnit,),
+          value: viewModel.selectedDetailedUnit,
+          iconEnabledColor: AppColors.green,
+          items: viewModel.items,
+          onChanged: viewModel.updateDetailedSelectedUnit,
+        ),
         Text("of ${viewModel.currentIngredient.name}"),
       ],
     );
@@ -62,11 +64,14 @@ class IngredientQuantities extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             OutlinedButton(
-                onPressed: viewModel.previousIngredient,
-                child: const Text("previous"),),
+              onPressed: viewModel.previousIngredient,
+              child: const Text("previous"),
+            ),
             Expanded(child: _getCard(viewModel.currentIngredient)),
             OutlinedButton(
-                onPressed: viewModel.nextIngredient, child: const Text("next"),),
+              onPressed: viewModel.nextIngredient,
+              child: const Text("next"),
+            ),
           ],
         ),
         SegmentedButton(

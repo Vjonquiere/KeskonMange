@@ -19,7 +19,8 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    final SearchPageViewModel viewModel = Provider.of<SearchPageViewModel>(context);
+    final SearchPageViewModel viewModel =
+        Provider.of<SearchPageViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -37,7 +38,7 @@ class _SearchPageState extends State<SearchPage> {
               WidgetStates.ready => Expanded(
                   child: ListView.builder(
                     itemCount: viewModel.recipesCount,
-                    itemBuilder: (context, index) {
+                    itemBuilder: (BuildContext context, int index) {
                       final RecipePreview recipe = viewModel.getRecipe(index);
                       return Recipe(
                         recipe.title,

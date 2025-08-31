@@ -5,8 +5,11 @@ class IngredientReviewCard extends StatelessWidget {
   final String _ingredientName;
   final String _ingredientQuantity;
 
-  const IngredientReviewCard(this._ingredientName, this._ingredientQuantity,
-      {super.key,});
+  const IngredientReviewCard(
+    this._ingredientName,
+    this._ingredientQuantity, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

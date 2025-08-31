@@ -48,7 +48,9 @@ class GeneralInformation extends StatelessWidget {
   }
 
   Widget mealTypeRadioButton(
-      GeneralInformationViewModel viewModel, String value,) {
+    GeneralInformationViewModel viewModel,
+    String value,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
@@ -97,7 +99,7 @@ class GeneralInformation extends StatelessWidget {
                         _typeOfMeal = value;
                       });
                     }*/
-                        (value) => <dynamic, dynamic>{},
+                        (String value) => <dynamic, dynamic>{},
                   ),
                 ),
               ],
@@ -140,10 +142,11 @@ class GeneralInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      "You need ${viewModel.preparationTime} minutes of preparation\t",
-                    ),),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "You need ${viewModel.preparationTime} minutes of preparation\t",
+                  ),
+                ),
                 NumberPicker(
                   title: "Preparation Time",
                   buttonText: "change",
@@ -157,10 +160,11 @@ class GeneralInformation extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Text(
-                      "It will cook for ${viewModel.cookingTime} minutes\t",
-                    ),),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "It will cook for ${viewModel.cookingTime} minutes\t",
+                  ),
+                ),
                 NumberPicker(
                   title: "Cooking Time",
                   buttonText: "change",
@@ -200,11 +204,15 @@ class GeneralInformation extends StatelessWidget {
             Column(
               children: <Widget>[
                 CustomButton(
-                    text: "Import", onPressed: () {}, color: AppColors.blue,),
+                  text: "Import",
+                  onPressed: () {},
+                  color: AppColors.blue,
+                ),
                 CustomButton(
-                    text: "Take a picture",
-                    onPressed: () {},
-                    color: AppColors.yellow,),
+                  text: "Take a picture",
+                  onPressed: () {},
+                  color: AppColors.yellow,
+                ),
               ],
             ),
           ],

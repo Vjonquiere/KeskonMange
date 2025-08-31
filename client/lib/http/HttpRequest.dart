@@ -18,21 +18,28 @@ abstract class HttpRequest {
     return jsonDecode(_body!);
   }
 
-  Future<int> process(RequestMode mode, String route,
-      {Map<String, String> queryParameters = const <String, String>{},
-      Map<String, Object> body = const <String, Object>{},
-      bool authNeeded = false,}) async {
+  Future<int> process(
+    RequestMode mode,
+    String route, {
+    Map<String, String> queryParameters = const <String, String>{},
+    Map<String, Object> body = const <String, Object>{},
+    bool authNeeded = false,
+  }) async {
     try {
       final Uri url = Uri.https(Config().serverUrl, route, queryParameters);
       http.Response response;
       switch (mode) {
         case RequestMode.get:
-          response = await http.get(url,
-              headers: authNeeded ? Authentication().httpHeader() : null,);
+          response = await http.get(
+            url,
+            headers: authNeeded ? Authentication().httpHeader() : null,
+          );
         case RequestMode.post:
-          response = await http.post(url,
-              headers: authNeeded ? Authentication().httpHeader() : null,
-              body: body,);
+          response = await http.post(
+            url,
+            headers: authNeeded ? Authentication().httpHeader() : null,
+            body: body,
+          );
       }
       _body = response.body;
       if (kDebugMode) {

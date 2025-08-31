@@ -7,10 +7,13 @@ class CreateAccountRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.post, 'user/create',
-        queryParameters: <String, String>{
-          "email": _email,
-          "username": _username,
-        },));
+    return (await super.process(
+      RequestMode.post,
+      'user/create',
+      queryParameters: <String, String>{
+        "email": _email,
+        "username": _username,
+      },
+    ));
   }
 }

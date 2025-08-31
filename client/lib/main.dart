@@ -23,7 +23,8 @@ class KeskonMangeApp extends StatelessWidget {
       future: RepositoriesManager().currentlyUsingMockRepositories
           ? MockRepositoriesSampleLoad.create()
           : Future.value(),
-      builder: (context, snapshot) {
+      builder: (BuildContext context,
+          AsyncSnapshot<MockRepositoriesSampleLoad> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -46,11 +47,11 @@ class KeskonMangeApp extends StatelessWidget {
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
           ),
-          builder: (context, child) {
+          builder: (BuildContext context, Widget? child) {
             return GlobalMessage(child: child!);
           },
           home: ChangeNotifierProvider(
-            create: (context) => LoginPageViewModel(),
+            create: (BuildContext context) => LoginPageViewModel(),
             child: const LoginPage(),
           ),
         );

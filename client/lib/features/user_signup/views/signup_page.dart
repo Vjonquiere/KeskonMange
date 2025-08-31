@@ -1,4 +1,3 @@
-
 import 'package:client/features/home/viewmodels/home_page_viewmodel.dart';
 import 'package:client/features/user_signup/widgets/account_verification_step.dart';
 import 'package:client/features/user_signup/widgets/allergens_step.dart';
@@ -38,8 +37,11 @@ class _SignupPageState extends State<SignupPage> {
       if (viewModel.signupFinalized) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (_) => ChangeNotifierProvider(
-                  create: (context) => HomePageViewModel(), child: const HomePage(),),),
+            builder: (_) => ChangeNotifierProvider(
+              create: (BuildContext context) => HomePageViewModel(),
+              child: const HomePage(),
+            ),
+          ),
         );
         return;
       }
@@ -102,8 +104,10 @@ class _SignupPageState extends State<SignupPage> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 ColorfulTextBuilder(
-                        AppLocalizations.of(context)!.sign_up_title, 50, true,)
-                    .getWidget(),
+                  AppLocalizations.of(context)!.sign_up_title,
+                  50,
+                  true,
+                ).getWidget(),
               ],
             ),
             const SizedBox(height: 20.0),
@@ -119,10 +123,14 @@ class _SignupPageState extends State<SignupPage> {
               animateFromLastPercent: true,
               onAnimationEnd: () {
                 if (viewModel.signupFinalized) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                          create: (context) => HomePageViewModel(),
-                          child: const HomePage(),),),);
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => ChangeNotifierProvider(
+                        create: (BuildContext context) => HomePageViewModel(),
+                        child: const HomePage(),
+                      ),
+                    ),
+                  );
                 }
               },
             ),

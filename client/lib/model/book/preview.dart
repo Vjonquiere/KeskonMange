@@ -1,4 +1,3 @@
-
 class BookPreview {
   int id;
   String name;

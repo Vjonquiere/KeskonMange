@@ -1,4 +1,3 @@
-
 import 'package:client/http/HttpRequest.dart';
 
 class GetLastRecipesRequest extends HttpRequest {

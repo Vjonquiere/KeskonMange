@@ -8,7 +8,8 @@ class CalendarRepositoryMock extends CalendarRepository {
     DateTime current = DateTime.timestamp();
     current = current.add(Duration(days: 30 * monthCount));
     return Month(current.year, current.month, <PlannedRecipe>[
-      PlannedRecipe("${current.day}-${current.month}-${current.year}", 1, 1, ""),
+      PlannedRecipe(
+          "${current.day}-${current.month}-${current.year}", 1, 1, ""),
     ], <List<int>>[
       <int>[0, 0, 0, 1, 2, 3, 4],
       <int>[5, 6, 7, 8, 9, 10, 11],

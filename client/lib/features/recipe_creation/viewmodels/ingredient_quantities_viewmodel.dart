@@ -37,7 +37,9 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   void _saveCurrentIngredientQuantity() {
     values[_currentIngredient] = IngredientQuantity(
-        _selectedDetailedUnit, int.parse(_quantityController.text),);
+      _selectedDetailedUnit,
+      int.parse(_quantityController.text),
+    );
   }
 
   void _loadIngredient(bool next) {
@@ -46,14 +48,18 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     _currentIngredient = ingredients[_currentIndex];
 
     if (values.containsKey(_currentIngredient)) {
-      _selectedUnit = <UnitCategory>{values[_currentIngredient]!.unit.unitCategory};
+      _selectedUnit = <UnitCategory>{
+        values[_currentIngredient]!.unit.unitCategory
+      };
       _quantityController.text =
           values[_currentIngredient]!.quantity.toString();
       _selectedDetailedUnit = values[_currentIngredient]!.unit;
       updateUnits();
     } else {
       _quantityController.text = "";
-      _selectedUnit = <UnitCategory>{_currentIngredient.type.first.unitCategory};
+      _selectedUnit = <UnitCategory>{
+        _currentIngredient.type.first.unitCategory
+      };
       updateUnits(setDetailedUnit: true);
     }
   }
@@ -76,17 +82,41 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   void updateUnits({setDetailedUnit = false}) {
     _items.clear();
     if (_selectedUnit.first == UnitCategory.volume) {
-      _items.addAll(VolumeUnits.values.map((elt) => DropdownMenuItem(
-          value: Unit(UnitCategory.volume, elt), child: Text(elt.name),),),);
+      _items.addAll(
+        VolumeUnits.values.map(
+          (VolumeUnits elt) => DropdownMenuItem(
+            value: Unit(UnitCategory.volume, elt),
+            child: Text(elt.name),
+          ),
+        ),
+      );
     } else if (_selectedUnit.first == UnitCategory.special) {
-      _items.addAll(SpecialUnits.values.map((elt) => DropdownMenuItem(
-          value: Unit(UnitCategory.special, elt), child: Text(elt.name),),),);
+      _items.addAll(
+        SpecialUnits.values.map(
+          (SpecialUnits elt) => DropdownMenuItem(
+            value: Unit(UnitCategory.special, elt),
+            child: Text(elt.name),
+          ),
+        ),
+      );
     } else if (_selectedUnit.first == UnitCategory.weight) {
-      _items.addAll(WeightUnits.values.map((elt) => DropdownMenuItem(
-          value: Unit(UnitCategory.weight, elt), child: Text(elt.name),),),);
+      _items.addAll(
+        WeightUnits.values.map(
+          (WeightUnits elt) => DropdownMenuItem(
+            value: Unit(UnitCategory.weight, elt),
+            child: Text(elt.name),
+          ),
+        ),
+      );
     } else if (_selectedUnit.first == UnitCategory.wholeItem) {
-      _items.addAll(WholeItemsUnits.values.map((elt) => DropdownMenuItem(
-          value: Unit(UnitCategory.wholeItem, elt), child: Text(elt.name),),),);
+      _items.addAll(
+        WholeItemsUnits.values.map(
+          (WholeItemsUnits elt) => DropdownMenuItem(
+            value: Unit(UnitCategory.wholeItem, elt),
+            child: Text(elt.name),
+          ),
+        ),
+      );
     } else {
       throw Exception("");
     }
@@ -96,10 +126,15 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   }
 
   List<ButtonSegment<UnitCategory>> _getTypeSelection() {
-    final List<ButtonSegment<UnitCategory>> types = <ButtonSegment<UnitCategory>>[];
+    final List<ButtonSegment<UnitCategory>> types =
+        <ButtonSegment<UnitCategory>>[];
     for (Unit unit in _currentIngredient.type) {
-      types.add(ButtonSegment(
-          value: unit.unitCategory, label: Text(unit.toString()),),);
+      types.add(
+        ButtonSegment(
+          value: unit.unitCategory,
+          label: Text(unit.toString()),
+        ),
+      );
     }
     return types;
   }

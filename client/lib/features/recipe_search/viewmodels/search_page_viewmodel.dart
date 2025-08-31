@@ -20,13 +20,15 @@ class SearchPageViewModel extends ViewModel {
   Future<void> _loadRecipes() async {
     setStateValue(WidgetStates.idle);
     final List<int> recipeIds = await GetLastRecipesUseCase(
-            RepositoriesManager().getRecipeRepository(), 30,)
-        .execute();
+      RepositoriesManager().getRecipeRepository(),
+      30,
+    ).execute();
     debugPrint(recipeIds.toString());
     for (int id in recipeIds) {
       final RecipePreview? recipe = await GetRecipeFromIdUseCase(
-              RepositoriesManager().getRecipeRepository(), id,)
-          .execute();
+        RepositoriesManager().getRecipeRepository(),
+        id,
+      ).execute();
       if (recipe != null) recipes.add(recipe);
     }
     setStateValue(WidgetStates.ready);

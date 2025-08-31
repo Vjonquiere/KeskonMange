@@ -39,7 +39,7 @@ class TodayMeal extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(viewModel.radioButtonCount, (index) {
+              children: List.generate(viewModel.radioButtonCount, (int index) {
                 return Radio<int>(
                   value: index,
                   groupValue: viewModel.currentRadioButton,
@@ -55,7 +55,8 @@ class TodayMeal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TodayMealViewModel viewModel = Provider.of<TodayMealViewModel>(context);
+    final TodayMealViewModel viewModel =
+        Provider.of<TodayMealViewModel>(context);
     return Column(
       children: <Widget>[
         ColorfulTextBuilder(AppLocalizations.of(context)!.today, 35, true)
@@ -74,7 +75,9 @@ class TodayMeal extends StatelessWidget {
           ],
         ),
         CustomButton(
-            onPressed: () {}, text: AppLocalizations.of(context)!.letsgo,),
+          onPressed: () {},
+          text: AppLocalizations.of(context)!.letsgo,
+        ),
       ],
     );
   }

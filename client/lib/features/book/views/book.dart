@@ -43,20 +43,27 @@ class Book extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            Text(AppLocalizations.of(context)!
-                .book_creation(viewModel.book.creationDate),),
-            Text(AppLocalizations.of(context)!
-                .book_owner(viewModel.book.ownerId),),
+            Text(
+              AppLocalizations.of(context)!
+                  .book_creation(viewModel.book.creationDate),
+            ),
+            Text(
+              AppLocalizations.of(context)!.book_owner(viewModel.book.ownerId),
+            ),
             Row(
               children: <Widget>[
                 SvgPicture.asset(
                   AppIcons.getIcon(
-                      viewModel.book.public ? "public" : "private",),
+                    viewModel.book.public ? "public" : "private",
+                  ),
                   width: 16,
                 ),
                 const SizedBox(width: 10.0),
                 Text(
-                    viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private,),
+                  viewModel.book.public
+                      ? AppLocalizations.of(context)!.book_public
+                      : AppLocalizations.of(context)!.book_private,
+                ),
               ],
             ),
           ],
@@ -71,10 +78,11 @@ class Book extends StatelessWidget {
               text: "trash",
               onPressed: () {
                 showDialog(
-                    context: context,
-                    builder: (context) => Dialog(
-                          child: DeleteBookDialog(viewModel.deleteBook),
-                        ),);
+                  context: context,
+                  builder: (BuildContext context) => Dialog(
+                    child: DeleteBookDialog(viewModel.deleteBook),
+                  ),
+                );
               },
               color: AppColors.red,
             ),
@@ -101,26 +109,28 @@ class Book extends StatelessWidget {
 
   Widget recipeList(BuildContext context, BookViewModel viewModel) {
     return Expanded(
-        child: ListView.builder(
-            itemCount: viewModel.recipeCount,
-            itemBuilder: (BuildContext context, int index) {
-              if (viewModel.editMode) {
-                return Row(
-                  children: <Widget>[
-                    RecipePreview(recipe: viewModel.recipes[index]),
-                    CustomButton(
-                      text: "trash",
-                      onPressed: () {
-                        viewModel.deleteRecipe(viewModel.recipes[index].id);
-                      },
-                      iconSize: 32,
-                      color: AppColors.red,
-                    ),
-                  ],
-                );
-              }
-              return RecipePreview(recipe: viewModel.recipes[index]);
-            },),);
+      child: ListView.builder(
+        itemCount: viewModel.recipeCount,
+        itemBuilder: (BuildContext context, int index) {
+          if (viewModel.editMode) {
+            return Row(
+              children: <Widget>[
+                RecipePreview(recipe: viewModel.recipes[index]),
+                CustomButton(
+                  text: "trash",
+                  onPressed: () {
+                    viewModel.deleteRecipe(viewModel.recipes[index].id);
+                  },
+                  iconSize: 32,
+                  color: AppColors.red,
+                ),
+              ],
+            );
+          }
+          return RecipePreview(recipe: viewModel.recipes[index]);
+        },
+      ),
+    );
   }
 
   @override
@@ -128,38 +138,43 @@ class Book extends StatelessWidget {
     final BookViewModel viewModel = Provider.of<BookViewModel>(context);
     return Scaffold(
       body: SafeArea(
-          child: switch (viewModel.state) {
-        WidgetStates.idle => const CircularProgressIndicator(),
-        WidgetStates.loading => const CircularProgressIndicator(),
-        WidgetStates.ready => Column(
-            children: <Widget>[
-              const Padding(padding: EdgeInsetsGeometry.only(top: 25)),
-              topContainer(context, viewModel),
-              const CustomDivider(),
-              viewModel.editMode
-                  ? Container(
-                      margin: const EdgeInsets.all(5),
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
+        child: switch (viewModel.state) {
+          WidgetStates.idle => const CircularProgressIndicator(),
+          WidgetStates.loading => const CircularProgressIndicator(),
+          WidgetStates.ready => Column(
+              children: <Widget>[
+                const Padding(padding: EdgeInsetsGeometry.only(top: 25)),
+                topContainer(context, viewModel),
+                const CustomDivider(),
+                viewModel.editMode
+                    ? Container(
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
                           color: AppColors.yellow,
-                          borderRadius: BorderRadius.circular(10),),
-                      child: Center(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
                           child: Text(
-                              AppLocalizations.of(context)!.book_edit_mode,),),
-                    )
-                  : Container(),
-              recipeList(context, viewModel),
-            ],
-          ),
-        WidgetStates.error => const Text("Error"),
-        WidgetStates.dispose => const Text("Dispose"),
-      },),
+                            AppLocalizations.of(context)!.book_edit_mode,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                recipeList(context, viewModel),
+              ],
+            ),
+          WidgetStates.error => const Text("Error"),
+          WidgetStates.dispose => const Text("Dispose"),
+        },
+      ),
       floatingActionButton: CustomButton(
-          iconSize: 32,
-          text: "back",
-          onPressed: () {
-            Navigator.of(context).pop();
-          },),
+        iconSize: 32,
+        text: "back",
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }

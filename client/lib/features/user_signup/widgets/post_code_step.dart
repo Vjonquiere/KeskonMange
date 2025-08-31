@@ -12,28 +12,30 @@ class PostCodeStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostCodeViewModel viewModel = Provider.of<PostCodeViewModel>(context);
-    return Column(children: <Widget>[
-      Column(
-        children: <Widget>[
-          const SizedBox(height: 16.0),
-          ColorfulTextBuilder(AppLocalizations.of(context)!.housing, 40)
-              .getWidget(),
-          ColorfulTextBuilder(AppLocalizations.of(context)!.housing_info, 20)
-              .getWidget(),
-        ],
-      ),
-      const SizedBox(height: 20.0),
-      TextField(
-        controller: viewModel.postcodeController,
-        decoration: const InputDecoration(
-          filled: true,
-          labelText: 'Postcode',
+    return Column(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            const SizedBox(height: 16.0),
+            ColorfulTextBuilder(AppLocalizations.of(context)!.housing, 40)
+                .getWidget(),
+            ColorfulTextBuilder(AppLocalizations.of(context)!.housing_info, 20)
+                .getWidget(),
+          ],
         ),
-        keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-      ),
-    ],);
+        const SizedBox(height: 20.0),
+        TextField(
+          controller: viewModel.postcodeController,
+          decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Postcode',
+          ),
+          keyboardType: TextInputType.number,
+          inputFormatters: <TextInputFormatter>[
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+        ),
+      ],
+    );
   }
 }

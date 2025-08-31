@@ -51,8 +51,11 @@ class CookingInfo extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(AppLocalizations.of(context)!.planning_meal_time(
-                    const TimeOfDay(hour: 20, minute: 30).format(context),),),
+                Text(
+                  AppLocalizations.of(context)!.planning_meal_time(
+                    const TimeOfDay(hour: 20, minute: 30).format(context),
+                  ),
+                ),
                 Text(AppLocalizations.of(context)!.planning_start_cooking(50)),
               ],
             ),

@@ -25,8 +25,11 @@ class NewBookViewModel extends ViewModel {
   }
 
   Future<bool> pushBook() async {
-    final int bookId = await RepositoriesManager().getBookRepository().createNewBook(
-        BookPreview(-1, _titleController.text, DateTime.now(), -1, _public),);
+    final int bookId = await RepositoriesManager()
+        .getBookRepository()
+        .createNewBook(
+          BookPreview(-1, _titleController.text, DateTime.now(), -1, _public),
+        );
     for (int id in _selectedRecipes) {
       await RepositoriesManager()
           .getBookRepository()

@@ -11,23 +11,25 @@ class EmailStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final EmailViewModel viewModel = Provider.of<EmailViewModel>(context);
-    return Column(children: <Widget>[
-      Column(
-        children: <Widget>[
-          const SizedBox(height: 16.0),
-          ColorfulTextBuilder(AppLocalizations.of(context)!.give_email, 40)
-              .getWidget(),
-        ],
-      ),
-      const SizedBox(height: 20.0),
-      // [username]
-      TextField(
-        controller: viewModel.emailController,
-        decoration: const InputDecoration(
-          filled: true,
-          labelText: 'Email',
+    return Column(
+      children: <Widget>[
+        Column(
+          children: <Widget>[
+            const SizedBox(height: 16.0),
+            ColorfulTextBuilder(AppLocalizations.of(context)!.give_email, 40)
+                .getWidget(),
+          ],
         ),
-      ),
-    ],);
+        const SizedBox(height: 20.0),
+        // [username]
+        TextField(
+          controller: viewModel.emailController,
+          decoration: const InputDecoration(
+            filled: true,
+            labelText: 'Email',
+          ),
+        ),
+      ],
+    );
   }
 }

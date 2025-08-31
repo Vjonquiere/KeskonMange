@@ -45,24 +45,30 @@ class IngredientCreation extends StatelessWidget {
         Wrap(
           children: <Widget>[
             SegmentedButton(
-                segments: List.generate(
-                    viewModel.categoriesCount,
-                    (int index) => ButtonSegment(
-                        value: viewModel.categories[index].toString(),
-                        label: Text(viewModel.categories[index].toString()),),),
-                onSelectionChanged: viewModel.updateSelectedCategory,
-                selected: viewModel.selectedCategoryString,),
+              segments: List.generate(
+                viewModel.categoriesCount,
+                (int index) => ButtonSegment(
+                  value: viewModel.categories[index].toString(),
+                  label: Text(viewModel.categories[index].toString()),
+                ),
+              ),
+              onSelectionChanged: viewModel.updateSelectedCategory,
+              selected: viewModel.selectedCategoryString,
+            ),
           ],
         ),
         ToggleButtons(
-            isSelected: List.generate(
-                viewModel.selectedCategory.getSubCategories().length,
-                (int index) => viewModel.selectedSubCategories[index],),
-            onPressed: viewModel.updateSelectedSubCategory,
-            children: List.generate(
-                viewModel.selectedCategory.getSubCategories().length,
-                (int index) =>
-                    Text(viewModel.selectedCategory.getSubCategories()[index]),),),
+          isSelected: List.generate(
+            viewModel.selectedCategory.getSubCategories().length,
+            (int index) => viewModel.selectedSubCategories[index],
+          ),
+          onPressed: viewModel.updateSelectedSubCategory,
+          children: List.generate(
+            viewModel.selectedCategory.getSubCategories().length,
+            (int index) =>
+                Text(viewModel.selectedCategory.getSubCategories()[index]),
+          ),
+        ),
       ],
     );
   }
@@ -73,10 +79,12 @@ class IngredientCreation extends StatelessWidget {
         boldText("Is it ?"),
         SegmentedButton(
           segments: List.generate(
-              viewModel.specificationsCount,
-              (int index) => ButtonSegment(
-                  value: viewModel.specifications[index],
-                  label: Text(viewModel.specifications[index]),),),
+            viewModel.specificationsCount,
+            (int index) => ButtonSegment(
+              value: viewModel.specifications[index],
+              label: Text(viewModel.specifications[index]),
+            ),
+          ),
           selected: viewModel.selectedSpecifications,
           onSelectionChanged: viewModel.updateSelectedSpecifications,
           emptySelectionAllowed: true,
@@ -92,10 +100,12 @@ class IngredientCreation extends StatelessWidget {
         boldText("Which unit to measure this ingredient ?"),
         SegmentedButton(
           segments: List.generate(
-              units.length,
-              (int index) => ButtonSegment(
-                  value: units.values.elementAt(index).toString(),
-                  label: Text(units.values.elementAt(index).toString()),),),
+            units.length,
+            (int index) => ButtonSegment(
+              value: units.values.elementAt(index).toString(),
+              label: Text(units.values.elementAt(index).toString()),
+            ),
+          ),
           selected: viewModel.selectedUnits,
           multiSelectionEnabled: true,
           onSelectionChanged: viewModel.updateSelectedUnits,
@@ -109,8 +119,9 @@ class IngredientCreation extends StatelessWidget {
       children: <Widget>[
         boldText("Does it contain allergens ?"),
         AllergensSelector(
-            selected: viewModel.allergensValues,
-            onSelected: viewModel.switchSelectedAllergen,),
+          selected: viewModel.allergensValues,
+          onSelected: viewModel.switchSelectedAllergen,
+        ),
       ],
     );
   }
@@ -129,11 +140,13 @@ class IngredientCreation extends StatelessWidget {
 
     if (viewModel.state == WidgetStates.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Error: ${viewModel.errorMessage!}"),
-          duration: const Duration(seconds: 5),
-          showCloseIcon: true,
-        ),);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: ${viewModel.errorMessage!}"),
+            duration: const Duration(seconds: 5),
+            showCloseIcon: true,
+          ),
+        );
         viewModel.clearError();
       });
     }
@@ -144,16 +157,19 @@ class IngredientCreation extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5),
-        child: Column(children: <Widget>[
-          nameStep(viewModel),
-          specificationsStep(viewModel),
-          categoryStep(viewModel),
-          unitStep(viewModel),
-          allergensStep(viewModel),
-          ElevatedButton(
+        child: Column(
+          children: <Widget>[
+            nameStep(viewModel),
+            specificationsStep(viewModel),
+            categoryStep(viewModel),
+            unitStep(viewModel),
+            allergensStep(viewModel),
+            ElevatedButton(
               onPressed: viewModel.pushIngredient,
-              child: const Text("Create ingredient !"),),
-        ],),
+              child: const Text("Create ingredient !"),
+            ),
+          ],
+        ),
       ),
     );
   }

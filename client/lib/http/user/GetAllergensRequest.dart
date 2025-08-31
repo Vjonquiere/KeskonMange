@@ -20,10 +20,13 @@ class GetAllergensRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.get, 'user/allergens',
-        queryParameters: <String, String>{
-          "email": Authentication().getCredentials().email,
-        },
-        authNeeded: true,));
+    return (await super.process(
+      RequestMode.get,
+      'user/allergens',
+      queryParameters: <String, String>{
+        "email": Authentication().getCredentials().email,
+      },
+      authNeeded: true,
+    ));
   }
 }

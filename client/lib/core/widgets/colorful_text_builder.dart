@@ -17,8 +17,12 @@ class ColorfulTextBuilder {
   List<TextSpan> getText() {
     final List<TextSpan> letters = <TextSpan>[];
     for (int i = 0; i < _text.length; i++) {
-      letters.add(TextSpan(
-          text: _text[i], style: TextStyle(color: colors[i % colors.length]),),);
+      letters.add(
+        TextSpan(
+          text: _text[i],
+          style: TextStyle(color: colors[i % colors.length]),
+        ),
+      );
     }
     return letters;
   }
@@ -28,14 +32,16 @@ class ColorfulTextBuilder {
       children: <Widget>[
         const SizedBox(height: 16.0),
         RichText(
-            text: TextSpan(
-          text: "",
-          style: TextStyle(
+          text: TextSpan(
+            text: "",
+            style: TextStyle(
               fontSize: _fontSize,
               fontFamily: "Raleway",
-              fontWeight: _bold ? FontWeight.bold : FontWeight.normal,),
-          children: getText(),
-        ),),
+              fontWeight: _bold ? FontWeight.bold : FontWeight.normal,
+            ),
+            children: getText(),
+          ),
+        ),
       ],
     );
   }

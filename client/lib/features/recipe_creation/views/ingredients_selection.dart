@@ -17,18 +17,20 @@ class IngredientSelection extends StatelessWidget {
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
         IngredientRow(viewModel.getSelectedIngredients(), false),
         Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Icon(Icons.search),
-                Expanded(
-                    child: TextField(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.search),
+              Expanded(
+                child: TextField(
                   controller: viewModel.ingredientSearchController,
                   onChanged: viewModel.searchStringChanged,
-                ),),
-              ],
-            ),),
+                ),
+              ),
+            ],
+          ),
+        ),
         IngredientRow(viewModel.getSearchIngredients(), true),
       ],
     );

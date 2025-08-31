@@ -36,7 +36,10 @@ class Authentication {
   }
 
   Future<void> updateCredentialsFromStorage(
-      String apiKey, String email, String username,) async {
+    String apiKey,
+    String email,
+    String username,
+  ) async {
     await _storage.write(key: "x-api-key", value: apiKey);
     await _storage.write(key: "email", value: email);
     await _storage.write(key: "username", value: username);

@@ -19,7 +19,8 @@ class MyCreationsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyCreationViewModel viewModel = Provider.of<MyCreationViewModel>(context);
+    final MyCreationViewModel viewModel =
+        Provider.of<MyCreationViewModel>(context);
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -56,19 +57,28 @@ class MyCreationsPage extends StatelessWidget {
           WidgetStates.dispose => const Text("dispose"),
           WidgetStates.ready => Expanded(
               child: ListView.builder(
-                  itemCount: viewModel.booksCount,
-                  itemBuilder: (context, index) => BookPreviewWidget(
-                      viewModel.books[index], viewModel.getUserBooks,),),),
+                itemCount: viewModel.booksCount,
+                itemBuilder: (BuildContext context, int index) =>
+                    BookPreviewWidget(
+                  viewModel.books[index],
+                  viewModel.getUserBooks,
+                ),
+              ),
+            ),
           WidgetStates.error => const Text("Error"),
         },
         const SizedBox(height: 10.0),
         FloatingActionButton(
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                        create: (context) => NewBookViewModel(),
-                        child: const NewBookPage(),),),)
+                .push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => ChangeNotifierProvider(
+                      create: (BuildContext context) => NewBookViewModel(),
+                      child: const NewBookPage(),
+                    ),
+                  ),
+                )
                 .then((res) => viewModel.getUserBooks());
           },
           child: const Icon(Icons.add),
@@ -83,8 +93,10 @@ class MyCreationsPage extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
         ColorfulTextBuilder(
-                AppLocalizations.of(context)!.my_creations, 30, true,)
-            .getWidget(),
+          AppLocalizations.of(context)!.my_creations,
+          30,
+          true,
+        ).getWidget(),
         IconButton(
           onPressed: () {},
           icon: SvgPicture.asset(
@@ -103,10 +115,14 @@ class MyCreationsPage extends StatelessWidget {
         CustomButton(
           text: "add",
           onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                    create: (context) => NewRecipeViewModel(),
-                    child: const NewRecipePage(),),),);
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (BuildContext context) => ChangeNotifierProvider(
+                  create: (BuildContext context) => NewRecipeViewModel(),
+                  child: const NewRecipePage(),
+                ),
+              ),
+            );
           },
           iconSize: 32,
         ),

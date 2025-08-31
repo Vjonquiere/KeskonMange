@@ -30,7 +30,8 @@ class IngredientCreationViewModel extends ViewModel {
   ];
   late IngredientCategory _selectedCategory = _categories.first;
   int _selectedSubCategoryIndex = 0;
-  final List<bool> _allergens = List.generate(allergens.length, (e) => false);
+  final List<bool> _allergens =
+      List.generate(allergens.length, (int e) => false);
   Set<String> _selectedUnits = <String>{units.values.first.toString()};
 
   TextEditingController get nameController => _nameController;
@@ -41,12 +42,14 @@ class IngredientCreationViewModel extends ViewModel {
 
   List<IngredientCategory> get categories => _categories;
   int get categoriesCount => _categories.length;
-  Set<String> get selectedCategoryString => <String>{_selectedCategory.toString()};
+  Set<String> get selectedCategoryString =>
+      <String>{_selectedCategory.toString()};
   IngredientCategory get selectedCategory => _selectedCategory;
   int get selectedSubCategoryIndex => _selectedSubCategoryIndex;
   List<bool> get selectedSubCategories => List.generate(
-      _selectedCategory.getSubCategories().length,
-      (int index) => index == _selectedSubCategoryIndex ? true : false,);
+        _selectedCategory.getSubCategories().length,
+        (int index) => index == _selectedSubCategoryIndex ? true : false,
+      );
 
   List<bool> get allergensValues => _allergens;
   Set<String> get selectedUnits => _selectedUnits;
@@ -99,13 +102,15 @@ class IngredientCreationViewModel extends ViewModel {
       notifyListeners();
       return;
     }
-    final int status = await RepositoriesManager()
-        .getIngredientRepository()
-        .createIngredient(Ingredient(
-            _nameController.text,
-            _selectedUnits
-                .map((element) => getUnitFromString(element))
-                .toList(),),);
+    final int status =
+        await RepositoriesManager().getIngredientRepository().createIngredient(
+              Ingredient(
+                _nameController.text,
+                _selectedUnits
+                    .map((String element) => getUnitFromString(element))
+                    .toList(),
+              ),
+            );
     if (status != 200) {
       // TODO: error management
     } else {

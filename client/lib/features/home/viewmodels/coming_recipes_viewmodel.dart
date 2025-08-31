@@ -20,8 +20,9 @@ class ComingRecipesViewModel extends ViewModel {
     final List<RecipePreview> recipes = <RecipePreview>[];
     for (int id = 0; id < ids.length; id++) {
       final RecipePreview? recipe = await GetRecipeFromIdUseCase(
-              RepositoriesManager().getRecipeRepository(), ids[id],)
-          .execute();
+        RepositoriesManager().getRecipeRepository(),
+        ids[id],
+      ).execute();
       if (recipe != null) recipes.add(recipe);
     }
     _recipes = recipes;

@@ -14,14 +14,15 @@ class NumberPicker extends StatelessWidget {
   int maxValue;
   int minValue;
 
-  NumberPicker(
-      {super.key,
-      required this.title,
-      required this.buttonText,
-      required this.onValueChanged,
-      this.initialValue = 5,
-      this.maxValue = 10,
-      this.minValue = 1,});
+  NumberPicker({
+    super.key,
+    required this.title,
+    required this.buttonText,
+    required this.onValueChanged,
+    this.initialValue = 5,
+    this.maxValue = 10,
+    this.minValue = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,8 @@ class NumberPicker extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ColorfulTextBuilder(title, 30, true).getWidget(),
-                      const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10)),
                       RotaryNumberPicker(
                         maxValue: maxValue,
                         minValue: minValue,

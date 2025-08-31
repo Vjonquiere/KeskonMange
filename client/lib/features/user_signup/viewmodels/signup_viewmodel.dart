@@ -45,10 +45,13 @@ class SignupViewModel extends ViewModel {
       _currentIndex += 1;
       _progressBarValue = _currentIndex / _stepCount;
       if (_currentIndex == _stepCount - 1) {
-        _accountVerificationViewModel.setUser(User(
+        _accountVerificationViewModel.setUser(
+          User(
             _emailViewModel.emailController.text,
             _usernameViewModel.usernameController.text,
-            <Allergen>[],),); // TODO: Translate bool list to allergens
+            <Allergen>[],
+          ),
+        ); // TODO: Translate bool list to allergens
         _accountVerificationViewModel.createUser();
       }
     }
