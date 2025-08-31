@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:client/config.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:flutter/foundation.dart';
-import 'package:client/variables.dart' as variables;
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,7 +21,7 @@ class MockRepositoriesSampleLoad {
   }
 
   Future<void> _loadSamples() async {
-    for (String source in variables.mockSampleFiles) {
+    for (String source in Config().mockSampleFiles) {
       try {
         String content;
 

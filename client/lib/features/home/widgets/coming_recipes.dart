@@ -1,6 +1,5 @@
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/widgets/recipe_preview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

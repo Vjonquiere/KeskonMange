@@ -1,6 +1,5 @@
 import 'package:client/features/recipe_creation/viewmodels/recipe_step_viewmodel.dart';
 import 'package:client/features/recipe_creation/views/recipe_step_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

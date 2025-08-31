@@ -1,7 +1,6 @@
 import 'package:client/model/ingredient.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class IngredientCard extends StatelessWidget {
   final Ingredient ingredient;

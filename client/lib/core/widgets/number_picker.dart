@@ -1,7 +1,6 @@
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/rotary_number_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';

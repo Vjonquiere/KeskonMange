@@ -2,7 +2,6 @@ import 'package:client/core/widgets/cooking_info.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
 import 'package:client/features/recipe_creation/widgets/ingredient_review_card.dart';
 import 'package:client/utils/app_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';

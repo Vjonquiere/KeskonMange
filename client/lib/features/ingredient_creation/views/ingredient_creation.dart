@@ -2,10 +2,8 @@ import 'package:client/core/widgets/allergens_selector.dart';
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
 import 'package:client/model/ingredient_units.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';

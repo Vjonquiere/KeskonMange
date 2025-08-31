@@ -152,5 +152,5 @@ app.*.symbols
 
 # Var files
 assets/sample.json
-lib/variables.dart
+lib/config.dart
 lib/l10n/*

@@ -1,6 +1,5 @@
 import 'package:client/core/widgets/number_picker.dart';
 import 'package:client/features/recipe_creation/viewmodels/general_information_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
