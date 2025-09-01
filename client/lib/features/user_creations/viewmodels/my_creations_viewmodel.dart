@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/allergen.dart';

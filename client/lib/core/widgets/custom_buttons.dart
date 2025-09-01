@@ -41,18 +41,6 @@ class CustomButton extends StatelessWidget {
           ),
         ),
       );
-      IconButton(
-        iconSize: iconSize,
-        onPressed: onPressed,
-        style: FilledButton.styleFrom(
-          backgroundColor: color,
-          shape: const CircleBorder(),
-        ),
-        // Put an icon if one is available
-        icon: SvgPicture.asset(
-          AppIcons.getIcon(text),
-        ),
-      );
     }
     return FilledButton.tonal(
       onPressed: onPressed,

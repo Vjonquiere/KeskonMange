@@ -57,7 +57,9 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
             },
             childDelegate: ListWheelChildBuilderDelegate(
               builder: (BuildContext context, int index) {
-                if (index < 0 || index >= itemCount) return null;
+                if (index < 0 || index >= itemCount) {
+                  return null;
+                }
                 final int value = widget.minValue + index;
                 return Center(
                   child: Text(

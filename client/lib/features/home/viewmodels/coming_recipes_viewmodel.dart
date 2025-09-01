@@ -1,6 +1,6 @@
 import 'package:client/model/recipe/preview.dart';
 
-import '../../../core/ViewModel.dart';
+import '../../../core/view_model.dart';
 import '../../../core/widget_states.dart';
 import '../../../data/repositories/repositories_manager.dart';
 import '../../../data/usecases/get_recipe_from_id_use_case.dart';
@@ -23,7 +23,9 @@ class ComingRecipesViewModel extends ViewModel {
         RepositoriesManager().getRecipeRepository(),
         ids[id],
       ).execute();
-      if (recipe != null) recipes.add(recipe);
+      if (recipe != null) {
+        recipes.add(recipe);
+      }
     }
     _recipes = recipes;
     setStateValue(WidgetStates.ready);

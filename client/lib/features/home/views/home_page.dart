@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<HomePageViewModel>(
       create: (BuildContext context) => HomePageViewModel(),
       child: Scaffold(
         bottomNavigationBar: BottomAppBar(
@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                 iconSize: 32,
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
+                    MaterialPageRoute<UserPage>(
                         builder: (BuildContext context) => const UserPage()),
                   );
                 },
@@ -47,8 +47,8 @@ class HomePage extends StatelessWidget {
                 iconSize: 32,
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<MyCreationsPage>(
+                      builder: (BuildContext context) => ChangeNotifierProvider<MyCreationViewModel>(
                         create: (BuildContext context) => MyCreationViewModel(),
                         child: const MyCreationsPage(),
                       ),
@@ -60,8 +60,8 @@ class HomePage extends StatelessWidget {
               FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<SearchPage>(
+                      builder: (BuildContext context) => ChangeNotifierProvider<SearchPageViewModel>(
                         create: (BuildContext context) => SearchPageViewModel(),
                         child: const SearchPage(),
                       ),
@@ -74,8 +74,8 @@ class HomePage extends StatelessWidget {
                 iconSize: 32,
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<IngredientCreation>(
+                      builder: (BuildContext context) => ChangeNotifierProvider<IngredientCreationViewModel>(
                         create: (BuildContext context) =>
                             IngredientCreationViewModel(),
                         child: const IngredientCreation(),
@@ -93,8 +93,8 @@ class HomePage extends StatelessWidget {
                 iconSize: 32,
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<CalendarPage>(
+                      builder: (BuildContext context) => ChangeNotifierProvider<CalendarViewModel>(
                         create: (BuildContext context) => CalendarViewModel(),
                         child: const CalendarPage(),
                       ),
@@ -117,17 +117,17 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget home(context) {
+  Widget home(BuildContext context) {
     return Center(
       child: Column(
         children: <Widget>[
-          ChangeNotifierProvider(
+          ChangeNotifierProvider<TodayMealViewModel>(
             create: (BuildContext context) => TodayMealViewModel(),
             child: const TodayMeal(),
           ),
           const CustomDivider(important: true, color: AppColors.pink),
           Center(
-            child: ChangeNotifierProvider(
+            child: ChangeNotifierProvider<ComingRecipesViewModel>(
               create: (BuildContext context) => ComingRecipesViewModel(),
               child: const ComingRecipes(),
             ),

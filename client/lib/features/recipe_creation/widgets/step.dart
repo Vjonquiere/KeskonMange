@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class StepWidget extends StatelessWidget {
   final st.Step step;
-  int stepNumber;
+  final int stepNumber;
 
   StepWidget(this.step, {super.key, this.stepNumber = 1});
 

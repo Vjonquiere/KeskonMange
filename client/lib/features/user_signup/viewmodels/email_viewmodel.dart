@@ -12,7 +12,9 @@ class EmailViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    if (_emailController.text == "") return false;
+    if (_emailController.text == "") {
+      return false;
+    }
     final RegExp regex = RegExp((r'^[^\s@]+@[^\s@]+\.[^\s@]+$'));
     if (!regex.hasMatch(_emailController.text)) {
       setErrorMessage("Bad email format");

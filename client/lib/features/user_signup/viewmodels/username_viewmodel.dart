@@ -12,7 +12,9 @@ class UsernameViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    if (_usernameController.text == "") return false;
+    if (_usernameController.text == "") {
+      return false;
+    }
     final CheckUsernameAvailabilityUseCase uniqueUsername =
         CheckUsernameAvailabilityUseCase(
       RepositoriesManager().getUserRepository(),

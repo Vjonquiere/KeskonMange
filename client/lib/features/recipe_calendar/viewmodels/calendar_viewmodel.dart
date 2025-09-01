@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/month.dart';
@@ -24,7 +24,9 @@ class CalendarViewModel extends ViewModel {
   }
 
   Future<void> nextMonth() async {
-    if (_currentMonthUseCase.monthCount >= 0) return;
+    if (_currentMonthUseCase.monthCount >= 0) {
+      return;
+    }
     _currentMonthUseCase.monthCount++;
     _currentMonth = await _currentMonthUseCase.execute();
     notifyListeners();

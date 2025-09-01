@@ -5,10 +5,10 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../recipe/views/recipe_page.dart';
-import 'package:client/model/recipe/preview.dart' as rpModel;
+import 'package:client/model/recipe/preview.dart' as rp_model;
 
 class RecipePreview extends StatelessWidget {
-  final rpModel.RecipePreview recipe;
+  final rp_model.RecipePreview recipe;
   final bool homepage;
 
   const RecipePreview({
@@ -23,7 +23,7 @@ class RecipePreview extends StatelessWidget {
       return InkWell(
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
+            MaterialPageRoute<RecipePage>(
               builder: (BuildContext context) => RecipePage(recipe: recipe),
             ),
           );
@@ -51,7 +51,7 @@ class RecipePreview extends StatelessWidget {
       return InkWell(
         onTap: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
+            MaterialPageRoute<RecipePage>(
               builder: (BuildContext context) => RecipePage(recipe: recipe),
             ),
           );

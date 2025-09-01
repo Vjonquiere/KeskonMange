@@ -53,7 +53,7 @@ class RecipeReview extends StatelessWidget {
         ),
         Wrap(
           runAlignment: WrapAlignment.center,
-          children: List.generate(
+          children: List<Padding>.generate(
             viewModel.ingredients.length,
             (int index) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -74,7 +74,7 @@ class RecipeReview extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
+                children: List<Column>.generate(
                   viewModel.steps.length,
                   (int index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,7 +1,7 @@
 import 'package:client/constants.dart';
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
-import 'package:client/features/ingredient_creation/model/Ingredient_category.dart';
+import 'package:client/features/ingredient_creation/model/ingredient_category.dart';
 import 'package:client/features/ingredient_creation/model/cereal_starches_category.dart';
 import 'package:client/features/ingredient_creation/model/dairy_products_category.dart';
 import 'package:client/features/ingredient_creation/model/drinks_category.dart';
@@ -31,7 +31,7 @@ class IngredientCreationViewModel extends ViewModel {
   late IngredientCategory _selectedCategory = _categories.first;
   int _selectedSubCategoryIndex = 0;
   final List<bool> _allergens =
-      List.generate(allergens.length, (int e) => false);
+      List<bool>.generate(allergens.length, (int e) => false);
   Set<String> _selectedUnits = <String>{units.values.first.toString()};
 
   TextEditingController get nameController => _nameController;
@@ -46,7 +46,7 @@ class IngredientCreationViewModel extends ViewModel {
       <String>{_selectedCategory.toString()};
   IngredientCategory get selectedCategory => _selectedCategory;
   int get selectedSubCategoryIndex => _selectedSubCategoryIndex;
-  List<bool> get selectedSubCategories => List.generate(
+  List<bool> get selectedSubCategories => List<bool>.generate(
         _selectedCategory.getSubCategories().length,
         (int index) => index == _selectedSubCategoryIndex ? true : false,
       );

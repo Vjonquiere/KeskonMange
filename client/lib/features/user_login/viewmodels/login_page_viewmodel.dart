@@ -1,22 +1,19 @@
 import 'dart:convert';
 
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../data/repositories/repositories_manager.dart';
 import '../../../data/usecases/login/check_api_key_validity_use_case.dart';
 import '../../../data/usecases/login/get_authentication_code_use_case.dart';
 import '../../../http/authentication.dart';
-import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
+import '../../../http/sign_in/verify_authentication_code_request.dart';
 
 class LoginPageViewModel extends ViewModel {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final FlutterSecureStorage _storage =
-      const FlutterSecureStorage(); // Where API key is stored
 
   bool _signInPressed = false;
   late int _userLogged;
@@ -57,7 +54,9 @@ class LoginPageViewModel extends ViewModel {
 
   void onSignInPressed() async {
     _hasError = false;
-    if (_emailController.text == "") return;
+    if (_emailController.text == "") {
+      return;
+    }
     if (signInPressed) {
       final VerifyAuthenticationCodeRequest verifyCode =
           VerifyAuthenticationCodeRequest(

@@ -1,18 +1,18 @@
 import 'dart:convert';
 
 import 'package:client/data/repositories/user_repository.dart';
-import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
-import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
-import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
-import 'package:client/http/sign_up/CreateAccountRequest.dart';
-import 'package:client/http/sign_up/UserVerificationRequest.dart';
-import 'package:client/http/user/GetAllergensRequest.dart';
-import 'package:client/http/user/LogoutRequest.dart';
-import 'package:client/http/user/SetAllergensRequest.dart';
+import 'package:client/http/sign_in/check_api_key_validity_request.dart';
+import 'package:client/http/sign_in/get_authentication_code_request.dart';
+import 'package:client/http/sign_in/verify_authentication_code_request.dart';
+import 'package:client/http/sign_up/create_account_request.dart';
+import 'package:client/http/sign_up/user_verification_request.dart';
+import 'package:client/http/user/get_allergens_request.dart';
+import 'package:client/http/user/logout_request.dart';
+import 'package:client/http/user/set_allergens_request.dart';
 import 'package:client/model/user.dart';
 
-import '../../../../http/sign_up/VerifyEmailRequest.dart';
-import '../../../../http/sign_up/VerifyUsernameRequest.dart';
+import '../../../../http/sign_up/verify_email_request.dart';
+import '../../../../http/sign_up/verify_username_request.dart';
 import '../../../../model/allergen.dart';
 
 class UserRepositoryApi extends UserRepository {

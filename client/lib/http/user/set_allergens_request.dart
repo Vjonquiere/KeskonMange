@@ -1,4 +1,4 @@
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 import 'package:client/constants.dart' as constants;
 import '../authentication.dart';
 

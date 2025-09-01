@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/features/recipe_creation/viewmodels/ingredient_quantities_viewmodel.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_step_viewmodel.dart';

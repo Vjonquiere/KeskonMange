@@ -140,7 +140,7 @@ class NewBookPage extends StatelessWidget {
               iconSize: 32,
               onPressed: () {
                 Navigator.of(context).pop(
-                  MaterialPageRoute(
+                  MaterialPageRoute<MyCreationsPage>(
                       builder: (BuildContext context) =>
                           const MyCreationsPage()),
                 );

@@ -1,4 +1,4 @@
-import 'package:client/features/recipe_calendar/widgets/Week.dart';
+import 'package:client/features/recipe_calendar/widgets/week.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../../model/month.dart';

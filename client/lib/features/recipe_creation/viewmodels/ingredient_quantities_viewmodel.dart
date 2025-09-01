@@ -14,7 +14,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   late Set<UnitCategory> _selectedUnit;
   late Unit _selectedDetailedUnit;
   final List<DropdownMenuItem<Unit>> _items = <DropdownMenuItem<Unit>>[];
-  HashMap<Ingredient, IngredientQuantity> values = HashMap();
+  HashMap<Ingredient, IngredientQuantity> values = HashMap<Ingredient, IngredientQuantity>();
   final TextEditingController _quantityController = TextEditingController();
 
   List<Ingredient> get ingredients => _ingredients;
@@ -65,7 +65,9 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   }
 
   void previousIngredient() {
-    if (_currentIndex <= 0) return;
+    if (_currentIndex <= 0) {
+      return;
+    }
     _loadIngredient(false);
     notifyListeners();
   }
@@ -79,12 +81,12 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     notifyListeners();
   }
 
-  void updateUnits({setDetailedUnit = false}) {
+  void updateUnits({bool setDetailedUnit = false}) {
     _items.clear();
     if (_selectedUnit.first == UnitCategory.volume) {
       _items.addAll(
         VolumeUnits.values.map(
-          (VolumeUnits elt) => DropdownMenuItem(
+          (VolumeUnits elt) => DropdownMenuItem<Unit>(
             value: Unit(UnitCategory.volume, elt),
             child: Text(elt.name),
           ),
@@ -93,7 +95,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     } else if (_selectedUnit.first == UnitCategory.special) {
       _items.addAll(
         SpecialUnits.values.map(
-          (SpecialUnits elt) => DropdownMenuItem(
+          (SpecialUnits elt) => DropdownMenuItem<Unit>(
             value: Unit(UnitCategory.special, elt),
             child: Text(elt.name),
           ),
@@ -102,7 +104,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     } else if (_selectedUnit.first == UnitCategory.weight) {
       _items.addAll(
         WeightUnits.values.map(
-          (WeightUnits elt) => DropdownMenuItem(
+          (WeightUnits elt) => DropdownMenuItem<Unit>(
             value: Unit(UnitCategory.weight, elt),
             child: Text(elt.name),
           ),
@@ -111,7 +113,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     } else if (_selectedUnit.first == UnitCategory.wholeItem) {
       _items.addAll(
         WholeItemsUnits.values.map(
-          (WholeItemsUnits elt) => DropdownMenuItem(
+          (WholeItemsUnits elt) => DropdownMenuItem<Unit>(
             value: Unit(UnitCategory.wholeItem, elt),
             child: Text(elt.name),
           ),
@@ -130,7 +132,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
         <ButtonSegment<UnitCategory>>[];
     for (Unit unit in _currentIngredient.type) {
       types.add(
-        ButtonSegment(
+        ButtonSegment<UnitCategory>(
           value: unit.unitCategory,
           label: Text(unit.toString()),
         ),
@@ -146,7 +148,9 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   }
 
   void updateDetailedSelectedUnit(Unit? unit) {
-    if (unit == null) return;
+    if (unit == null) {
+      return;
+    }
     _selectedDetailedUnit = unit;
     notifyListeners();
   }
@@ -154,7 +158,9 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   @override
   Future<bool> isValid() async {
     _saveCurrentIngredientQuantity();
-    if (_ingredients.length != values.length) return false;
+    if (_ingredients.length != values.length) {
+      return false;
+    }
     return true;
   }
 }

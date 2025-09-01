@@ -26,7 +26,9 @@ class RecipeRepositoryMock extends RecipeRepository {
   @override
   Future<RecipePreview?> getRecipeFromId(int recipeId) async {
     for (RecipePreview recipe in recipes) {
-      if (recipe.id == recipeId) return recipe;
+      if (recipe.id == recipeId) {
+        return recipe;
+      }
     }
     return null;
   }

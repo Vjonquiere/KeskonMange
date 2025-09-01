@@ -6,7 +6,7 @@ class IngredientCard extends StatelessWidget {
   final Ingredient ingredient;
   final VoidCallback _removeCallback;
   final VoidCallback _onClickCallback;
-  final removable;
+  final bool removable;
   final Color backgroundColor;
 
   const IngredientCard(

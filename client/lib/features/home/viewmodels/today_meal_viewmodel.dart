@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 
 import '../../../core/widget_states.dart';
 import '../../../data/repositories/repositories_manager.dart';
@@ -29,7 +29,9 @@ class TodayMealViewModel extends ViewModel {
     final List<RecipePreview> recipes = <RecipePreview>[];
     for (int id = 0; id < ids.length; id++) {
       final RecipePreview? recipe = await _getRecipe(ids[id]);
-      if (recipe != null) recipes.add(recipe);
+      if (recipe != null) {
+        recipes.add(recipe);
+      }
     }
     _recipes = recipes;
     setStateValue(WidgetStates.ready);

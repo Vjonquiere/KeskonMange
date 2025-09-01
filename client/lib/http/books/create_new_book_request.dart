@@ -1,4 +1,4 @@
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 
 class CreateNewBookRequest extends HttpRequest {
   final String _bookName;

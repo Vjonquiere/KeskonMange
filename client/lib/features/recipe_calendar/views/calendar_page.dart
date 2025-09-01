@@ -1,5 +1,5 @@
 import 'package:client/utils/app_colors.dart';
-import 'package:client/features/recipe_calendar/widgets/Month.dart';
+import 'package:client/features/recipe_calendar/widgets/month.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -88,7 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
             CustomButton(
               iconSize: 32,
               onPressed: () {
-                Navigator.of(context).pop(MaterialPageRoute(
+                Navigator.of(context).pop(MaterialPageRoute<HomePage>(
                     builder: (BuildContext context) => const HomePage()));
               },
               text: 'back',

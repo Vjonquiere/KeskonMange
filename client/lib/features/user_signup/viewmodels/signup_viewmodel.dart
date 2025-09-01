@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/features/user_signup/viewmodels/email_viewmodel.dart';
 import 'package:client/features/user_signup/viewmodels/post_code_viewmodel.dart';
 import 'package:client/features/user_signup/viewmodels/username_viewmodel.dart';
@@ -41,7 +41,9 @@ class SignupViewModel extends ViewModel {
 
   Future<void> nextStep() async {
     if (await (currentViewModel.isValid())) {
-      if (_currentIndex == _stepCount - 1) _signupFinalized = true;
+      if (_currentIndex == _stepCount - 1) {
+        _signupFinalized = true;
+      }
       _currentIndex += 1;
       _progressBarValue = _currentIndex / _stepCount;
       if (_currentIndex == _stepCount - 1) {

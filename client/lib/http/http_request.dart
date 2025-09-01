@@ -9,12 +9,16 @@ abstract class HttpRequest {
   String? _body;
 
   String getBody() {
-    if (_body != null) return _body!;
+    if (_body != null) {
+      return _body!;
+    }
     return "";
   }
 
   Map<String, dynamic> getJsonBody() {
-    if (_body == null) const JsonDecoder();
+    if (_body == null) {
+      const JsonDecoder();
+    }
     return jsonDecode(_body!);
   }
 

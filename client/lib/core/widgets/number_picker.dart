@@ -7,12 +7,12 @@ import '../../l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 
 class NumberPicker extends StatelessWidget {
-  String title;
-  String buttonText;
-  void Function(int) onValueChanged;
-  int initialValue;
-  int maxValue;
-  int minValue;
+  final String title;
+  final String buttonText;
+  final void Function(int) onValueChanged;
+  final int initialValue;
+  final int maxValue;
+  final int minValue;
 
   NumberPicker({
     super.key,

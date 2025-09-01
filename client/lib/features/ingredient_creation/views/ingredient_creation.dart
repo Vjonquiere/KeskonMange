@@ -44,10 +44,10 @@ class IngredientCreation extends StatelessWidget {
         boldText("Which category?"),
         Wrap(
           children: <Widget>[
-            SegmentedButton(
-              segments: List.generate(
+            SegmentedButton<String>(
+              segments: List<ButtonSegment<String>>.generate(
                 viewModel.categoriesCount,
-                (int index) => ButtonSegment(
+                (int index) => ButtonSegment<String>(
                   value: viewModel.categories[index].toString(),
                   label: Text(viewModel.categories[index].toString()),
                 ),
@@ -58,12 +58,12 @@ class IngredientCreation extends StatelessWidget {
           ],
         ),
         ToggleButtons(
-          isSelected: List.generate(
+          isSelected: List<bool>.generate(
             viewModel.selectedCategory.getSubCategories().length,
             (int index) => viewModel.selectedSubCategories[index],
           ),
           onPressed: viewModel.updateSelectedSubCategory,
-          children: List.generate(
+          children: List<Text>.generate(
             viewModel.selectedCategory.getSubCategories().length,
             (int index) =>
                 Text(viewModel.selectedCategory.getSubCategories()[index]),
@@ -77,10 +77,10 @@ class IngredientCreation extends StatelessWidget {
     return Row(
       children: <Widget>[
         boldText("Is it ?"),
-        SegmentedButton(
-          segments: List.generate(
+        SegmentedButton<String>(
+          segments: List<ButtonSegment<String>>.generate(
             viewModel.specificationsCount,
-            (int index) => ButtonSegment(
+            (int index) => ButtonSegment<String>(
               value: viewModel.specifications[index],
               label: Text(viewModel.specifications[index]),
             ),
@@ -98,10 +98,10 @@ class IngredientCreation extends StatelessWidget {
     return Column(
       children: <Widget>[
         boldText("Which unit to measure this ingredient ?"),
-        SegmentedButton(
-          segments: List.generate(
+        SegmentedButton<String>(
+          segments: List<ButtonSegment<String>>.generate(
             units.length,
-            (int index) => ButtonSegment(
+            (int index) => ButtonSegment<String>(
               value: units.values.elementAt(index).toString(),
               label: Text(units.values.elementAt(index).toString()),
             ),

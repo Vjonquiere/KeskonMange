@@ -1,4 +1,5 @@
 import 'package:client/features/recipe_creation/viewmodels/ingredient_quantities_viewmodel.dart';
+import 'package:client/model/ingredient_units.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -42,7 +43,7 @@ class IngredientQuantities extends StatelessWidget {
             keyboardType: TextInputType.number,
           ),
         ),
-        DropdownButton(
+        DropdownButton<Unit>(
           value: viewModel.selectedDetailedUnit,
           iconEnabledColor: AppColors.green,
           items: viewModel.items,
@@ -74,7 +75,7 @@ class IngredientQuantities extends StatelessWidget {
             ),
           ],
         ),
-        SegmentedButton(
+        SegmentedButton<UnitCategory>(
           segments: viewModel.getTypeSelection,
           selected: viewModel.selectedUnit,
           onSelectionChanged: viewModel.updateSelectedUnit,

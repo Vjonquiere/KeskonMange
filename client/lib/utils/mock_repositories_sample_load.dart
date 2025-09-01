@@ -62,7 +62,9 @@ class MockRepositoriesSampleLoad {
   }
 
   List<dynamic> _extractBooks(Map<String, dynamic> fileContent) {
-    if (fileContent.containsKey("books")) return fileContent["books"] as List;
+    if (fileContent.containsKey("books")) {
+      return fileContent["books"] as List;
+    }
     throw const FormatException("Mock file can't be loaded: no books found");
   }
 

@@ -1,4 +1,4 @@
-import 'package:client/features/ingredient_creation/model/Ingredient_category.dart';
+import 'package:client/features/ingredient_creation/model/ingredient_category.dart';
 
 class SweetsCategory implements IngredientCategory {
   @override

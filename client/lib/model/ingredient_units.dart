@@ -1,41 +1,41 @@
 enum WholeItemsUnits {
-  Piece,
-  Clove,
-  Slice,
-  Stick,
-  Head,
-  Leaf,
-  Can,
-  Bottle,
-  Jar,
-  Package,
-  Box,
-  Bunch,
+  piece,
+  clove,
+  slice,
+  stick,
+  head,
+  leaf,
+  can,
+  bottle,
+  jar,
+  package,
+  box,
+  bunch,
 }
 
 enum VolumeUnits {
-  Teaspoon,
-  Tablespoon,
-  FluidOunce,
-  Cup,
-  Pint,
-  Quart,
-  Gallon,
-  Millimiter,
-  Liter
+  teaspoon,
+  tablespoon,
+  fluidOunce,
+  cup,
+  pint,
+  quart,
+  gallon,
+  milliliter,
+  liter
 }
 
 enum WeightUnits {
-  Gram,
-  Kilogram,
-  Ounce,
-  Pound,
+  gram,
+  kilogram,
+  ounce,
+  pound,
 }
 
 enum SpecialUnits {
-  StickOfButter,
-  EggSizes,
-  Sheet,
+  stickOfButter,
+  eggSizes,
+  sheet,
 }
 
 enum UnitCategory {
@@ -46,10 +46,10 @@ enum UnitCategory {
 }
 
 Map<String, Unit> units = <String, Unit>{
-  "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle),
-  "volume": Unit(UnitCategory.volume, VolumeUnits.Gallon),
-  "weight": Unit(UnitCategory.weight, WeightUnits.Gram),
-  "special": Unit(UnitCategory.special, SpecialUnits.EggSizes),
+  "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.bottle),
+  "volume": Unit(UnitCategory.volume, VolumeUnits.gallon),
+  "weight": Unit(UnitCategory.weight, WeightUnits.gram),
+  "special": Unit(UnitCategory.special, SpecialUnits.eggSizes),
 };
 
 class Unit {
@@ -63,7 +63,9 @@ class Unit {
 
   @override
   bool operator ==(Object other) {
-    if (other is! Unit) return false;
+    if (other is! Unit) {
+      return false;
+    }
     return _unit == other._unit;
   }
 
@@ -80,13 +82,13 @@ Unit getUnitFromString(String unitString) {
   unitString = unitString.toLowerCase();
   switch (unitString) {
     case "wholeunit":
-      return Unit(UnitCategory.wholeItem, WholeItemsUnits.Bottle);
+      return Unit(UnitCategory.wholeItem, WholeItemsUnits.bottle);
     case "volumeunit":
-      return Unit(UnitCategory.volume, VolumeUnits.Teaspoon);
+      return Unit(UnitCategory.volume, VolumeUnits.teaspoon);
     case "weightunit":
-      return Unit(UnitCategory.weight, WeightUnits.Gram);
+      return Unit(UnitCategory.weight, WeightUnits.gram);
     case "specialunit":
-      return Unit(UnitCategory.special, SpecialUnits.StickOfButter);
+      return Unit(UnitCategory.special, SpecialUnits.stickOfButter);
     default:
       throw ArgumentError('Unsupported unit string: $unitString');
   }

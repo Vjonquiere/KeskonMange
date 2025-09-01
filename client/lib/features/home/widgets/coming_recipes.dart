@@ -5,13 +5,13 @@ import 'package:provider/provider.dart';
 
 import '../../../core/widget_states.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../model/recipe/preview.dart' as rpModel;
+import '../../../model/recipe/preview.dart' as rp_model;
 import '../viewmodels/coming_recipes_viewmodel.dart';
 
 class ComingRecipes extends StatelessWidget {
   const ComingRecipes({super.key});
 
-  Widget _homeRecipePreview(rpModel.RecipePreview recipe) {
+  Widget _homeRecipePreview(rp_model.RecipePreview recipe) {
     return Column(
       children: <Widget>[
         RecipePreview(
@@ -34,7 +34,7 @@ class ComingRecipes extends StatelessWidget {
       WidgetStates.ready => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: viewModel.recipes
-              .map((rpModel.RecipePreview recipe) => _homeRecipePreview(recipe))
+              .map((rp_model.RecipePreview recipe) => _homeRecipePreview(recipe))
               .toList(),
         ),
       WidgetStates.dispose => const Text("dispose"),

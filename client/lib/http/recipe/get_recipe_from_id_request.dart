@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 import 'package:client/model/recipe/preview.dart';
 
 class GetRecipeRequest extends HttpRequest {

@@ -1,4 +1,4 @@
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 
 class VerifyUsernameRequest extends HttpRequest {
   final String _username;

@@ -23,7 +23,7 @@ class _PlannedRecipesPageState extends State<PlannedRecipesPage> {
           const Placeholder(color: AppColors.green),
           CustomButton(
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
+              Navigator.of(context).push(MaterialPageRoute<HomePage>(
                   builder: (BuildContext context) => const HomePage()));
             },
             text: 'back',

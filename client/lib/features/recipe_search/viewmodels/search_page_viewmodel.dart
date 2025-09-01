@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -23,13 +23,14 @@ class SearchPageViewModel extends ViewModel {
       RepositoriesManager().getRecipeRepository(),
       30,
     ).execute();
-    debugPrint(recipeIds.toString());
     for (int id in recipeIds) {
       final RecipePreview? recipe = await GetRecipeFromIdUseCase(
         RepositoriesManager().getRecipeRepository(),
         id,
       ).execute();
-      if (recipe != null) recipes.add(recipe);
+      if (recipe != null) {
+        recipes.add(recipe);
+      }
     }
     setStateValue(WidgetStates.ready);
     notifyListeners();

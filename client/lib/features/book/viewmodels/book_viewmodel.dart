@@ -3,7 +3,7 @@ import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/book/complete.dart';
 import 'package:client/model/recipe/preview.dart';
 
-import '../../../core/ViewModel.dart';
+import '../../../core/view_model.dart';
 
 class BookViewModel extends ViewModel {
   final int _bookId;
@@ -25,7 +25,9 @@ class BookViewModel extends ViewModel {
     notifyListeners();
     final Book? fetchedBook =
         await RepositoriesManager().getBookRepository().getBook(_bookId);
-    if (fetchedBook == null) return;
+    if (fetchedBook == null) {
+      return;
+    }
     _book = fetchedBook;
     await loadRecipes();
     setStateValue(WidgetStates.ready);
@@ -38,7 +40,9 @@ class BookViewModel extends ViewModel {
       final RecipePreview? recipe = await RepositoriesManager()
           .getRecipeRepository()
           .getRecipeFromId(recipeId);
-      if (recipe != null) _recipePreviews.add(recipe);
+      if (recipe != null) {
+        _recipePreviews.add(recipe);
+      }
     }
   }
 

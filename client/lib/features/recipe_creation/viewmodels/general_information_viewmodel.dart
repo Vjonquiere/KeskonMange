@@ -38,8 +38,12 @@ class GeneralInformationViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    if (_recipeTitleController.text == "") return false;
-    if (_typeOfMeal == "") return false;
+    if (_recipeTitleController.text == "") {
+      return false;
+    }
+    if (_typeOfMeal == "") {
+      return false;
+    }
     return true;
   }
 }

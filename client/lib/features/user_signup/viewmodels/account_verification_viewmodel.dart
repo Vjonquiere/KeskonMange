@@ -18,7 +18,9 @@ class AccountVerificationViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    if (_verificationCodeController.text == "") return false;
+    if (_verificationCodeController.text == "") {
+      return false;
+    }
     final ActivateUserUseCase activation = ActivateUserUseCase(
       RepositoriesManager().getUserRepository(),
       _user.email,

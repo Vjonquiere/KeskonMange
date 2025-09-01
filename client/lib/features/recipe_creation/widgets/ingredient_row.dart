@@ -53,8 +53,8 @@ class IngredientRow extends StatelessWidget {
         CustomButton(
           text: "Add it!",
           onPressed: () => Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => ChangeNotifierProvider(
+            MaterialPageRoute<IngredientCreation>(
+              builder: (BuildContext context) => ChangeNotifierProvider<IngredientCreationViewModel>(
                 create: (BuildContext context) => IngredientCreationViewModel(),
                 child: const IngredientCreation(),
               ),
@@ -63,9 +63,6 @@ class IngredientRow extends StatelessWidget {
           color: AppColors.yellow,
         ),
       ],
-    );
-    return const Center(
-      child: Text("nothing found"),
     );
   }
 }

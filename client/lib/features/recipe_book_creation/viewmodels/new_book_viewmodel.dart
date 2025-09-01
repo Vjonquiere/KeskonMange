@@ -1,4 +1,4 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/book/preview.dart';
 import 'package:client/model/recipe/preview.dart';
@@ -55,7 +55,9 @@ class NewBookViewModel extends ViewModel {
   }
 
   void removeRecipe(RecipePreview recipe) {
-    if (!isRecipeSelected(recipe)) return;
+    if (!isRecipeSelected(recipe)) {
+      return;
+    }
     _selectedRecipes.remove(recipe.id);
     notifyListeners();
   }

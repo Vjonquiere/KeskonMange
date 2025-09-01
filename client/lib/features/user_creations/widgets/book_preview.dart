@@ -36,8 +36,8 @@ class BookPreviewWidget extends StatelessWidget {
       onTap: () {
         Navigator.of(context)
             .push(
-          MaterialPageRoute(
-            builder: (BuildContext context) => ChangeNotifierProvider(
+          MaterialPageRoute<BookViewModel>(
+            builder: (BuildContext context) => ChangeNotifierProvider<BookViewModel>(
               create: (BuildContext context) => BookViewModel(_preview.id),
               child: const Book(),
             ),

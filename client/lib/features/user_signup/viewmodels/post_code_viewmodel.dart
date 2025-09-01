@@ -8,7 +8,9 @@ class PostCodeViewModel extends StateViewModel {
 
   @override
   Future<bool> isValid() async {
-    if (_postcodeController.text == "") return false;
+    if (_postcodeController.text == "") {
+      return false;
+    }
     return true;
   }
 }

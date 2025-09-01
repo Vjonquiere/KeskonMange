@@ -43,7 +43,7 @@ class LoginPage extends StatelessWidget {
 
       if (viewModel.userLogged == 200) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => const HomePage()),
+          MaterialPageRoute<HomePage>(builder: (_) => const HomePage()),
         );
       }
     });
@@ -85,8 +85,8 @@ class LoginPage extends StatelessWidget {
                 child: Text(AppLocalizations.of(context)!.sign_up),
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<SignupPage>(
+                      builder: (BuildContext context) => ChangeNotifierProvider<SignupViewModel>(
                         create: (BuildContext context) => SignupViewModel(),
                         child: const SignupPage(),
                       ),

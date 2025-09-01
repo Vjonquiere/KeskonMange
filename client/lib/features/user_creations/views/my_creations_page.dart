@@ -72,14 +72,14 @@ class MyCreationsPage extends StatelessWidget {
           onPressed: () {
             Navigator.of(context)
                 .push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => ChangeNotifierProvider(
+                  MaterialPageRoute<NewBookPage>(
+                    builder: (BuildContext context) => ChangeNotifierProvider<NewBookViewModel>(
                       create: (BuildContext context) => NewBookViewModel(),
                       child: const NewBookPage(),
                     ),
                   ),
                 )
-                .then((res) => viewModel.getUserBooks());
+                .then((NewBookPage? res) => viewModel.getUserBooks());
           },
           child: const Icon(Icons.add),
         ),
@@ -116,8 +116,8 @@ class MyCreationsPage extends StatelessWidget {
           text: "add",
           onPressed: () {
             Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (BuildContext context) => ChangeNotifierProvider(
+              MaterialPageRoute<NewRecipePage>(
+                builder: (BuildContext context) => ChangeNotifierProvider<NewRecipeViewModel>(
                   create: (BuildContext context) => NewRecipeViewModel(),
                   child: const NewRecipePage(),
                 ),

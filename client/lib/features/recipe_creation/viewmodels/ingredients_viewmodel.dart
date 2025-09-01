@@ -70,7 +70,7 @@ class IngredientsViewModel extends StateViewModel {
   }
 
   List<Ingredient> getSelectedIngredientsClone() {
-    return List.from(_selectedIngredients);
+    return List<Ingredient>.from(_selectedIngredients);
   }
 
   void updateDisplayedIngredients({String name = ""}) async {
