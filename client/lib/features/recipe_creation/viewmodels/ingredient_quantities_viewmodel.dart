@@ -14,7 +14,8 @@ class IngredientQuantitiesViewModel extends StateViewModel {
   late Set<UnitCategory> _selectedUnit;
   late Unit _selectedDetailedUnit;
   final List<DropdownMenuItem<Unit>> _items = <DropdownMenuItem<Unit>>[];
-  HashMap<Ingredient, IngredientQuantity> values = HashMap<Ingredient, IngredientQuantity>();
+  HashMap<Ingredient, IngredientQuantity> values =
+      HashMap<Ingredient, IngredientQuantity>();
   final TextEditingController _quantityController = TextEditingController();
 
   List<Ingredient> get ingredients => _ingredients;

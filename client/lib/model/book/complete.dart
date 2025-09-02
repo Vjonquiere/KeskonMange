@@ -38,7 +38,7 @@ class Book extends BookPreview {
           DateTime.parse(creationDate),
           owner,
           public,
-          recipes.map((e) => e as int).toList(),
+          recipes.map((dynamic e) => e as int).toList(),
         ),
       _ => throw const FormatException('Failed to load book.')
     };

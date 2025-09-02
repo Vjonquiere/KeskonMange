@@ -46,19 +46,21 @@ class Month {
       {
         "year": final int year,
         "month": final int month,
-        "recipes": final List recipesJson,
-        "monthTemplate": final List monthTemplateJson,
+        "recipes": final List<dynamic> recipesJson,
+        "monthTemplate": final List<dynamic> monthTemplateJson,
       } =>
         Month(
           year,
           month,
           recipesJson
               .map(
-                (recipe) =>
+                (dynamic recipe) =>
                     PlannedRecipe.fromJson(recipe as Map<String, dynamic>),
               )
               .toList(),
-          monthTemplateJson.map((e) => List<int>.from(e as List)).toList(),
+          monthTemplateJson
+              .map((dynamic e) => List<int>.from(e as List<int>))
+              .toList(),
         ),
       _ => throw const FormatException('Failed to load Month.'),
     };

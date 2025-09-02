@@ -36,8 +36,8 @@ class _SignupPageState extends State<SignupPage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.signupFinalized) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (_) => ChangeNotifierProvider(
+          MaterialPageRoute<HomePage>(
+            builder: (_) => ChangeNotifierProvider<HomePageViewModel>(
               create: (BuildContext context) => HomePageViewModel(),
               child: const HomePage(),
             ),
@@ -60,31 +60,31 @@ class _SignupPageState extends State<SignupPage> {
 
     switch (viewModel.currentIndex) {
       case 0:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<UsernameViewModel>.value(
           value: viewModel.currentViewModel as UsernameViewModel,
           child: const UsernameStep(),
         );
         break;
       case 1:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<EmailViewModel>.value(
           value: viewModel.currentViewModel as EmailViewModel,
           child: const EmailStep(),
         );
         break;
       case 2:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<PostCodeViewModel>.value(
           value: viewModel.currentViewModel as PostCodeViewModel,
           child: const PostCodeStep(),
         );
         break;
       case 3:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<AllergensViewModel>.value(
           value: viewModel.currentViewModel as AllergensViewModel,
           child: const AllergensStep(),
         );
         break;
       case 4:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<AccountVerificationViewModel>.value(
           value: viewModel.currentViewModel as AccountVerificationViewModel,
           child: const AccountVerificationStep(),
         );
@@ -124,8 +124,9 @@ class _SignupPageState extends State<SignupPage> {
               onAnimationEnd: () {
                 if (viewModel.signupFinalized) {
                   Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => ChangeNotifierProvider(
+                    MaterialPageRoute<HomePage>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<HomePageViewModel>(
                         create: (BuildContext context) => HomePageViewModel(),
                         child: const HomePage(),
                       ),

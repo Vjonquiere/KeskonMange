@@ -34,7 +34,7 @@ class MockRepositoriesSampleLoad {
           content = await rootBundle.loadString(source);
         }
 
-        final decoded = jsonDecode(content);
+        final dynamic decoded = jsonDecode(content);
         _loadRecipes(_extractRecipes(decoded));
         _loadIngredients(_extractIngredients(decoded));
         _loadBooks(_extractBooks(decoded));
@@ -47,14 +47,14 @@ class MockRepositoriesSampleLoad {
 
   List<dynamic> _extractRecipes(Map<String, dynamic> fileContent) {
     if (fileContent.containsKey("recipes")) {
-      return fileContent["recipes"] as List;
+      return fileContent["recipes"] as List<dynamic>;
     }
     throw const FormatException("Mock file can't be loaded: no recipes found");
   }
 
   List<dynamic> _extractIngredients(Map<String, dynamic> fileContent) {
     if (fileContent.containsKey("ingredients")) {
-      return fileContent["ingredients"] as List;
+      return fileContent["ingredients"] as List<dynamic>;
     }
     throw const FormatException(
       "Mock file can't be loaded: no ingredients found",
@@ -63,7 +63,7 @@ class MockRepositoriesSampleLoad {
 
   List<dynamic> _extractBooks(Map<String, dynamic> fileContent) {
     if (fileContent.containsKey("books")) {
-      return fileContent["books"] as List;
+      return fileContent["books"] as List<dynamic>;
     }
     throw const FormatException("Mock file can't be loaded: no books found");
   }

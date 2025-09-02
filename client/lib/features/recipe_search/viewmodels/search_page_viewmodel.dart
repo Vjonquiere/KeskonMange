@@ -1,6 +1,5 @@
 import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
-import 'package:flutter/cupertino.dart';
 
 import '../../../data/repositories/repositories_manager.dart';
 import '../../../data/usecases/get_recipe_from_id_use_case.dart';

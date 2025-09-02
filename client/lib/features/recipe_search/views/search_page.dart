@@ -2,12 +2,12 @@ import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
 import 'package:client/model/recipe/preview.dart';
-import 'package:client/widgets/search/Recipe.dart';
-import 'package:client/widgets/search/TopBar.dart';
+import 'package:client/widgets/search/recipe.dart';
+import 'package:client/widgets/search/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../widgets/search/Filter.dart';
+import '../../../widgets/search/filter.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

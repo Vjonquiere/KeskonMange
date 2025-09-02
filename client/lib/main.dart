@@ -50,7 +50,7 @@ class KeskonMangeApp extends StatelessWidget {
           builder: (BuildContext context, Widget? child) {
             return GlobalMessage(child: child!);
           },
-          home: ChangeNotifierProvider(
+          home: ChangeNotifierProvider<LoginPageViewModel>(
             create: (BuildContext context) => LoginPageViewModel(),
             child: const LoginPage(),
           ),

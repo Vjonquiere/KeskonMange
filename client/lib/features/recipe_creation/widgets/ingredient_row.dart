@@ -54,7 +54,8 @@ class IngredientRow extends StatelessWidget {
           text: "Add it!",
           onPressed: () => Navigator.of(context).push(
             MaterialPageRoute<IngredientCreation>(
-              builder: (BuildContext context) => ChangeNotifierProvider<IngredientCreationViewModel>(
+              builder: (BuildContext context) =>
+                  ChangeNotifierProvider<IngredientCreationViewModel>(
                 create: (BuildContext context) => IngredientCreationViewModel(),
                 child: const IngredientCreation(),
               ),

@@ -86,7 +86,8 @@ class LoginPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<SignupPage>(
-                      builder: (BuildContext context) => ChangeNotifierProvider<SignupViewModel>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<SignupViewModel>(
                         create: (BuildContext context) => SignupViewModel(),
                         child: const SignupPage(),
                       ),

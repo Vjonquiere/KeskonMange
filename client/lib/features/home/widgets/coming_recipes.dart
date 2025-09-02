@@ -34,7 +34,8 @@ class ComingRecipes extends StatelessWidget {
       WidgetStates.ready => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: viewModel.recipes
-              .map((rp_model.RecipePreview recipe) => _homeRecipePreview(recipe))
+              .map(
+                  (rp_model.RecipePreview recipe) => _homeRecipePreview(recipe))
               .toList(),
         ),
       WidgetStates.dispose => const Text("dispose"),

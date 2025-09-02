@@ -21,7 +21,7 @@ class Ingredient {
       } =>
         Ingredient._(
           name,
-          units.map((e) => getUnitFromString(e as String)).toList(),
+          units.map((dynamic e) => getUnitFromString(e as String)).toList(),
           id,
         ),
       {

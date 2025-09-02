@@ -1,7 +1,7 @@
 import 'package:client/core/state_viewmodel.dart';
 
 class AllergensViewModel extends StateViewModel {
-  final List<bool> _selected = List.generate(14, (_) => false);
+  final List<bool> _selected = List<bool>.generate(14, (_) => false);
 
   List<bool> get selected => _selected;
 

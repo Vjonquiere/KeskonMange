@@ -39,7 +39,8 @@ class TodayMeal extends StatelessWidget {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List<Radio<int>>.generate(viewModel.radioButtonCount, (int index) {
+              children: List<Radio<int>>.generate(viewModel.radioButtonCount,
+                  (int index) {
                 return Radio<int>(
                   value: index,
                   groupValue: viewModel.currentRadioButton,

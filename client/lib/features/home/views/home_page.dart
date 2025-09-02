@@ -48,7 +48,8 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<MyCreationsPage>(
-                      builder: (BuildContext context) => ChangeNotifierProvider<MyCreationViewModel>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<MyCreationViewModel>(
                         create: (BuildContext context) => MyCreationViewModel(),
                         child: const MyCreationsPage(),
                       ),
@@ -61,7 +62,8 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<SearchPage>(
-                      builder: (BuildContext context) => ChangeNotifierProvider<SearchPageViewModel>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<SearchPageViewModel>(
                         create: (BuildContext context) => SearchPageViewModel(),
                         child: const SearchPage(),
                       ),
@@ -75,7 +77,8 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<IngredientCreation>(
-                      builder: (BuildContext context) => ChangeNotifierProvider<IngredientCreationViewModel>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<IngredientCreationViewModel>(
                         create: (BuildContext context) =>
                             IngredientCreationViewModel(),
                         child: const IngredientCreation(),
@@ -94,7 +97,8 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<CalendarPage>(
-                      builder: (BuildContext context) => ChangeNotifierProvider<CalendarViewModel>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<CalendarViewModel>(
                         create: (BuildContext context) => CalendarViewModel(),
                         child: const CalendarPage(),
                       ),
