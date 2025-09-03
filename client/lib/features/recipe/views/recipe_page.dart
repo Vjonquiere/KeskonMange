@@ -14,6 +14,7 @@ import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/cooking_info.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../model/recipe/recipe.dart';
+import '../../recipe_creation/widgets/ingredient_review_card.dart';
 
 class RecipePage extends StatelessWidget {
   @override
@@ -23,57 +24,107 @@ class RecipePage extends StatelessWidget {
       WidgetStates.idle => CircularProgressIndicator(),
       WidgetStates.loading => CircularProgressIndicator(),
       WidgetStates.ready => Scaffold(
-          body: Container(
-            color: AppColors.white,
+          floatingActionButton: CustomButton(
+            iconSize: 32,
+            text: "back",
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          body: SafeArea(
             child: Column(
               children: <Widget>[
-                ColorfulTextBuilder(viewModel.recipe.recipePreview.title, 30)
-                    .getWidget(),
-                RecipeCard(recipe: viewModel.recipe.recipePreview),
-                CookingInfo(
-                  recipe: "lasagne",
+                FractionallySizedBox(
+                  widthFactor: 0.8,
+                  child: RecipeCard(recipe: viewModel.recipe.recipePreview),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: CookingInfo(
+                    recipe: "lasagne",
+                  ),
+                ),
+                CustomDivider(
+                  important: true,
+                  color: AppColors.pink,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10),
+                  child: Row(
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        AppIcons.list,
+                        width: 48,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Originally made for x persons,"),
+                          Text("Adapted for x")
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Wrap(
+                  runAlignment: WrapAlignment.center,
+                  children: List<Padding>.generate(
+                    viewModel.recipe.ingredients.length,
+                    (int index) => Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
+                      child: IngredientReviewCard(
+                        "test",
+                        "${viewModel.recipe.ingredients[index].quantity} ${viewModel.recipe.ingredients[index].unit.unit.toString().split(".").last}",
+                      ),
+                    ),
+                  ),
                 ),
                 CustomDivider(
                   important: true,
                   color: AppColors.pink,
                 ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SvgPicture.asset(
-                      AppIcons.list,
-                      width: 40,
+                    Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: SvgPicture.asset(
+                          AppIcons.prep,
+                          width: 40,
+                        )),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List<Column>.generate(
+                          viewModel.recipe.steps.length,
+                          (int index) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text(
+                                "Step $index: ${viewModel.recipe.steps[index].title}",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColors.orange,
+                                ),
+                                textAlign: TextAlign.start,
+                              ),
+                              Text(
+                                viewModel.recipe.steps[index].stepText,
+                                softWrap: true,
+                                overflow: TextOverflow.visible,
+                                textAlign: TextAlign.start,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ),
-                    Column(
-                      children: [],
-                    )
                   ],
-                ),
-                CustomDivider(
-                  important: true,
-                  color: AppColors.pink,
-                ),
-                Row(
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      AppIcons.prep,
-                      width: 40,
-                    ),
-                    Column(
-                      children: [],
-                    )
-                  ],
-                ),
-                CustomButton(
-                  iconSize: 32,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  text: 'back',
                 ),
               ],
             ),
-          ),
-        ),
+          )),
       WidgetStates.error => CircularProgressIndicator(),
       WidgetStates.dispose => CircularProgressIndicator(),
     };

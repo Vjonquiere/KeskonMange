@@ -21,9 +21,9 @@ class IngredientReviewCard extends StatelessWidget {
           children: <Widget>[
             Text(
               _ingredientName,
-              style: const TextStyle(fontSize: 17),
+              style: const TextStyle(fontSize: 15),
             ),
-            Text(_ingredientQuantity),
+            Text(_ingredientQuantity, style: const TextStyle(fontSize: 12)),
           ],
         ),
       ),

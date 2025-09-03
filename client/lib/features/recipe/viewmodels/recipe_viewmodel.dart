@@ -18,17 +18,14 @@ class RecipeViewModel extends ViewModel {
   Recipe get recipe => _recipe;
 
   void fetchRecipe() async {
-    debugPrint("searching recipe $_recipeId");
     final Recipe? fetchedRecipe = await RepositoriesManager()
         .getRecipeRepository()
         .getCompleteRecipe(_recipeId);
     if (fetchedRecipe == null) {
-      debugPrint("not found");
       MessageBus.instance
           .addMessage(Message(MessageType.error, "Recipe not found"));
       return;
     }
-    debugPrint("found");
     _recipe = fetchedRecipe;
     setStateValue(WidgetStates.ready);
     notifyListeners();
