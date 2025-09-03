@@ -5,10 +5,10 @@ import 'package:flutter_svg/svg.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../recipe/views/recipe_page.dart';
-import 'package:client/model/recipe/preview.dart' as rpModel;
+import 'package:client/model/recipe/preview.dart' as rp_model;
 
 class RecipePreview extends StatelessWidget {
-  final rpModel.RecipePreview recipe;
+  final rp_model.RecipePreview recipe;
   final bool homepage;
 
   const RecipePreview({
@@ -22,11 +22,14 @@ class RecipePreview extends StatelessWidget {
     if (homepage) {
       return InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => RecipePage(recipe: recipe)));
+          Navigator.of(context).push(
+            MaterialPageRoute<RecipePage>(
+              builder: (BuildContext context) => RecipePage(recipe: recipe),
+            ),
+          );
         },
         child: Row(
-          children: [
+          children: <Widget>[
             Flexible(
               flex: 2,
               child: recipeImage(context),
@@ -35,25 +38,26 @@ class RecipePreview extends StatelessWidget {
             Flexible(flex: 2, child: recipeInfo(context)),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
             Flexible(
-              flex: 1,
               child: recipePlanning(context),
             ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 10.0)),
             Flexible(
-              flex: 1,
               child: predictedMeal(context),
-            )
+            ),
           ],
         ),
       );
     } else {
       return InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => RecipePage(recipe: recipe)));
+          Navigator.of(context).push(
+            MaterialPageRoute<RecipePage>(
+              builder: (BuildContext context) => RecipePage(recipe: recipe),
+            ),
+          );
         },
         child: Row(
-          children: [
+          children: <Widget>[
             const SizedBox(width: 20.0),
             recipeImage(context),
             const SizedBox(width: 20.0),
@@ -83,14 +87,16 @@ class RecipePreview extends StatelessWidget {
   Widget recipeInfo(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Text(
           recipe.title.toUpperCase(),
           softWrap: true,
         ),
-        Text(AppLocalizations.of(context)!
-            .preparation_time(recipe.preparationTime)),
-        Text(AppLocalizations.of(context)!.cooking_time(recipe.cookTime))
+        Text(
+          AppLocalizations.of(context)!
+              .preparation_time(recipe.preparationTime),
+        ),
+        Text(AppLocalizations.of(context)!.cooking_time(recipe.cookTime)),
       ],
     );
   }
@@ -98,7 +104,7 @@ class RecipePreview extends StatelessWidget {
   Widget recipePlanning(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         //TODO: link these to recipes + add internationalization
         Text(
           "E P D",
@@ -114,10 +120,8 @@ class RecipePreview extends StatelessWidget {
 
   Widget predictedMeal(BuildContext context) {
     return FittedBox(
-      // Scales the content to fit
-      fit: BoxFit.contain,
       child: Row(
-        children: [
+        children: <Widget>[
           SvgPicture.asset(
             AppIcons.getIcon("sunny"),
             width: 32,
@@ -126,7 +130,7 @@ class RecipePreview extends StatelessWidget {
           const Padding(padding: EdgeInsets.all(5.0)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+            children: <Widget>[
               //TODO: link to recipe planning + add internationalization
               Text(
                 "day".toUpperCase(),

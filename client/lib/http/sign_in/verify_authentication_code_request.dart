@@ -1,4 +1,4 @@
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 
 class VerifyAuthenticationCodeRequest extends HttpRequest {
   final String _email;
@@ -7,7 +7,10 @@ class VerifyAuthenticationCodeRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    return (await super.process(RequestMode.post, 'auth/signin',
-        queryParameters: <String, String>{"email": _email, "code": _code}));
+    return (await super.process(
+      RequestMode.post,
+      'auth/signin',
+      queryParameters: <String, String>{"email": _email, "code": _code},
+    ));
   }
 }

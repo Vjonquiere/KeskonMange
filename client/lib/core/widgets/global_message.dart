@@ -12,7 +12,7 @@ class GlobalMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<Message>(
       stream: MessageBus.instance.messages,
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<Message> snapshot) {
         if (snapshot.hasData) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             ScaffoldMessenger.of(context).showSnackBar(

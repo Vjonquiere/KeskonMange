@@ -34,7 +34,9 @@ class UserRepositoryMock extends UserRepository {
 
   @override
   Future<List<Allergen>> getUserAllergens() async {
-    if (_current == null) return [];
+    if (_current == null) {
+      return <Allergen>[];
+    }
     return _current!.allergens;
   }
 
@@ -56,13 +58,17 @@ class UserRepositoryMock extends UserRepository {
 
   @override
   Future<int> checkMailAvailability(String email) async {
-    if (_current?.email == email) return 400;
+    if (_current?.email == email) {
+      return 400;
+    }
     return 200;
   }
 
   @override
   Future<int> checkUsernameAvailability(String username) async {
-    if (_current?.username == username) return 400;
+    if (_current?.username == username) {
+      return 400;
+    }
     return 200;
   }
 }

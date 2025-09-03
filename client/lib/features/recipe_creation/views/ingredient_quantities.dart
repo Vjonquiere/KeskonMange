@@ -1,19 +1,20 @@
 import 'package:client/features/recipe_creation/viewmodels/ingredient_quantities_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:client/model/ingredient_units.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/ingredient.dart';
-import '../../../model/ingredient_units.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
 
 class IngredientQuantities extends StatelessWidget {
+  const IngredientQuantities({super.key});
+
   Widget _getCard(Ingredient ingredient) {
     return Card(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
+        children: <Widget>[
           ClipRRect(
             borderRadius: BorderRadius.circular(8.0),
             child: Image(
@@ -22,7 +23,7 @@ class IngredientQuantities extends StatelessWidget {
             ),
           ),
           Row(
-            children: [Text(ingredient.name)],
+            children: <Widget>[Text(ingredient.name)],
           ),
         ],
       ),
@@ -32,20 +33,22 @@ class IngredientQuantities extends StatelessWidget {
   Widget _buildQuantitySelector(IngredientQuantitiesViewModel viewModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("I need"),
+      children: <Widget>[
+        const Text("I need"),
         SizedBox(
-            width: 75,
-            child: TextField(
-              controller: viewModel.quantityController,
-              maxLength: 4,
-              keyboardType: TextInputType.number,
-            )),
-        DropdownButton(
-            value: viewModel.selectedDetailedUnit,
-            iconEnabledColor: AppColors.green,
-            items: viewModel.items,
-            onChanged: viewModel.updateDetailedSelectedUnit),
+          width: 75,
+          child: TextField(
+            controller: viewModel.quantityController,
+            maxLength: 4,
+            keyboardType: TextInputType.number,
+          ),
+        ),
+        DropdownButton<Unit>(
+          value: viewModel.selectedDetailedUnit,
+          iconEnabledColor: AppColors.green,
+          items: viewModel.items,
+          onChanged: viewModel.updateDetailedSelectedUnit,
+        ),
         Text("of ${viewModel.currentIngredient.name}"),
       ],
     );
@@ -57,19 +60,22 @@ class IngredientQuantities extends StatelessWidget {
         Provider.of<IngredientQuantitiesViewModel>(context);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: <Widget>[
             OutlinedButton(
-                onPressed: viewModel.previousIngredient,
-                child: Text("previous")),
+              onPressed: viewModel.previousIngredient,
+              child: const Text("previous"),
+            ),
             Expanded(child: _getCard(viewModel.currentIngredient)),
             OutlinedButton(
-                onPressed: viewModel.nextIngredient, child: Text("next")),
+              onPressed: viewModel.nextIngredient,
+              child: const Text("next"),
+            ),
           ],
         ),
-        SegmentedButton(
+        SegmentedButton<UnitCategory>(
           segments: viewModel.getTypeSelection,
           selected: viewModel.selectedUnit,
           onSelectionChanged: viewModel.updateSelectedUnit,

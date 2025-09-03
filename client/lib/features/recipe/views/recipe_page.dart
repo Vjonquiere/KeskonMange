@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
-import '../../home/views/home_page.dart';
 
 class RecipePage extends StatefulWidget {
   final RecipePreview recipe;
 
-  RecipePage({required this.recipe});
+  const RecipePage({super.key, required this.recipe});
   @override
   State<RecipePage> createState() => _RecipePageState();
 }
@@ -20,7 +19,7 @@ class _RecipePageState extends State<RecipePage> {
     return Container(
       color: AppColors.white, // Set the background color
       child: Column(
-        children: [
+        children: <Widget>[
           ColorfulTextBuilder(widget.recipe.title, 30).getWidget(),
           const Placeholder(color: AppColors.green),
           CustomButton(

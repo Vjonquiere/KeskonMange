@@ -1,6 +1,5 @@
 import 'package:client/features/book/views/book.dart';
 import 'package:client/model/book/preview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +13,7 @@ class BookPreviewWidget extends StatelessWidget {
   final BookPreview _preview;
   final VoidCallback _refreshOnPop;
 
-  BookPreviewWidget(this._preview, this._refreshOnPop);
+  const BookPreviewWidget(this._preview, this._refreshOnPop, {super.key});
 
   Widget recipeImage() {
     return Card.filled(
@@ -36,10 +35,15 @@ class BookPreviewWidget extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context)
-            .push(MaterialPageRoute(
-                builder: (context) => ChangeNotifierProvider(
-                    create: (context) => BookViewModel(_preview.id),
-                    child: Book())))
+            .push(
+          MaterialPageRoute<BookViewModel>(
+            builder: (BuildContext context) =>
+                ChangeNotifierProvider<BookViewModel>(
+              create: (BuildContext context) => BookViewModel(_preview.id),
+              child: const Book(),
+            ),
+          ),
+        )
             .then((_) {
           _refreshOnPop();
         });
@@ -48,28 +52,29 @@ class BookPreviewWidget extends StatelessWidget {
         width: double.infinity,
         color: Colors.transparent,
         child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
+          children: <Widget>[
             const SizedBox(width: 10.0),
             recipeImage(),
             const SizedBox(width: 10.0),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   _preview.name,
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
                 ),
                 Row(
-                  children: [
+                  children: <Widget>[
                     SvgPicture.asset(
                       AppIcons.getIcon(_preview.public ? "public" : "private"),
                       width: 16,
                     ),
                     const SizedBox(width: 10.0),
-                    Text(_preview.public
-                        ? AppLocalizations.of(context)!.public
-                        : AppLocalizations.of(context)!.private),
+                    Text(
+                      _preview.public
+                          ? AppLocalizations.of(context)!.public
+                          : AppLocalizations.of(context)!.private,
+                    ),
                   ],
                 ),
               ],

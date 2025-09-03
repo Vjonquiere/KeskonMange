@@ -27,34 +27,36 @@ class NewRecipePage extends StatelessWidget {
     Widget content;
     switch (viewModel.currentStep) {
       case 0:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<GeneralInformationViewModel>.value(
           value:
               (viewModel.currentStepViewModel as GeneralInformationViewModel),
-          child: GeneralInformation(),
+          child: const GeneralInformation(),
         );
         break;
       case 1:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<IngredientsViewModel>.value(
           value: (viewModel.currentStepViewModel as IngredientsViewModel),
-          child: IngredientSelection(),
+          child: const IngredientSelection(),
         );
         break;
       case 2:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<IngredientQuantitiesViewModel>.value(
           value:
               (viewModel.currentStepViewModel as IngredientQuantitiesViewModel),
-          child: IngredientQuantities(),
+          child: const IngredientQuantities(),
         );
         break;
       case 3:
-        content = ChangeNotifierProvider.value(
-            value: (viewModel.currentStepViewModel as RecipeStepViewModel),
-            child: RecipeStepsWriting());
+        content = ChangeNotifierProvider<RecipeStepViewModel>.value(
+          value: (viewModel.currentStepViewModel as RecipeStepViewModel),
+          child: const RecipeStepsWriting(),
+        );
         break;
       case 4:
-        content = ChangeNotifierProvider.value(
-            value: (viewModel.currentStepViewModel as RecipeReviewViewModel),
-            child: RecipeReview());
+        content = ChangeNotifierProvider<RecipeReviewViewModel>.value(
+          value: (viewModel.currentStepViewModel as RecipeReviewViewModel),
+          child: const RecipeReview(),
+        );
         break;
       default:
         content = const Center(child: Text("No more steps"));
@@ -105,17 +107,20 @@ class NewRecipePage extends StatelessWidget {
     if (viewModel.currentStep == 0) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
+        children: <Widget>[
           CustomButton(
-              text: "GO BACK",
-              onPressed: () {
-                Navigator.of(context).pop(
-                    MaterialPageRoute(builder: (context) => MyCreationsPage()));
-              }),
+            text: "GO BACK",
+            onPressed: () {
+              Navigator.of(context).pop(
+                MaterialPageRoute<MyCreationsPage>(
+                    builder: (BuildContext context) => const MyCreationsPage()),
+              );
+            },
+          ),
           CustomButton(
             text: "NEXT",
             onPressed: viewModel.nextStep,
-          )
+          ),
         ],
       );
     }
@@ -123,25 +128,25 @@ class NewRecipePage extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.center,
         //TODO: add actions to buttons
-        children: [
+        children: <Widget>[
           CustomButton(text: "MODIFY", onPressed: viewModel.previousStep),
           CustomButton(
             text: "PUBLISH",
             onPressed: () {},
             color: AppColors.pink,
           ),
-          CustomButton(text: "DELETE", onPressed: () {})
+          CustomButton(text: "DELETE", onPressed: () {}),
         ],
       );
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
+      children: <Widget>[
         CustomButton(
           text: "PREVIOUS",
           onPressed: viewModel.previousStep,
         ),
-        CustomButton(text: "NEXT", onPressed: viewModel.nextStep)
+        CustomButton(text: "NEXT", onPressed: viewModel.nextStep),
       ],
     );
   }

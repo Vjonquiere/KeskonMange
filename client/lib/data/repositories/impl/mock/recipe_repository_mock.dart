@@ -3,7 +3,7 @@ import 'package:client/data/repositories/recipe_repository.dart';
 import '../../../../model/recipe/preview.dart';
 
 class RecipeRepositoryMock extends RecipeRepository {
-  List<RecipePreview> recipes = [];
+  List<RecipePreview> recipes = <RecipePreview>[];
   int nextId = 0;
 
   @override
@@ -16,7 +16,7 @@ class RecipeRepositoryMock extends RecipeRepository {
 
   @override
   Future<List<RecipePreview>> getLastRecipes(int count) async {
-    List<RecipePreview> last = [];
+    final List<RecipePreview> last = <RecipePreview>[];
     for (int i = 1; i <= count; i++) {
       last.add(recipes[recipes.length - i]);
     }
@@ -26,7 +26,9 @@ class RecipeRepositoryMock extends RecipeRepository {
   @override
   Future<RecipePreview?> getRecipeFromId(int recipeId) async {
     for (RecipePreview recipe in recipes) {
-      if (recipe.id == recipeId) return recipe;
+      if (recipe.id == recipeId) {
+        return recipe;
+      }
     }
     return null;
   }
@@ -39,7 +41,7 @@ class RecipeRepositoryMock extends RecipeRepository {
 
   @override
   Future<List<int>> getLastRecipesIds(int count) async {
-    List<int> last = [];
+    final List<int> last = <int>[];
     for (int i = 1; i <= count; i++) {
       last.add(recipes[recipes.length - i].id);
     }
@@ -48,10 +50,11 @@ class RecipeRepositoryMock extends RecipeRepository {
 
   @override
   Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) async {
-    List<RecipePreview> matching = [];
+    final List<RecipePreview> matching = <RecipePreview>[];
     for (RecipePreview recipe in recipes) {
-      if (recipe.title.toLowerCase().contains(recipeName.toLowerCase()))
+      if (recipe.title.toLowerCase().contains(recipeName.toLowerCase())) {
         matching.add(recipe);
+      }
     }
     return matching;
   }

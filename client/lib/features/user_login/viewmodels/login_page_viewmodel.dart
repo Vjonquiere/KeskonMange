@@ -1,21 +1,19 @@
 import 'dart:convert';
 
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/core/widget_states.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../../../data/repositories/repositories_manager.dart';
 import '../../../data/usecases/login/check_api_key_validity_use_case.dart';
 import '../../../data/usecases/login/get_authentication_code_use_case.dart';
 import '../../../http/authentication.dart';
-import '../../../http/sign_in/VerifyAuthenticationCodeRequest.dart';
+import '../../../http/sign_in/verify_authentication_code_request.dart';
 
 class LoginPageViewModel extends ViewModel {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _storage = const FlutterSecureStorage(); // Where API key is stored
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool _signInPressed = false;
   late int _userLogged;
@@ -28,6 +26,7 @@ class LoginPageViewModel extends ViewModel {
   int get userLogged => _userLogged;
   bool get signInPressed => _signInPressed;
   bool get hasError => _hasError;
+  @override
   String get errorMessage => _errorMessage;
 
   LoginPageViewModel() {
@@ -36,8 +35,8 @@ class LoginPageViewModel extends ViewModel {
 
   Future<void> isUserLogged() async {
     _userLogged = await CheckApiKeyValidityUseCase(
-            RepositoriesManager().getUserRepository())
-        .execute();
+      RepositoriesManager().getUserRepository(),
+    ).execute();
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }
@@ -47,6 +46,7 @@ class LoginPageViewModel extends ViewModel {
     notifyListeners();
   }
 
+  @override
   void clearError() {
     _hasError = false;
     notifyListeners();
@@ -54,20 +54,29 @@ class LoginPageViewModel extends ViewModel {
 
   void onSignInPressed() async {
     _hasError = false;
-    if (_emailController.text == "") return;
+    if (_emailController.text == "") {
+      return;
+    }
     if (signInPressed) {
-      var verifyCode = VerifyAuthenticationCodeRequest(
-          _emailController.text, _passwordController.text);
+      final VerifyAuthenticationCodeRequest verifyCode =
+          VerifyAuthenticationCodeRequest(
+        _emailController.text,
+        _passwordController.text,
+      );
       if (!(await verifyCode.send() == 200)) {
         _hasError = true;
         _errorMessage = verifyCode.getBody();
         notifyListeners();
         return;
       }
-      final apiKey = jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
+      final Map<String, dynamic> apiKey =
+          jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
       if (apiKey.containsKey('token') && apiKey.containsKey('username')) {
         await Authentication().updateCredentialsFromStorage(
-            apiKey["token"], _emailController.text, apiKey["username"]);
+          apiKey["token"],
+          _emailController.text,
+          apiKey["username"],
+        );
         await Authentication().refreshCredentialsFromStorage();
         _userLogged = 200;
         notifyListeners();
@@ -75,9 +84,9 @@ class LoginPageViewModel extends ViewModel {
       return;
     }
     if (!(await GetAuthenticationCodeUseCase(
-                RepositoriesManager().getUserRepository(),
-                _emailController.text)
-            .execute() ==
+          RepositoriesManager().getUserRepository(),
+          _emailController.text,
+        ).execute() ==
         200)) {
       _hasError = true;
       _errorMessage = "Something went wrong while trying to send code by mail";

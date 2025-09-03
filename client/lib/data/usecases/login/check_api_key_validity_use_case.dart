@@ -1,7 +1,6 @@
 import 'package:client/data/repositories/user_repository.dart';
 
 import '../../../http/authentication.dart';
-import '../../../http/sign_in/CheckAPIKeyValidityRequest.dart';
 
 class CheckApiKeyValidityUseCase {
   final UserRepository _userRepository;
@@ -14,8 +13,8 @@ class CheckApiKeyValidityUseCase {
           .deleteCredentialsFromStorage(); // Credentials are missing, don't try to check their validity
       return -1;
     }
-    String API_KEY = Authentication().getCredentials().apiKey;
-    String email = Authentication().getCredentials().email;
-    return _userRepository.checkApiKeyValidity(email, API_KEY);
+    final String apiKey = Authentication().getCredentials().apiKey;
+    final String email = Authentication().getCredentials().email;
+    return _userRepository.checkApiKeyValidity(email, apiKey);
   }
 }

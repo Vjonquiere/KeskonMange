@@ -9,12 +9,12 @@ class RotaryNumberPicker extends StatefulWidget {
   final ValueChanged<int>? onChanged;
 
   const RotaryNumberPicker({
-    Key? key,
+    super.key,
     required this.minValue,
     required this.maxValue,
     required this.initialValue,
     this.onChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<RotaryNumberPicker> createState() => _RotaryNumberPickerState();
@@ -35,29 +35,32 @@ class _RotaryNumberPickerState extends State<RotaryNumberPicker> {
 
   @override
   Widget build(BuildContext context) {
-    int itemCount = widget.maxValue - widget.minValue + 1;
+    final int itemCount = widget.maxValue - widget.minValue + 1;
 
     return Stack(
       alignment: Alignment.center,
-      children: [
+      children: <Widget>[
         Container(
           decoration: BoxDecoration(
-              border: Border.all(color: AppColors.green, width: 2),
-              borderRadius: BorderRadius.circular(20)),
+            border: Border.all(color: AppColors.green, width: 2),
+            borderRadius: BorderRadius.circular(20),
+          ),
           height: 150,
           width: 80,
           child: ListWheelScrollView.useDelegate(
             controller: _controller,
             physics: const FixedExtentScrollPhysics(),
             itemExtent: 40,
-            onSelectedItemChanged: (index) {
+            onSelectedItemChanged: (int index) {
               _currentValue = widget.minValue + index;
               widget.onChanged?.call(_currentValue);
             },
             childDelegate: ListWheelChildBuilderDelegate(
-              builder: (context, index) {
-                if (index < 0 || index >= itemCount) return null;
-                final value = widget.minValue + index;
+              builder: (BuildContext context, int index) {
+                if (index < 0 || index >= itemCount) {
+                  return null;
+                }
+                final int value = widget.minValue + index;
                 return Center(
                   child: Text(
                     value.toString(),

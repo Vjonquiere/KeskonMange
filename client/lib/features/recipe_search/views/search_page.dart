@@ -1,18 +1,13 @@
 import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
-import 'package:client/data/repositories/repositories_manager.dart';
-import 'package:client/data/usecases/recipe/get_recipe_from_id_use_case.dart';
-import 'package:client/data/usecases/recipes/get_last_recipes_ids_use_case.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
 import 'package:client/model/recipe/preview.dart';
-import 'package:client/utils/app_colors.dart';
-import 'package:client/widgets/search/Recipe.dart';
-import 'package:client/widgets/search/TopBar.dart';
+import 'package:client/widgets/search/recipe.dart';
+import 'package:client/widgets/search/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/widgets/colorful_text_builder.dart';
-import '../../../widgets/search/Filter.dart';
+import '../../../widgets/search/filter.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -24,26 +19,27 @@ class SearchPage extends StatefulWidget {
 class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
-    SearchPageViewModel viewModel = Provider.of<SearchPageViewModel>(context);
+    final SearchPageViewModel viewModel =
+        Provider.of<SearchPageViewModel>(context);
     return Scaffold(
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             const Padding(padding: EdgeInsets.only(top: 20)),
             const TopBar(),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
             const Filter(),
             const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             switch (viewModel.state) {
-              WidgetStates.idle => CircularProgressIndicator(),
+              WidgetStates.idle => const CircularProgressIndicator(),
               WidgetStates.loading => throw UnimplementedError(),
-              WidgetStates.dispose => Text("dispose"),
+              WidgetStates.dispose => const Text("dispose"),
               WidgetStates.ready => Expanded(
                   child: ListView.builder(
                     itemCount: viewModel.recipesCount,
-                    itemBuilder: (context, index) {
-                      RecipePreview recipe = viewModel.getRecipe(index);
+                    itemBuilder: (BuildContext context, int index) {
+                      final RecipePreview recipe = viewModel.getRecipe(index);
                       return Recipe(
                         recipe.title,
                         "",

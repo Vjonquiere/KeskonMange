@@ -2,7 +2,6 @@ import 'package:client/core/widgets/cooking_info.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
 import 'package:client/features/recipe_creation/widgets/ingredient_review_card.dart';
 import 'package:client/utils/app_icons.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -10,25 +9,26 @@ import 'package:provider/provider.dart';
 import '../../../utils/app_colors.dart';
 
 class RecipeReview extends StatelessWidget {
+  const RecipeReview({super.key});
+
   @override
   Widget build(BuildContext context) {
-    RecipeReviewViewModel viewModel =
+    final RecipeReviewViewModel viewModel =
         Provider.of<RecipeReviewViewModel>(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         Row(
-          children: [
+          children: <Widget>[
             const Text(
               "Recipe name:",
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Text(viewModel.recipePreview.title)
+            Text(viewModel.recipePreview.title),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
+          children: <Widget>[
             Card.filled(
               color: AppColors.beige,
               elevation: 2,
@@ -46,55 +46,60 @@ class RecipeReview extends StatelessWidget {
           ],
         ),
         Row(
-          children: [
+          children: <Widget>[
             SvgPicture.asset(AppIcons.getIcon("list"), width: 48),
-            Text("For ${viewModel.portions} persons:")
+            Text("For ${viewModel.portions} persons:"),
           ],
         ),
         Wrap(
           runAlignment: WrapAlignment.center,
-          children: List.generate(
-              viewModel.ingredients.length,
-              (int index) => Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: IngredientReviewCard(
-                        viewModel.ingredients.keys.elementAt(index).name,
-                        "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}"),
-                  )),
+          children: List<Padding>.generate(
+            viewModel.ingredients.length,
+            (int index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: IngredientReviewCard(
+                viewModel.ingredients.keys.elementAt(index).name,
+                "${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.quantity} ${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]?.unit.unit.toString().split(".").last}${viewModel.ingredients[viewModel.ingredients.keys.elementAt(index)]!.quantity > 1 ? "s" : ""}",
+              ),
+            ),
+          ),
         ),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             SvgPicture.asset(AppIcons.getIcon("prep"), width: 48),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List<Column>.generate(
                   viewModel.steps.length,
                   (int index) => Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Step $index: ${viewModel.steps[index].title}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.orange),
-                            textAlign: TextAlign.start,
-                          ),
-                          Text(
-                            viewModel.steps[index].stepText,
-                            softWrap: true,
-                            overflow: TextOverflow.visible,
-                            textAlign: TextAlign.start,
-                          ),
-                        ],
-                      )),
-            )),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        "Step $index: ${viewModel.steps[index].title}",
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.orange,
+                        ),
+                        textAlign: TextAlign.start,
+                      ),
+                      Text(
+                        viewModel.steps[index].stepText,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        textAlign: TextAlign.start,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
-        )
+        ),
       ],
     );
   }

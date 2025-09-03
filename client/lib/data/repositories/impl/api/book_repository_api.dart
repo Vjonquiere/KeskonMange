@@ -1,6 +1,6 @@
 import 'package:client/data/repositories/book_repository.dart';
-import 'package:client/http/books/AddRecipeToBookRequest.dart';
-import 'package:client/http/books/CreateNewBookRequest.dart';
+import 'package:client/http/books/add_recipe_to_book_request.dart';
+import 'package:client/http/books/create_new_book_request.dart';
 import 'package:client/model/book/preview.dart';
 import 'package:client/model/user.dart';
 

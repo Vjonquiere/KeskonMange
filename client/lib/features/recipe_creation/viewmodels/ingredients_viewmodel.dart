@@ -8,11 +8,12 @@ import '../../../utils/app_colors.dart';
 import '../widgets/ingredient_card.dart';
 
 class IngredientsViewModel extends StateViewModel {
-  final List<Ingredient> _selectedIngredients = [];
-  final List<Ingredient> _searchIngredients = [];
+  final List<Ingredient> _selectedIngredients = <Ingredient>[];
+  final List<Ingredient> _searchIngredients = <Ingredient>[];
   final SearchIngredientByNameUseCase _searchIngredientByNameUseCase =
       SearchIngredientByNameUseCase(
-          RepositoriesManager().getIngredientRepository());
+    RepositoriesManager().getIngredientRepository(),
+  );
   final TextEditingController _ingredientSearchController =
       TextEditingController();
 
@@ -25,54 +26,63 @@ class IngredientsViewModel extends StateViewModel {
 
   void removeIngredient(Ingredient target) {
     _selectedIngredients
-        .removeWhere((ingredient) => ingredient.name == target.name);
+        .removeWhere((Ingredient ingredient) => ingredient.name == target.name);
     notifyListeners();
   }
 
   void addIngredient(Ingredient ingredient) {
     if (!_selectedIngredients.contains(ingredient)) {
       _selectedIngredients.add(ingredient);
-      _searchIngredients.removeWhere((e) => e.name == ingredient.name);
+      _searchIngredients
+          .removeWhere((Ingredient e) => e.name == ingredient.name);
       notifyListeners();
     }
   }
 
   List<IngredientCard> getSelectedIngredients() {
-    List<IngredientCard> ingredients = [];
+    final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _selectedIngredients) {
-      ingredients.add(IngredientCard(
-        ingredient,
-        () => {},
-        () => removeIngredient(ingredient),
-        removable: true,
-        backgroundColor: AppColors.blue,
-      ));
+      ingredients.add(
+        IngredientCard(
+          ingredient,
+          () => <dynamic, dynamic>{},
+          () => removeIngredient(ingredient),
+          removable: true,
+          backgroundColor: AppColors.blue,
+        ),
+      );
     }
     return ingredients;
   }
 
   List<IngredientCard> getSearchIngredients() {
-    List<IngredientCard> ingredients = [];
+    final List<IngredientCard> ingredients = <IngredientCard>[];
     for (Ingredient ingredient in _searchIngredients) {
-      ingredients.add(IngredientCard(ingredient,
-          () => addIngredient(ingredient), () => removeIngredient(ingredient)));
+      ingredients.add(
+        IngredientCard(
+          ingredient,
+          () => addIngredient(ingredient),
+          () => removeIngredient(ingredient),
+        ),
+      );
     }
     return ingredients;
   }
 
   List<Ingredient> getSelectedIngredientsClone() {
-    return List.from(_selectedIngredients);
+    return List<Ingredient>.from(_selectedIngredients);
   }
 
   void updateDisplayedIngredients({String name = ""}) async {
     _searchIngredients.clear();
     _searchIngredientByNameUseCase.name = name;
-    List<Ingredient> result = await _searchIngredientByNameUseCase.execute();
-    result.forEach((e) {
+    final List<Ingredient> result =
+        await _searchIngredientByNameUseCase.execute();
+    for (Ingredient e in result) {
       if (!_selectedIngredients.contains(e)) {
         _searchIngredients.add(e);
       }
-    });
+    }
     notifyListeners();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Authentication {
   static final Authentication _singleton = Authentication._internal();
-  final _storage = const FlutterSecureStorage();
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
   final Credentials _credentials = Credentials();
 
   factory Authentication() {
@@ -36,7 +36,10 @@ class Authentication {
   }
 
   Future<void> updateCredentialsFromStorage(
-      String apiKey, String email, String username) async {
+    String apiKey,
+    String email,
+    String username,
+  ) async {
     await _storage.write(key: "x-api-key", value: apiKey);
     await _storage.write(key: "email", value: email);
     await _storage.write(key: "username", value: username);
@@ -44,10 +47,10 @@ class Authentication {
 
   Map<String, String> httpHeader() {
     // TODO: add real username
-    return {
+    return <String, String>{
       "x-api-key": _credentials.apiKey,
       "username": _credentials.username,
-      "email": _credentials.email
+      "email": _credentials.email,
     };
   }
 

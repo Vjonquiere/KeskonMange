@@ -7,10 +7,10 @@ import '../ingredient.dart';
 import '../ingredient_quantity.dart';
 
 class Recipe {
-  RecipePreview _recipePreview;
-  HashMap<Ingredient, IngredientQuantity> _ingredients;
-  List<Step> _steps;
-  int _portions;
+  final RecipePreview _recipePreview;
+  final HashMap<Ingredient, IngredientQuantity> _ingredients;
+  final List<Step> _steps;
+  final int _portions;
 
   Recipe(this._recipePreview, this._ingredients, this._portions, this._steps);
 

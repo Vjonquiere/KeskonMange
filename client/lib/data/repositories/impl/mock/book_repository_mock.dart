@@ -5,7 +5,7 @@ import '../../../../model/book/complete.dart';
 import '../../../../model/book/preview.dart';
 
 class BookRepositoryMock extends BookRepository {
-  List<Book> books = [];
+  List<Book> books = <Book>[];
 
   @override
   Future<int> addRecipeToBook(int bookId, int recipeId) async {
@@ -20,7 +20,7 @@ class BookRepositoryMock extends BookRepository {
 
   @override
   Future<int> createNewBook(BookPreview book) async {
-    Book newBook = Book.fromPreview(book);
+    final Book newBook = Book.fromPreview(book);
     newBook.id = books.length + 1;
     books.add(newBook);
     return newBook.id;

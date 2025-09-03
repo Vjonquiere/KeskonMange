@@ -1,28 +1,28 @@
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/rotary_number_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../utils/app_colors.dart';
 
 class NumberPicker extends StatelessWidget {
-  String title;
-  String buttonText;
-  void Function(int) onValueChanged;
-  int initialValue;
-  int maxValue;
-  int minValue;
+  final String title;
+  final String buttonText;
+  final void Function(int) onValueChanged;
+  final int initialValue;
+  final int maxValue;
+  final int minValue;
 
-  NumberPicker(
-      {super.key,
-      required this.title,
-      required this.buttonText,
-      required this.onValueChanged,
-      this.initialValue = 5,
-      this.maxValue = 10,
-      this.minValue = 1});
+  NumberPicker({
+    super.key,
+    required this.title,
+    required this.buttonText,
+    required this.onValueChanged,
+    this.initialValue = 5,
+    this.maxValue = 10,
+    this.minValue = 1,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +43,15 @@ class NumberPicker extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       ColorfulTextBuilder(title, 30, true).getWidget(),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 10)),
+                      const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10)),
                       RotaryNumberPicker(
                         maxValue: maxValue,
                         minValue: minValue,
                         initialValue: initialValue,
                         onChanged: onValueChanged,
                       ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       CustomButton(
                         text: AppLocalizations.of(context)!.confirm,
                         fontSize: 25,

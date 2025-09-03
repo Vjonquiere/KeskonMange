@@ -1,6 +1,5 @@
 import 'package:client/features/recipe_creation/viewmodels/recipe_step_viewmodel.dart';
 import 'package:client/features/recipe_creation/views/recipe_step_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,9 +9,12 @@ import '../../../model/recipe/step.dart' as st;
 import '../widgets/step.dart';
 
 class RecipeStepsWriting extends StatelessWidget {
+  const RecipeStepsWriting({super.key});
+
   void addStep(BuildContext context, RecipeStepViewModel viewModel) async {
-    st.Step? stepValue = await Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => RecipeStepPage()));
+    final st.Step? stepValue = await Navigator.of(context).push(
+        MaterialPageRoute<st.Step>(
+            builder: (BuildContext context) => const RecipeStepPage()));
     if (stepValue != null && stepValue.stepText != "") {
       debugPrint(stepValue.toString());
       viewModel.addStep(stepValue);
@@ -20,9 +22,9 @@ class RecipeStepsWriting extends StatelessWidget {
   }
 
   List<StepWidget> _generateSteps(RecipeStepViewModel viewModel) {
-    return List.generate(
+    return List<StepWidget>.generate(
       viewModel.steps.length,
-      (index) => StepWidget(
+      (int index) => StepWidget(
         viewModel.steps[index],
         stepNumber: index + 1,
         key: Key("${index + 1}"),
@@ -41,7 +43,7 @@ class RecipeStepsWriting extends StatelessWidget {
         iconSize: 32,
       ),
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       onReorder: viewModel.reorderSteps,
       children: _generateSteps(viewModel),
     );

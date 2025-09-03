@@ -1,9 +1,9 @@
-import 'package:client/features/ingredient_creation/model/Ingredient_category.dart';
+import 'package:client/features/ingredient_creation/model/ingredient_category.dart';
 
 class SweetsCategory implements IngredientCategory {
   @override
   List<String> getSubCategories() {
-    return ["sweet drinks", "syrup", "cake"];
+    return <String>["sweet drinks", "syrup", "cake"];
   }
 
   @override

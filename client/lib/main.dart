@@ -22,21 +22,22 @@ class KeskonMangeApp extends StatelessWidget {
     return FutureBuilder<MockRepositoriesSampleLoad>(
       future: RepositoriesManager().currentlyUsingMockRepositories
           ? MockRepositoriesSampleLoad.create()
-          : Future.value(null),
-      builder: (context, snapshot) {
+          : null,
+      builder: (BuildContext context,
+          AsyncSnapshot<MockRepositoriesSampleLoad> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const Center(child: CircularProgressIndicator());
         }
 
         return MaterialApp(
           title: 'KeskonMange',
-          localizationsDelegates: const [
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
+          supportedLocales: const <Locale>[
             Locale('en'),
             Locale('fr', 'FR'),
           ],
@@ -46,12 +47,12 @@ class KeskonMangeApp extends StatelessWidget {
             colorScheme:
                 ColorScheme.fromSeed(seedColor: const Color(0xFFABBC43)),
           ),
-          builder: (context, child) {
+          builder: (BuildContext context, Widget? child) {
             return GlobalMessage(child: child!);
           },
-          home: ChangeNotifierProvider(
-            create: (context) => LoginPageViewModel(),
-            child: LoginPage(),
+          home: ChangeNotifierProvider<LoginPageViewModel>(
+            create: (BuildContext context) => LoginPageViewModel(),
+            child: const LoginPage(),
           ),
         );
       },

@@ -1,6 +1,5 @@
 import 'package:client/core/widgets/number_picker.dart';
 import 'package:client/features/recipe_creation/viewmodels/general_information_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +7,10 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
-import '../viewmodels/new_recipe_viewmodel.dart';
 
 class GeneralInformation extends StatelessWidget {
+  const GeneralInformation({super.key});
+
   Padding questionText(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
@@ -27,33 +27,33 @@ class GeneralInformation extends StatelessWidget {
 
   Widget numberOfPeopleFed(GeneralInformationViewModel viewModel) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         questionText("How many persons does it feed?"),
         Row(
-          children: [
+          children: <Widget>[
             Text("It's for ${viewModel.portions} people"),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             NumberPicker(
               title: "Preparation Time",
               buttonText: "change",
               onValueChanged: viewModel.setPortions,
-              maxValue: 10,
               initialValue: viewModel.portions,
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
   }
 
   Widget mealTypeRadioButton(
-      GeneralInformationViewModel viewModel, String value) {
+    GeneralInformationViewModel viewModel,
+    String value,
+  ) {
     return Row(
       mainAxisSize: MainAxisSize.min,
-      children: [
+      children: <Widget>[
         Radio<String>(
           value: value,
           groupValue: viewModel.typeOfMeal,
@@ -67,17 +67,17 @@ class GeneralInformation extends StatelessWidget {
 
   Widget kindOfRecipe(GeneralInformationViewModel viewModel) {
     return Column(
-      children: [
+      children: <Widget>[
         questionText("What type of recipe is it?"),
         Wrap(
           spacing: 20.0,
-          children: [
+          children: <Widget>[
             mealTypeRadioButton(viewModel, "Starter"),
             mealTypeRadioButton(viewModel, "Main Course"),
             mealTypeRadioButton(viewModel, "Dessert"),
             Row(
               mainAxisSize: MainAxisSize.min,
-              children: [
+              children: <Widget>[
                 mealTypeRadioButton(viewModel, "Other:"),
                 //const Text("Other:"),
                 const SizedBox(width: 10),
@@ -99,7 +99,7 @@ class GeneralInformation extends StatelessWidget {
                         _typeOfMeal = value;
                       });
                     }*/
-                        (value) => {},
+                        (String value) => <dynamic, dynamic>{},
                   ),
                 ),
               ],
@@ -129,7 +129,7 @@ class GeneralInformation extends StatelessWidget {
 
   Widget cookingTime(GeneralInformationViewModel viewModel) {
     return Row(
-      children: [
+      children: <Widget>[
         SvgPicture.asset(
           AppIcons.getIcon("timer"),
           width: 48,
@@ -137,39 +137,41 @@ class GeneralInformation extends StatelessWidget {
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
+              children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(
-                      "You need ${viewModel.preparationTime} minutes of preparation\t",
-                    )),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "You need ${viewModel.preparationTime} minutes of preparation\t",
+                  ),
+                ),
                 NumberPicker(
                   title: "Preparation Time",
                   buttonText: "change",
                   onValueChanged: viewModel.setPreparationTime,
                   maxValue: 120,
                   initialValue: viewModel.preparationTime,
-                )
+                ),
               ],
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
+              children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Text(
-                      "It will cook for ${viewModel.cookingTime} minutes\t",
-                    )),
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "It will cook for ${viewModel.cookingTime} minutes\t",
+                  ),
+                ),
                 NumberPicker(
                   title: "Cooking Time",
                   buttonText: "change",
                   onValueChanged: viewModel.setCookingTime,
                   maxValue: 120,
                   initialValue: viewModel.cookingTime,
-                )
+                ),
               ],
             ),
           ],
@@ -179,15 +181,15 @@ class GeneralInformation extends StatelessWidget {
   }
 
   Widget addRecipePicture(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double imageWidth = screenWidth * 0.4;
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double imageWidth = screenWidth * 0.4;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         questionText("What does it look like?"),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
+          children: <Widget>[
             Card.filled(
               color: AppColors.beige,
               elevation: 2,
@@ -200,17 +202,21 @@ class GeneralInformation extends StatelessWidget {
               ),
             ),
             Column(
-              children: [
+              children: <Widget>[
                 CustomButton(
-                    text: "Import", onPressed: () {}, color: AppColors.blue),
+                  text: "Import",
+                  onPressed: () {},
+                  color: AppColors.blue,
+                ),
                 CustomButton(
-                    text: "Take a picture",
-                    onPressed: () {},
-                    color: AppColors.yellow),
+                  text: "Take a picture",
+                  onPressed: () {},
+                  color: AppColors.yellow,
+                ),
               ],
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -220,12 +226,11 @@ class GeneralInformation extends StatelessWidget {
     final GeneralInformationViewModel viewModel =
         Provider.of<GeneralInformationViewModel>(context);
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
+      children: <Widget>[
         addRecipePicture(context),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             questionText("What do we cook?"),
             userTextInput("Recipe title", viewModel.recipeTitleController),
             const SizedBox(height: 16), // Add spacing
@@ -233,7 +238,7 @@ class GeneralInformation extends StatelessWidget {
             kindOfRecipe(viewModel),
             cookingTime(viewModel),
           ],
-        )
+        ),
       ],
     );
   }

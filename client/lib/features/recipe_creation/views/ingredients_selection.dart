@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -7,27 +6,31 @@ import '../viewmodels/ingredients_viewmodel.dart';
 import '../widgets/ingredient_row.dart';
 
 class IngredientSelection extends StatelessWidget {
+  const IngredientSelection({super.key});
+
   @override
   Widget build(BuildContext context) {
     final IngredientsViewModel viewModel =
         Provider.of<IngredientsViewModel>(context);
     return Column(
-      children: [
+      children: <Widget>[
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
         IngredientRow(viewModel.getSelectedIngredients(), false),
         Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.search),
-                Expanded(
-                    child: TextField(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.search),
+              Expanded(
+                child: TextField(
                   controller: viewModel.ingredientSearchController,
                   onChanged: viewModel.searchStringChanged,
-                ))
-              ],
-            )),
+                ),
+              ),
+            ],
+          ),
+        ),
         IngredientRow(viewModel.getSearchIngredients(), true),
       ],
     );

@@ -3,7 +3,6 @@ import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/book/widgets/delete_book_dialog.dart';
 import 'package:client/features/home/widgets/recipe_preview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +17,7 @@ class Book extends StatelessWidget {
 
   Widget topContainer(BuildContext context, BookViewModel viewModel) {
     return Row(
-      children: [
+      children: <Widget>[
         Card.filled(
           color: AppColors.beige,
           elevation: 2,
@@ -31,56 +30,63 @@ class Book extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+          children: <Widget>[
             Text(
               viewModel.book.name,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(AppLocalizations.of(context)!
-                .book_creation(viewModel.book.creationDate)),
-            Text(AppLocalizations.of(context)!
-                .book_owner(viewModel.book.ownerId)),
+            Text(
+              AppLocalizations.of(context)!
+                  .book_creation(viewModel.book.creationDate),
+            ),
+            Text(
+              AppLocalizations.of(context)!.book_owner(viewModel.book.ownerId),
+            ),
             Row(
-              children: [
+              children: <Widget>[
                 SvgPicture.asset(
                   AppIcons.getIcon(
-                      viewModel.book.public ? "public" : "private"),
+                    viewModel.book.public ? "public" : "private",
+                  ),
                   width: 16,
                 ),
                 const SizedBox(width: 10.0),
                 Text(
-                    "${viewModel.book.public ? AppLocalizations.of(context)!.book_public : AppLocalizations.of(context)!.book_private}"),
+                  viewModel.book.public
+                      ? AppLocalizations.of(context)!.book_public
+                      : AppLocalizations.of(context)!.book_private,
+                ),
               ],
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
+          children: <Widget>[
             CustomButton(
               iconSize: 32,
               text: "trash",
               onPressed: () {
                 showDialog(
-                    context: context,
-                    builder: (context) => Dialog(
-                          child: DeleteBookDialog(viewModel.deleteBook),
-                        ));
+                  context: context,
+                  builder: (BuildContext context) => Dialog(
+                    child: DeleteBookDialog(viewModel.deleteBook),
+                  ),
+                );
               },
               color: AppColors.red,
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             CustomButton(
@@ -103,66 +109,72 @@ class Book extends StatelessWidget {
 
   Widget recipeList(BuildContext context, BookViewModel viewModel) {
     return Expanded(
-        child: ListView.builder(
-            itemCount: viewModel.recipeCount,
-            itemBuilder: (BuildContext context, int index) {
-              if (viewModel.editMode) {
-                return Row(
-                  children: [
-                    RecipePreview(recipe: viewModel.recipes[index]),
-                    CustomButton(
-                      text: "trash",
-                      onPressed: () {
-                        viewModel.deleteRecipe(viewModel.recipes[index].id);
-                      },
-                      iconSize: 32,
-                      color: AppColors.red,
-                    )
-                  ],
-                );
-              }
-              return RecipePreview(recipe: viewModel.recipes[index]);
-            }));
+      child: ListView.builder(
+        itemCount: viewModel.recipeCount,
+        itemBuilder: (BuildContext context, int index) {
+          if (viewModel.editMode) {
+            return Row(
+              children: <Widget>[
+                RecipePreview(recipe: viewModel.recipes[index]),
+                CustomButton(
+                  text: "trash",
+                  onPressed: () {
+                    viewModel.deleteRecipe(viewModel.recipes[index].id);
+                  },
+                  iconSize: 32,
+                  color: AppColors.red,
+                ),
+              ],
+            );
+          }
+          return RecipePreview(recipe: viewModel.recipes[index]);
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    BookViewModel viewModel = Provider.of<BookViewModel>(context);
+    final BookViewModel viewModel = Provider.of<BookViewModel>(context);
     return Scaffold(
       body: SafeArea(
-          child: switch (viewModel.state) {
-        WidgetStates.idle => CircularProgressIndicator(),
-        WidgetStates.loading => CircularProgressIndicator(),
-        WidgetStates.ready => Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(padding: EdgeInsetsGeometry.only(top: 25)),
-              topContainer(context, viewModel),
-              CustomDivider(),
-              viewModel.editMode
-                  ? Container(
-                      margin: EdgeInsets.all(5),
-                      padding: EdgeInsets.all(5),
-                      child: Center(
-                          child: Text(
-                              AppLocalizations.of(context)!.book_edit_mode)),
-                      decoration: BoxDecoration(
+        child: switch (viewModel.state) {
+          WidgetStates.idle => const CircularProgressIndicator(),
+          WidgetStates.loading => const CircularProgressIndicator(),
+          WidgetStates.ready => Column(
+              children: <Widget>[
+                const Padding(padding: EdgeInsetsGeometry.only(top: 25)),
+                topContainer(context, viewModel),
+                const CustomDivider(),
+                viewModel.editMode
+                    ? Container(
+                        margin: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
                           color: AppColors.yellow,
-                          borderRadius: BorderRadius.circular(10)),
-                    )
-                  : Container(),
-              recipeList(context, viewModel),
-            ],
-          ),
-        WidgetStates.error => Text("Error"),
-        WidgetStates.dispose => Text("Dispose"),
-      }),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Center(
+                          child: Text(
+                            AppLocalizations.of(context)!.book_edit_mode,
+                          ),
+                        ),
+                      )
+                    : Container(),
+                recipeList(context, viewModel),
+              ],
+            ),
+          WidgetStates.error => const Text("Error"),
+          WidgetStates.dispose => const Text("Dispose"),
+        },
+      ),
       floatingActionButton: CustomButton(
-          iconSize: 32,
-          text: "back",
-          onPressed: () {
-            Navigator.of(context).pop();
-          }),
+        iconSize: 32,
+        text: "back",
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }

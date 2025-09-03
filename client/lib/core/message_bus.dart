@@ -5,7 +5,8 @@ import 'message.dart';
 class MessageBus {
   static final MessageBus instance = MessageBus._internal();
 
-  final _controller = StreamController<Message>.broadcast();
+  final StreamController<Message> _controller =
+      StreamController<Message>.broadcast();
 
   Stream<Message> get messages => _controller.stream;
 

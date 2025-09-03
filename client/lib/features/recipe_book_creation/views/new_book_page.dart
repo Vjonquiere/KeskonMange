@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../home/views/home_page.dart';
 import '../../home/widgets/recipe_preview.dart';
 import '../../user_creations/views/my_creations_page.dart';
 
@@ -16,7 +15,7 @@ class NewBookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NewBookViewModel viewModel = Provider.of<NewBookViewModel>(context);
+    final NewBookViewModel viewModel = Provider.of<NewBookViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         title:
@@ -24,121 +23,141 @@ class NewBookPage extends StatelessWidget {
                 .getWidget(),
       ),
       body: Column(
-        children: [
+        children: <Widget>[
           Padding(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
+              children: <Widget>[
                 Text(
                   AppLocalizations.of(context)!.book_name,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 SizedBox(
+                  width: 200,
                   child: TextField(
                     controller: viewModel.titleController,
                   ),
-                  width: 200,
-                )
+                ),
               ],
             ),
           ),
           Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(AppLocalizations.of(context)!.book_visibility,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Switch(
-                      value: viewModel.public,
-                      onChanged: viewModel.onPublicValueChanged),
-                ],
-              )),
-          CustomDivider(
+            padding: const EdgeInsets.only(left: 10),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  AppLocalizations.of(context)!.book_visibility,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Switch(
+                  value: viewModel.public,
+                  onChanged: viewModel.onPublicValueChanged,
+                ),
+              ],
+            ),
+          ),
+          const CustomDivider(
             color: AppColors.pink,
           ),
           ColorfulTextBuilder(
-                  AppLocalizations.of(context)!.book_add_recipes, 20, true)
-              .getWidget(),
-          SizedBox(
+            AppLocalizations.of(context)!.book_add_recipes,
+            20,
+            true,
+          ).getWidget(),
+          const SizedBox(
             height: 5,
           ),
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SearchBar(
-              leading: Icon(Icons.search),
+              leading: const Icon(Icons.search),
               onChanged: viewModel.searchUpdate,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Expanded(
-              child: ListView.builder(
-            itemBuilder: (context, index) {
-              return Container(
-                  margin: EdgeInsets.symmetric(vertical: 5, horizontal: 3),
-                  padding: EdgeInsets.only(right: 5),
+            child: ListView.builder(
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 5, horizontal: 3),
+                  padding: const EdgeInsets.only(right: 5),
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: (viewModel.isRecipeSelected(
-                                  viewModel.searchedRecipes[index])
-                              ? AppColors.green
-                              : Colors.transparent),
-                          width: 3),
-                      borderRadius: BorderRadius.circular(10)),
+                    border: Border.all(
+                      color: (viewModel.isRecipeSelected(
+                        viewModel.searchedRecipes[index],
+                      )
+                          ? AppColors.green
+                          : Colors.transparent),
+                      width: 3,
+                    ),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: <Widget>[
                       RecipePreview(recipe: viewModel.searchedRecipes[index]),
                       (viewModel.isRecipeSelected(
-                              viewModel.searchedRecipes[index])
+                        viewModel.searchedRecipes[index],
+                      )
                           ? CustomButton(
                               iconSize: 32,
                               text: 'bin',
                               color: AppColors.red,
                               onPressed: () => viewModel.removeRecipe(
-                                  viewModel.searchedRecipes[index]))
+                                viewModel.searchedRecipes[index],
+                              ),
+                            )
                           : CustomButton(
                               iconSize: 32,
                               text: 'add',
                               onPressed: () => viewModel.addRecipe(
-                                  viewModel.searchedRecipes[index]))),
+                                viewModel.searchedRecipes[index],
+                              ),
+                            )),
                     ],
-                  ));
-            },
-            itemCount: viewModel.searchRecipesCount,
-          )),
+                  ),
+                );
+              },
+              itemCount: viewModel.searchRecipesCount,
+            ),
+          ),
         ],
       ),
       bottomNavigationBar: SafeArea(
-          child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          CustomButton(
-            iconSize: 32,
-            onPressed: () {
-              Navigator.of(context).pop(
-                  MaterialPageRoute(builder: (context) => MyCreationsPage()));
-            },
-            text: 'back',
-          ),
-          CustomButton(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            CustomButton(
+              iconSize: 32,
+              onPressed: () {
+                Navigator.of(context).pop(
+                  MaterialPageRoute<MyCreationsPage>(
+                      builder: (BuildContext context) =>
+                          const MyCreationsPage()),
+                );
+              },
+              text: 'back',
+            ),
+            CustomButton(
               text: AppLocalizations.of(context)!.create,
               onPressed: () async {
                 if (await viewModel.pushBook()) {
                   Navigator.of(context).pop();
                 }
-              }),
-        ],
-      )),
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

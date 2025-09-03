@@ -1,18 +1,19 @@
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/widgets/recipe_preview.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../core/widget_states.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../model/recipe/preview.dart' as rpModel;
+import '../../../model/recipe/preview.dart' as rp_model;
 import '../viewmodels/coming_recipes_viewmodel.dart';
 
 class ComingRecipes extends StatelessWidget {
-  Widget _homeRecipePreview(rpModel.RecipePreview recipe) {
+  const ComingRecipes({super.key});
+
+  Widget _homeRecipePreview(rp_model.RecipePreview recipe) {
     return Column(
-      children: [
+      children: <Widget>[
         RecipePreview(
           recipe: recipe,
           homepage: true,
@@ -24,7 +25,8 @@ class ComingRecipes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final viewModel = Provider.of<ComingRecipesViewModel>(context);
+    final ComingRecipesViewModel viewModel =
+        Provider.of<ComingRecipesViewModel>(context);
     return switch (viewModel.state) {
       WidgetStates.idle => Container(),
       WidgetStates.loading => const CircularProgressIndicator(),
@@ -32,9 +34,11 @@ class ComingRecipes extends StatelessWidget {
       WidgetStates.ready => Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: viewModel.recipes
-              .map((recipe) => _homeRecipePreview(recipe))
-              .toList()),
-      WidgetStates.dispose => Text("dispose"),
+              .map(
+                  (rp_model.RecipePreview recipe) => _homeRecipePreview(recipe))
+              .toList(),
+        ),
+      WidgetStates.dispose => const Text("dispose"),
     };
   }
 }

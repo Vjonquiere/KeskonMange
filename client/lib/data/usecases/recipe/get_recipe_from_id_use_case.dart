@@ -3,7 +3,7 @@ import 'package:client/model/recipe/preview.dart';
 
 class GetRecipeFromIdUseCase {
   final RecipeRepository _recipeRepository;
-  int _id;
+  final int _id;
 
   GetRecipeFromIdUseCase(this._recipeRepository, this._id);
 

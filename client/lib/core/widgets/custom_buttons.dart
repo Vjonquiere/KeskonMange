@@ -23,30 +23,22 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var icons = AppIcons.getIcon(text) != 'Icon not found' ? true : false;
+    final bool icons =
+        AppIcons.getIcon(text) != 'Icon not found' ? true : false;
     if (icons == true) {
       return GestureDetector(
-          onTap: onPressed,
-          child: Container(
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-                color: color, borderRadius: BorderRadius.circular(100)),
-            child: SvgPicture.asset(
-              AppIcons.getIcon(text),
-            ),
-            width: iconSize,
-            height: iconSize,
-          ));
-      IconButton(
-        iconSize: iconSize,
-        onPressed: onPressed,
-        style: FilledButton.styleFrom(
-          backgroundColor: color,
-          shape: const CircleBorder(),
-        ),
-        // Put an icon if one is available
-        icon: SvgPicture.asset(
-          AppIcons.getIcon(text),
+        onTap: onPressed,
+        child: Container(
+          padding: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(100),
+          ),
+          width: iconSize,
+          height: iconSize,
+          child: SvgPicture.asset(
+            AppIcons.getIcon(text),
+          ),
         ),
       );
     }

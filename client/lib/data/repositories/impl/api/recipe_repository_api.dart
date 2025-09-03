@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:client/data/repositories/recipe_repository.dart';
-import 'package:client/http/recipe/GetLastRecipesRequest.dart';
-import 'package:client/http/recipe/GetRecipeFromIdRequest.dart';
+import 'package:client/http/recipe/get_last_recipes_request.dart';
+import 'package:client/http/recipe/get_recipe_from_id_request.dart';
 import 'package:client/model/recipe/preview.dart';
 
 class RecipeRepositoryApi extends RecipeRepository {
@@ -15,17 +15,21 @@ class RecipeRepositoryApi extends RecipeRepository {
 
   @override
   Future<List<RecipePreview>> getLastRecipes(int count) async {
-    GetLastRecipesRequest req = GetLastRecipesRequest();
-    if ((await req.send()) != 200) return [];
-    return [
-      RecipePreview.fromJson(req.getJsonBody())
+    final GetLastRecipesRequest req = GetLastRecipesRequest();
+    if ((await req.send()) != 200) {
+      return <RecipePreview>[];
+    }
+    return <RecipePreview>[
+      RecipePreview.fromJson(req.getJsonBody()),
     ]; // TODO: Change because it returns ids and not Recipes objects
   }
 
   @override
   Future<RecipePreview?> getRecipeFromId(int recipeId) async {
-    GetRecipeRequest req = GetRecipeRequest(recipeId.toString());
-    if ((await req.send()) != 200) null;
+    final GetRecipeRequest req = GetRecipeRequest(recipeId.toString());
+    if ((await req.send()) != 200) {
+      null;
+    }
     return RecipePreview.fromJson(req.getJsonBody());
   }
 
@@ -37,8 +41,10 @@ class RecipeRepositoryApi extends RecipeRepository {
 
   @override
   Future<List<int>> getLastRecipesIds(int count) async {
-    GetLastRecipesRequest req = GetLastRecipesRequest();
-    if ((await req.send()) != 200) return [];
+    final GetLastRecipesRequest req = GetLastRecipesRequest();
+    if ((await req.send()) != 200) {
+      return <int>[];
+    }
     return req.ids();
   }
 

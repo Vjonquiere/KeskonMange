@@ -11,18 +11,23 @@ import 'package:provider/provider.dart';
 import '../../../l10n/app_localizations.dart';
 
 class LoginPage extends StatelessWidget {
+  const LoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    LoginPageViewModel viewModel = Provider.of<LoginPageViewModel>(context);
+    final LoginPageViewModel viewModel =
+        Provider.of<LoginPageViewModel>(context);
     return Scaffold(
-        body: SafeArea(
-            child: switch (viewModel.state) {
-      WidgetStates.idle => const CircularProgressIndicator(),
-      WidgetStates.loading => const CircularProgressIndicator(),
-      WidgetStates.ready => loginPage(context, viewModel),
-      WidgetStates.error => const Text("Error"),
-      WidgetStates.dispose => Text("dispose"),
-    }));
+      body: SafeArea(
+        child: switch (viewModel.state) {
+          WidgetStates.idle => const CircularProgressIndicator(),
+          WidgetStates.loading => const CircularProgressIndicator(),
+          WidgetStates.ready => loginPage(context, viewModel),
+          WidgetStates.error => const Text("Error"),
+          WidgetStates.dispose => const Text("dispose"),
+        },
+      ),
+    );
   }
 
   Widget loginPage(BuildContext context, LoginPageViewModel viewModel) {
@@ -38,7 +43,7 @@ class LoginPage extends StatelessWidget {
 
       if (viewModel.userLogged == 200) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (_) => HomePage()),
+          MaterialPageRoute<HomePage>(builder: (_) => const HomePage()),
         );
       }
     });
@@ -67,7 +72,7 @@ class LoginPage extends StatelessWidget {
             ),
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
+              FilteringTextInputFormatter.digitsOnly,
             ],
           ),
 
@@ -79,20 +84,25 @@ class LoginPage extends StatelessWidget {
               TextButton(
                 child: Text(AppLocalizations.of(context)!.sign_up),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                          create: (context) => SignupViewModel(),
-                          child: SignupPage())));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<SignupPage>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<SignupViewModel>(
+                        create: (BuildContext context) => SignupViewModel(),
+                        child: const SignupPage(),
+                      ),
+                    ),
+                  );
                 },
               ),
             if (viewModel.signInPressed)
               TextButton(
-                child: Text(AppLocalizations.of(context)!.back),
                 onPressed: viewModel.onBackButtonPressed,
+                child: Text(AppLocalizations.of(context)!.back),
               ),
             ElevatedButton(
-              child: Text(AppLocalizations.of(context)!.sign_in),
               onPressed: viewModel.onSignInPressed,
+              child: Text(AppLocalizations.of(context)!.sign_in),
             ),
           ],
         ),

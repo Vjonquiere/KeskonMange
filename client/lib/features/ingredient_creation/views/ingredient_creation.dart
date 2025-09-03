@@ -2,17 +2,14 @@ import 'package:client/core/widgets/allergens_selector.dart';
 import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmodel.dart';
 import 'package:client/model/ingredient_units.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:openfoodfacts/openfoodfacts.dart';
 import 'package:provider/provider.dart';
 
-import '../../../constants.dart';
 import '../../../core/widget_states.dart';
-import '../../../utils/app_icons.dart';
 
 class IngredientCreation extends StatelessWidget {
+  const IngredientCreation({super.key});
+
   Widget boldText(String text) {
     return Text(
       text,
@@ -26,7 +23,7 @@ class IngredientCreation extends StatelessWidget {
 
   Widget nameStep(IngredientCreationViewModel viewModel) {
     return Row(
-      children: [
+      children: <Widget>[
         boldText("How is it called ?"),
         const SizedBox(
           width: 20,
@@ -43,85 +40,95 @@ class IngredientCreation extends StatelessWidget {
 
   Widget categoryStep(IngredientCreationViewModel viewModel) {
     return Column(
-      children: [
+      children: <Widget>[
         boldText("Which category?"),
         Wrap(
-          children: [
-            SegmentedButton(
-                segments: List.generate(
-                    viewModel.categoriesCount,
-                    (int index) => ButtonSegment(
-                        value: viewModel.categories[index].toString(),
-                        label: Text(viewModel.categories[index].toString()))),
-                onSelectionChanged: viewModel.updateSelectedCategory,
-                selected: viewModel.selectedCategoryString),
+          children: <Widget>[
+            SegmentedButton<String>(
+              segments: List<ButtonSegment<String>>.generate(
+                viewModel.categoriesCount,
+                (int index) => ButtonSegment<String>(
+                  value: viewModel.categories[index].toString(),
+                  label: Text(viewModel.categories[index].toString()),
+                ),
+              ),
+              onSelectionChanged: viewModel.updateSelectedCategory,
+              selected: viewModel.selectedCategoryString,
+            ),
           ],
         ),
         ToggleButtons(
-            isSelected: List.generate(
-                viewModel.selectedCategory.getSubCategories().length,
-                (int index) => viewModel.selectedSubCategories[index]),
-            onPressed: viewModel.updateSelectedSubCategory,
-            children: List.generate(
-                viewModel.selectedCategory.getSubCategories().length,
-                (int index) =>
-                    Text(viewModel.selectedCategory.getSubCategories()[index])))
+          isSelected: List<bool>.generate(
+            viewModel.selectedCategory.getSubCategories().length,
+            (int index) => viewModel.selectedSubCategories[index],
+          ),
+          onPressed: viewModel.updateSelectedSubCategory,
+          children: List<Text>.generate(
+            viewModel.selectedCategory.getSubCategories().length,
+            (int index) =>
+                Text(viewModel.selectedCategory.getSubCategories()[index]),
+          ),
+        ),
       ],
     );
   }
 
   Widget specificationsStep(IngredientCreationViewModel viewModel) {
     return Row(
-      children: [
+      children: <Widget>[
         boldText("Is it ?"),
-        SegmentedButton(
-          segments: List.generate(
-              viewModel.specificationsCount,
-              (int index) => ButtonSegment(
-                  value: viewModel.specifications[index],
-                  label: Text(viewModel.specifications[index]))),
+        SegmentedButton<String>(
+          segments: List<ButtonSegment<String>>.generate(
+            viewModel.specificationsCount,
+            (int index) => ButtonSegment<String>(
+              value: viewModel.specifications[index],
+              label: Text(viewModel.specifications[index]),
+            ),
+          ),
           selected: viewModel.selectedSpecifications,
           onSelectionChanged: viewModel.updateSelectedSpecifications,
           emptySelectionAllowed: true,
           multiSelectionEnabled: true,
-        )
+        ),
       ],
     );
   }
 
   Widget unitStep(IngredientCreationViewModel viewModel) {
     return Column(
-      children: [
+      children: <Widget>[
         boldText("Which unit to measure this ingredient ?"),
-        SegmentedButton(
-          segments: List.generate(
-              units.length,
-              (int index) => ButtonSegment(
-                  value: units.values.elementAt(index).toString(),
-                  label: Text(units.values.elementAt(index).toString()))),
+        SegmentedButton<String>(
+          segments: List<ButtonSegment<String>>.generate(
+            units.length,
+            (int index) => ButtonSegment<String>(
+              value: units.values.elementAt(index).toString(),
+              label: Text(units.values.elementAt(index).toString()),
+            ),
+          ),
           selected: viewModel.selectedUnits,
-          emptySelectionAllowed: false,
           multiSelectionEnabled: true,
           onSelectionChanged: viewModel.updateSelectedUnits,
-        )
+        ),
       ],
     );
   }
 
   Widget allergensStep(IngredientCreationViewModel viewModel) {
     return Column(
-      children: [
+      children: <Widget>[
         boldText("Does it contain allergens ?"),
         AllergensSelector(
-            selected: viewModel.allergensValues,
-            onSelected: viewModel.switchSelectedAllergen)
+          selected: viewModel.allergensValues,
+          onSelected: viewModel.switchSelectedAllergen,
+        ),
       ],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    IngredientCreationViewModel viewModel =
+    final IngredientCreationViewModel viewModel =
         Provider.of<IngredientCreationViewModel>(context);
     if (viewModel.state == WidgetStates.dispose) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -133,11 +140,13 @@ class IngredientCreation extends StatelessWidget {
 
     if (viewModel.state == WidgetStates.error) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text("Error: ${viewModel.errorMessage!}"),
-          duration: const Duration(seconds: 5),
-          showCloseIcon: true,
-        ));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("Error: ${viewModel.errorMessage!}"),
+            duration: const Duration(seconds: 5),
+            showCloseIcon: true,
+          ),
+        );
         viewModel.clearError();
       });
     }
@@ -147,17 +156,20 @@ class IngredientCreation extends StatelessWidget {
             ColorfulTextBuilder("Create new ingredient", 30, true).getWidget(),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 5),
-        child: Column(children: [
-          nameStep(viewModel),
-          specificationsStep(viewModel),
-          categoryStep(viewModel),
-          unitStep(viewModel),
-          allergensStep(viewModel),
-          ElevatedButton(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: Column(
+          children: <Widget>[
+            nameStep(viewModel),
+            specificationsStep(viewModel),
+            categoryStep(viewModel),
+            unitStep(viewModel),
+            allergensStep(viewModel),
+            ElevatedButton(
               onPressed: viewModel.pushIngredient,
-              child: Text("Create ingredient !"))
-        ]),
+              child: const Text("Create ingredient !"),
+            ),
+          ],
+        ),
       ),
     );
   }

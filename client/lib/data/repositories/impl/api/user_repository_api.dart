@@ -1,28 +1,29 @@
 import 'dart:convert';
 
 import 'package:client/data/repositories/user_repository.dart';
-import 'package:client/http/sign_in/CheckAPIKeyValidityRequest.dart';
-import 'package:client/http/sign_in/GetAuthenticationCodeRequest.dart';
-import 'package:client/http/sign_in/VerifyAuthenticationCodeRequest.dart';
-import 'package:client/http/sign_up/CreateAccountRequest.dart';
-import 'package:client/http/sign_up/UserVerificationRequest.dart';
-import 'package:client/http/user/GetAllergensRequest.dart';
-import 'package:client/http/user/LogoutRequest.dart';
-import 'package:client/http/user/SetAllergensRequest.dart';
+import 'package:client/http/sign_in/check_api_key_validity_request.dart';
+import 'package:client/http/sign_in/get_authentication_code_request.dart';
+import 'package:client/http/sign_in/verify_authentication_code_request.dart';
+import 'package:client/http/sign_up/create_account_request.dart';
+import 'package:client/http/sign_up/user_verification_request.dart';
+import 'package:client/http/user/get_allergens_request.dart';
+import 'package:client/http/user/logout_request.dart';
+import 'package:client/http/user/set_allergens_request.dart';
 import 'package:client/model/user.dart';
 
-import '../../../../http/sign_up/VerifyEmailRequest.dart';
-import '../../../../http/sign_up/VerifyUsernameRequest.dart';
+import '../../../../http/sign_up/verify_email_request.dart';
+import '../../../../http/sign_up/verify_username_request.dart';
 import '../../../../model/allergen.dart';
 
 class UserRepositoryApi extends UserRepository {
   @override
   Future<String?> activateUserAccount(String email, String code) async {
-    var req = UserVerificationRequest(email, code);
+    final UserVerificationRequest req = UserVerificationRequest(email, code);
     if ((await req.send()) != 200) {
       return null;
     }
-    final apiKey = jsonDecode(req.getBody()) as Map<String, dynamic>;
+    final Map<String, dynamic> apiKey =
+        jsonDecode(req.getBody()) as Map<String, dynamic>;
     if (apiKey.containsKey('token')) {
       return apiKey["token"];
     }
@@ -51,7 +52,7 @@ class UserRepositoryApi extends UserRepository {
 
   @override
   Future<List<Allergen>> getUserAllergens() async {
-    GetAllergensRequest req = GetAllergensRequest();
+    final GetAllergensRequest req = GetAllergensRequest();
     await req.send();
     return req.getAllergens();
   }
@@ -69,7 +70,7 @@ class UserRepositoryApi extends UserRepository {
 
   @override
   Future<int> setUserAllergens(List<Allergen> allergens) async {
-    return (await SetAllergensRequest([""])
+    return (await SetAllergensRequest(<String>[""])
         .send()); // TODO: Change allergens from String
   }
 

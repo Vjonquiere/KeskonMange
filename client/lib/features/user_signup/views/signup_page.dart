@@ -1,31 +1,15 @@
-import 'dart:convert';
-
-import 'package:client/data/repositories/repositories_manager.dart';
-import 'package:client/data/usecases/signup/activate_account_use_case.dart';
-import 'package:client/data/usecases/signup/check_mail_availability_use_case.dart';
-import 'package:client/data/usecases/signup/check_username_availability_use_case.dart';
-import 'package:client/data/usecases/signup/create_account_use_case.dart';
 import 'package:client/features/home/viewmodels/home_page_viewmodel.dart';
 import 'package:client/features/user_signup/widgets/account_verification_step.dart';
 import 'package:client/features/user_signup/widgets/allergens_step.dart';
 import 'package:client/features/user_signup/widgets/username_step.dart';
-import 'package:client/http/authentication.dart';
-import 'package:client/http/sign_up/CreateAccountRequest.dart';
 import 'package:client/features/home/views/home_page.dart';
-import 'package:client/features/user_login/views/login_page.dart';
 import 'package:client/utils/app_colors.dart';
-import 'package:client/utils/app_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../../../core/widgets/colorful_text_builder.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../../../constants.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../model/user.dart';
 import '../viewmodels/account_verification_viewmodel.dart';
 import '../viewmodels/allergens_viewmodel.dart';
 import '../viewmodels/email_viewmodel.dart';
@@ -36,6 +20,8 @@ import '../widgets/email_step.dart';
 import '../widgets/post_code_step.dart';
 
 class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _SignupPageState();
 }
@@ -45,19 +31,22 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
-    SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
+    final SignupViewModel viewModel = Provider.of<SignupViewModel>(context);
     Widget content;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (viewModel.signupFinalized) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-              builder: (_) => ChangeNotifierProvider(
-                  create: (context) => HomePageViewModel(), child: HomePage())),
+          MaterialPageRoute<HomePage>(
+            builder: (_) => ChangeNotifierProvider<HomePageViewModel>(
+              create: (BuildContext context) => HomePageViewModel(),
+              child: const HomePage(),
+            ),
+          ),
         );
         return;
       }
       if (viewModel.isStepStateError) {
-        String? message = viewModel.currentStepErrorMessage;
+        final String? message = viewModel.currentStepErrorMessage;
         if (message != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -71,33 +60,33 @@ class _SignupPageState extends State<SignupPage> {
 
     switch (viewModel.currentIndex) {
       case 0:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<UsernameViewModel>.value(
           value: viewModel.currentViewModel as UsernameViewModel,
-          child: UsernameStep(),
+          child: const UsernameStep(),
         );
         break;
       case 1:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<EmailViewModel>.value(
           value: viewModel.currentViewModel as EmailViewModel,
-          child: EmailStep(),
+          child: const EmailStep(),
         );
         break;
       case 2:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<PostCodeViewModel>.value(
           value: viewModel.currentViewModel as PostCodeViewModel,
-          child: PostCodeStep(),
+          child: const PostCodeStep(),
         );
         break;
       case 3:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<AllergensViewModel>.value(
           value: viewModel.currentViewModel as AllergensViewModel,
-          child: AllergensStep(),
+          child: const AllergensStep(),
         );
         break;
       case 4:
-        content = ChangeNotifierProvider.value(
+        content = ChangeNotifierProvider<AccountVerificationViewModel>.value(
           value: viewModel.currentViewModel as AccountVerificationViewModel,
-          child: AccountVerificationStep(),
+          child: const AccountVerificationStep(),
         );
         break;
       default:
@@ -115,8 +104,10 @@ class _SignupPageState extends State<SignupPage> {
               children: <Widget>[
                 const SizedBox(height: 16.0),
                 ColorfulTextBuilder(
-                        AppLocalizations.of(context)!.sign_up_title, 50, true)
-                    .getWidget(),
+                  AppLocalizations.of(context)!.sign_up_title,
+                  50,
+                  true,
+                ).getWidget(),
               ],
             ),
             const SizedBox(height: 20.0),
@@ -132,10 +123,15 @@ class _SignupPageState extends State<SignupPage> {
               animateFromLastPercent: true,
               onAnimationEnd: () {
                 if (viewModel.signupFinalized) {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => ChangeNotifierProvider(
-                          create: (context) => HomePageViewModel(),
-                          child: HomePage())));
+                  Navigator.of(context).push(
+                    MaterialPageRoute<HomePage>(
+                      builder: (BuildContext context) =>
+                          ChangeNotifierProvider<HomePageViewModel>(
+                        create: (BuildContext context) => HomePageViewModel(),
+                        child: const HomePage(),
+                      ),
+                    ),
+                  );
                 }
               },
             ),

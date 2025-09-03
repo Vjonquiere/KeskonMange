@@ -1,4 +1,4 @@
-import 'package:client/http/HttpRequest.dart';
+import 'package:client/http/http_request.dart';
 import 'package:client/constants.dart' as constants;
 import '../authentication.dart';
 
@@ -8,16 +8,19 @@ class SetAllergensRequest extends HttpRequest {
 
   @override
   Future<int> send() async {
-    for (final allergen in _allergens) {
+    for (final String allergen in _allergens) {
       if (!constants.allergens.contains(allergen)) {
         return -1; // One allergens is not valid
       }
     }
-    return (await super.process(RequestMode.post, 'user/allergens',
-        queryParameters: <String, String>{
-          "email": Authentication().getCredentials().email
-        },
-        body: {"allergens": _allergens},
-        authNeeded: true));
+    return (await super.process(
+      RequestMode.post,
+      'user/allergens',
+      queryParameters: <String, String>{
+        "email": Authentication().getCredentials().email,
+      },
+      body: <String, Object>{"allergens": _allergens},
+      authNeeded: true,
+    ));
   }
 }

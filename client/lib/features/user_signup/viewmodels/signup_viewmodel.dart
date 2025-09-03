@@ -1,7 +1,8 @@
-import 'package:client/core/ViewModel.dart';
+import 'package:client/core/view_model.dart';
 import 'package:client/features/user_signup/viewmodels/email_viewmodel.dart';
 import 'package:client/features/user_signup/viewmodels/post_code_viewmodel.dart';
 import 'package:client/features/user_signup/viewmodels/username_viewmodel.dart';
+import 'package:client/model/allergen.dart';
 import 'package:client/model/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
@@ -11,7 +12,7 @@ import 'account_verification_viewmodel.dart';
 import 'allergens_viewmodel.dart';
 
 class SignupViewModel extends ViewModel {
-  final storage = const FlutterSecureStorage();
+  final FlutterSecureStorage storage = const FlutterSecureStorage();
   final UsernameViewModel _usernameViewModel = UsernameViewModel();
   final EmailViewModel _emailViewModel = EmailViewModel();
   final PostCodeViewModel _postCodeViewModel = PostCodeViewModel();
@@ -22,7 +23,7 @@ class SignupViewModel extends ViewModel {
   double _progressBarValue = 0.0;
   int _currentIndex = 0;
   bool _signupFinalized = false;
-  late final List<StateViewModel> _viewModels = [
+  late final List<StateViewModel> _viewModels = <StateViewModel>[
     _usernameViewModel,
     _emailViewModel,
     _postCodeViewModel,
@@ -40,14 +41,19 @@ class SignupViewModel extends ViewModel {
 
   Future<void> nextStep() async {
     if (await (currentViewModel.isValid())) {
-      if (_currentIndex == _stepCount - 1) _signupFinalized = true;
+      if (_currentIndex == _stepCount - 1) {
+        _signupFinalized = true;
+      }
       _currentIndex += 1;
       _progressBarValue = _currentIndex / _stepCount;
       if (_currentIndex == _stepCount - 1) {
-        _accountVerificationViewModel.setUser(User(
+        _accountVerificationViewModel.setUser(
+          User(
             _emailViewModel.emailController.text,
             _usernameViewModel.usernameController.text,
-            [])); // TODO: Translate bool list to allergens
+            <Allergen>[],
+          ),
+        ); // TODO: Translate bool list to allergens
         _accountVerificationViewModel.createUser();
       }
     }

@@ -1,5 +1,3 @@
-import '../user.dart';
-
 class BookPreview {
   int id;
   String name;
@@ -12,11 +10,11 @@ class BookPreview {
   factory BookPreview.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'id': int id,
-        'name': String name,
-        'creationDate': String creationDate,
-        'owner': int owner,
-        'public': bool public
+        'id': final int id,
+        'name': final String name,
+        'creationDate': final String creationDate,
+        'owner': final int owner,
+        'public': final bool public
       } =>
         BookPreview(id, name, DateTime.parse(creationDate), owner, public),
       _ => throw const FormatException('Failed to load book.')
