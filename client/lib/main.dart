@@ -22,7 +22,7 @@ class KeskonMangeApp extends StatelessWidget {
     return FutureBuilder<MockRepositoriesSampleLoad>(
       future: RepositoriesManager().currentlyUsingMockRepositories
           ? MockRepositoriesSampleLoad.create()
-          : Future.value(),
+          : null,
       builder: (BuildContext context,
           AsyncSnapshot<MockRepositoriesSampleLoad> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
@@ -31,7 +31,7 @@ class KeskonMangeApp extends StatelessWidget {
 
         return MaterialApp(
           title: 'KeskonMange',
-          localizationsDelegates: const <LocalizationsDelegate>[
+          localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
