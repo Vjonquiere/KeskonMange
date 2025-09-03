@@ -4,10 +4,11 @@ import 'package:client/data/repositories/recipe_repository.dart';
 import 'package:client/http/recipe/get_last_recipes_request.dart';
 import 'package:client/http/recipe/get_recipe_from_id_request.dart';
 import 'package:client/model/recipe/preview.dart';
+import 'package:client/model/recipe/recipe.dart';
 
 class RecipeRepositoryApi extends RecipeRepository {
   @override
-  Future<int> createNewRecipe(RecipePreview recipe) async {
+  Future<int> createNewRecipe(Recipe recipe) async {
     //TODO: Change to work with new Recipe object
     // return (await CreateRecipeRequest(recipe).send());
     return 200;
@@ -51,6 +52,12 @@ class RecipeRepositoryApi extends RecipeRepository {
   @override
   Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) {
     // TODO: implement getRecipeMatchingName
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Recipe?> getCompleteRecipe(int recipeId) {
+    // TODO: implement getCompleteRecipe
     throw UnimplementedError();
   }
 }

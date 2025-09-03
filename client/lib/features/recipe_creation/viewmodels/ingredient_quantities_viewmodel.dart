@@ -38,6 +38,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   void _saveCurrentIngredientQuantity() {
     values[_currentIngredient] = IngredientQuantity(
+      _currentIngredient.id,
       _selectedDetailedUnit,
       int.parse(_quantityController.text),
     );

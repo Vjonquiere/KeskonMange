@@ -1,7 +1,9 @@
+import 'package:client/features/recipe/viewmodels/recipe_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 import '../../../l10n/app_localizations.dart';
 import '../../recipe/views/recipe_page.dart';
@@ -24,7 +26,9 @@ class RecipePreview extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute<RecipePage>(
-              builder: (BuildContext context) => RecipePage(recipe: recipe),
+              builder: (BuildContext context) => ChangeNotifierProvider(
+                  create: (context) => RecipeViewModel(recipe.id),
+                  child: RecipePage()),
             ),
           );
         },
@@ -52,7 +56,9 @@ class RecipePreview extends StatelessWidget {
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute<RecipePage>(
-              builder: (BuildContext context) => RecipePage(recipe: recipe),
+              builder: (BuildContext context) => ChangeNotifierProvider(
+                  create: (context) => RecipeViewModel(recipe.id),
+                  child: RecipePage()),
             ),
           );
         },

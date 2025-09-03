@@ -7,6 +7,7 @@ class Ingredient {
 
   Ingredient(this._name, this._type);
   Ingredient._(this._name, this._type, this._id);
+  Ingredient.withId(this._id, this._name, this._type);
 
   String get name => _name;
   List<Unit> get type => _type;

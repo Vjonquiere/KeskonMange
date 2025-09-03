@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import '../model/book/complete.dart';
+import '../model/recipe/recipe.dart';
 
 class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
@@ -35,8 +36,8 @@ class MockRepositoriesSampleLoad {
         }
 
         final dynamic decoded = jsonDecode(content);
-        _loadRecipes(_extractRecipes(decoded));
         _loadIngredients(_extractIngredients(decoded));
+        _loadRecipes(_extractRecipes(decoded));
         _loadBooks(_extractBooks(decoded));
       } catch (e) {
         debugPrint("Can't load source [$source]: $e");
@@ -72,7 +73,7 @@ class MockRepositoriesSampleLoad {
     int loadedRecipes = 0;
     for (dynamic recipe in recipes) {
       try {
-        final RecipePreview loadedRecipe = RecipePreview.fromJson(recipe);
+        final Recipe loadedRecipe = Recipe.fromJson(recipe);
         RepositoriesManager()
             .getRecipeRepository()
             .createNewRecipe(loadedRecipe);
