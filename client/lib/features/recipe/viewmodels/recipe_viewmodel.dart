@@ -10,12 +10,14 @@ import '../../../core/message.dart';
 class RecipeViewModel extends ViewModel {
   final int _recipeId;
   late Recipe _recipe;
+  bool _expanded = false;
 
   RecipeViewModel(this._recipeId) {
     fetchRecipe();
   }
 
   Recipe get recipe => _recipe;
+  bool get ingredientsExpanded => _expanded;
 
   void fetchRecipe() async {
     final Recipe? fetchedRecipe = await RepositoriesManager()
@@ -28,6 +30,11 @@ class RecipeViewModel extends ViewModel {
     }
     _recipe = fetchedRecipe;
     setStateValue(WidgetStates.ready);
+    notifyListeners();
+  }
+
+  void switchIngredientsExpanded() {
+    _expanded = !_expanded;
     notifyListeners();
   }
 }

@@ -2,6 +2,8 @@ import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/widgets/recipe_card.dart';
 import 'package:client/features/recipe/viewmodels/recipe_viewmodel.dart';
+import 'package:client/features/recipe/widgets/ingredients_list.dart';
+import 'package:client/features/recipe/widgets/steps_list.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:client/model/recipe/step.dart';
 import 'package:client/utils/app_colors.dart';
@@ -67,24 +69,20 @@ class RecipePage extends StatelessWidget {
                     ],
                   ),
                 ),
-                Wrap(
-                  runAlignment: WrapAlignment.center,
-                  children: List<Padding>.generate(
-                    viewModel.recipe.ingredients.length,
-                    (int index) => Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 5),
-                      child: IngredientReviewCard(
-                        "test",
-                        "${viewModel.recipe.ingredients[index].quantity} ${viewModel.recipe.ingredients[index].unit.unit.toString().split(".").last}",
-                      ),
-                    ),
-                  ),
-                ),
+                IngredientsList(
+                    expanded: viewModel.ingredientsExpanded,
+                    ingredients: viewModel.recipe.ingredients),
+                CustomButton(
+                    text: viewModel.ingredientsExpanded
+                        ? "Show less"
+                        : "Show more",
+                    onPressed: viewModel.switchIngredientsExpanded),
                 CustomDivider(
                   important: true,
                   color: AppColors.pink,
                 ),
-                Row(
+                Expanded(
+                    child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
@@ -93,35 +91,13 @@ class RecipePage extends StatelessWidget {
                           AppIcons.prep,
                           width: 40,
                         )),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: List<Column>.generate(
-                          viewModel.recipe.steps.length,
-                          (int index) => Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Step $index: ${viewModel.recipe.steps[index].title}",
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppColors.orange,
-                                ),
-                                textAlign: TextAlign.start,
-                              ),
-                              Text(
-                                viewModel.recipe.steps[index].stepText,
-                                softWrap: true,
-                                overflow: TextOverflow.visible,
-                                textAlign: TextAlign.start,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                    StepsList(steps: viewModel.recipe.steps),
                   ],
-                ),
+                )),
+                CustomDivider(
+                  color: AppColors.pink,
+                  important: true,
+                )
               ],
             ),
           )),
