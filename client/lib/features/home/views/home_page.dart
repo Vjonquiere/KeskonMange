@@ -6,6 +6,8 @@ import 'package:client/features/ingredient_creation/viewmodels/ingredient_viewmo
 import 'package:client/features/ingredient_creation/views/ingredient_creation.dart';
 import 'package:client/features/recipe_calendar/viewmodels/calendar_viewmodel.dart';
 import 'package:client/features/recipe_calendar/views/calendar_page.dart';
+import 'package:client/features/recipe_planning/viewmodels/recipe_planning_viewmodel.dart';
+import 'package:client/features/recipe_planning/views/recipe_planning_page.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
 import 'package:client/features/user_creations/views/my_creations_page.dart';
 import 'package:client/features/recipe_search/views/search_page.dart';
@@ -76,12 +78,12 @@ class HomePage extends StatelessWidget {
                 iconSize: 32,
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute<IngredientCreation>(
+                    MaterialPageRoute<RecipePlanningPage>(
                       builder: (BuildContext context) =>
-                          ChangeNotifierProvider<IngredientCreationViewModel>(
+                          ChangeNotifierProvider<RecipePlanningViewModel>(
                         create: (BuildContext context) =>
-                            IngredientCreationViewModel(),
-                        child: const IngredientCreation(),
+                            RecipePlanningViewModel(),
+                        child: RecipePlanningPage(),
                       ),
                     ),
                   );

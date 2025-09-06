@@ -70,8 +70,8 @@ class NewRecipePage extends StatelessWidget {
         child: bottomButtons(context, viewModel),
       ),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: Column(
+          //padding: const EdgeInsets.symmetric(horizontal: 24.0),
           children: <Widget>[
             const SizedBox(height: 20.0),
             Column(
