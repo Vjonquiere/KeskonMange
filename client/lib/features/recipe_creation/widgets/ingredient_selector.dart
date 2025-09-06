@@ -36,8 +36,7 @@ class IngredientSelector extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(
-          height: 300,
+        Expanded(
           child: SingleChildScrollView(
             child: IngredientRow(searchIngredients, true),
           ),

@@ -95,7 +95,7 @@ class NewRecipePage extends StatelessWidget {
               onAnimationEnd: () {},
             ),
             const SizedBox(height: 20),
-            content,
+            Expanded(child: content),
             const SizedBox(height: 12.0),
           ],
         ),
