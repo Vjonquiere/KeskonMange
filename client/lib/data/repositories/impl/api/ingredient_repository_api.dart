@@ -13,4 +13,10 @@ class IngredientRepositoryApi extends IngredientRepository {
     // TODO: implement findByNameLike
     throw UnimplementedError();
   }
+
+  @override
+  Future<Ingredient?> getIngredientFromId(int id) {
+    // TODO: implement getIngredientFromId
+    throw UnimplementedError();
+  }
 }

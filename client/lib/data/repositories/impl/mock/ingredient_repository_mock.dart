@@ -3,10 +3,13 @@ import 'package:client/model/ingredient.dart';
 
 class IngredientRepositoryMock extends IngredientRepository {
   final List<Ingredient> _ingredients = <Ingredient>[];
+  int _nextId = 0;
 
   @override
   Future<int> createIngredient(Ingredient ingredient) async {
-    _ingredients.add(ingredient);
+    _nextId++;
+    _ingredients
+        .add(Ingredient.withId(_nextId, ingredient.name, ingredient.type));
     return 200;
   }
 
@@ -19,5 +22,15 @@ class IngredientRepositoryMock extends IngredientRepository {
       }
     }
     return matchingIngredients;
+  }
+
+  @override
+  Future<Ingredient?> getIngredientFromId(int id) async {
+    for (Ingredient ingredient in _ingredients) {
+      if (ingredient.id == id) {
+        return ingredient;
+      }
+    }
+    return null;
   }
 }

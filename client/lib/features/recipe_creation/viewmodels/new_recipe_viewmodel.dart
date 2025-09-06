@@ -60,7 +60,7 @@ class NewRecipeViewModel extends ViewModel {
               -1,
               1,
             ),
-            _ingredientQuantitiesViewModel.values,
+            _ingredientQuantitiesViewModel.values.values.toList(),
             _generalInformationViewModel.portions,
             _recipeStepViewModel.steps,
           ),
