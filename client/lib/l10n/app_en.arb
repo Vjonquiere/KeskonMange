@@ -102,8 +102,11 @@
   "saturday" : "Saturday",
   "sunday" : "Sunday",
   "lunch" : "Lunch",
-  "dinner" : "Dinner"
-
+  "dinner" : "Dinner",
+  "weekly_planner" : "Weekly planner",
+  "ingredients_from_cupboard" : "Add ingredients from my cupboard",
+  "keep_parameters" : "Keep those parameters for future planning",
+  "need_meal_for" : "Need meal for:"
 
 
 }
