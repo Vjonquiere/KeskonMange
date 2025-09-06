@@ -17,7 +17,9 @@ class RecipePlanningPage extends StatelessWidget {
         Provider.of<RecipePlanningViewModel>(context);
     return Scaffold(
         appBar: AppBar(
-            title: ColorfulTextBuilder(AppLocalizations.of(context)!.weekly_planner, 25, true).getWidget()),
+            title: ColorfulTextBuilder(
+                    AppLocalizations.of(context)!.weekly_planner, 25, true)
+                .getWidget()),
         body: SafeArea(
             child: Column(
           children: <Widget>[
@@ -63,7 +65,7 @@ class RecipePlanningPage extends StatelessWidget {
               color: AppColors.pink,
               important: true,
             ),
-            CustomButton(text: "next step", onPressed: (){})
+            CustomButton(text: "next step", onPressed: () {})
           ],
         )));
   }
