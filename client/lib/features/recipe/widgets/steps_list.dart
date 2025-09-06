@@ -10,34 +10,32 @@ class StepsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        padding: const EdgeInsets.all(10),
-        itemCount: steps.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  "Step ${index + 1}: ${steps[index].title}",
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.orange,
-                  ),
+    return ListView.builder(
+      padding: const EdgeInsets.all(10),
+      itemCount: steps.length,
+      itemBuilder: (BuildContext context, int index) {
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "Step ${index + 1}: ${steps[index].title}",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.orange,
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  steps[index].stepText,
-                  softWrap: true,
-                  overflow: TextOverflow.visible,
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                steps[index].stepText,
+                softWrap: true,
+                overflow: TextOverflow.visible,
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
