@@ -11,9 +11,11 @@ class RecipePlanningViewModel extends ViewModel {
       .toList();
   final IngredientsViewModel ingredientsViewModel = IngredientsViewModel();
   bool _keepValuesForNextTimes = false;
+  bool _weeklyPlanningStep = true;
 
   List<MealSlot> get meals => _meals;
   bool get keepValuesForNextTimes => _keepValuesForNextTimes;
+  bool get weeklyPlanningStep => _weeklyPlanningStep;
 
   void _onIngredientsChanged() {
     notifyListeners();
@@ -31,6 +33,11 @@ class RecipePlanningViewModel extends ViewModel {
 
   void onKeepValuesForNextTimesChanged(bool? value) {
     _keepValuesForNextTimes = value!;
+    notifyListeners();
+  }
+
+  void onNextStepPressed() {
+    _weeklyPlanningStep = false;
     notifyListeners();
   }
 }
