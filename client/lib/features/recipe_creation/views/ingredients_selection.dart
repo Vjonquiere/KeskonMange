@@ -1,3 +1,4 @@
+import 'package:client/features/recipe_creation/widgets/ingredient_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,23 +16,13 @@ class IngredientSelection extends StatelessWidget {
     return Column(
       children: <Widget>[
         ColorfulTextBuilder("Add Ingredients", 25).getWidget(),
-        IngredientRow(viewModel.getSelectedIngredients(), false),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Icon(Icons.search),
-              Expanded(
-                child: TextField(
-                  controller: viewModel.ingredientSearchController,
-                  onChanged: viewModel.searchStringChanged,
-                ),
-              ),
-            ],
-          ),
-        ),
-        IngredientRow(viewModel.getSearchIngredients(), true),
+        Expanded(
+            child: IngredientSelector(
+          selectedIngredients: viewModel.getSelectedIngredients(),
+          searchIngredients: viewModel.getSearchIngredients(),
+          controller: viewModel.ingredientSearchController,
+          onSearchChanged: viewModel.searchStringChanged,
+        ))
       ],
     );
   }

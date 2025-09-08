@@ -12,7 +12,7 @@ import '../../../model/recipe/step.dart';
 
 class RecipeReviewViewModel extends StateViewModel {
   late Recipe _recipe;
-  late HashMap<Ingredient, IngredientQuantity> _ingredients;
+  late final HashMap<Ingredient, IngredientQuantity> _ingredients = HashMap();
 
   RecipeReviewViewModel();
 

@@ -35,32 +35,34 @@ class NumberPicker extends StatelessWidget {
             context: context,
             builder: (BuildContext context) {
               return Container(
-                height: 300,
-                color: AppColors.beige,
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      ColorfulTextBuilder(title, 30, true).getWidget(),
-                      const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10)),
-                      RotaryNumberPicker(
-                        maxValue: maxValue,
-                        minValue: minValue,
-                        initialValue: initialValue,
-                        onChanged: onValueChanged,
+                  height: 350,
+                  color: AppColors.beige,
+                  child: SafeArea(
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ColorfulTextBuilder(title, 30, true).getWidget(),
+                          const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10)),
+                          RotaryNumberPicker(
+                            maxValue: maxValue,
+                            minValue: minValue,
+                            initialValue: initialValue,
+                            onChanged: onValueChanged,
+                          ),
+                          const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 5)),
+                          CustomButton(
+                            text: AppLocalizations.of(context)!.confirm,
+                            fontSize: 25,
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
                       ),
-                      const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-                      CustomButton(
-                        text: AppLocalizations.of(context)!.confirm,
-                        fontSize: 25,
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
-                  ),
-                ),
-              );
+                    ),
+                  ));
             },
           );
         },
