@@ -1,13 +1,15 @@
 import 'package:client/core/message.dart';
 import 'package:client/core/message_bus.dart';
 import 'package:client/core/view_model.dart';
+import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/recipe_creation/viewmodels/ingredients_viewmodel.dart';
 import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/features/recipe_planning/models/meal_configuration.dart';
+import 'package:client/model/recipe/preview.dart';
 import 'package:client/model/recipe/specifications.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../../../model/ingredient.dart';
+enum PlanningStep { calendar, config, review }
 
 class RecipePlanningViewModel extends ViewModel {
   final List<MealSlot> _meals = Day.values
@@ -17,13 +19,18 @@ class RecipePlanningViewModel extends ViewModel {
   List<MealConfiguration> _configuredMeals = [];
   int _currentMealIndex = 0;
   bool _keepValuesForNextTimes = false;
-  bool _weeklyPlanningStep = true;
+  PlanningStep _currentStep = PlanningStep.calendar;
+  Map<MealConfiguration, RecipePreview> _generatedRecipes = {};
 
   List<MealSlot> get meals => _meals;
   bool get keepValuesForNextTimes => _keepValuesForNextTimes;
-  bool get weeklyPlanningStep => _weeklyPlanningStep;
+  PlanningStep get currentStep => _currentStep;
   MealConfiguration get currentMealConfiguration =>
       _configuredMeals[_currentMealIndex].clone();
+  int get mealToConfigure => _configuredMeals.length;
+  int get currentMealIndex => _currentMealIndex + 1;
+  Map<MealConfiguration, RecipePreview> get generateRecipes =>
+      _generatedRecipes;
 
   void _onIngredientsChanged() {
     notifyListeners();
@@ -34,7 +41,6 @@ class RecipePlanningViewModel extends ViewModel {
   }
 
   void onMealSlotValueChanged(int index, bool value) {
-    debugPrint(index.toString());
     _meals[index].selected = value;
     notifyListeners();
   }
@@ -45,6 +51,7 @@ class RecipePlanningViewModel extends ViewModel {
   }
 
   void onNextStepPressed() {
+    _configuredMeals.clear();
     for (MealSlot meal in _meals) {
       if (meal.selected) {
         _configuredMeals.add(MealConfiguration(meal.day, meal.meal));
@@ -52,8 +59,8 @@ class RecipePlanningViewModel extends ViewModel {
       _currentMealIndex = 0;
     }
     _configuredMeals.isEmpty
-        ? _weeklyPlanningStep = true
-        : _weeklyPlanningStep = false;
+        ? _currentStep = PlanningStep.calendar
+        : _currentStep = PlanningStep.config;
     if (_configuredMeals.isEmpty) {
       MessageBus.instance.addMessage(
           Message(MessageType.error, "You must select at least one meal"));
@@ -115,5 +122,36 @@ class RecipePlanningViewModel extends ViewModel {
   void updateFoodPreferences(Set<FoodPreference> values) {
     _configuredMeals[_currentMealIndex].foodPreferences = values;
     notifyListeners();
+  }
+
+  void onNextMealConfigurationPressed() async {
+    if (_currentMealIndex >= _configuredMeals.length - 1) {
+      await _fetchRecipes();
+      _currentStep = PlanningStep.review;
+    }
+    _currentMealIndex++;
+    notifyListeners();
+  }
+
+  void onPreviousMealConfigurationPressed() {
+    if (_currentMealIndex < 1) {
+      _currentStep = PlanningStep.calendar;
+    } else {
+      _currentMealIndex--;
+    }
+    notifyListeners();
+  }
+
+  Future<void> _fetchRecipes() async {
+    int index = 0; // TODO: replace with real request
+    for (MealConfiguration mealConfiguration in _configuredMeals) {
+      index++;
+      final RecipePreview? generatedRecipe = await RepositoriesManager()
+          .getRecipeRepository()
+          .getRecipeFromId(index);
+      if (generatedRecipe != null) {
+        _generatedRecipes[mealConfiguration] = generatedRecipe;
+      }
+    }
   }
 }

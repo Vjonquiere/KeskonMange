@@ -17,6 +17,8 @@ class PlannedMealConfiguration extends StatelessWidget {
   Function() decreasePortions;
   Function(int) onCookingTimeChanged;
   Function(Set<FoodPreference>) onFoodPreferencesChanged;
+  int mealToConfigure;
+  int mealIndex;
 
   PlannedMealConfiguration(
       {required this.meal,
@@ -26,7 +28,9 @@ class PlannedMealConfiguration extends StatelessWidget {
       required this.increasePortions,
       required this.decreasePortions,
       required this.onCookingTimeChanged,
-      required this.onFoodPreferencesChanged});
+      required this.onFoodPreferencesChanged,
+      required this.mealToConfigure,
+      required this.mealIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +45,8 @@ class PlannedMealConfiguration extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                 child: Text(
-                  "Meal x/x",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "Meal $mealIndex/$mealToConfigure",
+                  style: TextStyle(fontWeight: FontWeight.normal, fontSize: 25),
                 ),
               ),
             ),
@@ -84,6 +88,7 @@ class PlannedMealConfiguration extends StatelessWidget {
                     Row(
                       children: [
                         Checkbox(
+                            activeColor: AppColors.blue,
                             value: meal.courses.contains(MealCourse.starter),
                             onChanged: onStarterSelectionSwitch),
                         Text("Starter")
@@ -100,6 +105,7 @@ class PlannedMealConfiguration extends StatelessWidget {
                     Row(
                       children: [
                         Checkbox(
+                            activeColor: AppColors.orange,
                             value: meal.courses.contains(MealCourse.dessert),
                             onChanged: onDessertSelectionSwitch),
                         Text("Dessert")
@@ -118,7 +124,13 @@ class PlannedMealConfiguration extends StatelessWidget {
                               onPressed: decreasePortions,
                               icon: Icon(Icons.expand_less)),
                         ),
-                        Text("${meal.portions}"),
+                        Text(
+                          "${meal.portions}",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.blue,
+                              fontSize: 20),
+                        ),
                         RotatedBox(
                           quarterTurns: 1,
                           child: IconButton(
@@ -135,7 +147,12 @@ class PlannedMealConfiguration extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("${meal.cookingTime} minutes to cook"),
+                Text("${meal.cookingTime}",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.blue,
+                        fontSize: 20)),
+                Text(" minutes to cook"),
                 SizedBox(
                   width: 15,
                 ),
@@ -161,7 +178,7 @@ class PlannedMealConfiguration extends StatelessWidget {
               emptySelectionAllowed: true,
               multiSelectionEnabled: true,
               selectedIcon: Icon(
-                Icons.circle,
+                Icons.check,
                 color: AppColors.blue,
               ),
             )

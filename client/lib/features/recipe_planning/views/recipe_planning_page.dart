@@ -4,6 +4,7 @@ import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/recipe_creation/widgets/ingredient_selector.dart';
 import 'package:client/features/recipe_planning/viewmodels/recipe_planning_viewmodel.dart';
 import 'package:client/features/recipe_planning/widgets/planned_meal_configuration.dart';
+import 'package:client/features/recipe_planning/widgets/week_proposal.dart';
 import 'package:client/features/recipe_planning/widgets/weekly_planner.dart';
 import 'package:client/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -17,29 +18,56 @@ class RecipePlanningPage extends StatelessWidget {
     final RecipePlanningViewModel viewModel =
         Provider.of<RecipePlanningViewModel>(context);
     return Scaffold(
-        appBar: AppBar(
-            title: ColorfulTextBuilder(
-                    AppLocalizations.of(context)!.weekly_planner, 25, true)
-                .getWidget()),
-        body: SafeArea(
-            child: viewModel.weeklyPlanningStep
-                ? weeklyPlannerStep(context, viewModel)
-                : PlannedMealConfiguration(
-                    meal: viewModel.currentMealConfiguration,
-                    onStarterSelectionSwitch:
-                        viewModel.setCurrentConfigurationStarterValue,
-                    onMainCourseSelectionSwitch:
-                        viewModel.setCurrentConfigurationMainCourseValue,
-                    onDessertSelectionSwitch:
-                        viewModel.setCurrentConfigurationDessertValue,
-                    increasePortions:
-                        viewModel.increaseCurrentConfigurationPortions,
-                    decreasePortions:
-                        viewModel.decreaseCurrentConfigurationPortions,
-                    onCookingTimeChanged:
-                        viewModel.updateCurrentConfigurationCookingTime,
-                    onFoodPreferencesChanged: viewModel.updateFoodPreferences,
-                  )));
+      appBar: AppBar(
+          title: ColorfulTextBuilder(
+                  AppLocalizations.of(context)!.weekly_planner, 25, true)
+              .getWidget()),
+      body: SafeArea(
+          child: switch (viewModel.currentStep) {
+        PlanningStep.calendar => weeklyPlannerStep(context, viewModel),
+        PlanningStep.config => mealConfigurationStep(context, viewModel),
+        PlanningStep.review => WeekProposal(
+            recipes: viewModel.generateRecipes,
+          ),
+      }),
+      bottomNavigationBar: viewModel.currentStep != PlanningStep.config
+          ? null
+          : SafeArea(
+              child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomButton(
+                    text: "Previous",
+                    onPressed: viewModel.onPreviousMealConfigurationPressed),
+                CustomButton(
+                    text: "Next",
+                    onPressed: viewModel.onNextMealConfigurationPressed)
+              ],
+            )),
+    );
+  }
+
+  Widget mealConfigurationStep(
+      BuildContext context, RecipePlanningViewModel viewModel) {
+    return Column(
+      children: <Widget>[
+        PlannedMealConfiguration(
+          meal: viewModel.currentMealConfiguration,
+          onStarterSelectionSwitch:
+              viewModel.setCurrentConfigurationStarterValue,
+          onMainCourseSelectionSwitch:
+              viewModel.setCurrentConfigurationMainCourseValue,
+          onDessertSelectionSwitch:
+              viewModel.setCurrentConfigurationDessertValue,
+          increasePortions: viewModel.increaseCurrentConfigurationPortions,
+          decreasePortions: viewModel.decreaseCurrentConfigurationPortions,
+          onCookingTimeChanged: viewModel.updateCurrentConfigurationCookingTime,
+          onFoodPreferencesChanged: viewModel.updateFoodPreferences,
+          mealIndex: viewModel.currentMealIndex,
+          mealToConfigure: viewModel.mealToConfigure,
+        ),
+      ],
+    );
   }
 
   Widget weeklyPlannerStep(
