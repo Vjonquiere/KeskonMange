@@ -2,7 +2,6 @@ import 'package:client/core/widgets/colorful_text_builder.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/recipe_creation/widgets/ingredient_selector.dart';
-import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/features/recipe_planning/viewmodels/recipe_planning_viewmodel.dart';
 import 'package:client/features/recipe_planning/widgets/planned_meal_configuration.dart';
 import 'package:client/features/recipe_planning/widgets/weekly_planner.dart';
@@ -26,7 +25,21 @@ class RecipePlanningPage extends StatelessWidget {
             child: viewModel.weeklyPlanningStep
                 ? weeklyPlannerStep(context, viewModel)
                 : PlannedMealConfiguration(
-                    day: MealSlot(Day.sunday, Meal.dinner))));
+                    meal: viewModel.currentMealConfiguration,
+                    onStarterSelectionSwitch:
+                        viewModel.setCurrentConfigurationStarterValue,
+                    onMainCourseSelectionSwitch:
+                        viewModel.setCurrentConfigurationMainCourseValue,
+                    onDessertSelectionSwitch:
+                        viewModel.setCurrentConfigurationDessertValue,
+                    increasePortions:
+                        viewModel.increaseCurrentConfigurationPortions,
+                    decreasePortions:
+                        viewModel.decreaseCurrentConfigurationPortions,
+                    onCookingTimeChanged:
+                        viewModel.updateCurrentConfigurationCookingTime,
+                    onFoodPreferencesChanged: viewModel.updateFoodPreferences,
+                  )));
   }
 
   Widget weeklyPlannerStep(

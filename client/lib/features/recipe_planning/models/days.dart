@@ -4,6 +4,8 @@ import '../../../l10n/app_localizations.dart';
 
 enum Day { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
+enum MealCourse { starter, main, dessert }
+
 enum Meal { lunch, dinner }
 
 class MealSlot {

@@ -1,14 +1,32 @@
+import 'package:client/core/widgets/number_picker.dart';
 import 'package:client/features/recipe_planning/models/days.dart';
+import 'package:client/features/recipe_planning/models/meal_configuration.dart';
 import 'package:client/l10n/app_localizations.dart';
+import 'package:client/model/recipe/specifications.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:client/utils/app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class PlannedMealConfiguration extends StatelessWidget {
-  final MealSlot day;
+  final MealConfiguration meal;
+  Function(bool?) onStarterSelectionSwitch;
+  Function(bool?) onMainCourseSelectionSwitch;
+  Function(bool?) onDessertSelectionSwitch;
+  Function() increasePortions;
+  Function() decreasePortions;
+  Function(int) onCookingTimeChanged;
+  Function(Set<FoodPreference>) onFoodPreferencesChanged;
 
-  PlannedMealConfiguration({required this.day});
+  PlannedMealConfiguration(
+      {required this.meal,
+      required this.onStarterSelectionSwitch,
+      required this.onMainCourseSelectionSwitch,
+      required this.onDessertSelectionSwitch,
+      required this.increasePortions,
+      required this.decreasePortions,
+      required this.onCookingTimeChanged,
+      required this.onFoodPreferencesChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +51,10 @@ class PlannedMealConfiguration extends StatelessWidget {
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text("Day dd/mm"), Text("Meal")],
+                  children: [
+                    Text("${meal.day.translate(context)} dd/mm"),
+                    Text("Meal")
+                  ],
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -57,32 +78,33 @@ class PlannedMealConfiguration extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    RadioGroup(
-                        onChanged: (bool? o) {},
-                        child: Row(
-                          children: [
-                            Checkbox(value: false, onChanged: (bool? o) {}),
-                            Text("Starter")
-                          ],
-                        )),
-                    RadioGroup(
-                        onChanged: (bool? o) {},
-                        child: Row(
-                          children: [
-                            Checkbox(value: false, onChanged: (bool? o) {}),
-                            Text("Main Course")
-                          ],
-                        )),
-                    RadioGroup(
-                        onChanged: (bool? o) {},
-                        child: Row(
-                          children: [
-                            Checkbox(value: false, onChanged: (bool? o) {}),
-                            Text("Dessert")
-                          ],
-                        ))
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: meal.courses.contains(MealCourse.starter),
+                            onChanged: onStarterSelectionSwitch),
+                        Text("Starter")
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: meal.courses.contains(MealCourse.main),
+                            onChanged: onMainCourseSelectionSwitch),
+                        Text("Main Course")
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                            value: meal.courses.contains(MealCourse.dessert),
+                            onChanged: onDessertSelectionSwitch),
+                        Text("Dessert")
+                      ],
+                    )
                   ],
                 ),
                 Column(
@@ -90,15 +112,58 @@ class PlannedMealConfiguration extends StatelessWidget {
                     Text("Will be"),
                     Row(
                       children: [
-                        Icon(Icons.expand_less),
-                        Text("x"),
-                        Icon(Icons.expand_less),
+                        RotatedBox(
+                          quarterTurns: 3,
+                          child: IconButton(
+                              onPressed: decreasePortions,
+                              icon: Icon(Icons.expand_less)),
+                        ),
+                        Text("${meal.portions}"),
+                        RotatedBox(
+                          quarterTurns: 1,
+                          child: IconButton(
+                              onPressed: increasePortions,
+                              icon: Icon(Icons.expand_less)),
+                        ),
                       ],
                     ),
                     Text("to eat"),
                   ],
                 )
               ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("${meal.cookingTime} minutes to cook"),
+                SizedBox(
+                  width: 15,
+                ),
+                NumberPicker(
+                  title: "Preparation time",
+                  buttonText: "Change",
+                  onValueChanged: onCookingTimeChanged,
+                  initialValue: meal.cookingTime,
+                  maxValue: 120,
+                )
+              ],
+            ),
+            SegmentedButton<FoodPreference>(
+              segments: <ButtonSegment<FoodPreference>>[
+                ButtonSegment<FoodPreference>(
+                    value: FoodPreference.vegetarian,
+                    label: Text("vegetarian")),
+                ButtonSegment<FoodPreference>(
+                    value: FoodPreference.vegan, label: Text("vegan"))
+              ],
+              selected: meal.foodPreferences,
+              onSelectionChanged: onFoodPreferencesChanged,
+              emptySelectionAllowed: true,
+              multiSelectionEnabled: true,
+              selectedIcon: Icon(
+                Icons.circle,
+                color: AppColors.blue,
+              ),
             )
           ],
         )));
