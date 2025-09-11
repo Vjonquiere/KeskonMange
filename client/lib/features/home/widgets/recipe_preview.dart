@@ -81,11 +81,12 @@ class RecipePreview extends StatelessWidget {
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Image(
+        child: recipe.image == null ?Image(
           image: AssetImage(AppIcons.getIcon("placeholder_square")),
           width: 64,
           height: 64,
-        ),
+        ) : Image.network(recipe.image!, width: 64,
+          height: 64,),
       ),
     );
   }
