@@ -1,5 +1,6 @@
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/core/widgets/number_picker.dart';
+import 'package:client/features/home/widgets/recipe_preview.dart';
 import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/features/recipe_planning/models/meal_configuration.dart';
 import 'package:client/features/recipe_planning/viewmodels/recipe_selection_viewmodel.dart';
@@ -11,6 +12,7 @@ import 'package:client/utils/app_icons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:client/model/recipe/preview.dart' as model;
 
 class PlannedMealConfiguration extends StatelessWidget {
   final MealConfiguration meal;
@@ -21,6 +23,7 @@ class PlannedMealConfiguration extends StatelessWidget {
   Function() decreasePortions;
   Function(int) onCookingTimeChanged;
   Function(Set<FoodPreference>) onFoodPreferencesChanged;
+  Function(Set<model.RecipePreview>) updateManuallySelectedRecipes;
   int mealToConfigure;
   int mealIndex;
 
@@ -34,7 +37,8 @@ class PlannedMealConfiguration extends StatelessWidget {
       required this.onCookingTimeChanged,
       required this.onFoodPreferencesChanged,
       required this.mealToConfigure,
-      required this.mealIndex});
+      required this.mealIndex,
+      required this.updateManuallySelectedRecipes});
 
   @override
   Widget build(BuildContext context) {
@@ -189,7 +193,8 @@ class PlannedMealConfiguration extends StatelessWidget {
         ),
         Text("Choose your own recipe"),
         ChangeNotifierProvider(
-          create: (_) => RecipeSelectionViewModel(),
+          create: (_) => RecipeSelectionViewModel(
+              updateManuallySelectedRecipes: updateManuallySelectedRecipes),
           child: RecipeSelectionPage(),
         ),
       ],

@@ -1,22 +1,32 @@
 import 'package:client/core/view_model.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/recipe/preview.dart';
-import 'package:flutter/cupertino.dart';
 
 class RecipeSelectionViewModel extends ViewModel {
-  TextEditingController _queryController = TextEditingController();
   List<RecipePreview> _fetchedRecipes = <RecipePreview>[];
+  Set<RecipePreview> _selectedRecipes = {};
+  Function(Set<RecipePreview>)? updateManuallySelectedRecipes;
 
-  TextEditingController get queryController => _queryController;
+  RecipeSelectionViewModel({this.updateManuallySelectedRecipes});
+
   List<RecipePreview> get fetchedRecipes => _fetchedRecipes;
+  Set<RecipePreview> get selectedRecipes => _selectedRecipes;
 
   void onQueryChanged(String query) async {
     final List<RecipePreview> recipes = await RepositoriesManager()
         .getRecipeRepository()
         .getRecipeMatchingName(query, count: 10);
     _fetchedRecipes = recipes;
-    debugPrint(query);
-    debugPrint("RECIPES COUNT: ${fetchedRecipes.length}");
+    notifyListeners();
+  }
+
+  void switchRecipeSelection(RecipePreview recipe) {
+    if (!_selectedRecipes.remove(recipe)) {
+      _selectedRecipes.add(recipe);
+    }
+    if (updateManuallySelectedRecipes != null) {
+      updateManuallySelectedRecipes!(_selectedRecipes);
+    }
     notifyListeners();
   }
 }

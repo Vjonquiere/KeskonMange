@@ -27,8 +27,13 @@ class RecipePlanningPage extends StatelessWidget {
           child: switch (viewModel.currentStep) {
             PlanningStep.calendar => weeklyPlannerStep(context, viewModel),
             PlanningStep.config => mealConfigurationStep(context, viewModel),
-            PlanningStep.review => WeekProposal(
-                recipes: viewModel.generateRecipes,
+            PlanningStep.review => Column(
+                children: [
+                  Expanded(
+                      child: WeekProposal(
+                    recipes: viewModel.generateRecipes,
+                  ))
+                ],
               ),
           }),
       bottomNavigationBar: viewModel.currentStep != PlanningStep.config
@@ -66,6 +71,8 @@ class RecipePlanningPage extends StatelessWidget {
           onFoodPreferencesChanged: viewModel.updateFoodPreferences,
           mealIndex: viewModel.currentMealIndex,
           mealToConfigure: viewModel.mealToConfigure,
+          updateManuallySelectedRecipes:
+              viewModel.updateCurrentConfigurationManuallySelectedRecipes,
         ),
       ],
     );

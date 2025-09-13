@@ -1,4 +1,5 @@
 import 'package:client/model/cloneable.dart';
+import 'package:client/model/recipe/preview.dart';
 import 'package:client/model/recipe/specifications.dart';
 
 import 'days.dart';
@@ -10,9 +11,9 @@ class MealConfiguration implements Cloneable<MealConfiguration> {
   int portions = 4;
   int cookingTime = 20;
   Set<FoodPreference> foodPreferences = <FoodPreference>{};
-  int? manuallySelectedRecipe;
+  Set<RecipePreview>? manuallySelectedRecipeIndex;
 
-  MealConfiguration(this.day, this.meal);
+  MealConfiguration(this.day, this.meal, {this.manuallySelectedRecipeIndex});
 
   @override
   MealConfiguration clone() {
