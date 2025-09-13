@@ -50,7 +50,8 @@ class RecipeRepositoryApi extends RecipeRepository {
   }
 
   @override
-  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) {
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName,
+      {int? count}) {
     // TODO: implement getRecipeMatchingName
     throw UnimplementedError();
   }

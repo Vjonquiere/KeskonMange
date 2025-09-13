@@ -124,6 +124,7 @@ Unit getUnitFromString(String unitString) {
     case "specialunit":
       return Unit(UnitCategory.special, SpecialUnits.stickOfButter);
     default:
+      return Unit(UnitCategory.wholeItem, WholeItemsUnits.piece);
       throw ArgumentError('Unsupported unit string: $unitString');
   }
 }

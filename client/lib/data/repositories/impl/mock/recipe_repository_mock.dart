@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 import 'dart:ui';
 import 'package:client/data/repositories/recipe_repository.dart';
 import 'package:client/model/ingredient.dart';
@@ -53,7 +54,8 @@ class RecipeRepositoryMock extends RecipeRepository {
   }
 
   @override
-  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName) async {
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName,
+      {int? count}) async {
     final List<RecipePreview> matching = <RecipePreview>[];
     for (Recipe recipe in recipes) {
       if (recipe.recipePreview.title
@@ -61,6 +63,9 @@ class RecipeRepositoryMock extends RecipeRepository {
           .contains(recipeName.toLowerCase())) {
         matching.add(recipe.recipePreview);
       }
+    }
+    if (count != null) {
+      return matching.sublist(0, min(count, matching.length));
     }
     return matching;
   }

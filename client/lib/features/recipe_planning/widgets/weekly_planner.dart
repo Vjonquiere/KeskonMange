@@ -17,7 +17,7 @@ class WeeklyPlanner extends StatelessWidget {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.all(Radius.circular(25))),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
             spacing: 0,
             mainAxisSize: MainAxisSize.min,

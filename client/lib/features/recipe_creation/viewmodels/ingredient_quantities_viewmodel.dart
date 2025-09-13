@@ -40,7 +40,7 @@ class IngredientQuantitiesViewModel extends StateViewModel {
     values[_currentIngredient] = IngredientQuantity(
       _currentIngredient.id,
       _selectedDetailedUnit,
-      int.parse(_quantityController.text),
+      double.parse(_quantityController.text),
     );
   }
 
