@@ -23,13 +23,14 @@ class RecipePlanningPage extends StatelessWidget {
                   AppLocalizations.of(context)!.weekly_planner, 25, true)
               .getWidget()),
       body: SafeArea(
+          minimum: EdgeInsets.symmetric(horizontal: 15),
           child: switch (viewModel.currentStep) {
-        PlanningStep.calendar => weeklyPlannerStep(context, viewModel),
-        PlanningStep.config => mealConfigurationStep(context, viewModel),
-        PlanningStep.review => WeekProposal(
-            recipes: viewModel.generateRecipes,
-          ),
-      }),
+            PlanningStep.calendar => weeklyPlannerStep(context, viewModel),
+            PlanningStep.config => mealConfigurationStep(context, viewModel),
+            PlanningStep.review => WeekProposal(
+                recipes: viewModel.generateRecipes,
+              ),
+          }),
       bottomNavigationBar: viewModel.currentStep != PlanningStep.config
           ? null
           : SafeArea(

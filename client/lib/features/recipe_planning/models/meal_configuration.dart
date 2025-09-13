@@ -10,6 +10,7 @@ class MealConfiguration implements Cloneable<MealConfiguration> {
   int portions = 4;
   int cookingTime = 20;
   Set<FoodPreference> foodPreferences = <FoodPreference>{};
+  int? manuallySelectedRecipe;
 
   MealConfiguration(this.day, this.meal);
 
