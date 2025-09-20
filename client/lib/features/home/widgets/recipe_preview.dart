@@ -12,9 +12,11 @@ import 'package:client/model/recipe/preview.dart' as rp_model;
 class RecipePreview extends StatelessWidget {
   final rp_model.RecipePreview recipe;
   final bool homepage;
+  final int nameMaxLines;
 
   const RecipePreview({
     required this.recipe,
+    this.nameMaxLines = 1,
     this.homepage = false,
     super.key,
   });
@@ -103,7 +105,7 @@ class RecipePreview extends StatelessWidget {
           recipe.title.toUpperCase(),
           softWrap: false,
           overflow: TextOverflow.ellipsis,
-          maxLines: 1,
+          maxLines: nameMaxLines,
         ),
         Text(
           AppLocalizations.of(context)!

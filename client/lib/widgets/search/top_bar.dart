@@ -10,27 +10,29 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      decoration: const BoxDecoration(
-        color: AppColors.beige,
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        children: <Widget>[
-          //Padding(padding: EdgeInsets.symmetric(horizontal: 20)),
-          CircleAvatar(
-            backgroundColor: AppColors.green,
-            minRadius: 30,
-            child: SvgPicture.asset(AppIcons.getIcon("search")),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: const BoxDecoration(
+          color: AppColors.beige,
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: SearchBar(
+          leading: Padding(
+            padding: EdgeInsetsGeometry.only(right: 15),
+            child: CircleAvatar(
+              backgroundColor: AppColors.green,
+              minRadius: 30,
+              child: SvgPicture.asset(AppIcons.getIcon("search")),
+            ),
           ),
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-          const Text(
-            "Search",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-          ),
-        ],
-      ),
-    );
+          hintText: "Search",
+          backgroundColor: WidgetStateProperty.all(Colors.transparent),
+          overlayColor: WidgetStateProperty.all(Colors.transparent),
+          surfaceTintColor: WidgetStateProperty.all(Colors.transparent),
+          elevation: WidgetStateProperty.all(0.0),
+          side: WidgetStateProperty.all(BorderSide(
+              style: BorderStyle.solid, color: AppColors.green, width: 2)),
+          padding: WidgetStateProperty.all(EdgeInsetsGeometry.all(0)),
+        ));
   }
 }

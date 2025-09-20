@@ -1,8 +1,7 @@
 import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/custom_buttons.dart';
+import 'package:client/features/home/widgets/recipe_preview.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
-import 'package:client/model/recipe/preview.dart';
-import 'package:client/widgets/search/recipe.dart';
 import 'package:client/widgets/search/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,14 +36,12 @@ class _SearchPageState extends State<SearchPage> {
               WidgetStates.dispose => const Text("dispose"),
               WidgetStates.ready => Expanded(
                   child: ListView.builder(
+                    padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
                     itemCount: viewModel.recipesCount,
                     itemBuilder: (BuildContext context, int index) {
-                      final RecipePreview recipe = viewModel.getRecipe(index);
-                      return Recipe(
-                        recipe.title,
-                        "",
-                        recipe.preparationTime,
-                        recipe.cookTime,
+                      return RecipePreview(
+                        recipe: viewModel.getRecipe(index),
+                        nameMaxLines: 2,
                       );
                     },
                   ),
