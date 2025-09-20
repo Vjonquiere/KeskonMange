@@ -1,0 +1,1 @@
+enum FoodPreference { vegetarian, vegan }

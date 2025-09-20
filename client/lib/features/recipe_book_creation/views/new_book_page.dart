@@ -104,7 +104,9 @@ class NewBookPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      RecipePreview(recipe: viewModel.searchedRecipes[index]),
+                      Expanded(
+                          child: RecipePreview(
+                              recipe: viewModel.searchedRecipes[index])),
                       (viewModel.isRecipeSelected(
                         viewModel.searchedRecipes[index],
                       )

@@ -67,8 +67,7 @@ class RecipePreview extends StatelessWidget {
             const SizedBox(width: 20.0),
             recipeImage(context),
             const SizedBox(width: 20.0),
-            recipeInfo(context),
-            const SizedBox(width: 20.0),
+            Expanded(child: recipeInfo(context)),
           ],
         ),
       );
@@ -81,11 +80,17 @@ class RecipePreview extends StatelessWidget {
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Image(
-          image: AssetImage(AppIcons.getIcon("placeholder_square")),
-          width: 64,
-          height: 64,
-        ),
+        child: recipe.image == null
+            ? Image(
+                image: AssetImage(AppIcons.getIcon("placeholder_square")),
+                width: 64,
+                height: 64,
+              )
+            : Image.network(
+                recipe.image!,
+                width: 64,
+                height: 64,
+              ),
       ),
     );
   }
@@ -96,7 +101,9 @@ class RecipePreview extends StatelessWidget {
       children: <Widget>[
         Text(
           recipe.title.toUpperCase(),
-          softWrap: true,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
         Text(
           AppLocalizations.of(context)!

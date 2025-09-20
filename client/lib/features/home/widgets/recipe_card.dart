@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:client/model/recipe/preview.dart';
 import 'package:flutter/material.dart';
 import 'package:client/utils/app_icons.dart';
@@ -68,11 +70,18 @@ class RecipeCard extends StatelessWidget {
                 children: <Widget>[
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image(
-                      image: AssetImage(AppIcons.getIcon("placeholder")),
-                      width: imageWidth,
-                      fit: BoxFit.cover,
-                    ),
+                    child: recipe.image == null
+                        ? Image(
+                            image: AssetImage(
+                                AppIcons.getIcon("placeholder_square")),
+                            width: imageWidth,
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            recipe.image!,
+                            width: min(imageWidth, 128),
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   const SizedBox(height: 10.0),
                   Text(recipe.title),

@@ -63,44 +63,46 @@ class NewRecipePage extends StatelessWidget {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
-      backgroundColor: AppColors.white,
-      bottomNavigationBar: BottomAppBar(
-        color: AppColors.white,
-        child: bottomButtons(context, viewModel),
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          children: <Widget>[
-            const SizedBox(height: 20.0),
-            Column(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: AppColors.white,
+        bottomNavigationBar: BottomAppBar(
+          color: AppColors.white,
+          child: bottomButtons(context, viewModel),
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: Column(
               children: <Widget>[
-                const SizedBox(height: 16.0),
-                ColorfulTextBuilder("Create your recipe!", 30, true)
-                    .getWidget(),
+                const SizedBox(height: 20.0),
+                Column(
+                  children: <Widget>[
+                    const SizedBox(height: 16.0),
+                    ColorfulTextBuilder("Create your recipe!", 30, true)
+                        .getWidget(),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
+                LinearPercentIndicator(
+                  percent: viewModel.progressBarValue,
+                  lineHeight: 25,
+                  backgroundColor: AppColors.beige,
+                  progressColor: AppColors.kaki,
+                  barRadius: const Radius.circular(25.0),
+                  center:
+                      Text("${(viewModel.progressBarValue * 100).round()}%"),
+                  animation: true,
+                  animationDuration: 1000,
+                  animateFromLastPercent: true,
+                  onAnimationEnd: () {},
+                ),
+                const SizedBox(height: 20),
+                Expanded(child: content),
+                const SizedBox(height: 12.0),
               ],
             ),
-            const SizedBox(height: 20.0),
-            LinearPercentIndicator(
-              percent: viewModel.progressBarValue,
-              lineHeight: 25,
-              backgroundColor: AppColors.beige,
-              progressColor: AppColors.kaki,
-              barRadius: const Radius.circular(25.0),
-              center: Text("${(viewModel.progressBarValue * 100).round()}%"),
-              animation: true,
-              animationDuration: 1000,
-              animateFromLastPercent: true,
-              onAnimationEnd: () {},
-            ),
-            const SizedBox(height: 20),
-            content,
-            const SizedBox(height: 12.0),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget bottomButtons(BuildContext context, NewRecipeViewModel viewModel) {

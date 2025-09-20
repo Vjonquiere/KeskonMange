@@ -1,6 +1,7 @@
 class RecipePreview {
   int id;
   final String title;
+  final String? image;
   final String type;
   final int difficulty;
   final int cost;
@@ -20,6 +21,7 @@ class RecipePreview {
   RecipePreview(
     this.id,
     this.title,
+    this.image,
     this.type,
     this.difficulty,
     this.cost,
@@ -42,6 +44,7 @@ class RecipePreview {
       {
         'id': final int id,
         'title': final String title,
+        'image': final String image,
         'type': final String type,
         'difficulty': final int difficulty,
         'cost': final int cost,
@@ -61,6 +64,7 @@ class RecipePreview {
         RecipePreview(
           id,
           title,
+          image == "" ? null : image,
           type,
           difficulty,
           cost,
