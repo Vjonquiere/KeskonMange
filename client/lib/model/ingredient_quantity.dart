@@ -3,7 +3,7 @@ import 'ingredient_units.dart';
 class IngredientQuantity {
   int ingredientId;
   Unit unit;
-  int quantity;
+  double quantity;
 
   IngredientQuantity(this.ingredientId, this.unit, this.quantity);
 
@@ -11,7 +11,7 @@ class IngredientQuantity {
     return switch (json) {
       {
         "ingredientId": final int ingredient,
-        "quantity": final int quant,
+        "quantity": final double quant,
         "unit": final String uni
       } =>
         IngredientQuantity(ingredient, Unit.fromString(uni), quant),

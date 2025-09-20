@@ -20,29 +20,10 @@ class IngredientRow extends StatelessWidget {
     if (_ingredients.isEmpty && _searchForIngredients) {
       return noIngredientsFound(context);
     }
-    final List<Row> rows = <Row>[];
-    bool isThreeRow = false;
-    for (int i = 0; i < _ingredients.length;) {
-      final List<IngredientCard> currentRow = <IngredientCard>[];
-      currentRow.addAll(
-        _ingredients.getRange(
-          i,
-          isThreeRow
-              ? min(i + 3, _ingredients.length)
-              : min(i + 4, _ingredients.length),
-        ),
-      );
-      rows.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: currentRow,
-        ),
-      );
-      i = i + (isThreeRow ? 3 : 4);
-      isThreeRow = !isThreeRow;
-    }
-
-    return Column(children: rows);
+    return Wrap(
+      alignment: WrapAlignment.center,
+      children: _ingredients,
+    );
   }
 
   Widget noIngredientsFound(BuildContext context) {

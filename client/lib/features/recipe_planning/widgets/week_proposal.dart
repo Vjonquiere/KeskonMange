@@ -15,40 +15,35 @@ class WeekProposal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-            child: ListView.builder(
-                itemCount: recipes.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final MealConfiguration currentMeal =
-                      recipes.keys.elementAt(index);
-                  return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: <Widget>[
-                          Column(
-                            children: <Widget>[
-                              Text(currentMeal.day
-                                  .translate(context)
-                                  .substring(0, 3)
-                                  .toUpperCase()),
-                              Text(currentMeal.meal.name)
-                            ],
-                          ),
-                          view.RecipePreview(
-                            recipe: recipes[currentMeal]!,
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.refresh),
-                            onPressed: () {},
-                            color: AppColors.pink,
-                          )
-                        ],
-                      ));
-                }))
-      ],
-    );
+    return ListView.builder(
+        itemCount: recipes.length,
+        itemBuilder: (BuildContext context, int index) {
+          final MealConfiguration currentMeal = recipes.keys.elementAt(index);
+          return Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Text(currentMeal.day
+                          .translate(context)
+                          .substring(0, 3)
+                          .toUpperCase()),
+                      Text(currentMeal.meal.name)
+                    ],
+                  ),
+                  Expanded(
+                      child: view.RecipePreview(
+                    recipe: recipes[currentMeal]!,
+                  )),
+                  IconButton(
+                    icon: Icon(Icons.refresh),
+                    onPressed: () {},
+                    color: AppColors.pink,
+                  )
+                ],
+              ));
+        });
   }
 }

@@ -71,17 +71,14 @@ class RecipePlanningViewModel extends ViewModel {
   void _updateMealCourseOfCurrentConfiguration(
       MealCourse mealCourse, bool? value) {
     if (value == null) {
-      debugPrint("null");
       return;
     }
     if (value &&
         !_configuredMeals[_currentMealIndex].courses.contains(mealCourse)) {
-      debugPrint("Added");
       _configuredMeals[_currentMealIndex].courses.add(mealCourse);
     }
     if (!value &&
         _configuredMeals[_currentMealIndex].courses.contains(mealCourse)) {
-      debugPrint("Removes");
       _configuredMeals[_currentMealIndex].courses.remove(mealCourse);
     }
   }
@@ -124,6 +121,11 @@ class RecipePlanningViewModel extends ViewModel {
     notifyListeners();
   }
 
+  void updateCurrentConfigurationManuallySelectedRecipes(
+      Set<RecipePreview> recipes) {
+    _configuredMeals[_currentMealIndex].manuallySelectedRecipeIndex = recipes;
+  }
+
   void onNextMealConfigurationPressed() async {
     if (_currentMealIndex >= _configuredMeals.length - 1) {
       await _fetchRecipes();
@@ -145,12 +147,17 @@ class RecipePlanningViewModel extends ViewModel {
   Future<void> _fetchRecipes() async {
     int index = 0; // TODO: replace with real request
     for (MealConfiguration mealConfiguration in _configuredMeals) {
-      index++;
-      final RecipePreview? generatedRecipe = await RepositoriesManager()
-          .getRecipeRepository()
-          .getRecipeFromId(index);
-      if (generatedRecipe != null) {
-        _generatedRecipes[mealConfiguration] = generatedRecipe;
+      if (mealConfiguration.manuallySelectedRecipeIndex != null) {
+        _generatedRecipes[mealConfiguration] =
+            mealConfiguration.manuallySelectedRecipeIndex!.first;
+      } else {
+        index++;
+        final RecipePreview? generatedRecipe = await RepositoriesManager()
+            .getRecipeRepository()
+            .getRecipeFromId(index);
+        if (generatedRecipe != null) {
+          _generatedRecipes[mealConfiguration] = generatedRecipe;
+        }
       }
     }
   }

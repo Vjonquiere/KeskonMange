@@ -44,6 +44,7 @@ class NewRecipeViewModel extends ViewModel {
             RecipePreview(
               -1,
               _generalInformationViewModel.recipeTitleController.text,
+              null,
               _generalInformationViewModel.typeOfMeal,
               0,
               1,
