@@ -27,7 +27,7 @@ class RecipeCard extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
       ),
-      child: IntrinsicHeight(
+      child: /*IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -62,10 +62,9 @@ class RecipeCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
+            ),*/
+
+              Expanded(child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   ClipRRect(
@@ -74,23 +73,27 @@ class RecipeCard extends StatelessWidget {
                         ? Image(
                             image: AssetImage(
                                 AppIcons.getIcon("placeholder_square")),
-                            width: imageWidth,
-                            fit: BoxFit.cover,
+                            //width: imageWidth,
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.fill,
                           )
                         : Image.network(
                             recipe.image!,
-                            width: min(imageWidth, 128),
-                            fit: BoxFit.cover,
+                            //width: min(imageWidth, 128),
+                            width: 150,
+                            height: 150,
+                            fit: BoxFit.fill,
                           ),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(recipe.title),
+                  Text(recipe.title,
+                    softWrap: false,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,),
                 ],
-              ),
-            ),
-          ],
-        ),
-      ),
+            ),)
+
     );
   }
 }
