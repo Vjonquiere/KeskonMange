@@ -1,4 +1,4 @@
-import 'package:client/features/recipe_search/widgets/ingredient_filter/ingredient_filter_view_model.dart';
+import 'package:client/features/recipe_search/widgets/ingredient_filter/ingredient_filter_viewmodel.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:flutter/material.dart';
 import 'package:client/features/recipe_search/model/ingredient_filter.dart'
@@ -69,7 +69,7 @@ class _IngredientFilter extends StatelessWidget {
               Navigator.of(context).pop(model.IngredientFilter(
                   ingredients: viewModel.selectedIngredients));
             },
-            child: Text("close"))
+            child: Text("Apply"))
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:client/data/repositories/recipe_repository.dart';
 import 'package:client/features/recipe_search/model/filters.dart';
 import 'package:client/features/recipe_search/model/ingredient_filter.dart';
+import 'package:client/features/recipe_search/model/preparation_time_filter.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/recipe/recipe.dart';
@@ -102,26 +103,34 @@ class RecipeRepositoryMock extends RecipeRepository {
   @override
   Future<List<RecipePreview>> advancedResearch(
       {String? name, List<Filter>? filters}) async {
-    final List<Recipe> matchingNameRecipes =
+    final List<Recipe> matchingRecipes =
         await _getCompleteRecipeMatchingName(name ?? "");
-    final List<Recipe> matchingRecipes = [];
     if (filters != null) {
       for (Filter filter in filters) {
         if (filter is IngredientFilter) {
-          for (Recipe recipe in matchingNameRecipes) {
-            final List<int> recipeIngredients =
-                recipe.ingredients.map((e) => e.ingredientId).toList();
-            bool toAdd = true;
-            for (Ingredient ingredient in filter.ingredients) {
-              if (!recipeIngredients.contains(ingredient.id)) {
-                toAdd = false;
+          matchingRecipes.removeWhere((Recipe recipe) {
+            final List<int> recipeIngredientIds = recipe.ingredients
+                .map((IngredientQuantity e) => e.ingredientId)
+                .toList();
+            bool recipeHasAllFilterIngredients = true;
+            for (Ingredient filterIngredient in filter.ingredients) {
+              if (!recipeIngredientIds.contains(filterIngredient.id)) {
+                recipeHasAllFilterIngredients = false;
+                break;
               }
             }
-            if (toAdd) matchingRecipes.add(recipe);
-          }
+            return !recipeHasAllFilterIngredients;
+          });
+        }
+        if (filter is PreparationTimeFilter) {
+          matchingRecipes.removeWhere((Recipe recipe) {
+            return recipe.recipePreview.preparationTime >
+                filter.preparationTime;
+          });
         }
       }
     }
-    return matchingRecipes.map((Recipe e) => e.recipePreview).toList();
+
+    return matchingRecipes.map((Recipe e) => e.recipePreview).toSet().toList();
   }
 }
