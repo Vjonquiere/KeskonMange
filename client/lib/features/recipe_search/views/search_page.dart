@@ -28,7 +28,7 @@ class _SearchPageState extends State<SearchPage> {
             const Padding(padding: EdgeInsets.only(top: 20)),
             const TopBar(),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
-            const Filter(),
+            Filter(viewModel.addFilter),
             const Padding(padding: EdgeInsets.symmetric(vertical: 10)),
             switch (viewModel.state) {
               WidgetStates.idle => const CircularProgressIndicator(),

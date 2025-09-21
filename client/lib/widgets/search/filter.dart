@@ -1,13 +1,16 @@
+import 'package:client/features/recipe_search/widgets/menu_filter_chip.dart';
 import 'package:client/utils/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../features/recipe_search/model/filters.dart';
+import '../../features/recipe_search/model/filters.dart' as model;
 import '../../utils/app_icons.dart';
 
 class Filter extends StatelessWidget {
-  const Filter({super.key});
+  Function(model.Filters, model.Filter?) filterCallback;
+
+  Filter(this.filterCallback, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,27 +37,15 @@ class Filter extends StatelessWidget {
               constraints: BoxConstraints(maxHeight: 40),
               child: Flexible(
                   child: ListView.builder(
-                itemCount: Filters.values.length,
+                itemCount: model.Filters.values.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return InputChip(
-                      label: Text(Filters.values.elementAt(index).toString()));
+                  return MenuFilterChip(
+                    filterType: model.Filters.values.elementAt(index),
+                    addFilterCallback: filterCallback,
+                  );
                 },
                 scrollDirection: Axis.horizontal,
               ))),
-          ConstrainedBox(
-              constraints: BoxConstraints(maxHeight: 40),
-              child: Flexible(
-                  child: ListView.builder(
-                itemBuilder: (BuildContext context, int index) {
-                  return InputChip(label: Text(index.toString()));
-                },
-                scrollDirection: Axis.horizontal,
-              ))),
-          TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)))),
-          ),
         ],
       ),
     );
