@@ -1,15 +1,17 @@
-import 'package:client/features/recipe_search/widgets/preparation_time_filer/preparation_time_filter_viewmodel.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:client/features/recipe_search/widgets/time_filer/time_filter_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:client/features/recipe_search/model/preparation_time_filter.dart'
-    as model;
+import 'package:client/features/recipe_search/model/time_filter.dart' as model;
 
-class PreparationTimeFilter extends StatelessWidget {
+class TimeFilter extends StatelessWidget {
+  final model.TimeFilter filter;
+
+  TimeFilter({required this.filter});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (BuildContext context) => PreparationTimeFilterViewModel(),
+      create: (BuildContext context) => TimeFilterViewModel(filter),
       child: _PreparationTimeFilter(),
     );
   }
@@ -18,7 +20,7 @@ class PreparationTimeFilter extends StatelessWidget {
 class _PreparationTimeFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final PreparationTimeFilterViewModel viewModel = Provider.of(context);
+    final TimeFilterViewModel viewModel = Provider.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -31,8 +33,7 @@ class _PreparationTimeFilter extends StatelessWidget {
         Text(viewModel.convertedCurrentTime()),
         OutlinedButton(
             onPressed: () {
-              Navigator.of(context).pop(model.PreparationTimeFilter(
-                  preparationTime: viewModel.currentTime.round()));
+              Navigator.of(context).pop(viewModel.getFilter());
             },
             child: Text("Apply"))
       ],

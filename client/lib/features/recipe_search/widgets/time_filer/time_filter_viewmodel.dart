@@ -1,10 +1,15 @@
 import 'package:client/core/view_model.dart';
+import 'package:client/features/recipe_search/model/time_filter.dart';
+import '../../model/filters.dart';
 
-class PreparationTimeFilterViewModel extends ViewModel {
+class TimeFilterViewModel extends ViewModel {
+  final TimeFilter filter;
   double _currentTime = 5.0;
 
   double get currentTime => _currentTime;
 
+  TimeFilterViewModel(this.filter);
+  
   void updateCurrentTime(double value) {
     _currentTime = value;
     notifyListeners();
@@ -21,5 +26,10 @@ class PreparationTimeFilterViewModel extends ViewModel {
       return "${minutes}min";
     }
     return "${hours}h${minutes}min";
+  }
+
+  Filter getFilter(){
+    filter.time = _currentTime.round();
+    return filter;
   }
 }

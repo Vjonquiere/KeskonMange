@@ -8,7 +8,7 @@ import '../../features/recipe_search/model/filters.dart' as model;
 import '../../utils/app_icons.dart';
 
 class Filter extends StatelessWidget {
-  Function(model.Filters, model.Filter?) filterCallback;
+  Function(model.FilterType, model.Filter?) filterCallback;
 
   Filter(this.filterCallback, {super.key});
 
@@ -37,11 +37,12 @@ class Filter extends StatelessWidget {
               constraints: BoxConstraints(maxHeight: 40),
               child: Flexible(
                   child: ListView.builder(
-                itemCount: model.Filters.values.length,
+                itemCount: model.FilterType.values.length,
                 itemBuilder: (BuildContext context, int index) {
                   return MenuFilterChip(
-                    filterType: model.Filters.values.elementAt(index),
+                    filterType: model.FilterType.values.elementAt(index),
                     addFilterCallback: filterCallback,
+                    onFilterToggled: (model.FilterType t){},
                   );
                 },
                 scrollDirection: Axis.horizontal,

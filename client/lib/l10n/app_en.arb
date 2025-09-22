@@ -106,7 +106,8 @@
   "weekly_planner" : "Weekly planner",
   "ingredients_from_cupboard" : "Add ingredients from my cupboard",
   "keep_parameters" : "Keep those parameters for future planning",
-  "need_meal_for" : "Need meal for:"
-
-
+  "need_meal_for" : "Need meal for:",
+  "preparation_time_filter" : "Preparation time",
+  "cooking_time_filter" : "Cooking time",
+  "ingredient_filter" :  "Ingredient"
 }

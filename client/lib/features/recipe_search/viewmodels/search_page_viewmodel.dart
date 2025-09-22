@@ -12,7 +12,7 @@ import '../../../model/recipe/preview.dart';
 
 class SearchPageViewModel extends ViewModel {
   List<RecipePreview> recipes = <RecipePreview>[];
-  final Map<Filters, Filter?> _filters = HashMap<Filters, Filter>();
+  final Map<FilterType, Filter?> _filters = HashMap<FilterType, Filter>();
 
   int get recipesCount => recipes.length;
   RecipePreview getRecipe(int index) => recipes[index];
@@ -60,7 +60,7 @@ class SearchPageViewModel extends ViewModel {
     notifyListeners();
   }
 
-  Future<void> addFilter(Filters type, Filter? filter) async {
+  Future<void> addFilter(FilterType type, Filter? filter) async {
     _filters[type] = filter;
     recipes = await RepositoriesManager()
         .getRecipeRepository()

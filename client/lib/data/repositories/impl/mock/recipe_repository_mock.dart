@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math';
 import 'dart:ui';
 import 'package:client/data/repositories/recipe_repository.dart';
+import 'package:client/features/recipe_search/model/cooking_time_filter.dart';
 import 'package:client/features/recipe_search/model/filters.dart';
 import 'package:client/features/recipe_search/model/ingredient_filter.dart';
 import 'package:client/features/recipe_search/model/preparation_time_filter.dart';
@@ -125,7 +126,13 @@ class RecipeRepositoryMock extends RecipeRepository {
         if (filter is PreparationTimeFilter) {
           matchingRecipes.removeWhere((Recipe recipe) {
             return recipe.recipePreview.preparationTime >
-                filter.preparationTime;
+                filter.time;
+          });
+        }
+        if (filter is CookingTimeFilter) {
+          matchingRecipes.removeWhere((Recipe recipe) {
+            return recipe.recipePreview.cookTime >
+                filter.time;
           });
         }
       }

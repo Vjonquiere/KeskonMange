@@ -5,10 +5,11 @@ import 'package:provider/provider.dart';
 import '../model/filters.dart';
 
 class MenuFilterChip extends StatefulWidget {
-  final Filters filterType;
-  Function(Filters, Filter?) addFilterCallback;
+  final FilterType filterType;
+  Function(FilterType, Filter?) addFilterCallback;
+  Function(FilterType) onFilterToggled;
 
-  MenuFilterChip({required this.filterType, required this.addFilterCallback});
+  MenuFilterChip({required this.filterType, required this.addFilterCallback, required this.onFilterToggled});
 
   @override
   State<StatefulWidget> createState() {
@@ -23,7 +24,7 @@ class _MenuFilterChip extends State<MenuFilterChip> {
   Widget build(BuildContext context) {
     return FilterChip(
       selected: _selected,
-      label: Text(widget.filterType.toString()),
+      label: Text(widget.filterType.translate(context)),
       deleteIcon: Icon(Icons.expand_more_sharp),
       onSelected: (bool value) {
         setState(() {
