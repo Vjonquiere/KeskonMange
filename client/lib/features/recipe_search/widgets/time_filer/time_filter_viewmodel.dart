@@ -9,7 +9,7 @@ class TimeFilterViewModel extends ViewModel {
   double get currentTime => _currentTime;
 
   TimeFilterViewModel(this.filter);
-  
+
   void updateCurrentTime(double value) {
     _currentTime = value;
     notifyListeners();
@@ -28,7 +28,7 @@ class TimeFilterViewModel extends ViewModel {
     return "${hours}h${minutes}min";
   }
 
-  Filter getFilter(){
+  Filter getFilter() {
     filter.time = _currentTime.round();
     return filter;
   }

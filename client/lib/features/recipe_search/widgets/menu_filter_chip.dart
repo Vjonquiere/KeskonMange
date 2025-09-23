@@ -9,7 +9,10 @@ class MenuFilterChip extends StatefulWidget {
   Function(FilterType, Filter?) addFilterCallback;
   Function(FilterType) onFilterToggled;
 
-  MenuFilterChip({required this.filterType, required this.addFilterCallback, required this.onFilterToggled});
+  MenuFilterChip(
+      {required this.filterType,
+      required this.addFilterCallback,
+      required this.onFilterToggled});
 
   @override
   State<StatefulWidget> createState() {

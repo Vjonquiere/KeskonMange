@@ -26,7 +26,9 @@ class _SearchPageState extends State<SearchPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             const Padding(padding: EdgeInsets.only(top: 20)),
-            const TopBar(),
+            TopBar(
+              onSearchTextChanged: viewModel.onSearchTextChanged,
+            ),
             const Padding(padding: EdgeInsets.symmetric(vertical: 5)),
             Filter(viewModel.addFilter),
             const Padding(padding: EdgeInsets.symmetric(vertical: 10)),

@@ -125,14 +125,12 @@ class RecipeRepositoryMock extends RecipeRepository {
         }
         if (filter is PreparationTimeFilter) {
           matchingRecipes.removeWhere((Recipe recipe) {
-            return recipe.recipePreview.preparationTime >
-                filter.time;
+            return recipe.recipePreview.preparationTime > filter.time;
           });
         }
         if (filter is CookingTimeFilter) {
           matchingRecipes.removeWhere((Recipe recipe) {
-            return recipe.recipePreview.cookTime >
-                filter.time;
+            return recipe.recipePreview.cookTime > filter.time;
           });
         }
       }

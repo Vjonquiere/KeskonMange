@@ -5,7 +5,9 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_icons.dart';
 
 class TopBar extends StatelessWidget {
-  const TopBar({super.key});
+  Function(String) onSearchTextChanged;
+
+  TopBar({super.key, required this.onSearchTextChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +19,7 @@ class TopBar extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: SearchBar(
+          onChanged: onSearchTextChanged,
           leading: Padding(
             padding: EdgeInsetsGeometry.only(right: 15),
             child: CircleAvatar(

@@ -17,8 +17,12 @@ extension FiltersWidgets on FilterType {
   Widget get widget {
     return switch (this) {
       FilterType.ingredient => IngredientFilter(),
-      FilterType.preparationTime => TimeFilter(filter: PreparationTimeFilter(),),
-      FilterType.cookingTime => TimeFilter(filter: CookingTimeFilter(),),
+      FilterType.preparationTime => TimeFilter(
+          filter: PreparationTimeFilter(),
+        ),
+      FilterType.cookingTime => TimeFilter(
+          filter: CookingTimeFilter(),
+        ),
     };
   }
 }

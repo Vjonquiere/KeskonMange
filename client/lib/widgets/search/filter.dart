@@ -42,7 +42,7 @@ class Filter extends StatelessWidget {
                   return MenuFilterChip(
                     filterType: model.FilterType.values.elementAt(index),
                     addFilterCallback: filterCallback,
-                    onFilterToggled: (model.FilterType t){},
+                    onFilterToggled: (model.FilterType t) {},
                   );
                 },
                 scrollDirection: Axis.horizontal,
