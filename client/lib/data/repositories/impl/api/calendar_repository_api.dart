@@ -22,4 +22,16 @@ class CalendarRepositoryApi extends CalendarRepository {
     await req.send();
     return <RecipePreview>[]; // TODO: Change it with list of recipe
   }
+
+  @override
+  Future<bool> addNewRecipeToCalendar(DateTime date, int recipeId) {
+    // TODO: implement addNewRecipeToCalendar
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<DateTime>> getDateFromPlannedRecipe(int recipeId) {
+    // TODO: implement getDateFromPlannedRecipe
+    throw UnimplementedError();
+  }
 }

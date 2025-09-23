@@ -15,8 +15,10 @@ class ComingRecipesViewModel extends ViewModel {
   }
 
   Future<void> getRecipes() async {
-    //recipes = await RepositoriesManager().getCalendarRepository().getNextPlannedRecipes(3);
-    final List<int> ids = <int>[1, 2, 3];
+    _recipes = await RepositoriesManager()
+        .getCalendarRepository()
+        .getNextPlannedRecipes(3);
+    /*final List<int> ids = <int>[1, 2, 3];
     final List<RecipePreview> recipes = <RecipePreview>[];
     for (int id = 0; id < ids.length; id++) {
       final RecipePreview? recipe = await GetRecipeFromIdUseCase(
@@ -27,7 +29,7 @@ class ComingRecipesViewModel extends ViewModel {
         recipes.add(recipe);
       }
     }
-    _recipes = recipes;
+    _recipes = recipes;*/
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }

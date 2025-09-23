@@ -6,4 +6,6 @@ abstract class CalendarRepository {
     int monthCount,
   ); // monthCount is the number of month to remove (0 for current)
   Future<List<RecipePreview>> getNextPlannedRecipes(int count);
+  Future<bool> addNewRecipeToCalendar(DateTime date, int recipeId);
+  Future<List<DateTime>> getDateFromPlannedRecipe(int recipeId);
 }

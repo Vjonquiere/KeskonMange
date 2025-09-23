@@ -3,9 +3,12 @@ import 'package:client/config.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/ingredient.dart';
 import 'package:client/model/recipe/preview.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../model/book/complete.dart';
 import '../model/recipe/recipe.dart';
@@ -44,6 +47,12 @@ class MockRepositoriesSampleLoad {
         break;
       }
     }
+    WidgetsFlutterBinding.ensureInitialized();
+    await openDatabase(join(await getDatabasesPath(), 'calendar.db'),
+        onCreate: (Database db, int version) {
+      return db
+          .execute('CREATE TABLE calendar(date INTEGER, recipe_id INTEGER)');
+    }, version: 1);
   }
 
   List<dynamic> _extractRecipes(Map<String, dynamic> fileContent) {
