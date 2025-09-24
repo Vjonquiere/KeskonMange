@@ -43,7 +43,7 @@ class RecipePreview extends StatelessWidget {
               child: recipeImage(context),
             ),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
-            Flexible(flex: 2, child: recipeInfo(context)),
+            Flexible(flex: 2, child: recipeInfo(context, homepage)),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 5.0)),
             /*Flexible(
               child: recipePlanning(context),
@@ -97,7 +97,7 @@ class RecipePreview extends StatelessWidget {
             const SizedBox(width: 20.0),
             recipeImage(context),
             const SizedBox(width: 20.0),
-            Expanded(child: recipeInfo(context)),
+            Expanded(child: recipeInfo(context, homepage)),
           ],
         ),
       );
@@ -106,26 +106,33 @@ class RecipePreview extends StatelessWidget {
 
   Widget recipeImage(BuildContext context) {
     return Card.filled(
+      shape: ContinuousRectangleBorder(
+        borderRadius: BorderRadius.circular(60),
+      ),
       color: AppColors.beige,
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: recipe.image == null
-            ? Image(
-                image: AssetImage(AppIcons.getIcon("placeholder_square")),
-                width: 64,
-                height: 64,
-              )
-            : Image.network(
-                recipe.image!,
-                width: 64,
-                height: 64,
-              ),
-      ),
+          padding: const EdgeInsets.all(8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: recipe.image == null
+                ? Image(
+                    image: AssetImage(AppIcons.getIcon("placeholder_square")),
+                    width: 64,
+                    height: 64,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    recipe.image!,
+                    width: 64,
+                    height: 64,
+                    fit: BoxFit.cover,
+                  ),
+          )),
     );
   }
 
-  Widget recipeInfo(BuildContext context) {
+  Widget recipeInfo(BuildContext context, bool homepage) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -135,10 +142,34 @@ class RecipePreview extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           maxLines: nameMaxLines,
         ),
-        Text(
-          AppLocalizations.of(context)!
-              .preparation_time(recipe.preparationTime),
-        ),
+        homepage
+            ? Container()
+            : Column(
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppIcons.chefHat,
+                        width: 24,
+                        height: 24,
+                        color: AppColors.blue,
+                      ),
+                      Text("${recipe.preparationTime.toString()} min"),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        AppIcons.oven,
+                        width: 24,
+                        height: 24,
+                        color: AppColors.blue,
+                      ),
+                      Text("${recipe.cookTime.toString()} min"),
+                    ],
+                  )
+                ],
+              ),
       ],
     );
   }

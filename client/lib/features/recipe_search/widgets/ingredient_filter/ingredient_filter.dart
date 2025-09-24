@@ -25,8 +25,7 @@ class _IngredientFilter extends StatelessWidget {
         Text("Select Ingredients"),
         ConstrainedBox(
             constraints: BoxConstraints(maxHeight: 40),
-            child: Flexible(
-                child: ListView.builder(
+            child: ListView.builder(
               itemCount: viewModel.searchIngredients.length +
                   viewModel.selectedIngredients.length,
               itemBuilder: (BuildContext context, int index) {
@@ -54,7 +53,7 @@ class _IngredientFilter extends StatelessWidget {
                 }
               },
               scrollDirection: Axis.horizontal,
-            ))),
+            )),
         TextField(
           decoration: InputDecoration(
               border: OutlineInputBorder(

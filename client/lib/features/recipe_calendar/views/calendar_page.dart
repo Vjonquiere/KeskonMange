@@ -88,8 +88,7 @@ class _CalendarPageState extends State<CalendarPage> {
             CustomButton(
               iconSize: 32,
               onPressed: () {
-                Navigator.of(context).pop(MaterialPageRoute<HomePage>(
-                    builder: (BuildContext context) => const HomePage()));
+                Navigator.of(context).pop();
               },
               text: 'back',
             ),

@@ -113,10 +113,7 @@ class NewRecipePage extends StatelessWidget {
           CustomButton(
             text: "GO BACK",
             onPressed: () {
-              Navigator.of(context).pop(
-                MaterialPageRoute<MyCreationsPage>(
-                    builder: (BuildContext context) => const MyCreationsPage()),
-              );
+              Navigator.of(context).pop();
             },
           ),
           CustomButton(

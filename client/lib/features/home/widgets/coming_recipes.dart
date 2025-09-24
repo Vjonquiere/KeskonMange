@@ -19,6 +19,7 @@ class ComingRecipes extends StatelessWidget {
           recipe: recipe,
           homepage: true,
           calendarEntry: viewModel.calendarEntries[recipe],
+          nameMaxLines: 3,
         ),
         const CustomDivider(),
       ],
