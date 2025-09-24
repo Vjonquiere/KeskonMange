@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:client/data/repositories/recipe_repository.dart';
+import 'package:client/features/recipe_search/model/filters.dart';
 import 'package:client/http/recipe/get_last_recipes_request.dart';
 import 'package:client/http/recipe/get_recipe_from_id_request.dart';
 import 'package:client/model/recipe/preview.dart';
@@ -59,6 +60,13 @@ class RecipeRepositoryApi extends RecipeRepository {
   @override
   Future<Recipe?> getCompleteRecipe(int recipeId) {
     // TODO: implement getCompleteRecipe
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<RecipePreview>> advancedResearch(
+      {String? name, List<Filter>? filters}) {
+    // TODO: implement advancedResearch
     throw UnimplementedError();
   }
 }
