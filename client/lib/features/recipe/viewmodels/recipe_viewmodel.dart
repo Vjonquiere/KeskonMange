@@ -64,4 +64,12 @@ class RecipeViewModel extends ViewModel {
         .addNewRecipeToCalendar(selectedPlanningDate!, _recipeId);
     _fetchCalendar();
   }
+
+  Future<void> removeFromCalendar(DateTime date) async {
+    if (await RepositoriesManager()
+        .getCalendarRepository()
+        .removePlannedRecipeFromCalendar(date, _recipeId)) {
+      _fetchCalendar();
+    }
+  }
 }

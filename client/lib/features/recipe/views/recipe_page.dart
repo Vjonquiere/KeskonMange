@@ -2,7 +2,7 @@ import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/custom_dividers.dart';
 import 'package:client/features/home/widgets/recipe_card.dart';
 import 'package:client/features/recipe/viewmodels/recipe_viewmodel.dart';
-import 'package:client/features/recipe/widgets/ingredients_list.dart';
+import 'package:client/features/recipe/widgets/ingredients_list/ingredients_list.dart';
 import 'package:client/features/recipe/widgets/steps_list.dart';
 import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/utils/app_colors.dart';
@@ -56,12 +56,32 @@ class RecipePage extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: List.generate(
-                              viewModel.calendarEntriesCount,
-                              (int index) => Text(viewModel.calendarEntries
-                                  .elementAt(index)
-                                  .toString()
-                                  .split(" ")
-                                  .first)),
+                              viewModel.calendarEntriesCount, (int index) {
+                            bool isAfter = viewModel.calendarEntries
+                                .elementAt(index)
+                                .isAfter(DateTime.now());
+                            return Row(
+                              children: [
+                                Text(viewModel.calendarEntries
+                                    .elementAt(index)
+                                    .toString()
+                                    .split(" ")
+                                    .first),
+                                IconButton(
+                                    onPressed: isAfter
+                                        ? () {
+                                            viewModel.removeFromCalendar(
+                                                viewModel.calendarEntries
+                                                    .elementAt(index));
+                                            Navigator.of(context).pop();
+                                          }
+                                        : () {},
+                                    icon: isAfter
+                                        ? Icon(Icons.delete)
+                                        : Icon(Icons.calendar_month))
+                              ],
+                            );
+                          }),
                         ),
                       );
                     });
@@ -137,20 +157,14 @@ class RecipePage extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text("Originally made for x persons,"),
+                        Text(
+                            "Originally made for ${viewModel.recipe.portions} persons,"),
                         Text("Adapted for x")
                       ],
                     ),
                   ],
                 ),
-                IngredientsList(
-                    expanded: viewModel.ingredientsExpanded,
-                    ingredients: viewModel.recipe.ingredients),
-                CustomButton(
-                    text: viewModel.ingredientsExpanded
-                        ? "Show less"
-                        : "Show more",
-                    onPressed: viewModel.switchIngredientsExpanded),
+                IngredientsList(ingredients: viewModel.recipe.ingredients),
                 CustomDivider(
                   important: true,
                   color: AppColors.pink,

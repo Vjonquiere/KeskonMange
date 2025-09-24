@@ -67,13 +67,23 @@ class CalendarRepositoryMock extends CalendarRepository {
   @override
   Future<List<DateTime>> getDateFromPlannedRecipe(int recipeId) async {
     if (_database == null) return [];
-    final List<Map<String, Object?>>? planned =
-        await _database?.query("calendar", where: "recipe_id=$recipeId");
+    final List<Map<String, Object?>>? planned = await _database
+        ?.query("calendar", where: "recipe_id=$recipeId", orderBy: "date ASC");
     if (planned == null || planned.isEmpty) return [];
     return [
       for (final {'date': int date as int, 'recipe_id': recipe_id as int}
           in planned)
         DateTime.fromMillisecondsSinceEpoch(date),
     ];
+  }
+
+  @override
+  Future<bool> removePlannedRecipeFromCalendar(
+      DateTime date, int recipeId) async {
+    if (_database == null) return false;
+    final int? res = await _database?.delete("calendar",
+        where: "recipe_id=? AND date=?",
+        whereArgs: [recipeId, date.millisecondsSinceEpoch]);
+    return (res == null || res == 0) ? false : true;
   }
 }
