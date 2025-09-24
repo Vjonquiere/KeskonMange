@@ -14,6 +14,8 @@ class AppIcons {
   static const String next = 'assets/icons/next.svg';
   static const String previous = 'assets/icons/previous.svg';
   static const String toDoList = 'assets/icons/to_do_list.svg';
+  static const String chefHat = 'assets/icons/chef_hat.svg';
+  static const String oven = 'assets/icons/oven.svg';
 
   //Allergens
   static const String gluten = 'assets/icons/allergens/gluten.svg';
@@ -77,6 +79,8 @@ class AppIcons {
     'next': next,
     'previous': previous,
     'toDoList': toDoList,
+    'chef_hat': chefHat,
+    'oven': oven,
 
     // Allergens
     'Gluten': gluten,

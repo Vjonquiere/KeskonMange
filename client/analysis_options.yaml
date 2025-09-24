@@ -1,4 +1,4 @@
-include: package:lints/recommended.yaml
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
   strong-mode:
@@ -20,7 +20,7 @@ linter:
 
     - always_put_control_body_on_new_line
     - curly_braces_in_flow_control_structures
-    - require_trailing_commas
+    #- require_trailing_commas
     - avoid_redundant_argument_values
 
     - avoid_returning_null
