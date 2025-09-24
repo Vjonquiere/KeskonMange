@@ -86,4 +86,17 @@ class CalendarRepositoryMock extends CalendarRepository {
         whereArgs: [recipeId, date.millisecondsSinceEpoch]);
     return (res == null || res == 0) ? false : true;
   }
+
+  @override
+  Future<bool> updatePlannedRecipe(
+      DateTime originalDate, DateTime newDate, int recipeId) async {
+    if (_database == null) return false;
+    final int? res = await _database?.update(
+      "calendar",
+      {"date": newDate.millisecondsSinceEpoch, "recipe_id": recipeId},
+      where: "recipe_id=? AND date=?",
+      whereArgs: [recipeId, originalDate.millisecondsSinceEpoch],
+    );
+    return (res == null || res == 0) ? false : true;
+  }
 }

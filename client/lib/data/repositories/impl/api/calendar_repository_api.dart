@@ -40,4 +40,11 @@ class CalendarRepositoryApi extends CalendarRepository {
     // TODO: implement removePlannedRecipeFromCalendar
     throw UnimplementedError();
   }
+
+  @override
+  Future<bool> updatePlannedRecipe(
+      DateTime originalDate, DateTime newDate, int recipeId) {
+    // TODO: implement updatePlannedRecipe
+    throw UnimplementedError();
+  }
 }

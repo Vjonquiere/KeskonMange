@@ -62,11 +62,23 @@ class RecipePage extends StatelessWidget {
                                 .isAfter(DateTime.now());
                             return Row(
                               children: [
-                                Text(viewModel.calendarEntries
-                                    .elementAt(index)
-                                    .toString()
-                                    .split(" ")
-                                    .first),
+                                Text(
+                                    "${viewModel.calendarEntries.elementAt(index).toString().split(" ").first} at ${viewModel.calendarEntries.elementAt(index).toString().split(" ").last.split(":").first}h${viewModel.calendarEntries.elementAt(index).toString().split(" ").last.split(":").elementAt(1)}"),
+                                IconButton(
+                                    onPressed: () async {
+                                      final TimeOfDay? time =
+                                          await showTimePicker(
+                                              context: context,
+                                              initialTime: TimeOfDay.now());
+                                      if (time != null) {
+                                        viewModel.updatePlannedRecipeTime(
+                                            viewModel.calendarEntries
+                                                .elementAt(index),
+                                            time);
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
+                                    icon: Icon(Icons.access_time)),
                                 IconButton(
                                     onPressed: isAfter
                                         ? () {
@@ -77,7 +89,10 @@ class RecipePage extends StatelessWidget {
                                           }
                                         : () {},
                                     icon: isAfter
-                                        ? Icon(Icons.delete)
+                                        ? Icon(
+                                            Icons.delete,
+                                            color: AppColors.red,
+                                          )
                                         : Icon(Icons.calendar_month))
                               ],
                             );
