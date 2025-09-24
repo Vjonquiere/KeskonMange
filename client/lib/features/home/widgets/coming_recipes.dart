@@ -11,12 +11,14 @@ import '../viewmodels/coming_recipes_viewmodel.dart';
 class ComingRecipes extends StatelessWidget {
   const ComingRecipes({super.key});
 
-  Widget _homeRecipePreview(rp_model.RecipePreview recipe) {
+  Widget _homeRecipePreview(
+      rp_model.RecipePreview recipe, ComingRecipesViewModel viewModel) {
     return Column(
       children: <Widget>[
         RecipePreview(
           recipe: recipe,
           homepage: true,
+          calendarEntry: viewModel.calendarEntries[recipe],
         ),
         const CustomDivider(),
       ],
@@ -33,11 +35,10 @@ class ComingRecipes extends StatelessWidget {
       WidgetStates.error => Text(AppLocalizations.of(context)!.error),
       WidgetStates.ready => Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: viewModel.recipes
-              .map(
-                  (rp_model.RecipePreview recipe) => _homeRecipePreview(recipe))
-              .toList(),
-        ),
+          children: List.generate(
+              viewModel.recipes.length,
+              (int index) => _homeRecipePreview(
+                  viewModel.recipes.elementAt(index), viewModel))),
       WidgetStates.dispose => const Text("dispose"),
     };
   }

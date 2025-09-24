@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:client/model/recipe/preview.dart';
 
+import '../../features/recipe_search/model/filters.dart';
 import '../../model/recipe/recipe.dart';
 
 abstract class RecipeRepository {
@@ -13,4 +14,6 @@ abstract class RecipeRepository {
       {int? count});
   Future<Image> getRecipeImage(int recipeId, String format);
   Future<Recipe?> getCompleteRecipe(int recipeId);
+  Future<List<RecipePreview>> advancedResearch(
+      {String? name, List<Filter>? filters});
 }
