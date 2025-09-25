@@ -47,4 +47,16 @@ class CalendarRepositoryApi extends CalendarRepository {
     // TODO: implement updatePlannedRecipe
     throw UnimplementedError();
   }
+
+  @override
+  Future<List<RecipePreview>> getTodayUserRecipes() {
+    // TODO: implement getTodayRecipes
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<RecipePreview>> getTodayCommunityRecipes() {
+    // TODO: implement getTodayCommunityRecipes
+    throw UnimplementedError();
+  }
 }

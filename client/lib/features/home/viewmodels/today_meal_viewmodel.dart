@@ -8,32 +8,28 @@ import '../../../model/recipe/preview.dart';
 class TodayMealViewModel extends ViewModel {
   int _currentRecipeIndex = 0;
   List<RecipePreview> _recipes = <RecipePreview>[];
+  bool _noPlannedRecipes = false;
 
   int get radioButtonCount => _recipes.length;
   int get currentRadioButton => _currentRecipeIndex;
   RecipePreview get currentRecipe => _recipes[_currentRecipeIndex];
+  bool get noPlannedRecipes => _noPlannedRecipes;
 
   TodayMealViewModel() {
-    _getRecipes(<int>[1, 2, 3]);
+    _getRecipes();
     notifyListeners();
   }
 
-  Future<RecipePreview?> _getRecipe(int id) async {
-    return GetRecipeFromIdUseCase(
-      RepositoriesManager().getRecipeRepository(),
-      id,
-    ).execute();
-  }
-
-  void _getRecipes(List<int> ids) async {
-    final List<RecipePreview> recipes = <RecipePreview>[];
-    for (int id = 0; id < ids.length; id++) {
-      final RecipePreview? recipe = await _getRecipe(ids[id]);
-      if (recipe != null) {
-        recipes.add(recipe);
-      }
+  void _getRecipes() async {
+    _recipes = await RepositoriesManager()
+        .getCalendarRepository()
+        .getTodayUserRecipes();
+    if (_recipes.isEmpty) {
+      _noPlannedRecipes = true;
+      _recipes = await RepositoriesManager()
+          .getCalendarRepository()
+          .getTodayCommunityRecipes();
     }
-    _recipes = recipes;
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }

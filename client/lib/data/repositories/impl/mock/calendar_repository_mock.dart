@@ -42,8 +42,11 @@ class CalendarRepositoryMock extends CalendarRepository {
   @override
   Future<List<RecipePreview>> getNextPlannedRecipes(int count) async {
     if (_database == null) return [];
-    final List<Map<String, Object?>>? planned =
-        await _database?.query("calendar", orderBy: "date ASC");
+    final List<Map<String, Object?>>? planned = await _database?.query(
+        "calendar",
+        orderBy: "date ASC",
+        where: "date >= ?",
+        whereArgs: [DateTime.now().millisecondsSinceEpoch]);
     if (planned == null || planned.isEmpty) return [];
     final recipes = [
       for (final {'date': int date as int, 'recipe_id': int recipe_id as int}
@@ -51,7 +54,6 @@ class CalendarRepositoryMock extends CalendarRepository {
         await RepositoriesManager()
             .getRecipeRepository()
             .getRecipeFromId(recipe_id)
-      //DateTime.fromMillisecondsSinceEpoch(date),
     ].whereType<RecipePreview>().toList();
     return recipes.sublist(0, min(count, recipes.length));
   }
@@ -98,5 +100,39 @@ class CalendarRepositoryMock extends CalendarRepository {
       whereArgs: [recipeId, originalDate.millisecondsSinceEpoch],
     );
     return (res == null || res == 0) ? false : true;
+  }
+
+  @override
+  Future<List<RecipePreview>> getTodayUserRecipes() async {
+    if (_database == null) return [];
+    final DateTime now = DateTime.now();
+    final List<Map<String, Object?>>? planned = await _database
+        ?.query("calendar", where: "date<=? AND date>=?", whereArgs: [
+      now
+          .copyWith(hour: 23, minute: 59, second: 59, millisecond: 0)
+          .millisecondsSinceEpoch,
+      now
+          .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0)
+          .millisecondsSinceEpoch
+    ]);
+    if (planned == null || planned.isEmpty) return [];
+    return <RecipePreview?>[
+      for (final {'date': int date as int, 'recipe_id': recipe_id as int}
+          in planned)
+        await RepositoriesManager()
+            .getRecipeRepository()
+            .getRecipeFromId(recipe_id)
+    ].whereType<RecipePreview>().toList();
+  }
+
+  @override
+  Future<List<RecipePreview>> getTodayCommunityRecipes() async {
+    List<int> recipeIds = [1, 4, 5];
+    return <RecipePreview?>[
+      for (int recipeId in recipeIds)
+        await RepositoriesManager()
+            .getRecipeRepository()
+            .getRecipeFromId(recipeId)
+    ].whereType<RecipePreview>().toList();
   }
 }
