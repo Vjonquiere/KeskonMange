@@ -136,7 +136,9 @@ class CalendarRepositoryMock extends CalendarRepository {
       debugPrint(course.name);
       final List<RecipePreview> recipes = await RepositoriesManager()
           .getRecipeRepository()
-          .advancedResearch(filters: <Filter>[MealCourseFilter(course)]);
+          .advancedResearch(filters: <Filter>[
+        MealCourseFilter({course})
+      ]);
       selectedRecipes.add(recipes.elementAt(Random().nextInt(recipes.length)));
     }
     return selectedRecipes;

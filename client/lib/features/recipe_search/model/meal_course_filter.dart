@@ -2,9 +2,9 @@ import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/features/recipe_search/model/filters.dart';
 
 class MealCourseFilter extends Filter {
-  MealCourse course;
+  Set<MealCourse> courses;
 
-  MealCourseFilter(this.course);
+  MealCourseFilter(this.courses);
 
   @override
   String toJson() {

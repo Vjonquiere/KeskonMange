@@ -136,13 +136,15 @@ class RecipeRepositoryMock extends RecipeRepository {
           });
         }
         if (filter is MealCourseFilter) {
-          final String filterString = switch (filter.course) {
-            MealCourse.starter => "sarter",
-            MealCourse.main => "main",
-            MealCourse.dessert => "dessert",
-          };
+          final List<String> courses = filter.courses.map((MealCourse mc) {
+            return switch (mc) {
+              MealCourse.starter => "sarter",
+              MealCourse.main => "main",
+              MealCourse.dessert => "dessert",
+            };
+          }).toList();
           matchingRecipes.removeWhere((Recipe recipe) {
-            return recipe.recipePreview.type != filterString;
+            return !courses.contains(recipe.recipePreview.type);
           });
         }
       }
