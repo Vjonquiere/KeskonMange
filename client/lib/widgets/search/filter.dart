@@ -35,8 +35,7 @@ class Filter extends StatelessWidget {
           ),
           ConstrainedBox(
               constraints: BoxConstraints(maxHeight: 40),
-              child: Flexible(
-                  child: ListView.builder(
+              child: ListView.builder(
                 itemCount: model.FilterType.values.length,
                 itemBuilder: (BuildContext context, int index) {
                   return MenuFilterChip(
@@ -46,7 +45,7 @@ class Filter extends StatelessWidget {
                   );
                 },
                 scrollDirection: Axis.horizontal,
-              ))),
+              )),
         ],
       ),
     );

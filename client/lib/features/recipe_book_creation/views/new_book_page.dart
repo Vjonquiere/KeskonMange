@@ -141,11 +141,7 @@ class NewBookPage extends StatelessWidget {
             CustomButton(
               iconSize: 32,
               onPressed: () {
-                Navigator.of(context).pop(
-                  MaterialPageRoute<MyCreationsPage>(
-                      builder: (BuildContext context) =>
-                          const MyCreationsPage()),
-                );
+                Navigator.of(context).pop();
               },
               text: 'back',
             ),
