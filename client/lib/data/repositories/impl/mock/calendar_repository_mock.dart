@@ -2,8 +2,12 @@ import 'dart:math';
 
 import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/features/recipe_planning/models/days.dart';
+import 'package:client/features/recipe_search/model/filters.dart';
+import 'package:client/features/recipe_search/model/meal_course_filter.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -127,12 +131,16 @@ class CalendarRepositoryMock extends CalendarRepository {
 
   @override
   Future<List<RecipePreview>> getTodayCommunityRecipes() async {
-    List<int> recipeIds = [1, 4, 5];
-    return <RecipePreview?>[
-      for (int recipeId in recipeIds)
-        await RepositoriesManager()
-            .getRecipeRepository()
-            .getRecipeFromId(recipeId)
-    ].whereType<RecipePreview>().toList();
+    final List<RecipePreview> selectedRecipes = <RecipePreview>[];
+    for (MealCourse course in MealCourse.values) {
+      debugPrint(course.name);
+      final List<RecipePreview> recipes = await RepositoriesManager()
+          .getRecipeRepository()
+          .advancedResearch(filters: <Filter>[
+        MealCourseFilter({course})
+      ]);
+      selectedRecipes.add(recipes.elementAt(Random().nextInt(recipes.length)));
+    }
+    return selectedRecipes;
   }
 }

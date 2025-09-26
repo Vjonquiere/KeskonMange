@@ -5,12 +5,14 @@ import 'package:client/features/recipe_search/model/preparation_time_filter.dart
 import 'package:client/features/recipe_search/widgets/ingredient_filter/ingredient_filter.dart';
 import 'package:flutter/cupertino.dart';
 import '../../../l10n/app_localizations.dart';
+import '../widgets/meal_course_filter/meal_course_filter.dart';
 import '../widgets/time_filer/time_filter.dart';
 
 enum FilterType {
   ingredient,
   preparationTime,
   cookingTime,
+  mealCourse,
 }
 
 extension FiltersWidgets on FilterType {
@@ -23,6 +25,7 @@ extension FiltersWidgets on FilterType {
       FilterType.cookingTime => TimeFilter(
           filter: CookingTimeFilter(),
         ),
+      FilterType.mealCourse => MealCourseFilter(),
     };
   }
 }
@@ -34,6 +37,7 @@ extension FiltersL10n on FilterType {
       FilterType.ingredient => l10n.ingredient_filter,
       FilterType.preparationTime => l10n.preparation_time_filter,
       FilterType.cookingTime => l10n.cooking_time_filter,
+      FilterType.mealCourse => l10n.meal_course_filter,
     };
   }
 }

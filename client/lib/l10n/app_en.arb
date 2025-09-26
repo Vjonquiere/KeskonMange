@@ -109,5 +109,6 @@
   "need_meal_for" : "Need meal for:",
   "preparation_time_filter" : "Preparation time",
   "cooking_time_filter" : "Cooking time",
-  "ingredient_filter" :  "Ingredient"
+  "ingredient_filter" :  "Ingredient",
+  "meal_course_filter" :  "Meal course"
 }
