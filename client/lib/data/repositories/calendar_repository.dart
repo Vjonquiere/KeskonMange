@@ -11,4 +11,6 @@ abstract class CalendarRepository {
   Future<bool> removePlannedRecipeFromCalendar(DateTime date, int recipeId);
   Future<bool> updatePlannedRecipe(
       DateTime originalDate, DateTime newDate, int recipeId);
+  Future<List<RecipePreview>> getTodayUserRecipes();
+  Future<List<RecipePreview>> getTodayCommunityRecipes();
 }

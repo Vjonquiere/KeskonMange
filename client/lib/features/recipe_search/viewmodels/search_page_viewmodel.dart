@@ -60,11 +60,12 @@ class SearchPageViewModel extends ViewModel {
   }
 
   Future<void> _updateRecipes() async {
+    final List<Filter> filters = _filters.values.whereType<Filter>().toList();
     recipes = await RepositoriesManager()
         .getRecipeRepository()
         .advancedResearch(
             name: _searchText,
-            filters: _filters.values.whereType<Filter>().toList());
+            filters: filters.where((filt) => filt.active).toList());
     notifyListeners();
   }
 
