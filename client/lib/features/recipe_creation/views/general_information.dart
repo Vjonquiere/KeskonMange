@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/widget_states.dart';
 import '../../../core/widgets/custom_buttons.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_icons.dart';
@@ -180,43 +181,65 @@ class GeneralInformation extends StatelessWidget {
     );
   }
 
-  Widget addRecipePicture(BuildContext context) {
+  Widget addRecipePicture(
+      BuildContext context, GeneralInformationViewModel viewModel) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double imageWidth = screenWidth * 0.4;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         questionText("What does it look like?"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            Card.filled(
-              color: AppColors.beige,
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image(
-                  image: AssetImage(AppIcons.getIcon("placeholder")),
-                  width: imageWidth,
-                ),
+        viewModel.usingCamera
+            ? Column(
+                children: [
+                  viewModel.cameraPreview() ?? Container(),
+                  Row(
+                    children: [
+                      IconButton(
+                          onPressed: viewModel.changeCamera,
+                          icon: Icon(Icons.flip_camera_android)),
+                      IconButton(
+                          onPressed: viewModel.takePicture,
+                          icon: Icon(Icons.camera_alt))
+                    ],
+                  )
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Card.filled(
+                    color: AppColors.beige,
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image(
+                        image: viewModel.getPictureFile() != null
+                            ? FileImage(viewModel.getPictureFile()!)
+                            : AssetImage(
+                                AppIcons.getIcon("placeholder_square")),
+                        width: 128,
+                        height: 128,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Column(
+                    children: <Widget>[
+                      CustomButton(
+                        text: "Import",
+                        onPressed: () {},
+                        color: AppColors.blue,
+                      ),
+                      CustomButton(
+                        text: "Take a picture",
+                        onPressed: viewModel.switchCameraUse,
+                        color: AppColors.yellow,
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ),
-            Column(
-              children: <Widget>[
-                CustomButton(
-                  text: "Import",
-                  onPressed: () {},
-                  color: AppColors.blue,
-                ),
-                CustomButton(
-                  text: "Take a picture",
-                  onPressed: () {},
-                  color: AppColors.yellow,
-                ),
-              ],
-            ),
-          ],
-        ),
       ],
     );
   }
@@ -225,20 +248,24 @@ class GeneralInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     final GeneralInformationViewModel viewModel =
         Provider.of<GeneralInformationViewModel>(context);
+    if (viewModel.state != WidgetStates.ready) return Container();
     return Column(
       children: <Widget>[
-        addRecipePicture(context),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            questionText("What do we cook?"),
-            userTextInput("Recipe title", viewModel.recipeTitleController),
-            const SizedBox(height: 16), // Add spacing
-            numberOfPeopleFed(viewModel),
-            kindOfRecipe(viewModel),
-            cookingTime(viewModel),
-          ],
-        ),
+        addRecipePicture(context, viewModel),
+        viewModel.usingCamera
+            ? Container()
+            : Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  questionText("What do we cook?"),
+                  userTextInput(
+                      "Recipe title", viewModel.recipeTitleController),
+                  const SizedBox(height: 16), // Add spacing
+                  numberOfPeopleFed(viewModel),
+                  kindOfRecipe(viewModel),
+                  cookingTime(viewModel),
+                ],
+              ),
       ],
     );
   }
