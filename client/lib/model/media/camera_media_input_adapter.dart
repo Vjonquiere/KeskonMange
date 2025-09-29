@@ -64,4 +64,12 @@ class CameraMediaInputAdapter extends MediaInputService {
     _currentCamera = (_currentCamera + 1) % _cameras.length;
     await initialize();
   }
+
+  @override
+  Future<void> switchFlash() async {
+    await _controller.setFlashMode(
+        _controller.value.flashMode != FlashMode.torch
+            ? FlashMode.torch
+            : FlashMode.off);
+  }
 }

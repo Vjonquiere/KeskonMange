@@ -7,4 +7,5 @@ abstract class MediaInputService {
   Future<File?> captureFromCamera();
   Widget? cameraPreview();
   Future<void> switchCamera();
+  Future<void> switchFlash();
 }

@@ -23,6 +23,7 @@ class GeneralInformationViewModel extends StateViewModel {
   int get preparationTime => _preparationTime;
   int get cookingTime => _cookingTime;
   bool get usingCamera => _usingCamera;
+  File? get picturePath => _picturePath;
 
   GeneralInformationViewModel() {
     _initializeCamera();
@@ -36,6 +37,10 @@ class GeneralInformationViewModel extends StateViewModel {
   void switchCameraUse() {
     _usingCamera = !_usingCamera;
     notifyListeners();
+  }
+
+  void switchCameraFlash() {
+    _camera.switchFlash();
   }
 
   Future<void> _initializeCamera() async {

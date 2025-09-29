@@ -193,14 +193,35 @@ class GeneralInformation extends StatelessWidget {
             ? Column(
                 children: [
                   viewModel.cameraPreview() ?? Container(),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       IconButton(
                           onPressed: viewModel.changeCamera,
-                          icon: Icon(Icons.flip_camera_android)),
-                      IconButton(
+                          icon: const Icon(Icons.flip_camera_android)),
+                      Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: BoxBorder.all(
+                                color: AppColors.blue, width: 5.0)),
+                        child: IconButton(
                           onPressed: viewModel.takePicture,
-                          icon: Icon(Icons.camera_alt))
+                          icon: const Icon(
+                            Icons.camera_alt,
+                            color: AppColors.blue,
+                          ),
+                          iconSize: 50.0,
+                        ),
+                      ),
+                      IconButton(
+                          onPressed: viewModel.switchCameraFlash,
+                          icon: const Icon(
+                            Icons.flash_on,
+                            color: AppColors.yellow,
+                          )),
                     ],
                   )
                 ],
