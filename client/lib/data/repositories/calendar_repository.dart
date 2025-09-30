@@ -1,3 +1,4 @@
+import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
 
@@ -13,4 +14,8 @@ abstract class CalendarRepository {
       DateTime originalDate, DateTime newDate, int recipeId);
   Future<List<RecipePreview>> getTodayUserRecipes();
   Future<List<RecipePreview>> getTodayCommunityRecipes();
+  Future<List<IngredientQuantity>> getNeededIngredientsForDateRange(
+      {DateTime? from, DateTime? to});
+  Future<List<RecipePreview>> getPlannedRecipesForDateRange(
+      {DateTime? from, DateTime? to});
 }
