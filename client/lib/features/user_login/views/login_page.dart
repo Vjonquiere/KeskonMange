@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
         );
       }
 
-      if (viewModel.userLogged == 200) {
+      if (viewModel.userLogged) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute<HomePage>(builder: (_) => const HomePage()),
         );

@@ -17,17 +17,17 @@ import '../../../../model/allergen.dart';
 
 class UserRepositoryApi extends UserRepository {
   @override
-  Future<String?> activateUserAccount(String email, String code) async {
+  Future<bool> activateUserAccount(String email, String code) async {
     final UserVerificationRequest req = UserVerificationRequest(email, code);
     if ((await req.send()) != 200) {
-      return null;
+      return false;
     }
     final Map<String, dynamic> apiKey =
         jsonDecode(req.getBody()) as Map<String, dynamic>;
     if (apiKey.containsKey('token')) {
       return apiKey["token"];
     }
-    return null;
+    return false;
   }
 
   @override
@@ -36,18 +36,18 @@ class UserRepositoryApi extends UserRepository {
   }
 
   @override
-  Future<int> checkAuthenticationCode(String email, String code) async {
-    return (await VerifyAuthenticationCodeRequest(email, code).send());
+  Future<bool> checkAuthenticationCode(String email, String code) async {
+    return (await VerifyAuthenticationCodeRequest(email, code).send() == 200);
   }
 
   @override
-  Future<int> createAccount(User user) async {
-    return (await CreateAccountRequest(user.email, user.username).send());
+  Future<bool> createAccount(User user) async {
+    return (await CreateAccountRequest(user.email, user.username).send()) == 200;
   }
 
   @override
-  Future<int> getAuthenticationCode(String email) async {
-    return (await GetAuthenticationCodeRequest(email).send());
+  Future<bool> getAuthenticationCode(String email) async {
+    return (await GetAuthenticationCodeRequest(email).send() == 200);
   }
 
   @override

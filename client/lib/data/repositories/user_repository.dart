@@ -6,11 +6,11 @@ abstract class UserRepository {
   Future<int> setUserAllergens(List<Allergen> allergens);
   Future<int> logout();
   Future<int> checkApiKeyValidity(String email, String token);
-  Future<int> getAuthenticationCode(String email);
-  Future<int> checkAuthenticationCode(String email, String code);
-  Future<int> createAccount(User user);
+  Future<bool> getAuthenticationCode(String email);
+  Future<bool> checkAuthenticationCode(String email, String code);
+  Future<bool> createAccount(User user);
   Future<User> getUserInfos();
-  Future<String?> activateUserAccount(String email, String code);
+  Future<bool> activateUserAccount(String email, String code);
   Future<int> checkMailAvailability(String email);
   Future<int> checkUsernameAvailability(String username);
 }
