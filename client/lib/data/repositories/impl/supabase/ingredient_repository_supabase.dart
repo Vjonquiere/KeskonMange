@@ -1,7 +1,7 @@
 import 'package:client/data/repositories/ingredient_repository.dart';
 import 'package:client/model/ingredient.dart';
 
-class IngredientRepositorySupabase extends IngredientRepository{
+class IngredientRepositorySupabase extends IngredientRepository {
   @override
   Future<int> createIngredient(Ingredient ingredient) {
     // TODO: implement createIngredient
@@ -19,5 +19,4 @@ class IngredientRepositorySupabase extends IngredientRepository{
     // TODO: implement getIngredientFromId
     throw UnimplementedError();
   }
-  
 }

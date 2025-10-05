@@ -5,9 +5,10 @@ import 'package:client/features/recipe_search/model/filters.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:client/model/recipe/recipe.dart';
 
-class RecipeRepositorySupabase extends RecipeRepository{
+class RecipeRepositorySupabase extends RecipeRepository {
   @override
-  Future<List<RecipePreview>> advancedResearch({String? name, List<Filter>? filters}) {
+  Future<List<RecipePreview>> advancedResearch(
+      {String? name, List<Filter>? filters}) {
     // TODO: implement advancedResearch
     throw UnimplementedError();
   }
@@ -49,9 +50,9 @@ class RecipeRepositorySupabase extends RecipeRepository{
   }
 
   @override
-  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName, {int? count}) {
+  Future<List<RecipePreview>> getRecipeMatchingName(String recipeName,
+      {int? count}) {
     // TODO: implement getRecipeMatchingName
     throw UnimplementedError();
   }
-  
 }

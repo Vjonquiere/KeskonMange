@@ -6,13 +6,14 @@ import 'package:client/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:supabase_flutter/supabase_flutter.dart' as S;
 
-class UserRepositorySupabase extends UserRepository{
+class UserRepositorySupabase extends UserRepository {
   @override
   Future<bool> activateUserAccount(String email, String code) async {
-    try{
-      final S.AuthResponse res = await S.Supabase.instance.client.auth.verifyOTP(email: email, type: S.OtpType.signup, token: code);
+    try {
+      final S.AuthResponse res = await S.Supabase.instance.client.auth
+          .verifyOTP(email: email, type: S.OtpType.signup, token: code);
       return res.session != null;
-    } catch (e){
+    } catch (e) {
       MessageBus.instance.addMessage(Message(MessageType.error, e.toString()));
       return false;
     }
@@ -25,9 +26,10 @@ class UserRepositorySupabase extends UserRepository{
 
   @override
   Future<bool> checkAuthenticationCode(String email, String code) async {
-    try{
-      await S.Supabase.instance.client.auth.verifyOTP(email: email, type: S.OtpType.email, token: code);
-    } catch (e){
+    try {
+      await S.Supabase.instance.client.auth
+          .verifyOTP(email: email, type: S.OtpType.email, token: code);
+    } catch (e) {
       MessageBus.instance.addMessage(Message(MessageType.error, e.toString()));
       return false;
     }
@@ -36,7 +38,7 @@ class UserRepositorySupabase extends UserRepository{
 
   @override
   Future<int> checkMailAvailability(String email) async {
-   return 200;
+    return 200;
   }
 
   @override
@@ -46,14 +48,13 @@ class UserRepositorySupabase extends UserRepository{
 
   @override
   Future<bool> createAccount(User user) async {
-    try{
+    try {
       await S.Supabase.instance.client.auth.signInWithOtp(email: user.email);
-    } catch (e){
+    } catch (e) {
       MessageBus.instance.addMessage(Message(MessageType.error, e.toString()));
       return false;
     }
     return true;
-
   }
 
   @override
@@ -84,5 +85,4 @@ class UserRepositorySupabase extends UserRepository{
     // TODO: implement setUserAllergens
     throw UnimplementedError();
   }
-
 }

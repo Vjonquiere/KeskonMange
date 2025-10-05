@@ -2,7 +2,7 @@ import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
 
-class CalendarRepositorySupabase extends CalendarRepository{
+class CalendarRepositorySupabase extends CalendarRepository {
   @override
   Future<bool> addNewRecipeToCalendar(DateTime date, int recipeId) {
     // TODO: implement addNewRecipeToCalendar
@@ -46,9 +46,9 @@ class CalendarRepositorySupabase extends CalendarRepository{
   }
 
   @override
-  Future<bool> updatePlannedRecipe(DateTime originalDate, DateTime newDate, int recipeId) {
+  Future<bool> updatePlannedRecipe(
+      DateTime originalDate, DateTime newDate, int recipeId) {
     // TODO: implement updatePlannedRecipe
     throw UnimplementedError();
   }
-
 }

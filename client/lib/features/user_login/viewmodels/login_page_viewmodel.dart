@@ -35,8 +35,9 @@ class LoginPageViewModel extends ViewModel {
 
   Future<void> isUserLogged() async {
     _userLogged = await CheckApiKeyValidityUseCase(
-      RepositoriesManager().getUserRepository(),
-    ).execute() == 200;
+          RepositoriesManager().getUserRepository(),
+        ).execute() ==
+        200;
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }
@@ -58,16 +59,21 @@ class LoginPageViewModel extends ViewModel {
       return;
     }
     if (signInPressed) {
-     if (!(await RepositoriesManager().getUserRepository().checkAuthenticationCode(_emailController.text, _passwordController.text))) {
+      if (!(await RepositoriesManager()
+          .getUserRepository()
+          .checkAuthenticationCode(
+              _emailController.text, _passwordController.text))) {
         _hasError = true;
         notifyListeners();
         return;
       }
-     _userLogged = true;
-     notifyListeners();
+      _userLogged = true;
+      notifyListeners();
       return;
     }
-    if (!(await RepositoriesManager().getUserRepository().getAuthenticationCode(_emailController.text))) {
+    if (!(await RepositoriesManager()
+        .getUserRepository()
+        .getAuthenticationCode(_emailController.text))) {
       _hasError = true;
       _errorMessage = "Something went wrong while trying to send code by mail";
       notifyListeners();

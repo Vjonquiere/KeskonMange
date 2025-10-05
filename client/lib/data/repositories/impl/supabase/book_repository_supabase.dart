@@ -3,7 +3,7 @@ import 'package:client/model/book/complete.dart';
 import 'package:client/model/book/preview.dart';
 import 'package:client/model/user.dart';
 
-class BookRepositorySupabase extends BookRepository{
+class BookRepositorySupabase extends BookRepository {
   @override
   Future<int> addRecipeToBook(int bookId, int recipeId) {
     // TODO: implement addRecipeToBook
@@ -39,5 +39,4 @@ class BookRepositorySupabase extends BookRepository{
     // TODO: implement getUserBooks
     throw UnimplementedError();
   }
-
 }

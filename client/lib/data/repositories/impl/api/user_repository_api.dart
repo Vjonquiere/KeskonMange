@@ -42,7 +42,8 @@ class UserRepositoryApi extends UserRepository {
 
   @override
   Future<bool> createAccount(User user) async {
-    return (await CreateAccountRequest(user.email, user.username).send()) == 200;
+    return (await CreateAccountRequest(user.email, user.username).send()) ==
+        200;
   }
 
   @override

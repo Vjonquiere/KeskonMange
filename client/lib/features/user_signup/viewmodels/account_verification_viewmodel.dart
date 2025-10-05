@@ -21,7 +21,9 @@ class AccountVerificationViewModel extends StateViewModel {
     if (_verificationCodeController.text == "") {
       return false;
     }
-    final bool accountActivated = await RepositoriesManager().getUserRepository().activateUserAccount(_user.email, _verificationCodeController.text);
+    final bool accountActivated = await RepositoriesManager()
+        .getUserRepository()
+        .activateUserAccount(_user.email, _verificationCodeController.text);
     if (!accountActivated) {
       setStateValue(WidgetStates.error);
       notifyListeners();
