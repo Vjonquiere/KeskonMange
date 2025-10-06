@@ -1,3 +1,4 @@
+import 'package:client/config.dart';
 import 'package:client/core/widgets/global_message.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
@@ -10,10 +11,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'l10n/app_localizations.dart';
 
 Future<void> main() async {
-  await Supabase.initialize(
-      url: 'https://keskon-mange.fr',
-      anonKey:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyAgCiAgICAicm9sZSI6ICJhbm9uIiwKICAgICJpc3MiOiAic3VwYWJhc2UtZGVtbyIsCiAgICAiaWF0IjogMTY0MTc2OTIwMCwKICAgICJleHAiOiAxNzk5NTM1NjAwCn0.dc_X5iR_VP_qT0zsiyj_I_OZ2T9FtRU2BBNWN8Bu4GE');
+  await Supabase.initialize(url: Config().serverUrl, anonKey: Config().anonKey);
   runApp(const KeskonMangeApp());
 }
 
