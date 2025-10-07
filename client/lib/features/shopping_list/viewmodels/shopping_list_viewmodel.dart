@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../../../model/ingredient.dart';
 
 class ShoppingListViewModel extends ViewModel {
-  Map<Ingredient, IngredientQuantity> ingredients = {};
+  Map<Ingredient, List<IngredientQuantity>> ingredients = {};
   Map<Ingredient, bool> done = {};
   Set<int> selected = {};
 
@@ -31,7 +31,19 @@ class ShoppingListViewModel extends ViewModel {
           .getIngredientRepository()
           .getIngredientFromId(i.ingredientId);
       if (ingredient != null) {
-        ingredients[ingredient] = i;
+        if (!ingredients.containsKey(ingredient)) {
+          ingredients[ingredient] = [];
+        }
+        bool found = false;
+        for (IngredientQuantity ingQuant in ingredients[ingredient]!) {
+          if (ingQuant.unit.unit == i.unit.unit) {
+            found = true;
+            ingQuant.quantity += i.quantity;
+          }
+        }
+        if (!found) {
+          ingredients[ingredient]?.add(i);
+        }
       }
     }
     setStateValue(WidgetStates.ready);
