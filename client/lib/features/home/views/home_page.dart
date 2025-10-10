@@ -9,6 +9,8 @@ import 'package:client/features/recipe_calendar/views/calendar_page.dart';
 import 'package:client/features/recipe_planning/viewmodels/recipe_planning_viewmodel.dart';
 import 'package:client/features/recipe_planning/views/recipe_planning_page.dart';
 import 'package:client/features/recipe_search/viewmodels/search_page_viewmodel.dart';
+import 'package:client/features/shopping_list/viewmodels/shopping_list_viewmodel.dart';
+import 'package:client/features/shopping_list/views/shopping_list.dart';
 import 'package:client/features/user_creations/views/my_creations_page.dart';
 import 'package:client/features/recipe_search/views/search_page.dart';
 import 'package:client/features/user_profile/views/user_page.dart';
@@ -40,7 +42,12 @@ class HomePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute<UserPage>(
-                        builder: (BuildContext context) => const UserPage()),
+                        builder: (BuildContext context) =>
+                            ChangeNotifierProvider(
+                              create: (BuildContext context) =>
+                                  ShoppingListViewModel(),
+                              child: ShoppingList(),
+                            )),
                   );
                 },
                 text: 'pen',

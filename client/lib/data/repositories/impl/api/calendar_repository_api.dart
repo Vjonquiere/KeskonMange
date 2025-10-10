@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/http/calendar/complete_month_request.dart';
 import 'package:client/http/calendar/next_planned_recipes_request.dart';
+import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
 
@@ -57,6 +58,20 @@ class CalendarRepositoryApi extends CalendarRepository {
   @override
   Future<List<RecipePreview>> getTodayCommunityRecipes() {
     // TODO: implement getTodayCommunityRecipes
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<IngredientQuantity>> getNeededIngredientsForDateRange(
+      {DateTime? from, DateTime? to}) {
+    // TODO: implement getNeededIngredientsForDateRange
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<RecipePreview>> getPlannedRecipesForDateRange(
+      {DateTime? from, DateTime? to}) {
+    // TODO: implement getPlannedRecipesForDateRange
     throw UnimplementedError();
   }
 }
