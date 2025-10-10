@@ -5,11 +5,13 @@ import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/recipe_planning/models/days.dart';
 import 'package:client/features/recipe_search/model/filters.dart';
 import 'package:client/features/recipe_search/model/meal_course_filter.dart';
+import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import '../../../../model/recipe/recipe.dart';
 
 class CalendarRepositoryMock extends CalendarRepository {
   Database? _database;
@@ -108,25 +110,10 @@ class CalendarRepositoryMock extends CalendarRepository {
 
   @override
   Future<List<RecipePreview>> getTodayUserRecipes() async {
-    if (_database == null) return [];
     final DateTime now = DateTime.now();
-    final List<Map<String, Object?>>? planned = await _database
-        ?.query("calendar", where: "date<=? AND date>=?", whereArgs: [
-      now
-          .copyWith(hour: 23, minute: 59, second: 59, millisecond: 0)
-          .millisecondsSinceEpoch,
-      now
-          .copyWith(hour: 0, minute: 0, second: 0, millisecond: 0)
-          .millisecondsSinceEpoch
-    ]);
-    if (planned == null || planned.isEmpty) return [];
-    return <RecipePreview?>[
-      for (final {'date': int date as int, 'recipe_id': recipe_id as int}
-          in planned)
-        await RepositoriesManager()
-            .getRecipeRepository()
-            .getRecipeFromId(recipe_id)
-    ].whereType<RecipePreview>().toList();
+    return await getPlannedRecipesForDateRange(
+        from: now.copyWith(hour: 0, minute: 0, second: 0, millisecond: 0),
+        to: now.copyWith(hour: 23, minute: 59, second: 59, millisecond: 0));
   }
 
   @override
@@ -142,5 +129,45 @@ class CalendarRepositoryMock extends CalendarRepository {
       selectedRecipes.add(recipes.elementAt(Random().nextInt(recipes.length)));
     }
     return selectedRecipes;
+  }
+
+  @override
+  Future<List<IngredientQuantity>> getNeededIngredientsForDateRange(
+      {DateTime? from, DateTime? to}) async {
+    final List<IngredientQuantity> neededIngredients = [];
+    final List<RecipePreview> plannedRecipes =
+        await getPlannedRecipesForDateRange(from: from, to: to);
+    for (RecipePreview recipe in plannedRecipes) {
+      final Recipe? completeRecipe = await RepositoriesManager()
+          .getRecipeRepository()
+          .getCompleteRecipe(recipe.id);
+      if (completeRecipe != null) {
+        neededIngredients.addAll(completeRecipe.ingredients);
+      }
+    }
+    return neededIngredients;
+  }
+
+  @override
+  Future<List<RecipePreview>> getPlannedRecipesForDateRange(
+      {DateTime? from, DateTime? to}) async {
+    if (_database == null) return [];
+    final List<Map<String, Object?>>? planned = await _database
+        ?.query("calendar", where: "date<=? AND date>=?", whereArgs: [
+      to != null
+          ? to.millisecondsSinceEpoch
+          : DateTime.now().add(const Duration(days: 7)).millisecondsSinceEpoch,
+      from != null
+          ? from.millisecondsSinceEpoch
+          : DateTime.now().millisecondsSinceEpoch
+    ]);
+    if (planned == null || planned.isEmpty) return [];
+    return <RecipePreview?>[
+      for (final {'date': int date as int, 'recipe_id': recipe_id as int}
+          in planned)
+        await RepositoriesManager()
+            .getRecipeRepository()
+            .getRecipeFromId(recipe_id)
+    ].whereType<RecipePreview>().toList();
   }
 }
