@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/widgets/global_message.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
@@ -6,9 +8,16 @@ import 'package:client/utils/mock_repositories_sample_load.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sqflite/sqflite.dart';
 import 'l10n/app_localizations.dart';
 
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+
 void main() {
+  if (!Platform.isAndroid && !Platform.isIOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
   runApp(const KeskonMangeApp());
 }
 
