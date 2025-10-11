@@ -84,15 +84,24 @@ class CalendarRepositorySupabase extends CalendarRepository {
   }
 
   @override
-  Future<bool> removePlannedRecipeFromCalendar(DateTime date, int recipeId) {
-    // TODO: implement removePlannedRecipeFromCalendar
-    throw UnimplementedError();
+  Future<bool> removePlannedRecipeFromCalendar(
+      DateTime date, int recipeId) async {
+    await Supabase.instance.client.rest
+        .from("calendar")
+        .delete()
+        .eq("date", date.millisecondsSinceEpoch)
+        .eq("recipe_id", recipeId);
+    return true;
   }
 
   @override
   Future<bool> updatePlannedRecipe(
-      DateTime originalDate, DateTime newDate, int recipeId) {
-    // TODO: implement updatePlannedRecipe
-    throw UnimplementedError();
+      DateTime originalDate, DateTime newDate, int recipeId) async {
+    await Supabase.instance.client.rest
+        .from("calendar")
+        .update({"date": newDate.millisecondsSinceEpoch})
+        .eq("date", newDate.millisecondsSinceEpoch)
+        .eq("recipe_id", recipeId);
+    return true;
   }
 }
