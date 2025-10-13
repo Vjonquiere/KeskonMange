@@ -85,38 +85,38 @@ class IngredientQuantitiesViewModel extends StateViewModel {
 
   void updateUnits({bool setDetailedUnit = false}) {
     _items.clear();
-    if (_selectedUnit.first == UnitCategory.volume) {
+    if (_selectedUnit.first == UnitCategory.volumeunit) {
       _items.addAll(
         VolumeUnits.values.map(
           (VolumeUnits elt) => DropdownMenuItem<Unit>(
-            value: Unit(UnitCategory.volume, elt),
+            value: Unit(UnitCategory.volumeunit, elt),
             child: Text(elt.name),
           ),
         ),
       );
-    } else if (_selectedUnit.first == UnitCategory.special) {
+    } else if (_selectedUnit.first == UnitCategory.specialunit) {
       _items.addAll(
         SpecialUnits.values.map(
           (SpecialUnits elt) => DropdownMenuItem<Unit>(
-            value: Unit(UnitCategory.special, elt),
+            value: Unit(UnitCategory.specialunit, elt),
             child: Text(elt.name),
           ),
         ),
       );
-    } else if (_selectedUnit.first == UnitCategory.weight) {
+    } else if (_selectedUnit.first == UnitCategory.weightunit) {
       _items.addAll(
         WeightUnits.values.map(
           (WeightUnits elt) => DropdownMenuItem<Unit>(
-            value: Unit(UnitCategory.weight, elt),
+            value: Unit(UnitCategory.weightunit, elt),
             child: Text(elt.name),
           ),
         ),
       );
-    } else if (_selectedUnit.first == UnitCategory.wholeItem) {
+    } else if (_selectedUnit.first == UnitCategory.wholeunit) {
       _items.addAll(
         WholeItemsUnits.values.map(
           (WholeItemsUnits elt) => DropdownMenuItem<Unit>(
-            value: Unit(UnitCategory.wholeItem, elt),
+            value: Unit(UnitCategory.wholeunit, elt),
             child: Text(elt.name),
           ),
         ),
