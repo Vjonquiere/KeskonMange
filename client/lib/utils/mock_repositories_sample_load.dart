@@ -16,9 +16,10 @@ import '../model/recipe/recipe.dart';
 class MockRepositoriesSampleLoad {
   MockRepositoriesSampleLoad._();
 
-  static Future<MockRepositoriesSampleLoad> create() async {
+  static Future<MockRepositoriesSampleLoad> create(
+      {required bool initialize}) async {
     final MockRepositoriesSampleLoad repo = MockRepositoriesSampleLoad._();
-    await repo._loadSamples();
+    if (initialize) await repo._loadSamples();
     return repo;
   }
 

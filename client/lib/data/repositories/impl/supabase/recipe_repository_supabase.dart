@@ -53,7 +53,7 @@ class RecipeRepositorySupabase extends RecipeRepository {
         "title": step.title,
         "recipe_id": id,
         "index": recipe.steps.indexOf(step),
-        "title": step.stepText
+        "step": step.stepText
       });
     }
     return 200;

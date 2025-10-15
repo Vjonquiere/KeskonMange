@@ -10,14 +10,13 @@ import '../ingredient_quantity.dart';
 
 class Recipe {
   final RecipePreview _recipePreview;
-  final List<IngredientQuantity> _ingredients;
+  List<IngredientQuantity> ingredients;
   final List<Step> _steps;
   final int _portions;
 
-  Recipe(this._recipePreview, this._ingredients, this._portions, this._steps);
+  Recipe(this._recipePreview, this.ingredients, this._portions, this._steps);
 
   RecipePreview get recipePreview => _recipePreview;
-  List<IngredientQuantity> get ingredients => _ingredients;
   List<Step> get steps => _steps;
   int get portions => _portions;
 

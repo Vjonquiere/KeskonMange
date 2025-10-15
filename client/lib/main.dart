@@ -20,12 +20,13 @@ class KeskonMangeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoriesManager().useMockRepositories();
+    //RepositoriesManager().useMockRepositories();
+    RepositoriesManager().useApiRepositories();
 
     return FutureBuilder<MockRepositoriesSampleLoad>(
       future: RepositoriesManager().currentlyUsingMockRepositories
-          ? MockRepositoriesSampleLoad.create()
-          : null,
+          ? MockRepositoriesSampleLoad.create(initialize: true)
+          : MockRepositoriesSampleLoad.create(initialize: false),
       builder: (BuildContext context,
           AsyncSnapshot<MockRepositoriesSampleLoad> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {

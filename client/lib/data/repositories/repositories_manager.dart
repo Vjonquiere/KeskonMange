@@ -35,25 +35,25 @@ class RepositoriesManager {
   late IngredientRepository _ingredientRepository;
 
   void useMockRepositories() {
+    _bookRepository = BookRepositoryMock();
+    _calendarRepository = CalendarRepositoryMock();
+    _recipeRepository = RecipeRepositoryMock();
+    _userRepository = UserRepositoryMock();
+    _ingredientRepository = IngredientRepositoryMock();
+    _useMockRepositories = true;
+  }
+
+  void useApiRepositories() {
+    /*_bookRepository = BookRepositoryApi();
+    _calendarRepository = CalendarRepositoryApi();
+    _recipeRepository = RecipeRepositoryApi();
+    _userRepository = UserRepositoryApi();
+    _ingredientRepository = IngredientRepositoryApi();*/
     _bookRepository = BookRepositorySupabase();
     _calendarRepository = CalendarRepositorySupabase();
     _recipeRepository = RecipeRepositorySupabase();
     _userRepository = UserRepositorySupabase();
     _ingredientRepository = IngredientRepositorySupabase();
-    /*_bookRepository = BookRepositoryMock();
-    _calendarRepository = CalendarRepositoryMock();
-    _recipeRepository = RecipeRepositoryMock();
-    _userRepository = UserRepositoryMock();
-    _ingredientRepository = IngredientRepositoryMock();*/
-    _useMockRepositories = true;
-  }
-
-  void useApiRepositories() {
-    _bookRepository = BookRepositoryApi();
-    _calendarRepository = CalendarRepositoryApi();
-    _recipeRepository = RecipeRepositoryApi();
-    _userRepository = UserRepositoryApi();
-    _ingredientRepository = IngredientRepositoryApi();
     _useMockRepositories = false;
   }
 
