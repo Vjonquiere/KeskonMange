@@ -1,4 +1,6 @@
 import 'package:client/config.dart';
+import 'dart:io';
+
 import 'package:client/core/widgets/global_message.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/features/user_login/viewmodels/login_page_viewmodel.dart';
@@ -9,9 +11,15 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'l10n/app_localizations.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 Future<void> main() async {
   await Supabase.initialize(url: Config().serverUrl, anonKey: Config().anonKey);
+  if (!Platform.isAndroid && !Platform.isIOS) {
+    sqfliteFfiInit();
+    databaseFactory = databaseFactoryFfi;
+  }
   runApp(const KeskonMangeApp());
 }
 

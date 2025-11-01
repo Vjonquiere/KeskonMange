@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client/core/widget_states.dart';
 import 'package:client/core/widgets/cooking_info.dart';
 import 'package:client/features/recipe_creation/viewmodels/recipe_review_viewmodel.dart';
@@ -40,8 +42,14 @@ class RecipeReview extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Image(
-                      image: AssetImage(AppIcons.getIcon("placeholder")),
-                      width: MediaQuery.of(context).size.width * 0.4,
+                      image: viewModel.recipePreview.image == null
+                          ? AssetImage(AppIcons.getIcon("placeholder_square"))
+                          : FileImage(
+                              File(viewModel.recipePreview.image!),
+                            ),
+                      width: 128,
+                      height: 128,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
