@@ -10,12 +10,18 @@ class IngredientQuantity {
   factory IngredientQuantity.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        "ingredientId": final int ingredient,
+        "ingredient_id": final int ingredient,
         "quantity": final double quant,
         "unit": final String uni
       } =>
         IngredientQuantity(ingredient, Unit.fromString(uni), quant),
-      _ => throw FormatException("Can't load ingredient quantity from Json")
+      {
+        "ingredient_id": final int ingredient,
+        "quantity": final int quant,
+        "unit": final String uni
+      } =>
+        IngredientQuantity(ingredient, Unit.fromString(uni), quant.toDouble()),
+      _ => throw FormatException("Can't load ingredient quantity: $json")
     };
   }
 }

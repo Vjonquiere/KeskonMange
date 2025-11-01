@@ -28,7 +28,7 @@ class CalendarRepositorySupabase extends CalendarRepository {
     final PostgrestList res = await Supabase.instance.client.rest
         .from("calendar")
         .select("date")
-        .eq("recipeId", recipeId);
+        .eq("recipe_id", recipeId);
     return res
         .map((PostgrestMap e) => DateTime.fromMillisecondsSinceEpoch(e["date"]))
         .toList();

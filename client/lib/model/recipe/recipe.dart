@@ -36,7 +36,10 @@ class Recipe {
                 .toList(),
             portions,
             steps.map((dynamic step) => Step.fromJson(step)).toList()),
-      _ => throw UnimplementedError(),
+      /*{
+    "recipePreview": final Map<String, dynamic> recipePreview,
+    } => Recipe(RecipePreview.fromJson(recipePreview), [], 1, []),*/
+      _ => throw FormatException("Failed to load complete recipe: $json."),
     };
   }
 }

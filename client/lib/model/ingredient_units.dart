@@ -79,34 +79,48 @@ class Unit {
 
   factory Unit.fromString(String unit) {
     return switch (unit) {
-      "pc" => Unit(UnitCategory.wholeunit, WholeItemsUnits.piece),
-      "clv" => Unit(UnitCategory.wholeunit, WholeItemsUnits.clove),
-      "slc" => Unit(UnitCategory.wholeunit, WholeItemsUnits.slice),
-      "stk" => Unit(UnitCategory.wholeunit, WholeItemsUnits.stick),
-      "hd" => Unit(UnitCategory.wholeunit, WholeItemsUnits.head),
-      "lf" => Unit(UnitCategory.wholeunit, WholeItemsUnits.leaf),
-      "cn" => Unit(UnitCategory.wholeunit, WholeItemsUnits.can),
-      "btl" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bottle),
-      "jr" => Unit(UnitCategory.wholeunit, WholeItemsUnits.jar),
-      "pkg" => Unit(UnitCategory.wholeunit, WholeItemsUnits.package),
-      "bx" => Unit(UnitCategory.wholeunit, WholeItemsUnits.box),
-      "bnch" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bunch),
-      "tsp" => Unit(UnitCategory.volumeunit, VolumeUnits.teaspoon),
-      "tbsp" => Unit(UnitCategory.volumeunit, VolumeUnits.tablespoon),
-      "floz" => Unit(UnitCategory.volumeunit, VolumeUnits.fluidOunce),
-      "c" => Unit(UnitCategory.volumeunit, VolumeUnits.cup),
-      "pt" => Unit(UnitCategory.volumeunit, VolumeUnits.pint),
-      "qt" => Unit(UnitCategory.volumeunit, VolumeUnits.quart),
-      "gal" => Unit(UnitCategory.volumeunit, VolumeUnits.gallon),
-      "ml" => Unit(UnitCategory.volumeunit, VolumeUnits.milliliter),
-      "l" => Unit(UnitCategory.volumeunit, VolumeUnits.liter),
-      "g" => Unit(UnitCategory.weightunit, WeightUnits.gram),
-      "kg" => Unit(UnitCategory.weightunit, WeightUnits.kilogram),
-      "oz" => Unit(UnitCategory.weightunit, WeightUnits.ounce),
-      "lbs" => Unit(UnitCategory.weightunit, WeightUnits.pound),
-      "sb" => Unit(UnitCategory.specialunit, SpecialUnits.stickOfButter),
-      "egg" => Unit(UnitCategory.specialunit, SpecialUnits.eggSizes),
-      "sht" => Unit(UnitCategory.specialunit, SpecialUnits.sheet),
+      "pc" || "piece" => Unit(UnitCategory.wholeunit, WholeItemsUnits.piece),
+      "clv" || "clove" => Unit(UnitCategory.wholeunit, WholeItemsUnits.clove),
+      "slc" || "slice" => Unit(UnitCategory.wholeunit, WholeItemsUnits.slice),
+      "stk" || "stick" => Unit(UnitCategory.wholeunit, WholeItemsUnits.stick),
+      "hd" || "head" => Unit(UnitCategory.wholeunit, WholeItemsUnits.head),
+      "lf" || "leaf" => Unit(UnitCategory.wholeunit, WholeItemsUnits.leaf),
+      "cn" || "can" => Unit(UnitCategory.wholeunit, WholeItemsUnits.can),
+      "btl" || "bottle" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bottle),
+      "jr" || "jar" => Unit(UnitCategory.wholeunit, WholeItemsUnits.jar),
+      "pkg" ||
+      "package" =>
+        Unit(UnitCategory.wholeunit, WholeItemsUnits.package),
+      "bx" || "box" => Unit(UnitCategory.wholeunit, WholeItemsUnits.box),
+      "bnch" || "bunch" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bunch),
+      "tsp" ||
+      "teaspoon" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.teaspoon),
+      "tbsp" ||
+      "tablespoon" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.tablespoon),
+      "floz" ||
+      "fluidOunce" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.fluidOunce),
+      "c" || "cup" => Unit(UnitCategory.volumeunit, VolumeUnits.cup),
+      "pt" || "pint" => Unit(UnitCategory.volumeunit, VolumeUnits.pint),
+      "qt" || "quart" => Unit(UnitCategory.volumeunit, VolumeUnits.quart),
+      "gal" || "gallon" => Unit(UnitCategory.volumeunit, VolumeUnits.gallon),
+      "ml" ||
+      "milliliter" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.milliliter),
+      "l" || "liter" => Unit(UnitCategory.volumeunit, VolumeUnits.liter),
+      "g" || "gram" => Unit(UnitCategory.weightunit, WeightUnits.gram),
+      "kg" || "kilogram" => Unit(UnitCategory.weightunit, WeightUnits.kilogram),
+      "oz" || "ounce" => Unit(UnitCategory.weightunit, WeightUnits.ounce),
+      "lbs" || "pound" => Unit(UnitCategory.weightunit, WeightUnits.pound),
+      "sb" ||
+      "stickOfButter" =>
+        Unit(UnitCategory.specialunit, SpecialUnits.stickOfButter),
+      "egg" ||
+      "eggSizes" =>
+        Unit(UnitCategory.specialunit, SpecialUnits.eggSizes),
+      "sht" || "sheet" => Unit(UnitCategory.specialunit, SpecialUnits.sheet),
       _ => throw FormatException("Can't assign string: $unit to a known unit"),
     };
   }
