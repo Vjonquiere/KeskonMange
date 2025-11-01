@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:client/data/repositories/calendar_repository.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
+import 'package:client/model/ingredient_quantity.dart';
 import 'package:client/model/month.dart';
 import 'package:client/model/recipe/preview.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -103,5 +104,19 @@ class CalendarRepositorySupabase extends CalendarRepository {
         .eq("date", newDate.millisecondsSinceEpoch)
         .eq("recipe_id", recipeId);
     return true;
+  }
+
+  @override
+  Future<List<IngredientQuantity>> getNeededIngredientsForDateRange(
+      {DateTime? from, DateTime? to}) {
+    // TODO: implement getNeededIngredientsForDateRange
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<RecipePreview>> getPlannedRecipesForDateRange(
+      {DateTime? from, DateTime? to}) {
+    // TODO: implement getPlannedRecipesForDateRange
+    throw UnimplementedError();
   }
 }
