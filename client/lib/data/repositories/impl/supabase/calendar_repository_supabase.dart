@@ -18,10 +18,53 @@ class CalendarRepositorySupabase extends CalendarRepository {
     return true;
   }
 
+  DateTime addMonths(DateTime date, int monthsToAdd) {
+    final int year = date.year + ((date.month - 1 + monthsToAdd) ~/ 12);
+    final int month = (date.month - 1 + monthsToAdd) % 12 + 1;
+    int day = date.day;
+
+    final int lastDayOfTargetMonth = DateTime(year, month + 1, 0).day;
+    if (day > lastDayOfTargetMonth) {
+      day = lastDayOfTargetMonth;
+    }
+
+    return DateTime(year, month, day, date.hour, date.minute, date.second,
+        date.millisecond, date.microsecond);
+  }
+
   @override
-  Future<Month> getCompleteMonth(int monthCount) {
-    // TODO: implement getCompleteMonth
-    throw UnimplementedError();
+  Future<Month> getCompleteMonth(int monthCount, {int weekStart = 1}) async {
+    final DateTime now = DateTime.now();
+    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    firstDayOfMonth = addMonths(firstDayOfMonth, monthCount);
+    DateTime currentDay =
+        DateTime(firstDayOfMonth.year, firstDayOfMonth.month, 1);
+
+    final List<List<int>> monthTemplate = <List<int>>[];
+    List<int> currentWeek = <int>[];
+
+    final int leadingEmpty = (currentDay.weekday - weekStart + 7) % 7;
+    for (int i = 0; i < leadingEmpty; i++) {
+      currentWeek.add(0);
+    }
+
+    while (currentDay.month == firstDayOfMonth.month) {
+      currentWeek.add(currentDay.day);
+      if (currentWeek.length == 7) {
+        monthTemplate.add(currentWeek);
+        currentWeek = [];
+      }
+      currentDay = currentDay.add(const Duration(days: 1));
+    }
+
+    if (currentWeek.isNotEmpty) {
+      while (currentWeek.length < 7) {
+        currentWeek.add(0);
+      }
+      monthTemplate.add(currentWeek);
+    }
+    return Month(firstDayOfMonth.year, firstDayOfMonth.month, <PlannedRecipe>[],
+        monthTemplate);
   }
 
   @override
