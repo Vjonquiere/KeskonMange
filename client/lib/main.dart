@@ -1,3 +1,4 @@
+import 'package:client/config.dart';
 import 'dart:io';
 
 import 'package:client/core/widgets/global_message.dart';
@@ -8,12 +9,13 @@ import 'package:client/utils/mock_repositories_sample_load.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'l10n/app_localizations.dart';
-
+import 'package:sqflite/sqflite.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-void main() {
+Future<void> main() async {
+  await Supabase.initialize(url: Config().serverUrl, anonKey: Config().anonKey);
   if (!Platform.isAndroid && !Platform.isIOS) {
     sqfliteFfiInit();
     databaseFactory = databaseFactoryFfi;
@@ -26,12 +28,13 @@ class KeskonMangeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RepositoriesManager().useMockRepositories();
+    //RepositoriesManager().useMockRepositories();
+    RepositoriesManager().useApiRepositories();
 
     return FutureBuilder<MockRepositoriesSampleLoad>(
       future: RepositoriesManager().currentlyUsingMockRepositories
-          ? MockRepositoriesSampleLoad.create()
-          : null,
+          ? MockRepositoriesSampleLoad.create(initialize: true)
+          : MockRepositoriesSampleLoad.create(initialize: false),
       builder: (BuildContext context,
           AsyncSnapshot<MockRepositoriesSampleLoad> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {

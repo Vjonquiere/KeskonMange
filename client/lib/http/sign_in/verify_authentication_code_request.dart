@@ -1,5 +1,6 @@
 import 'package:client/http/http_request.dart';
 
+@Deprecated("Don't use")
 class VerifyAuthenticationCodeRequest extends HttpRequest {
   final String _email;
   final String _code;

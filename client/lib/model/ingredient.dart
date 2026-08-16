@@ -31,14 +31,14 @@ class Ingredient {
       } =>
         Ingredient._(
           name,
-          <Unit>[Unit(UnitCategory.special, SpecialUnits.eggSizes)],
+          <Unit>[Unit(UnitCategory.specialunit, SpecialUnits.eggSizes)],
           id,
         ),
       {
         'name': final String name,
       } =>
-        Ingredient(
-            name, <Unit>[Unit(UnitCategory.special, SpecialUnits.eggSizes)]),
+        Ingredient(name,
+            <Unit>[Unit(UnitCategory.specialunit, SpecialUnits.eggSizes)]),
       _ => throw const FormatException('Failed to load ingredient.'),
     };
   }

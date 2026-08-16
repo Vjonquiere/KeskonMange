@@ -5,6 +5,11 @@ import 'package:client/data/repositories/impl/mock/calendar_repository_mock.dart
 import 'package:client/data/repositories/impl/mock/ingredient_repository_mock.dart';
 import 'package:client/data/repositories/impl/mock/recipe_repository_mock.dart';
 import 'package:client/data/repositories/impl/mock/user_repository_mock.dart';
+import 'package:client/data/repositories/impl/supabase/book_repository_supabase.dart';
+import 'package:client/data/repositories/impl/supabase/calendar_repository_supabase.dart';
+import 'package:client/data/repositories/impl/supabase/ingredient_repository_supabase.dart';
+import 'package:client/data/repositories/impl/supabase/recipe_repository_supabase.dart';
+import 'package:client/data/repositories/impl/supabase/user_repository_supabase.dart';
 import 'package:client/data/repositories/ingredient_repository.dart';
 import 'package:client/data/repositories/recipe_repository.dart';
 import 'package:client/data/repositories/user_repository.dart';
@@ -39,11 +44,16 @@ class RepositoriesManager {
   }
 
   void useApiRepositories() {
-    _bookRepository = BookRepositoryApi();
+    /*_bookRepository = BookRepositoryApi();
     _calendarRepository = CalendarRepositoryApi();
     _recipeRepository = RecipeRepositoryApi();
     _userRepository = UserRepositoryApi();
-    _ingredientRepository = IngredientRepositoryApi();
+    _ingredientRepository = IngredientRepositoryApi();*/
+    _bookRepository = BookRepositorySupabase();
+    _calendarRepository = CalendarRepositorySupabase();
+    _recipeRepository = RecipeRepositorySupabase();
+    _userRepository = UserRepositorySupabase();
+    _ingredientRepository = IngredientRepositorySupabase();
     _useMockRepositories = false;
   }
 

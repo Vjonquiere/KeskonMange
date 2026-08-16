@@ -8,7 +8,7 @@ class CreateAccountUseCase {
 
   CreateAccountUseCase(this._userRepository, this._user);
 
-  Future<int> execute() async {
+  Future<bool> execute() async {
     return _userRepository.createAccount(_user);
   }
 }

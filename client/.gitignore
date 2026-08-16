@@ -154,3 +154,5 @@ app.*.symbols
 assets/sample.json
 lib/config.dart
 lib/l10n/*
+lib/config.dart
+

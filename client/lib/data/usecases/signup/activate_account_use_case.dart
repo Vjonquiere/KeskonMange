@@ -7,7 +7,7 @@ class ActivateUserUseCase {
 
   ActivateUserUseCase(this._userRepository, this._email, this._code);
 
-  Future<String?> execute() async {
+  Future<bool> execute() async {
     return _userRepository.activateUserAccount(_email, _code);
   }
 }

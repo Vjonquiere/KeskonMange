@@ -16,14 +16,14 @@ class LoginPageViewModel extends ViewModel {
   final TextEditingController _passwordController = TextEditingController();
 
   bool _signInPressed = false;
-  late int _userLogged;
+  late bool _userLogged;
 
   bool _hasError = false;
   String _errorMessage = "";
 
   TextEditingController get emailController => _emailController;
   TextEditingController get passwordController => _passwordController;
-  int get userLogged => _userLogged;
+  bool get userLogged => _userLogged;
   bool get signInPressed => _signInPressed;
   bool get hasError => _hasError;
   @override
@@ -35,8 +35,9 @@ class LoginPageViewModel extends ViewModel {
 
   Future<void> isUserLogged() async {
     _userLogged = await CheckApiKeyValidityUseCase(
-      RepositoriesManager().getUserRepository(),
-    ).execute();
+          RepositoriesManager().getUserRepository(),
+        ).execute() ==
+        200;
     setStateValue(WidgetStates.ready);
     notifyListeners();
   }
@@ -58,36 +59,21 @@ class LoginPageViewModel extends ViewModel {
       return;
     }
     if (signInPressed) {
-      final VerifyAuthenticationCodeRequest verifyCode =
-          VerifyAuthenticationCodeRequest(
-        _emailController.text,
-        _passwordController.text,
-      );
-      if (!(await verifyCode.send() == 200)) {
+      if (!(await RepositoriesManager()
+          .getUserRepository()
+          .checkAuthenticationCode(
+              _emailController.text, _passwordController.text))) {
         _hasError = true;
-        _errorMessage = verifyCode.getBody();
         notifyListeners();
         return;
       }
-      final Map<String, dynamic> apiKey =
-          jsonDecode(verifyCode.getBody()) as Map<String, dynamic>;
-      if (apiKey.containsKey('token') && apiKey.containsKey('username')) {
-        await Authentication().updateCredentialsFromStorage(
-          apiKey["token"],
-          _emailController.text,
-          apiKey["username"],
-        );
-        await Authentication().refreshCredentialsFromStorage();
-        _userLogged = 200;
-        notifyListeners();
-      }
+      _userLogged = true;
+      notifyListeners();
       return;
     }
-    if (!(await GetAuthenticationCodeUseCase(
-          RepositoriesManager().getUserRepository(),
-          _emailController.text,
-        ).execute() ==
-        200)) {
+    if (!(await RepositoriesManager()
+        .getUserRepository()
+        .getAuthenticationCode(_emailController.text))) {
       _hasError = true;
       _errorMessage = "Something went wrong while trying to send code by mail";
       notifyListeners();

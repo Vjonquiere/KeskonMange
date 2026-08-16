@@ -39,17 +39,17 @@ enum SpecialUnits {
 }
 
 enum UnitCategory {
-  wholeItem,
-  volume,
-  weight,
-  special,
+  wholeunit,
+  volumeunit,
+  weightunit,
+  specialunit,
 }
 
 Map<String, Unit> units = <String, Unit>{
-  "whole": Unit(UnitCategory.wholeItem, WholeItemsUnits.bottle),
-  "volume": Unit(UnitCategory.volume, VolumeUnits.gallon),
-  "weight": Unit(UnitCategory.weight, WeightUnits.gram),
-  "special": Unit(UnitCategory.special, SpecialUnits.eggSizes),
+  "whole": Unit(UnitCategory.wholeunit, WholeItemsUnits.bottle),
+  "volume": Unit(UnitCategory.volumeunit, VolumeUnits.gallon),
+  "weight": Unit(UnitCategory.weightunit, WeightUnits.gram),
+  "special": Unit(UnitCategory.specialunit, SpecialUnits.eggSizes),
 };
 
 class Unit {
@@ -79,34 +79,48 @@ class Unit {
 
   factory Unit.fromString(String unit) {
     return switch (unit) {
-      "pc" => Unit(UnitCategory.wholeItem, WholeItemsUnits.piece),
-      "clv" => Unit(UnitCategory.wholeItem, WholeItemsUnits.clove),
-      "slc" => Unit(UnitCategory.wholeItem, WholeItemsUnits.slice),
-      "stk" => Unit(UnitCategory.wholeItem, WholeItemsUnits.stick),
-      "hd" => Unit(UnitCategory.wholeItem, WholeItemsUnits.head),
-      "lf" => Unit(UnitCategory.wholeItem, WholeItemsUnits.leaf),
-      "cn" => Unit(UnitCategory.wholeItem, WholeItemsUnits.can),
-      "btl" => Unit(UnitCategory.wholeItem, WholeItemsUnits.bottle),
-      "jr" => Unit(UnitCategory.wholeItem, WholeItemsUnits.jar),
-      "pkg" => Unit(UnitCategory.wholeItem, WholeItemsUnits.package),
-      "bx" => Unit(UnitCategory.wholeItem, WholeItemsUnits.box),
-      "bnch" => Unit(UnitCategory.wholeItem, WholeItemsUnits.bunch),
-      "tsp" => Unit(UnitCategory.volume, VolumeUnits.teaspoon),
-      "tbsp" => Unit(UnitCategory.volume, VolumeUnits.tablespoon),
-      "floz" => Unit(UnitCategory.volume, VolumeUnits.fluidOunce),
-      "c" => Unit(UnitCategory.volume, VolumeUnits.cup),
-      "pt" => Unit(UnitCategory.volume, VolumeUnits.pint),
-      "qt" => Unit(UnitCategory.volume, VolumeUnits.quart),
-      "gal" => Unit(UnitCategory.volume, VolumeUnits.gallon),
-      "ml" => Unit(UnitCategory.volume, VolumeUnits.milliliter),
-      "l" => Unit(UnitCategory.volume, VolumeUnits.liter),
-      "g" => Unit(UnitCategory.weight, WeightUnits.gram),
-      "kg" => Unit(UnitCategory.weight, WeightUnits.kilogram),
-      "oz" => Unit(UnitCategory.weight, WeightUnits.ounce),
-      "lbs" => Unit(UnitCategory.weight, WeightUnits.pound),
-      "sb" => Unit(UnitCategory.special, SpecialUnits.stickOfButter),
-      "egg" => Unit(UnitCategory.special, SpecialUnits.eggSizes),
-      "sht" => Unit(UnitCategory.special, SpecialUnits.sheet),
+      "pc" || "piece" => Unit(UnitCategory.wholeunit, WholeItemsUnits.piece),
+      "clv" || "clove" => Unit(UnitCategory.wholeunit, WholeItemsUnits.clove),
+      "slc" || "slice" => Unit(UnitCategory.wholeunit, WholeItemsUnits.slice),
+      "stk" || "stick" => Unit(UnitCategory.wholeunit, WholeItemsUnits.stick),
+      "hd" || "head" => Unit(UnitCategory.wholeunit, WholeItemsUnits.head),
+      "lf" || "leaf" => Unit(UnitCategory.wholeunit, WholeItemsUnits.leaf),
+      "cn" || "can" => Unit(UnitCategory.wholeunit, WholeItemsUnits.can),
+      "btl" || "bottle" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bottle),
+      "jr" || "jar" => Unit(UnitCategory.wholeunit, WholeItemsUnits.jar),
+      "pkg" ||
+      "package" =>
+        Unit(UnitCategory.wholeunit, WholeItemsUnits.package),
+      "bx" || "box" => Unit(UnitCategory.wholeunit, WholeItemsUnits.box),
+      "bnch" || "bunch" => Unit(UnitCategory.wholeunit, WholeItemsUnits.bunch),
+      "tsp" ||
+      "teaspoon" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.teaspoon),
+      "tbsp" ||
+      "tablespoon" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.tablespoon),
+      "floz" ||
+      "fluidOunce" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.fluidOunce),
+      "c" || "cup" => Unit(UnitCategory.volumeunit, VolumeUnits.cup),
+      "pt" || "pint" => Unit(UnitCategory.volumeunit, VolumeUnits.pint),
+      "qt" || "quart" => Unit(UnitCategory.volumeunit, VolumeUnits.quart),
+      "gal" || "gallon" => Unit(UnitCategory.volumeunit, VolumeUnits.gallon),
+      "ml" ||
+      "milliliter" =>
+        Unit(UnitCategory.volumeunit, VolumeUnits.milliliter),
+      "l" || "liter" => Unit(UnitCategory.volumeunit, VolumeUnits.liter),
+      "g" || "gram" => Unit(UnitCategory.weightunit, WeightUnits.gram),
+      "kg" || "kilogram" => Unit(UnitCategory.weightunit, WeightUnits.kilogram),
+      "oz" || "ounce" => Unit(UnitCategory.weightunit, WeightUnits.ounce),
+      "lbs" || "pound" => Unit(UnitCategory.weightunit, WeightUnits.pound),
+      "sb" ||
+      "stickOfButter" =>
+        Unit(UnitCategory.specialunit, SpecialUnits.stickOfButter),
+      "egg" ||
+      "eggSizes" =>
+        Unit(UnitCategory.specialunit, SpecialUnits.eggSizes),
+      "sht" || "sheet" => Unit(UnitCategory.specialunit, SpecialUnits.sheet),
       _ => throw FormatException("Can't assign string: $unit to a known unit"),
     };
   }
@@ -116,15 +130,15 @@ Unit getUnitFromString(String unitString) {
   unitString = unitString.toLowerCase();
   switch (unitString) {
     case "wholeunit":
-      return Unit(UnitCategory.wholeItem, WholeItemsUnits.bottle);
+      return Unit(UnitCategory.wholeunit, WholeItemsUnits.bottle);
     case "volumeunit":
-      return Unit(UnitCategory.volume, VolumeUnits.teaspoon);
+      return Unit(UnitCategory.volumeunit, VolumeUnits.teaspoon);
     case "weightunit":
-      return Unit(UnitCategory.weight, WeightUnits.gram);
+      return Unit(UnitCategory.weightunit, WeightUnits.gram);
     case "specialunit":
-      return Unit(UnitCategory.special, SpecialUnits.stickOfButter);
+      return Unit(UnitCategory.specialunit, SpecialUnits.stickOfButter);
     default:
-      return Unit(UnitCategory.wholeItem, WholeItemsUnits.piece);
+      return Unit(UnitCategory.wholeunit, WholeItemsUnits.piece);
       throw ArgumentError('Unsupported unit string: $unitString');
   }
 }

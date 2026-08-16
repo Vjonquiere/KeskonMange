@@ -21,22 +21,14 @@ class AccountVerificationViewModel extends StateViewModel {
     if (_verificationCodeController.text == "") {
       return false;
     }
-    final ActivateUserUseCase activation = ActivateUserUseCase(
-      RepositoriesManager().getUserRepository(),
-      _user.email,
-      _verificationCodeController.text,
-    );
-    final String? apiKey = await activation.execute();
-    if (apiKey == null) {
+    final bool accountActivated = await RepositoriesManager()
+        .getUserRepository()
+        .activateUserAccount(_user.email, _verificationCodeController.text);
+    if (!accountActivated) {
       setStateValue(WidgetStates.error);
-      setErrorMessage("Verification code is not valid");
       notifyListeners();
       return false;
     }
-
-    await Authentication()
-        .updateCredentialsFromStorage(apiKey, _user.email, _user.username);
-    await Authentication().refreshCredentialsFromStorage();
     notifyListeners();
     return true;
   }

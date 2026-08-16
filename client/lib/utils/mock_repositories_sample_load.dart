@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:client/config.dart';
 import 'package:client/data/repositories/repositories_manager.dart';
 import 'package:client/model/ingredient.dart';
-import 'package:client/model/recipe/preview.dart';
+import 'package:client/model/ingredient_quantity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +14,13 @@ import '../model/book/complete.dart';
 import '../model/recipe/recipe.dart';
 
 class MockRepositoriesSampleLoad {
+  Map<int, int> ingredientIds = <int, int>{};
   MockRepositoriesSampleLoad._();
 
-  static Future<MockRepositoriesSampleLoad> create() async {
+  static Future<MockRepositoriesSampleLoad> create(
+      {required bool initialize}) async {
     final MockRepositoriesSampleLoad repo = MockRepositoriesSampleLoad._();
-    await repo._loadSamples();
+    if (initialize) await repo._loadSamples();
     return repo;
   }
 
@@ -39,8 +41,8 @@ class MockRepositoriesSampleLoad {
         }
 
         final dynamic decoded = jsonDecode(content);
-        _loadIngredients(_extractIngredients(decoded));
-        _loadRecipes(_extractRecipes(decoded));
+        await _loadIngredients(_extractIngredients(decoded));
+        await _loadRecipes(_extractRecipes(decoded));
         _loadBooks(_extractBooks(decoded));
       } catch (e) {
         debugPrint("Can't load source [$source]: $e");
@@ -78,16 +80,24 @@ class MockRepositoriesSampleLoad {
     throw const FormatException("Mock file can't be loaded: no books found");
   }
 
-  void _loadRecipes(List<dynamic> recipes) {
+  Future<void> _loadRecipes(List<dynamic> recipes) async {
     int loadedRecipes = 0;
     for (dynamic recipe in recipes) {
       try {
         final Recipe loadedRecipe = Recipe.fromJson(recipe);
+        final List<IngredientQuantity> ingredients = [];
+        for (IngredientQuantity ingredient in loadedRecipe.ingredients) {
+          ingredients.add(IngredientQuantity(
+              ingredientIds[ingredient.ingredientId]!,
+              ingredient.unit,
+              ingredient.quantity));
+        }
+        loadedRecipe.ingredients = ingredients;
         RepositoriesManager()
             .getRecipeRepository()
             .createNewRecipe(loadedRecipe);
         loadedRecipes++;
-      } on Exception catch (_) {
+      } on Exception catch (e) {
         debugPrint("1 recipe cant be loaded ($recipe)");
       }
     }
@@ -95,7 +105,7 @@ class MockRepositoriesSampleLoad {
     debugPrint("$loadedRecipes recipes were loaded from sample file");
   }
 
-  void _loadIngredients(List<dynamic> ingredients) {
+  Future<void> _loadIngredients(List<dynamic> ingredients) async {
     int loadedIngredients = 0;
     for (dynamic ingredient in ingredients) {
       try {
@@ -103,6 +113,11 @@ class MockRepositoriesSampleLoad {
         RepositoriesManager()
             .getIngredientRepository()
             .createIngredient(loadedIngredient);
+        List<Ingredient> ing = await RepositoriesManager()
+            .getIngredientRepository()
+            .findByNameLike(loadedIngredient.name);
+        if (ing.isEmpty) throw Exception();
+        ingredientIds[loadedIngredient.id] = ing.first.id;
         loadedIngredients++;
       } on Exception catch (_) {
         debugPrint("1 ingredient cant be loaded ($ingredient)");
